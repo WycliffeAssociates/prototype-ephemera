@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useState} from 'react';
 import './App.css';
 import AppBar from '@mui/material/AppBar';
@@ -25,7 +25,19 @@ const Item : any = styled(Paper)(({ theme }) => ({
 
 function App() {
 
-  const [textViewSize, setTextViewSize] = useState(12);  
+  const [textViewSize, setTextViewSize] = useState<number>(12);
+  const [greekTextDialog, setGreekTextDialog] = useState<"none" | "block">("none")
+
+  useEffect(() => {
+    if(textViewSize !== 12)
+    {
+      setGreekTextDialog("block");
+    }
+    else
+    {
+      setGreekTextDialog("none");
+    }
+  }, [textViewSize])
 
   return (
     <div className="App">
@@ -54,7 +66,9 @@ function App() {
 
         <Grid item xl={(textViewSize !== 12 ? 5 : 0)} lg={(textViewSize !== 12 ? 5 : 0)} md={(textViewSize !== 12 ? 5 : 0)} sm={0} xs={0}>
           {/* TODO implement this div, but set its display to none when there is no selected text.  */}
-          {/* <div style={{height:"90vh", width:"100%", backgroundColor:"#f2f2f2"}}></div> */}
+          <Box display={{ xs: 'none', sm: 'none', md:greekTextDialog, lg:greekTextDialog, xl:"block" }}>
+            <div style={{height:"90vh", width:"100%", backgroundColor:"#f2f2f2"}}></div>
+          </Box>
         </Grid>
       </Grid>
 
