@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import PreviousFab from './components/PreviousFab';
 import NextFab from './components/NextFab';
 import TextView from "./components/TextView";
+import GreekWordInfo from './components/GreekWordInfo';
 
 
 
@@ -31,10 +32,12 @@ function App() {
   useEffect(() => {
     if(textViewSize !== 12)
     {
+      console.log("Greek text info setting to block (aka open)")
       setGreekTextDialog("block");
     }
     else
     {
+      console.log("Greek text info setting to none (aka close)")
       setGreekTextDialog("none");
     }
   }, [textViewSize])
@@ -65,10 +68,13 @@ function App() {
         </Grid>
 
         <Grid item xl={(textViewSize !== 12 ? 5 : 0)} lg={(textViewSize !== 12 ? 5 : 0)} md={(textViewSize !== 12 ? 5 : 0)} sm={0} xs={0}>
-          {/* TODO implement this div, but set its display to none when there is no selected text.  */}
+
           <Box display={{ xs: 'none', sm: 'none', md:greekTextDialog, lg:greekTextDialog, xl:"block" }}>
-            <div style={{height:"90vh", width:"100%", backgroundColor:"#f2f2f2"}}></div>
+
+            <GreekWordInfo/>
+
           </Box>
+
         </Grid>
       </Grid>
 

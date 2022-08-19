@@ -4,6 +4,7 @@ import StationaryChapterNavButton from './StationaryChapterNavButton';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Text from './Text';
+import react, {useEffect, useState} from 'react';
 
 
 interface TextViewProps {
@@ -13,6 +14,10 @@ interface TextViewProps {
 
 function TextView({size, setSize}: TextViewProps)
 {
+
+    useEffect(() => {
+        console.log("TODO Load initial data (chapter) here");
+    }, [])
 
   // TODO add an onTextClick function for the text component that sets the TextView size to 8
   // TODO add an onTextClose function for the text component that sets the TextView size to 12 
