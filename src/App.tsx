@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper';
 import PreviousFab from './components/PreviousFab';
 import NextFab from './components/NextFab';
 import TextView from "./components/TextView";
-import GreekWordInfo from './components/GreekWordInfo';
+import GreekWordInfo from './components/GreekWordsDialog';
 
 
 
@@ -68,13 +68,9 @@ function App() {
         </Grid>
 
         <Grid item xl={(textViewSize !== 12 ? 5 : 0)} lg={(textViewSize !== 12 ? 5 : 0)} md={(textViewSize !== 12 ? 5 : 0)} sm={0} xs={0}>
-
-          <Box display={{ xs: 'none', sm: 'none', md:greekTextDialog, lg:greekTextDialog, xl:"block" }}>
-
-            <GreekWordInfo/>
-
-          </Box>
-
+              <Box display={{ xs: 'none', sm: 'none', md:greekTextDialog, lg:greekTextDialog, xl:"block" }}>
+                <GreekWordInfo/>
+              </Box>
         </Grid>
       </Grid>
 
