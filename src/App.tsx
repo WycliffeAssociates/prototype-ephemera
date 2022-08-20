@@ -55,9 +55,9 @@ function App() {
   return (
     <div className="App">
 
-      <Box sx={{ flexGrow: 1 }} style={{backgroundColor:"#001533"}}>
-        <AppBar position="static" style={{backgroundColor:"#001533"}}>
-          <Toolbar>
+      <Box sx={{ flexGrow: 1 }} style={{backgroundColor:"#001533", width:"100%"}}>
+        <AppBar position="static" style={{backgroundColor:"#001533", paddingRight:"0px", marginRight:"0px"}}>
+          <Toolbar style={{backgroundColor:"#001533", paddingRight:"0px", marginRight:"0px"}}>
             <IconButton
               size="large"
               edge="start"
@@ -72,13 +72,13 @@ function App() {
       </Box>
 
 
-      <Grid container spacing={1} direction="row" justifyContent={{lg: "flex-start", md: "flex-start", sm:"flex-start"}} alignItems="center" style={{width:"100%"}}>   
+      <Grid container spacing={1} direction="row" justifyContent={{lg: "flex-start", md: "flex-start", sm:"flex-start"}} alignItems="center" style={{width:"100%", margin:"0px"}}>   
         <Grid item xl={textViewSize} lg={textViewSize} md={textViewSize} sm={12} xs={12}>
           <TextView size={textViewSize} setSize={setTextViewSize}/>
         </Grid>
 
         <Grid item xl={(textViewSize !== 12 ? 5 : 0)} lg={(textViewSize !== 12 ? 5 : 0)} md={(textViewSize !== 12 ? 5 : 0)} sm={0} xs={0}>
-              <GreekWordsDialog open={greekTextDialogOpen} onClose={onGreekTextClose}/>
+            <GreekWordsDialog open={greekTextDialogOpen} onClose={onGreekTextClose}/>
         </Grid>
       </Grid>
 

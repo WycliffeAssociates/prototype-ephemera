@@ -49,19 +49,20 @@ function GreekWordsDialog({open, onClose} : greekWordsDialog) {
         <Box style={{height:"90vh", width:"100%", backgroundColor:"#f2f2f2"}}>
 
           <Grid container direction="row">
-            <Grid item lg={1} xl={1} md={1}>
+            <Grid item lg={(open ? 1 : 0)} xl={(open ? 1 : 0)} md={(open ? 1 : 0)}>
               <IconButton
                 size="large"
                 edge="start"
                 color="inherit"
                 aria-label="menu"
                 sx={{ mr: 2 }}
-                style={{margin:"0px", paddingLeft:"4px"}}
+                style={{margin:"0px", paddingLeft:"4px", paddingRight:"0px"}}
                 onClick={() => onClose()}
               >
                 <KeyboardArrowRightIcon style={{margin:"0px"}}/>
               </IconButton>
             </Grid>
+
             <Grid item lg={11} xl={11} md={11} style={{maxHeight: '75vh', overflow: 'auto'}}>
 
               {testData.map((data, idx) => (
