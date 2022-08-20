@@ -2,7 +2,14 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
 
-function GreekWordInfo()
+interface greekWord {
+    greekWords: string;
+    englishWords: string;
+    morphology: string;
+    descriptions: string[];
+};
+
+function GreekWordInfo({greekWords, englishWords, morphology, descriptions} : greekWord)
 {
     return (
         <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
@@ -16,7 +23,7 @@ function GreekWordInfo()
                     fontWeight: "700",
                     fontSize: "24px",
                     lineHeight: "150%",
-                    color:"#001432"}}>Greek/English</p> 
+                    color:"#001432"}}>{greekWords}</p> 
         </Grid>
         <Grid item sm={12} xs={12}>
           <p style={{
@@ -29,7 +36,7 @@ function GreekWordInfo()
                     fontWeight: "400",
                     fontSize: "16px",
                     lineHeight: "150%",
-                    color:"#001432"}}>English word/phrase</p> 
+                    color:"#001432"}}>{englishWords}</p> 
         </Grid>
 
         <Grid item sm={12} xs={12}>
@@ -56,18 +63,7 @@ function GreekWordInfo()
                         fontWeight: "400",
                         fontSize: "16px",
                         lineHeight: "150%",
-                        }}>Morphology1
-              </p>
-              <p style={{
-                        textAlign:"left", 
-                        marginTop:"0px", 
-                        marginBottom:"2px", 
-                        fontFamily: 'Lato',
-                        fontStyle: "normal",
-                        fontWeight: "400",
-                        fontSize: "16px",
-                        lineHeight: "150%",
-                        }}>Morphology2
+                        }}>{morphology}
               </p>
         </Grid>
 
@@ -87,31 +83,21 @@ function GreekWordInfo()
         </Grid>
         <Grid item sm={12} xs={12}>
           <ul style={{marginTop:"0px", paddingInlineStart: "25px",}}>
-            <li>
-              <p style={{
-                          textAlign:"left",
-                          width:"100%", 
-                          marginTop:"0px", 
-                          marginBottom:"2px", 
-                          fontFamily: 'Lato',
-                          fontStyle: "normal",
-                          fontWeight: "400",
-                          fontSize: "16px",
-                          lineHeight: "150%",
-                          }}>Description1 Descr iption1D escription1 Description1Description1 Description1 Description1</p>
-            </li>
-            <li>
-              <p style={{
-                        textAlign:"left", 
-                        marginTop:"0px", 
-                        marginBottom:"2px", 
-                        fontFamily: 'Lato',
-                        fontStyle: "normal",
-                        fontWeight: "400",
-                        fontSize: "16px",
-                        lineHeight: "150%",
-                        }}>Description1 Descr iption1D escription1 Description1Description1 Description1 Description1</p>
-            </li>
+            {descriptions.map((description, idx) => (
+                <li>
+                <p style={{
+                            textAlign:"left",
+                            width:"100%", 
+                            marginTop:"0px", 
+                            marginBottom:"2px", 
+                            fontFamily: 'Lato',
+                            fontStyle: "normal",
+                            fontWeight: "400",
+                            fontSize: "16px",
+                            lineHeight: "150%",
+                            }}>{description}</p>
+                </li> 
+            ))}
           </ul>
           
         </Grid>
