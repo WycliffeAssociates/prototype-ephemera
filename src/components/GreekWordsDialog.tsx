@@ -46,7 +46,7 @@ function GreekWordsDialog({open, onClose} : greekWordsDialog) {
       <Box display={{ xs: 'none', sm: 'none', md:(open ? "block" : "none"), lg:(open ? "block" : "none"), xl:(open ? "block" : "none")}}>
      
         {/* TODO try to remove this box element and just use the above parent box element */}
-        <Box style={{height:"90vh", width:"100%", backgroundColor:"#f2f2f2"}}>
+        <Box style={{height:"89vh", width:"100%", backgroundColor:"#f2f2f2"}}>
 
           <Grid container direction="row">
             <Grid item lg={(open ? 1 : 0)} xl={(open ? 1 : 0)} md={(open ? 1 : 0)}>
