@@ -42,7 +42,7 @@ function TextView({size, setSize}: TextViewProps)
     {/* <ChapterNavigationBar/> */}
 
     {/* <Grid container spacing={1} direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start">   */}
-    <Grid container spacing={1} direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start">  
+    <Grid container spacing={1} direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start" style={{paddingTop:"0px"}}>  
 
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <ChapterNavigationBar/>

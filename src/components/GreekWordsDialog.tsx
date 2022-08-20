@@ -63,7 +63,7 @@ function GreekWordsDialog({open, onClose} : greekWordsDialog) {
               </IconButton>
             </Grid>
 
-            <Grid item lg={11} xl={11} md={11} style={{maxHeight: '75vh', overflow: 'auto'}}>
+            <Grid item lg={11} xl={11} md={11} style={{maxHeight: '89vh', overflow: 'auto'}}>
 
               {testData.map((data, idx) => (
                 <GreekWordInfo key={idx} {...data}/>
