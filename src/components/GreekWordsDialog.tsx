@@ -1,6 +1,8 @@
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import GreekWordInfo from './GreekWordInfo';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import IconButton from '@mui/material/IconButton';
 
 
 type greekWord = {
@@ -33,22 +35,44 @@ let word3 : greekWord = {
 
 let testData = [word1, word2, word3] as greekWord[];
 
+interface greekWordsDialog {
+  open: Boolean;
+  onClose: () => void;
+};
 
-function GreekWordsDialog() {
-    return (      
-      <Box style={{height:"90vh", width:"100%", backgroundColor:"#f2f2f2"}}>
 
-        <Grid container direction="row">
-          <Grid item lg={1} xl={1} md={1}></Grid>
-          <Grid item lg={10} xl={10} md={10} style={{maxHeight: '75vh', overflow: 'auto'}}>
+function GreekWordsDialog({open, onClose} : greekWordsDialog) {
+    return ( 
+      <Box display={{ xs: 'none', sm: 'none', md:(open ? "block" : "none"), lg:(open ? "block" : "none"), xl:(open ? "block" : "none")}}>
+     
+        {/* TODO try to remove this box element and just use the above parent box element */}
+        <Box style={{height:"90vh", width:"100%", backgroundColor:"#f2f2f2"}}>
 
-            {testData.map((data, idx) => (
-              <GreekWordInfo key={idx} {...data}/>
-            ))}
-            
+          <Grid container direction="row">
+            <Grid item lg={1} xl={1} md={1}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                style={{margin:"0px", paddingLeft:"4px"}}
+                onClick={() => onClose()}
+              >
+                <KeyboardArrowRightIcon style={{margin:"0px"}}/>
+              </IconButton>
+            </Grid>
+            <Grid item lg={11} xl={11} md={11} style={{maxHeight: '75vh', overflow: 'auto'}}>
+
+              {testData.map((data, idx) => (
+                <GreekWordInfo key={idx} {...data}/>
+              ))}
+              
+            </Grid>
+            <Grid item lg={1} xl={1} md={1}></Grid>
           </Grid>
-        </Grid>
-    
+      
+        </Box>
       </Box>
     )
 }

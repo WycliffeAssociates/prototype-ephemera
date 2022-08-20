@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper';
 import PreviousFab from './components/PreviousFab';
 import NextFab from './components/NextFab';
 import TextView from "./components/TextView";
-import GreekWordInfo from './components/GreekWordsDialog';
+import GreekWordsDialog from './components/GreekWordsDialog';
 
 
 
@@ -27,20 +27,30 @@ const Item : any = styled(Paper)(({ theme }) => ({
 function App() {
 
   const [textViewSize, setTextViewSize] = useState<number>(12);
-  const [greekTextDialog, setGreekTextDialog] = useState<"none" | "block">("none")
+  // const [greekTextDialogOpen, setGreekTextDialogOpen] = useState<"none" | "block">("none")
+  const [greekTextDialogOpen, setGreekTextDialogOpen] = useState<Boolean>(false)
+
+  
+  // TODO populate this with the selected phrase data
+  // const [selectedPhraseData, setSelectedPhraseData] = useState();
 
   useEffect(() => {
     if(textViewSize !== 12)
     {
       console.log("Greek text info setting to block (aka open)")
-      setGreekTextDialog("block");
+      setGreekTextDialogOpen(true);
     }
     else
     {
       console.log("Greek text info setting to none (aka close)")
-      setGreekTextDialog("none");
+      setGreekTextDialogOpen(false);
     }
   }, [textViewSize])
+
+  function onGreekTextClose() {
+    setGreekTextDialogOpen(false);
+    setTextViewSize(12);
+  }
 
   return (
     <div className="App">
@@ -68,9 +78,7 @@ function App() {
         </Grid>
 
         <Grid item xl={(textViewSize !== 12 ? 5 : 0)} lg={(textViewSize !== 12 ? 5 : 0)} md={(textViewSize !== 12 ? 5 : 0)} sm={0} xs={0}>
-              <Box display={{ xs: 'none', sm: 'none', md:greekTextDialog, lg:greekTextDialog, xl:"block" }}>
-                <GreekWordInfo/>
-              </Box>
+              <GreekWordsDialog open={greekTextDialogOpen} onClose={onGreekTextClose}/>
         </Grid>
       </Grid>
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-
+// TODO add remaining props for english phrase data
 interface TextProps {
     onPhraseClick: () => any;
 }
@@ -9,11 +9,7 @@ interface TextProps {
 function Text({onPhraseClick}: TextProps)
 {
 
-//   useEffect(() => {
-//     onPhraseClick();
-//   }, [])
-
-
+  // TODO make this dynamic and get the data from the given JSON version of the XML
   let verseText = [...Array(25)].map((e, i) => 
     <p key={i} style={{
       textAlign: "left",

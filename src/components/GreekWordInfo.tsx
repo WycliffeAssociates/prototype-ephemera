@@ -12,7 +12,7 @@ interface greekWord {
 function GreekWordInfo({greekWords, englishWords, morphology, descriptions} : greekWord)
 {
     return (
-        <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
+      <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
         <Grid item sm={12} xs={12}>
           <p style={{
                     textAlign:"left", 
