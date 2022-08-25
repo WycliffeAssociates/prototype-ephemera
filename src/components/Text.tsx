@@ -33,9 +33,9 @@ function Text({onPhraseClick}: TextProps)
   const [verses, setVerses] = useState([] as verse[]);
 
   useEffect(() => {
-    setVerses(getChapter(0));
+    let data = getChapter()
+    setVerses(data);
   }, [])
-
 
 
   let verseText = verses.map((e: any, i : number) => 
@@ -57,20 +57,36 @@ function Text({onPhraseClick}: TextProps)
         }
         else
         {
+          console.log(word)
           if(word.note !== undefined)
           {
-            let isGreekWord : boolean = word.note.some((e) => {return (e.ATTR.type === "x-OGNTsort")})
-
+            let isGreekWord : boolean = word.note.some((e) => {return (e.ATTR !== undefined && e.ATTR.type !== undefined &&e?.ATTR?.type === "x-OGNTsort")})
+            let isPhraseWord : boolean = word.note.some((e) => {return (e.ATTR !== undefined && e.ATTR.type !== undefined &&e?.ATTR?.type === "x-phraseWords")})
+            
             let greekWordNotes : any[] = [];
+            let greekWordNotesObj : any = {};
 
+            // TODO get rid of this array implementation and just stick with the object implementation 
+            // TODO also adjust the onPhraseClick interface to accept the object, not an array of objects. 
             word.note.forEach((e) => {
-              let noteKey = e.ATTR.type as string;
+              let noteKey : string = e.ATTR.type as string;
               let value = e._;
               let tempNote = {[noteKey] : value};
-              greekWordNotes.push(tempNote);
-            })
+            
+              greekWordNotesObj[noteKey.substr(2)] = value; 
+            });
 
-            if(isGreekWord && word._ !== "√") return <><span onClick={() => {onPhraseClick(greekWordNotes)}} style={{textDecoration:"underline"}}>{word._}</span><span> </span></>
+            if(isGreekWord)
+            {
+              if(isPhraseWord) {
+                console.log(greekWordNotes)
+                return <span>{greekWordNotesObj.phraseWords}</span>
+              }
+              if(word._ !== "√") 
+              {
+                return <><span onClick={() => {onPhraseClick(greekWordNotes)}} style={{textDecoration:"underline"}}>{word._}</span><span> </span></>
+              }
+            }
           }
           else
           {
@@ -80,8 +96,6 @@ function Text({onPhraseClick}: TextProps)
       })
     }
   </p>)
-
-
 
   return (
     <>
