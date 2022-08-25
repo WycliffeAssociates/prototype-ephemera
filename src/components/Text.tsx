@@ -23,7 +23,7 @@ type verse = {
 
 // TODO add remaining props for english phrase data
 interface TextProps {
-    onPhraseClick: () => any;
+    onPhraseClick: (greekWordNotes : any[]) => any;
 }
 
 
@@ -33,12 +33,7 @@ function Text({onPhraseClick}: TextProps)
   const [verses, setVerses] = useState([] as verse[]);
 
   useEffect(() => {
-    
-    let data = getChapter(0);
-    console.log(data);
-
-    setVerses(data);
-    
+    setVerses(getChapter(0));
   }, [])
 
 
@@ -65,8 +60,17 @@ function Text({onPhraseClick}: TextProps)
           if(word.note !== undefined)
           {
             let isGreekWord : boolean = word.note.some((e) => {return (e.ATTR.type === "x-OGNTsort")})
-            
-            if(isGreekWord && word._ !== "√") return <><span onClick={() => {onPhraseClick()}} style={{textDecoration:"underline"}}>{word._}</span><span> </span></>
+
+            let greekWordNotes : any[] = [];
+
+            word.note.forEach((e) => {
+              let noteKey = e.ATTR.type as string;
+              let value = e._;
+              let tempNote = {[noteKey] : value};
+              greekWordNotes.push(tempNote);
+            })
+
+            if(isGreekWord && word._ !== "√") return <><span onClick={() => {onPhraseClick(greekWordNotes)}} style={{textDecoration:"underline"}}>{word._}</span><span> </span></>
           }
           else
           {

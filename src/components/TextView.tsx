@@ -10,9 +10,10 @@ import react, {useEffect, useState} from 'react';
 interface TextViewProps {
     size: number,
     setSize: (params: any) => any,
+    setCurrentGreekWord: (params: any) => any,
 }
 
-function TextView({size, setSize}: TextViewProps)
+function TextView({size, setSize, setCurrentGreekWord}: TextViewProps)
 {
 
     useEffect(() => {
@@ -20,9 +21,10 @@ function TextView({size, setSize}: TextViewProps)
     }, [])
 
 
-  const onPhraseClick = () =>
+  const onPhraseClick = (greekWordNotes : any[]) =>
   {
-    
+    setCurrentGreekWord(greekWordNotes);
+
     if(size === 12)
     {
         setSize(7);
@@ -36,8 +38,6 @@ function TextView({size, setSize}: TextViewProps)
 
   return (
     <>
-    {/*TODO Need to add style to make it appear and disappear depending on scroll.  */}
-    {/* <ChapterNavigationBar/> */}
 
     <Grid container spacing={1} direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start" style={{paddingTop:"0px"}}>  
 
@@ -47,6 +47,7 @@ function TextView({size, setSize}: TextViewProps)
     
 
       <Grid item xs={0} sm={0} md={1}>
+        {/* TODO add onClick and icon prop so I can use this for next and previous buttons */}
         <StationaryChapterNavButton children={<ArrowLeftAltIcon style={{color:"black", backgroundColor: "#f2f2f2"}}/>}/>
       </Grid>
 

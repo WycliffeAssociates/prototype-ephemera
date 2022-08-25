@@ -33,15 +33,17 @@ let word3 : greekWord = {
   descriptions: ["description1", "description2","description3"]
 }
 
-let testData = [word1, word2, word3] as greekWord[];
+// let testData = [word1, word2, word3] as greekWord[];
+let testData2 = [word1] as greekWord[];
 
 interface greekWordsDialog {
   open: Boolean;
   onClose: () => void;
+  greekWord: any;
 };
 
 
-function GreekWordsDialog({open, onClose} : greekWordsDialog) {
+function GreekWordsDialog({open, onClose, greekWord} : greekWordsDialog) {
     return ( 
       <Box display={{ xs: 'none', sm: 'none', md:(open ? "block" : "none"), lg:(open ? "block" : "none"), xl:(open ? "block" : "none")}}>
      
@@ -65,7 +67,7 @@ function GreekWordsDialog({open, onClose} : greekWordsDialog) {
 
             <Grid item lg={11} xl={11} md={11} style={{maxHeight: '89vh', overflow: 'auto'}}>
 
-              {testData.map((data, idx) => (
+              {testData2.map((data, idx) => (
                 <GreekWordInfo key={idx} {...data}/>
               ))}
               
