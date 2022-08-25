@@ -19,8 +19,6 @@ function TextView({size, setSize}: TextViewProps)
         console.log("TODO Load initial data (chapter) here");
     }, [])
 
-  // TODO add an onTextClick function for the text component that sets the TextView size to 8
-  // TODO add an onTextClose function for the text component that sets the TextView size to 12 
 
   const onPhraseClick = () =>
   {
@@ -41,7 +39,6 @@ function TextView({size, setSize}: TextViewProps)
     {/*TODO Need to add style to make it appear and disappear depending on scroll.  */}
     {/* <ChapterNavigationBar/> */}
 
-    {/* <Grid container spacing={1} direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start">   */}
     <Grid container spacing={1} direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start" style={{paddingTop:"0px"}}>  
 
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -53,11 +50,8 @@ function TextView({size, setSize}: TextViewProps)
         <StationaryChapterNavButton children={<ArrowLeftAltIcon style={{color:"black", backgroundColor: "#f2f2f2"}}/>}/>
       </Grid>
 
-      {/*TODO Need to add style to make this grid scrollable on text overflow.  */}
       <Grid item xs={12} sm={12} md={8}  style={{maxHeight: '70vh', overflow: 'auto'}}>
-        {/* <Item>             */}
           <Text onPhraseClick={onPhraseClick}/>
-        {/* </Item> */}
       </Grid>
 
       <Grid item xs={0} sm={0} md={1}>

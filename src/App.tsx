@@ -13,6 +13,8 @@ import NextFab from './components/NextFab';
 import TextView from "./components/TextView";
 import GreekWordsDialog from './components/GreekWordsDialog';
 
+import getChapter from './api';
+
 
 
 const Item : any = styled(Paper)(({ theme }) => ({
@@ -33,6 +35,11 @@ function App() {
   
   // TODO populate this with the selected phrase data
   // const [selectedPhraseData, setSelectedPhraseData] = useState();
+
+  // useEffect(() => {
+  //   let data = getChapter(0);
+  //   console.log(data);
+  // }, [])
 
   useEffect(() => {
     if(textViewSize !== 12)
