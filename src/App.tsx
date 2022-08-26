@@ -40,12 +40,10 @@ function App() {
   useEffect(() => {
     if(textViewSize !== 12)
     {
-      console.log("Greek text info setting to block (aka open)")
       setGreekTextDialogOpen(true);
     }
     else
     {
-      console.log("Greek text info setting to none (aka close)")
       setGreekTextDialogOpen(false);
     }
   }, [textViewSize])
