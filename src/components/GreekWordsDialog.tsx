@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import GreekWordInfo from './GreekWordInfo';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import IconButton from '@mui/material/IconButton';
+import { useEffect } from 'react';
 
 
 type greekWord = {
@@ -44,6 +45,17 @@ interface greekWordsDialog {
 
 
 function GreekWordsDialog({open, onClose, greekWord} : greekWordsDialog) {
+
+
+    useEffect(() => {
+      if(greekWord.length > 0)
+      {
+        console.log("fetch data here");
+        console.log(greekWord);
+      }
+    }, [greekWord])
+
+
     return ( 
       <Box display={{ xs: 'none', sm: 'none', md:(open ? "block" : "none"), lg:(open ? "block" : "none"), xl:(open ? "block" : "none")}}>
      
