@@ -37,7 +37,7 @@ function TextView({size, setSize, setCurrentGreekWord}: TextViewProps)
     }, [])
 
 
-  const onPhraseClick = (greekWord : GreekWord) =>
+  const onPhraseClick = (greekWord : GreekWord[]) =>
   {
     setCurrentGreekWord(greekWord);
 
