@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { CollectionsBookmarkRounded } from '@material-ui/icons';
+import React, { useState, useEffect, useRef } from 'react';
 
 import getChapter from '../api';
 
@@ -21,9 +22,29 @@ type verse = {
 }
 
 
+type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
+
+type GreekWordNotes = {
+  [key in ValidGreekWordNoteKeys] : string;
+}
+
+type ValidGreekWordAttributeKeys = "lemma" | "morph";
+
+type GreekWordAttributes = {
+  [key in ValidGreekWordAttributeKeys] : string;
+}
+
+type GreekWord = {
+  notes : GreekWordNotes;
+  attributes : GreekWordAttributes;
+  text : string;
+}
+
+
+
 // TODO add remaining props for english phrase data
 interface TextProps {
-    onPhraseClick: (greekWordNotes : any[]) => any;
+    onPhraseClick: (greekWordNotes : GreekWord) => any;
 }
 
 
@@ -31,6 +52,9 @@ function Text({onPhraseClick}: TextProps)
 {
 
   const [verses, setVerses] = useState([] as verse[]);
+  const [hasConsumedPhraseWord, setHasConsumedPhraseWord] = useState<boolean>(false);
+  const numPhraseWordsConsumed = useRef(0);
+  const phraseWordsBuffer = useRef(new Array());
 
   useEffect(() => {
     let data = getChapter()
@@ -38,7 +62,12 @@ function Text({onPhraseClick}: TextProps)
   }, [])
 
 
+  // TODO create words first, then pass that inside the 
+
+
   let verseText = verses.map((e: any, i : number) => 
+
+  
   <p key={i} style={{
     textAlign: "left",
     fontFamily: 'Lato',
@@ -50,41 +79,87 @@ function Text({onPhraseClick}: TextProps)
 
   }}> 
     {
-      e.w.map((word : w, i : number) => {
+      // TODO remove this dependancy on map so I can skip over phraseWords
+        // 1) create empty array to hold components
+        // 2) use a for each loop to iterate through the JSON verses
+        // 3) use the below code, but replace each return with a push()
+        // 4) if that words, try to just skip over phraseWords while adding the necessary information in a buffer
+        //    declared directly above the loop
+      e.w.map((word : w, i : number, words : any[]) => {
         if(typeof word === "string")
         {
+          i = words.length;
           return (<span>{word} </span>)
         }
         else
         {
-          console.log(word)
+          // extracts the note information
           if(word.note !== undefined)
           {
-            let isGreekWord : boolean = word.note.some((e) => {return (e.ATTR !== undefined && e.ATTR.type !== undefined &&e?.ATTR?.type === "x-OGNTsort")})
-            let isPhraseWord : boolean = word.note.some((e) => {return (e.ATTR !== undefined && e.ATTR.type !== undefined &&e?.ATTR?.type === "x-phraseWords")})
             
-            let greekWordNotes : any[] = [];
-            let greekWordNotesObj : any = {};
+            let currentGreekWordNotes : GreekWordNotes;
+            let currentGreekWordAttributes: GreekWordAttributes;
+            let tempGreekWordNotes : any = {};
 
-            // TODO get rid of this array implementation and just stick with the object implementation 
-            // TODO also adjust the onPhraseClick interface to accept the object, not an array of objects. 
+            // extracts the notes for the greek word
             word.note.forEach((e) => {
-              let noteKey : string = e.ATTR.type as string;
-              let value = e._;
-              let tempNote = {[noteKey] : value};
-            
-              greekWordNotesObj[noteKey.substr(2)] = value; 
+              let greekWordNoteKey : ValidGreekWordNoteKeys = e.ATTR.type;
+              let greekWordNoteValue : string = e._;
+              tempGreekWordNotes[greekWordNoteKey.slice(2)] = greekWordNoteValue;
             });
 
-            if(isGreekWord)
+            currentGreekWordNotes = tempGreekWordNotes as GreekWordNotes;
+
+            // Extracts the attributes for the greek word
+            currentGreekWordAttributes = word.ATTR;
+
+            let currentGreekWord : GreekWord= {notes : currentGreekWordNotes, attributes : currentGreekWordAttributes, text: word._}
+
+            if(currentGreekWordNotes.OGNTsort !== undefined)
             {
-              if(isPhraseWord) {
-                console.log(greekWordNotes)
-                return <span>{greekWordNotesObj.phraseWords}</span>
+              if(currentGreekWordNotes.phraseWords !== undefined) {
+                // TODO add additional processing to get all greek words for this phrase word.                 
+                // Digest remaining phraseWords
+                numPhraseWordsConsumed.current += 1;
+                phraseWordsBuffer.current.push(currentGreekWord);
+
+                if(numPhraseWordsConsumed.current === 1)
+                {
+                  return <span>{currentGreekWordNotes.phraseWords} </span>
+                }
+                else
+                {
+                  return;
+                }
+                
               }
+              else
+              {
+                // if(numPhraseWordsConsumed.current > 0)
+                // {
+                //   console.log(phraseWordsBuffer.current);
+                // }
+                // numPhraseWordsConsumed.current = 0;
+
+                // numPhraseWordsConsumed.current = 0;
+                // let j = 0;
+                // console.log("current start of phrase buffer")
+                // while(j < phraseWordsBuffer.current.length)
+                // {
+                //   console.log(phraseWordsBuffer.current[j]);
+                //   j++;
+                // }
+                // j = 0;
+                // while(j < phraseWordsBuffer.current.length)
+                // {
+                //   phraseWordsBuffer.current.pop();
+                //   j++;
+                // }
+              }
+
               if(word._ !== "√") 
               {
-                return <><span onClick={() => {onPhraseClick(greekWordNotes)}} style={{textDecoration:"underline"}}>{word._}</span><span> </span></>
+                return <><span onClick={() => {onPhraseClick(currentGreekWord)}} style={{textDecoration:"underline"}}>{word._}</span><span> </span></>
               }
             }
           }
