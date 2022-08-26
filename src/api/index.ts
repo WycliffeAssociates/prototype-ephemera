@@ -24,10 +24,10 @@ let PHMJSON = require('./testData/PHM.json');
 //     return PHMJSON;
 // }
 
-function getChapter(chapter : number)
+function getChapter()
 {
-
-    return PHMJSON?.xml.book[0].chapter[chapter].verse;
+    // console.log(PHMJSON.xml.book.chapter.verse);
+    return PHMJSON.xml.book.chapter.verse;
 }
 
 export default getChapter;
