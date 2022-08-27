@@ -58,25 +58,22 @@ function Text({onPhraseClick}: TextProps)
 
     const verseWordOutput : any[] = [];
     let hasConsumedPhraseWord : boolean = false;
+    let hasConsumedSubWord : boolean = false;
     let currentPhraseWords : string = "";
     let greekWordBuffer : GreekWord[] = [];
 
     // populates the verseWordOutput with verse words
     verse.w.forEach((word : w | string, i : number, words : any[]) => {
+
       // takes case of cases where there is no attributes or children in the <w> tag. 
-      if(typeof word === "string")
+      if(typeof word !== "string")
       {
-        verseWordOutput.push((<span>{word} </span>))
-      }
-      else
-      {
-        let currentGreekWordNotes : GreekWordNotes;
+        let currentGreekWordNotes : GreekWordNotes = {} as GreekWordNotes;
         let currentGreekWordAttributes: GreekWordAttributes;
         let tempGreekWordNotes : any = {};
 
         if(word.note !== undefined)
         {
-          // extracts the notes for the greek word
           word.note.forEach((e) => {
             let greekWordNoteKey : ValidGreekWordNoteKeys = e.ATTR.type;
             let greekWordNoteValue : string = e._;
@@ -84,53 +81,89 @@ function Text({onPhraseClick}: TextProps)
           });
 
           currentGreekWordNotes = tempGreekWordNotes as GreekWordNotes;
+        }
 
-          // Extracts the attributes for the greek word
-          currentGreekWordAttributes = word.ATTR;
+        currentGreekWordAttributes = word.ATTR;
 
-          let currentGreekWord : GreekWord= {notes : currentGreekWordNotes, attributes : currentGreekWordAttributes, text: word._}
+        let currentGreekWord : GreekWord= {notes : currentGreekWordNotes, attributes : currentGreekWordAttributes, text: word._}
 
-          // Ensures that it is infact a valis greek word, then processes phraseWords and subWords accordingly
-          if(currentGreekWordNotes.OGNTsort !== undefined)
+        // if phraseWord or subWord, insert to buffer
+        if(currentGreekWordNotes.phraseWords !== undefined || currentGreekWordNotes.sub !== undefined) 
+        {
+          hasConsumedPhraseWord = (currentGreekWordNotes.phraseWords !== undefined );
+          hasConsumedSubWord = (currentGreekWordNotes.sub !== undefined);
+          greekWordBuffer.push(currentGreekWord);
+          currentPhraseWords = hasConsumedPhraseWord ? currentGreekWordNotes.phraseWords : "";
+        }
+        else // is a normal greek word
+        {
+          let greekWords : GreekWord[] = [];
+
+          // check if buffer needs to be emptied. 
+          if(hasConsumedPhraseWord || hasConsumedSubWord)
           {
-            if(currentGreekWordNotes.phraseWords !== undefined) 
+            // NOTE: for some reason, this loop prevents the data being passed to the onPhraseClick from being overwritten
+            let length = greekWordBuffer.length;
+            for(let j = 0; j < length; j++)
             {
-              hasConsumedPhraseWord = true;
-              greekWordBuffer.push(currentGreekWord);
-              currentPhraseWords = currentGreekWordNotes.phraseWords;
-            }
-            else
-            {
-              // Check if we have consumed phrase words, if so, render correct data with GreekWord buffer.
-              if(hasConsumedPhraseWord)
-              {
-                // NOTE: for some reason, this loop prevents the data being passed to the onPhraseClick from being overwritten
-                let greekWords : GreekWord[] = [];
-                let length = greekWordBuffer.length;
-                for(let j = 0; j < length; j++)
-                {
-                  let tempGreekWord = greekWordBuffer.pop() as GreekWord;
-                  greekWords.unshift(tempGreekWord);
-                }
-
-                // Cleans up buffer and resets flag.
-                hasConsumedPhraseWord = false;
-                greekWordBuffer.splice(0, greekWordBuffer.length);
-
-                verseWordOutput.push(<><span onClick={() => {onPhraseClick([...greekWords])}} style={{textDecoration:"underline"}}>{currentPhraseWords}</span><span> </span></>)
-              }
-              
-              // checks if the word has English backing, if so, display and pass corresponging greek word data
-              if(word._ !== "√") 
-              {
-                verseWordOutput.push(<><span onClick={() => {onPhraseClick([currentGreekWord])}} style={{textDecoration:"underline"}}>{word._}</span><span> </span></>)
-              }
+              let tempGreekWord = greekWordBuffer.pop() as GreekWord;
+              greekWords.unshift(tempGreekWord);
             }
           }
+          
+          if(hasConsumedPhraseWord) // if buffer contains phrase words NOTE: current word is NOT processed
+          {
+            verseWordOutput.push(<><span onClick={() => {onPhraseClick([...greekWords])}} style={{textDecoration:"underline"}}>{currentPhraseWords}</span><span> </span></>)
+            hasConsumedPhraseWord = false;
+            greekWordBuffer.splice(0, greekWordBuffer.length);
+          }
+          
+          if(hasConsumedSubWord)// buffer contain subWords. NOTE: Current word is processed in this case
+          {
+            currentGreekWord.text = currentGreekWord.text.replace('[1]', greekWords[0].text);
+            greekWords.push(currentGreekWord)
+            verseWordOutput.push(<><span onClick={() => {onPhraseClick([...greekWords])}} style={{textDecoration:"underline"}}>{currentGreekWord.text}</span><span> </span></>)
+            hasConsumedSubWord = false;
+            greekWordBuffer.splice(0, greekWordBuffer.length);
+          }
+          else if(word._ !== "√") // current word has english backing
+          {
+            verseWordOutput.push(<><span onClick={() => {onPhraseClick([currentGreekWord])}} style={{textDecoration:"underline"}}>{word._}</span><span> </span></>)
+          }
         }
-        else
+      }
+      else // word is just a string, but we still need to check buffer. 
+      {
+        let greekWords : GreekWord[] = [];
+        // check if buffer needs to be emptied. 
+        if(hasConsumedPhraseWord || hasConsumedSubWord)
         {
-          verseWordOutput.push((<span>{word._} </span>))
+          // NOTE: for some reason, this loop prevents the data being passed to the onPhraseClick from being overwritten
+          let length = greekWordBuffer.length;
+          for(let j = 0; j < length; j++)
+          {
+            let tempGreekWord = greekWordBuffer.pop() as GreekWord;
+            greekWords.unshift(tempGreekWord);
+          }
+        }
+        
+        if(hasConsumedPhraseWord) // if buffer contains phrase words NOTE: current word is NOT processed
+        {
+          verseWordOutput.push(<><span onClick={() => {onPhraseClick([...greekWords])}} style={{textDecoration:"underline"}}>{currentPhraseWords}</span><span> </span></>)
+          hasConsumedPhraseWord = false;
+          greekWordBuffer.splice(0, greekWordBuffer.length);
+        }
+        
+        if(hasConsumedSubWord)// buffer contain subWords. NOTE: Current word is processed in this case
+        {
+          word = word.replace('[1]', greekWords[0].text);
+          verseWordOutput.push(<><span onClick={() => {onPhraseClick([...greekWords])}} style={{textDecoration:"underline"}}>{word}</span><span> </span></>)
+          hasConsumedSubWord = false;
+          greekWordBuffer.splice(0, greekWordBuffer.length);
+        }
+        else// check if current word has english backing
+        {
+          verseWordOutput.push(<><span>{word}</span><span> </span></>)
         }
       }
     });
