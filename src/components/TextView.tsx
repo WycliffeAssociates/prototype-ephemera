@@ -6,16 +6,17 @@ import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Text from './Text';
 import react, {useEffect, useState} from 'react';
 
-type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
-
-type GreekWordNotes = {
-  [key in ValidGreekWordNoteKeys] : string;
-}
 
 type ValidGreekWordAttributeKeys = "lemma" | "morph";
 
 type GreekWordAttributes = {
   [key in ValidGreekWordAttributeKeys] : string;
+}
+
+type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
+
+type GreekWordNotes = {
+  [key in ValidGreekWordNoteKeys] : string;
 }
 
 type GreekWord = {
@@ -32,11 +33,6 @@ interface TextViewProps {
 function TextView({size, setSize, setCurrentGreekWord}: TextViewProps)
 {
 
-    useEffect(() => {
-        console.log("TODO Load initial data (chapter) here");
-    }, [])
-
-
   const onPhraseClick = (greekWord : GreekWord[]) =>
   {
     setCurrentGreekWord(greekWord);
@@ -45,10 +41,10 @@ function TextView({size, setSize, setCurrentGreekWord}: TextViewProps)
     {
         setSize(7);
     }
-    else
-    {
-        setSize(12);
-    }
+    // else
+    // {
+    //     setSize(12);
+    // }
   }
 
 

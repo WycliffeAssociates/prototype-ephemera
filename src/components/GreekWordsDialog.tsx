@@ -34,8 +34,8 @@ let word3 : greekWord = {
   descriptions: ["description1", "description2","description3"]
 }
 
-// let testData = [word1, word2, word3] as greekWord[];
-let testData2 = [word1] as greekWord[];
+
+let testData2 = [word1, word2, word3] as greekWord[];
 
 interface greekWordsDialog {
   open: Boolean;
@@ -50,7 +50,6 @@ function GreekWordsDialog({open, onClose, greekWord} : greekWordsDialog) {
     useEffect(() => {
       if(greekWord.length > 0)
       {
-        console.log("fetch data here");
         console.log(greekWord);
       }
     }, [greekWord])
