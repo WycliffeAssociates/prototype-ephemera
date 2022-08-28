@@ -69,7 +69,7 @@ function GreekWordsDialog({open, onClose, greekWord} : greekWordsDialog) {
                 color="inherit"
                 aria-label="menu"
                 sx={{ mr: 2 }}
-                style={{margin:"0px", paddingLeft:"4px", paddingRight:"0px"}}
+                style={{margin:"0px", paddingLeft:"4px", paddingRight:"0px", height:"40px", width:"40px"}}
                 onClick={() => onClose()}
               >
                 <KeyboardArrowRightIcon style={{margin:"0px"}}/>

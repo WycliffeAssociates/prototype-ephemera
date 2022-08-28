@@ -36,3 +36,68 @@
     transform: rotate(360deg);
   }
 }
+
+.GreekPhrase {
+  text-decoration: underline;
+}
+
+.Verse {
+  text-align: left;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 48px;
+  color: #001533CC;
+}
+
+.GreekWord {
+  text-align: left;
+  margin-bottom: 2px;
+  height: 36px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 150%;
+  color:#001432;
+}
+
+.EnglishWord {
+  text-align:left; 
+  margin-top: 0px;
+  margin-bottom:0px;
+  height: 24px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color:#001432;
+}
+
+
+.GreekWordInfoSubCategory {
+  text-align:left; 
+  margin-bottom:4px;
+  height: 18px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  text-transform: uppercase;
+  color:#00193c;
+}
+
+.GreekWordInfoSubCategoryValue {
+  text-align:left;
+  width:100%; 
+  margin-top:0px; 
+  margin-bottom:2px; 
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+}

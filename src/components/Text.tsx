@@ -1,6 +1,8 @@
 import { CollectionsBookmarkRounded } from '@material-ui/icons';
 import React, { useState, useEffect, useRef } from 'react';
 import getChapter from '../api';
+import "../App.css";
+
 
 type Note = {
   ATTR: any,
@@ -9,20 +11,24 @@ type Note = {
 
 type w = {
   ATTR: any,
-  note: Note[],
+  note?: Note[],
   _: string,
 }
 
 type verse = {
   ATTR: any,
-  note: [],
+  note?: [],
   w: w[]
 }
 
 type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
 
 type GreekWordNotes = {
-  [key in ValidGreekWordNoteKeys] : string;
+  OGNTSort : string,
+  strongs : string,
+  text? : string,
+  sub? : string,
+  phraseWords? : string,
 }
 
 type ValidGreekWordAttributeKeys = "lemma" | "morph";
@@ -93,7 +99,7 @@ function Text({onPhraseClick}: TextProps)
           hasConsumedPhraseWord = (currentGreekWordNotes.phraseWords !== undefined );
           hasConsumedSubWord = (currentGreekWordNotes.sub !== undefined);
           greekWordBuffer.push(currentGreekWord);
-          currentPhraseWords = hasConsumedPhraseWord ? currentGreekWordNotes.phraseWords : "";
+          currentPhraseWords = (hasConsumedPhraseWord && currentGreekWordNotes.phraseWords !== undefined) ? currentGreekWordNotes.phraseWords : "";
         }
         else // is a normal greek word
         {
@@ -113,7 +119,7 @@ function Text({onPhraseClick}: TextProps)
           
           if(hasConsumedPhraseWord) // if buffer contains phrase words NOTE: current word is NOT processed
           {
-            verseWordOutput.push(<><span onClick={() => {onPhraseClick([...greekWords])}} style={{textDecoration:"underline"}}>{currentPhraseWords}</span><span> </span></>)
+            verseWordOutput.push(<><span className="GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>{currentPhraseWords}</span><span> </span></>)
             hasConsumedPhraseWord = false;
             greekWordBuffer.splice(0, greekWordBuffer.length);
           }
@@ -122,13 +128,13 @@ function Text({onPhraseClick}: TextProps)
           {
             currentGreekWord.text = currentGreekWord.text.replace('[1]', greekWords[0].text);
             greekWords.push(currentGreekWord)
-            verseWordOutput.push(<><span onClick={() => {onPhraseClick([...greekWords])}} style={{textDecoration:"underline"}}>{currentGreekWord.text}</span><span> </span></>)
+            verseWordOutput.push(<><span className="GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>{currentGreekWord.text}</span><span> </span></>)
             hasConsumedSubWord = false;
             greekWordBuffer.splice(0, greekWordBuffer.length);
           }
           else if(word._ !== "√") // current word has english backing
           {
-            verseWordOutput.push(<><span onClick={() => {onPhraseClick([currentGreekWord])}} style={{textDecoration:"underline"}}>{word._}</span><span> </span></>)
+            verseWordOutput.push(<><span className="GreekPhrase" onClick={() => {onPhraseClick([currentGreekWord])}}>{word._}</span><span> </span></>)
           }
         }
       }
@@ -149,7 +155,7 @@ function Text({onPhraseClick}: TextProps)
         
         if(hasConsumedPhraseWord) // if buffer contains phrase words NOTE: current word is NOT processed
         {
-          verseWordOutput.push(<><span onClick={() => {onPhraseClick([...greekWords])}} style={{textDecoration:"underline"}}>{currentPhraseWords}</span><span> </span></>)
+          verseWordOutput.push(<><span className="GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>{currentPhraseWords}</span><span> </span></>)
           hasConsumedPhraseWord = false;
           greekWordBuffer.splice(0, greekWordBuffer.length);
         }
@@ -157,7 +163,7 @@ function Text({onPhraseClick}: TextProps)
         if(hasConsumedSubWord)// buffer contain subWords. NOTE: Current word is processed in this case
         {
           word = word.replace('[1]', greekWords[0].text);
-          verseWordOutput.push(<><span onClick={() => {onPhraseClick([...greekWords])}} style={{textDecoration:"underline"}}>{word}</span><span> </span></>)
+          verseWordOutput.push(<><span className="GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>{word}</span><span> </span></>)
           hasConsumedSubWord = false;
           greekWordBuffer.splice(0, greekWordBuffer.length);
         }
@@ -185,16 +191,7 @@ function Text({onPhraseClick}: TextProps)
 
     // renders verse with verse words
     const tempVerse = (
-      <p key={idx} style={{
-        textAlign: "left",
-        fontFamily: 'Lato',
-        fontStyle: "normal",
-        fontWeight: "400",
-        fontSize: "20px",
-        lineHeight: "48px",
-        color: "#001533CC"
-
-      }}><sup>{idx + 1}</sup> {verseWordOutput}</p>
+      <p className="Verse" key={idx}><sup>{idx + 1}</sup> {verseWordOutput}</p>
     )
     verseOutput.push(tempVerse);
   })
