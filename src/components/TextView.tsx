@@ -7,21 +7,43 @@ import Text from './Text';
 import react, {useEffect, useState} from 'react';
 
 
+type Note = {
+  ATTR: any,
+  _: any,
+}
+
+type w = {
+  ATTR: any,
+  note?: Note[],
+  _: string,
+}
+
+type verse = {
+  ATTR: any,
+  note?: [],
+  w: w[]
+}
+
+type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
+
+type GreekWordNotes = {
+  OGNTSort : string,
+  strongs : string,
+  text? : string,
+  sub? : string,
+  phraseWords? : string,
+}
+
 type ValidGreekWordAttributeKeys = "lemma" | "morph";
 
 type GreekWordAttributes = {
   [key in ValidGreekWordAttributeKeys] : string;
 }
 
-type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
-
-type GreekWordNotes = {
-  [key in ValidGreekWordNoteKeys] : string;
-}
-
 type GreekWord = {
   notes : GreekWordNotes;
   attributes : GreekWordAttributes;
+  text : string;
 }
 
 interface TextViewProps {
