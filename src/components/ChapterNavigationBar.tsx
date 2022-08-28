@@ -21,7 +21,7 @@ function ChapterNavigationBar()
                           textTransform:"none",
                           fontSize: "16px",
                           }}>
-              Matthew
+              Philemon
               </span>
           </Button>
           <Button onClick={() => {console.log("onClickHere")}} style={{width:"15%", borderColor:"#d9d9d9", borderRadius:"0px 25px 25px 0px"}}>
