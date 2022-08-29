@@ -1,12 +1,8 @@
-const xml2js = require('xml2js');
 const fs = require('fs');
-var he = require('he');
 const {XMLParser, XMLBuilder} = require('fast-xml-parser');
 
-const parser = new xml2js.Parser({ attrkey: "ATTR", trim:"true", normalize:"true" });
 
-
-
+// 
 function convertOrderedXMLtoOsis(orderedXML)
 {
     let curBook = orderedXML[1].xml[0].book;
@@ -110,21 +106,14 @@ function convertOrderedXMLtoOsis(orderedXML)
             }
         }
     }
-
-    // console.log(orderedXML[1].xml);
     return orderedXML;
 }
 
 
 
-// "testXML/58-PHM.xml"
 function taggedULBToOsisULB(inputFilePath)
 {
-    // this example reads the file synchronously
-    // you can read it asynchronously also
     let xml_string = fs.readFileSync(inputFilePath, "utf8");
-
-    let osisULB = {};
 
     const orderedParserOptions = {
         commentPropName: "#comment",
@@ -133,7 +122,6 @@ function taggedULBToOsisULB(inputFilePath)
         parseTagValue: false,
         trimValues: true, //default
         attributeNamePrefix: '',
-        // attributesGroupName: "ATTR_"
     };
     const orderedParser = new XMLParser(orderedParserOptions);
     
@@ -142,11 +130,6 @@ function taggedULBToOsisULB(inputFilePath)
     orderedXML = convertOrderedXMLtoOsis(orderedXML)
 
     // rebuilds the xml from the newly modified JSON object. 
-    const options = {
-        commentPropName: "#comment",
-        ignoreAttributes: false,
-        preserveOrder: true
-    };
     const builder = new XMLBuilder(orderedParserOptions);
     const xmlOutput = builder.build(orderedXML);
 
@@ -155,27 +138,7 @@ function taggedULBToOsisULB(inputFilePath)
 }
 
 
-
-function exportJSONAsXML(data, newFileName)
-{
-    // convert SJON objec to XML
-    const builder = new xml2js.Builder({attrkey: 'ATTR', trim:"true", normalize:"true"});
-    const xml = builder.buildObject(data);
-
-    // write updated XML string to a file
-    fs.writeFile(newFileName, xml, (err) => {
-        if (err) {
-            throw err;
-        }
-
-        console.log(`Updated XML is written to ` + newFileName + ".");
-    });
-}
-
-
-
-// TODO uncomment. 
-// Converts current ULB to OSIS complient ULB XML and then converts that to JSON
+// Converts current ULB XML file to an OSIS complient ULB XML file and then converts that to JSON
 let newXML = taggedULBToOsisULB("testXML/58-PHM.xml");
 fs.writeFile("PHMWithNotesWithoutSpacing.xml", newXML, (err) => {
     if (err) {
