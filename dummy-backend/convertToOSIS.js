@@ -6,30 +6,8 @@ const {XMLParser, XMLBuilder} = require('fast-xml-parser');
 const parser = new xml2js.Parser({ attrkey: "ATTR", trim:"true", normalize:"true" });
 
 
-// A phrase is an English word(s) that has some greek word(s) behinding it. 
-type Phrase = {
-    OGNTsort : number,
-    strongs : String,
-    morph : String,
-    phrase : String,
-    sub : number,
-}
 
-type Verse = {
-    verseName : String,
-    greek : String,
-    ULB : String,
-    phrases : Phrase[],
-}
-
-type Note = {
-    ATTR: any,
-    _: String,
-}
-
-
-
-function convertOrderedXMLtoOsis(orderedXML : any)
+function convertOrderedXMLtoOsis(orderedXML)
 {
     let curBook = orderedXML[1].xml[0].book;
     for(let i = 0; i < curBook.length; i++)
@@ -40,7 +18,7 @@ function convertOrderedXMLtoOsis(orderedXML : any)
             for(let k = 0; k < curChapter.verse.length; k++)
             {
                 let curVerseWord = curChapter.verse[k];
-                let wordBuffer = [] as any;
+                let wordBuffer = [];
 
                 // removes ULB, preText, Greek, and residue tags and converts the ULB and Greek tags to notes. 
                 if(curVerseWord.Greek !== undefined)
@@ -140,7 +118,7 @@ function convertOrderedXMLtoOsis(orderedXML : any)
 
 
 // "testXML/58-PHM.xml"
-function taggedULBToOsisULB(inputFilePath: String)
+function taggedULBToOsisULB(inputFilePath)
 {
     // this example reads the file synchronously
     // you can read it asynchronously also
@@ -172,30 +150,20 @@ function taggedULBToOsisULB(inputFilePath: String)
     const builder = new XMLBuilder(orderedParserOptions);
     const xmlOutput = builder.build(orderedXML);
 
-    // passes the new XML file to the parser again to add notes to words. 
-    // parser.parseString(xmlOutput, function(error : any, result : any) {
-    //     if(error !== null) {
-    //         console.log(error);
-    //     }
-    //     osisULB = result;
-    // });
-
-    // console.log(xmlOutput);
-
     return xmlOutput;
 
 }
 
 
 
-function exportJSONAsXML(data: any, newFileName: String)
+function exportJSONAsXML(data, newFileName)
 {
     // convert SJON objec to XML
     const builder = new xml2js.Builder({attrkey: 'ATTR', trim:"true", normalize:"true"});
     const xml = builder.buildObject(data);
 
     // write updated XML string to a file
-    fs.writeFile(newFileName, xml, (err: any) => {
+    fs.writeFile(newFileName, xml, (err) => {
         if (err) {
             throw err;
         }
@@ -208,36 +176,34 @@ function exportJSONAsXML(data: any, newFileName: String)
 
 // TODO uncomment. 
 // Converts current ULB to OSIS complient ULB XML and then converts that to JSON
-// let newXML = taggedULBToOsisULB("testXML/58-PHM.xml");
-// fs.writeFile("PHMWithNotesWithoutSpacing.xml", newXML, (err: any) => {
-//     if (err) {
-//         throw err;
-//     }
-
-//     console.log(`Updated XML is written to ` + "PHMWithNotesWithoutSpacing.xml" + ".");
-// });
-
-
-
-
-
-const orderedParserOptions = {
-    ignoreAttributes: false,
-    attributesGroupName: "ATTR",
-    attributeNamePrefix: '',
-    textNodeName: "_",
-};
-const orderedParser = new XMLParser(orderedParserOptions);
-let new_xml_string = fs.readFileSync("PHMWithNotesWithoutSpacing.xml", "utf8");
-// traverses through the JSON representing the ordered XML and removes the phrase tages. 
-let orderedXML = orderedParser.parse(new_xml_string);
-console.log(orderedXML);
-
-
-// write JSON string to a file
-fs.writeFile('PHMJSON2.json', JSON.stringify(orderedXML), (err : any) => {
+let newXML = taggedULBToOsisULB("testXML/58-PHM.xml");
+fs.writeFile("PHMWithNotesWithoutSpacing.xml", newXML, (err) => {
     if (err) {
         throw err;
     }
-    console.log("JSON data is saved.");
+
+    console.log(`Updated XML is written to ` + "PHMWithNotesWithoutSpacing.xml" + ".");
+
+    const orderedParserOptions = {
+        ignoreAttributes: false,
+        attributesGroupName: "ATTR",
+        attributeNamePrefix: '',
+        textNodeName: "_",
+    };
+    const orderedParser = new XMLParser(orderedParserOptions);
+    let new_xml_string = fs.readFileSync("PHMWithNotesWithoutSpacing.xml", "utf8");
+
+    // traverses through the JSON representing the ordered XML and removes the phrase tages. 
+    let orderedXML = orderedParser.parse(new_xml_string);
+    console.log(orderedXML);
+    
+    
+    // write JSON string to a file
+    fs.writeFile('PHMJSON.json', JSON.stringify(orderedXML), (err) => {
+        if (err) {
+            throw err;
+        }
+        console.log("JSON data is saved.");
+    })
+
 });
