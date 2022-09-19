@@ -5,7 +5,6 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Text from './Text';
 import react, {useEffect, useState} from 'react';
-import {GreekWord} from '../types';
 
 type FormattedGreekWord = {
   lemma : string,

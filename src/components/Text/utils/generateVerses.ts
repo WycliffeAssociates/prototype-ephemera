@@ -3,10 +3,10 @@ import { WordTag,
     ValidGreekWordNoteKeys, 
     GreekWordNotes, 
     GreekWordAttributes, 
-    GreekWord, FormattedGreekWord } from '../../../types'
+    FormattedGreekWord } from '../../../types'
+
 
 function generateVerses (verses : VerseTag[]) {
-
 
     const verseOutput : any[] = [];
 
@@ -68,8 +68,8 @@ function generateVerses (verses : VerseTag[]) {
                     let length = greekWordBuffer.length;
                     for(let j = 0; j < length; j++)
                     {
-                        let tempGreekWord = greekWordBuffer.pop() as FormattedGreekWord;
-                        greekWords.unshift({...tempGreekWord});
+                        let tempGreekWord = {... greekWordBuffer.pop() as FormattedGreekWord};
+                        greekWords.unshift(tempGreekWord);
                     }
                 }
                 

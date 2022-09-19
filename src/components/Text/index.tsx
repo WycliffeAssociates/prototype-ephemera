@@ -2,13 +2,10 @@ import { useState, useEffect } from 'react';
 import getChapter from '../../api';
 import "../../App.css";
 import { FormattedGreekWord, FormattedVerse} from '../../types';
-
 import generateVerses from '../Text/utils/generateVerses'
 
-
-// TODO: take thsi word and interface into its separate file. 
 interface WordProps {
-  onPhraseClick: (greekWords : FormattedGreekWord[]) => any;
+  onPhraseClick: (greekWords : FormattedGreekWord[]) => void;
   englishWords : string,
   isPhrase? : boolean,
   containsSubWords? : boolean,
@@ -19,19 +16,47 @@ function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWor
 
   if(!greekWords)
   {
-    return(<><span>{englishWords}</span><span> </span></>)
+    return(
+            <>
+              <span>
+                {englishWords}
+              </span>
+              <span> </span>
+            </>
+          )
   }
   else if(isPhrase)
   {
-    return(<><span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>{englishWords}</span><span> </span></>)
+    return(
+            <>
+              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>
+                {englishWords}
+              </span>
+              <span> </span>
+            </>
+          )
   }
   else if(containsSubWords)
   {
-    return(<><span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>{englishWords}</span><span> </span></>)
+    return(
+            <>
+              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>
+                {englishWords}
+              </span>
+              <span> </span>
+            </>
+          )
   }
   else
   {
-    return(<><span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>{englishWords}</span><span> </span></>)
+    return(
+            <>
+              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>
+                {englishWords}
+              </span>
+              <span> </span>
+            </>
+          )
   }
 
 }
