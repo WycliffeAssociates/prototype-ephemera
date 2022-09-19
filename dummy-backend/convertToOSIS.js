@@ -151,7 +151,7 @@ fs.writeFile("PHMWithNotesWithoutSpacing.xml", newXML, (err) => {
         ignoreAttributes: false,
         attributesGroupName: "ATTR",
         attributeNamePrefix: '',
-        textNodeName: "_",
+        textNodeName: "_text",
     };
     const orderedParser = new XMLParser(orderedParserOptions);
     let new_xml_string = fs.readFileSync("PHMWithNotesWithoutSpacing.xml", "utf8");

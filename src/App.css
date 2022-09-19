@@ -37,10 +37,12 @@
   }
 }
 
+/* TODO delete*/
 .GreekPhrase {
   text-decoration: underline;
 }
 
+/* TODO delete*/
 .Verse {
   text-align: left;
   font-family: 'Lato';
@@ -100,4 +102,48 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;
+}
+
+.BannerContainer {
+  background-color:#001533;
+  width:100%
+}
+
+.BannerContainer .BannerContainer__elem {
+  background-color: inherit;
+  padding-right:0px; 
+  margin-right:0px;
+}
+
+.MainViewContainer {
+  width:100%;
+  margin:0px;
+}
+
+.TextViewContainer {
+  padding-top:0px;
+}
+
+.TextViewContainer__arrowIcon {
+  color: black;
+  background-color: #f2f2f2
+}
+
+.TextContainer {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.TextContainer__GreekPhrase {
+  text-decoration: underline;
+}
+
+.TextContainer__Verse {
+  text-align: left;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 48px;
+  color: #001533CC;
 }

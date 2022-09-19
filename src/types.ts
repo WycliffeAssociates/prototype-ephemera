@@ -1,46 +1,83 @@
-type Note = {
-    ATTR: any,
-    _: any,
+type NoteTag = {
+  ATTR: any,
+  _text: any,
 }
-  
-type w = {
-    ATTR: any,
-    note: Note[],
-    _: string,
+
+type WordTag = {
+  ATTR: any,
+  note?: NoteTag[],
+  _text: string,
 }
-  
-type verse = {
-    ATTR: any,
-    note: [],
-    w: w[]
+
+// NOTE: the attribute w represents the w tag used by OSIS
+type VerseTag = {
+  ATTR: any,
+  note?: [],
+  w: WordTag[]
+}
+
+type GreekWordNotes = {
+  OGNTSort : string,
+  strongs : string,
+  text? : string,
+  sub? : string,
+  phraseWords? : string,
 }
 
 type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
 
-type GreekWordNotes = {
-    [key in ValidGreekWordNoteKeys] : string;
-}
-
 type ValidGreekWordAttributeKeys = "lemma" | "morph";
 
 type GreekWordAttributes = {
-    [key in ValidGreekWordAttributeKeys] : string;
+  [key in ValidGreekWordAttributeKeys] : string;
 }
 
 type GreekWord = {
-    notes : GreekWordNotes;
-    attributes : GreekWordAttributes;
-    text : string;
+  notes : GreekWordNotes;
+  attributes : GreekWordAttributes;
+  text : string;
+}
+
+type GreekPhraseWord = {
+    greekWords: string,
+    englishWords: string,
+    morphology: string,
+    descriptions: string[],
+};
+
+type FormattedGreekWord = {
+  lemma : string,
+  morph : string,
+  OGNTSort : string,
+  text : string,
+  strongs : string
+  sub? : string,
+  phraseWords? : string,
+}
+
+type FormattedWord = {
+  englishWords : string,
+  isPhrase? : boolean,
+  containsSubWords? : boolean,
+  greekWords? : FormattedGreekWord[]
+}
+
+type FormattedVerse = {
+  verseWords : FormattedWord[];
 }
 
 
 export type {
-                GreekWord, 
-                GreekWordNotes, 
-                GreekWordAttributes, 
-                ValidGreekWordAttributeKeys, 
-                ValidGreekWordNoteKeys,
-                Note,
-                w,
-                verse,
-            };
+    GreekWord, 
+    GreekWordNotes, 
+    GreekWordAttributes,
+    GreekPhraseWord,
+    ValidGreekWordAttributeKeys, 
+    ValidGreekWordNoteKeys,
+    NoteTag,
+    WordTag,
+    VerseTag,
+    FormattedGreekWord,
+    FormattedWord,
+    FormattedVerse
+};

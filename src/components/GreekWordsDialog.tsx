@@ -4,47 +4,26 @@ import GreekWordInfo from './GreekWordInfo';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import IconButton from '@mui/material/IconButton';
 import { useEffect } from 'react';
+import { GreekPhraseWord } from '../types'
 
 
-type greekWord = {
-  greekWords: string,
-  englishWords: string,
-  morphology: string,
-  descriptions: string[],
-};
-
-let word1 : greekWord = {
-  greekWords: "asdkfjasdgjkb/asdfasdf",
+let word1 : GreekPhraseWord = {
+  greekWords: "greek word here/more words",
   englishWords: "hello",
   morphology: "some morphology here",
   descriptions: ["description1, description2","description3"]
 }
 
-let word2 : greekWord = {
-  greekWords: "asdkfkb/bbsfsdfs",
-  englishWords: "hello",
-  morphology: "some morphology here",
-  descriptions: ["description1, description2","description3"]
-}
 
-let word3 : greekWord = {
-  greekWords: "lllllltrtds/pppzzz",
-  englishWords: "hello",
-  morphology: "some morphology here",
-  descriptions: ["description1", "description2","description3"]
-}
+let testData2 = [word1, word1, word1] as GreekPhraseWord[];
 
-
-let testData2 = [word1, word2, word3] as greekWord[];
-
-interface greekWordsDialog {
+interface GreekWordsDialogProps {
   open: Boolean;
   onClose: () => void;
   greekWord: any;
 };
 
-
-function GreekWordsDialog({open, onClose, greekWord} : greekWordsDialog) {
+function GreekWordsDialog({open, onClose, greekWord} : GreekWordsDialogProps) {
 
 
     useEffect(() => {
@@ -56,7 +35,14 @@ function GreekWordsDialog({open, onClose, greekWord} : greekWordsDialog) {
 
 
     return ( 
-      <Box display={{ xs: 'none', sm: 'none', md:(open ? "block" : "none"), lg:(open ? "block" : "none"), xl:(open ? "block" : "none")}}>
+      <Box 
+        display={{ 
+          xs: 'none', sm: 'none', 
+          md:(open ? "block" : "none"), 
+          lg:(open ? "block" : "none"), 
+          xl:(open ? "block" : "none")
+        }}
+      >
      
         {/* TODO try to remove this box element and just use the above parent box element */}
         <Box style={{height:"89vh", width:"100%", backgroundColor:"#f2f2f2"}}>

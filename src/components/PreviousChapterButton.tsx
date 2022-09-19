@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 
 
 
-function PreviousFab()
+function PreviousChapterButton()
 {
   return (
     <Box display={{ xs: 'block', sm: 'block', md:"none", lg:"none", xl:"none" }}>
@@ -24,4 +24,4 @@ function PreviousFab()
   )
 }
 
-export default PreviousFab;
+export default PreviousChapterButton;

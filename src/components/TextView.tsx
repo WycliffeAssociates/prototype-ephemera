@@ -5,45 +5,16 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Text from './Text';
 import react, {useEffect, useState} from 'react';
+import {GreekWord} from '../types';
 
-
-type Note = {
-  ATTR: any,
-  _: any,
-}
-
-type w = {
-  ATTR: any,
-  note?: Note[],
-  _: string,
-}
-
-type verse = {
-  ATTR: any,
-  note?: [],
-  w: w[]
-}
-
-type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
-
-type GreekWordNotes = {
+type FormattedGreekWord = {
+  lemma : string,
+  morph : string,
   OGNTSort : string,
-  strongs : string,
-  text? : string,
+  text : string,
+  strongs : string
   sub? : string,
   phraseWords? : string,
-}
-
-type ValidGreekWordAttributeKeys = "lemma" | "morph";
-
-type GreekWordAttributes = {
-  [key in ValidGreekWordAttributeKeys] : string;
-}
-
-type GreekWord = {
-  notes : GreekWordNotes;
-  attributes : GreekWordAttributes;
-  text : string;
 }
 
 interface TextViewProps {
@@ -55,25 +26,26 @@ interface TextViewProps {
 function TextView({size, setSize, setCurrentGreekWord}: TextViewProps)
 {
 
-  const onPhraseClick = (greekWord : GreekWord[]) =>
+  const onPhraseClick = (greekWords : FormattedGreekWord[]) =>
   {
-    setCurrentGreekWord(greekWord);
+    setCurrentGreekWord(greekWords);
 
+    // Reduces the size of the TextView to make room for GreekWordsDialog
     if(size === 12)
     {
         setSize(7);
     }
-    // else
-    // {
-    //     setSize(12);
-    // }
   }
-
 
   return (
     <>
 
-    <Grid container spacing={1} direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start" style={{paddingTop:"0px"}}>  
+    <Grid className="TextViewContainer" 
+          container 
+          spacing={1} 
+          justifyContent={{lg: "center", md: "center"}} 
+          alignItems="flex-start"
+    >  
 
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <ChapterNavigationBar/>
@@ -82,16 +54,16 @@ function TextView({size, setSize, setCurrentGreekWord}: TextViewProps)
 
       <Grid item xs={0} sm={0} md={1}>
         {/* TODO add onClick and icon prop so I can use this for next and previous buttons */}
-        <StationaryChapterNavButton children={<ArrowLeftAltIcon style={{color:"black", backgroundColor: "#f2f2f2"}}/>}/>
+        <StationaryChapterNavButton children={<ArrowLeftAltIcon className="TextViewContainer__arrowIcon"/>}/>
       </Grid>
 
-      <Grid item xs={12} sm={12} md={8}  style={{maxHeight: '70vh', overflow: 'auto'}}>
+      <Grid className="TextContainer" item xs={12} sm={12} md={8}>
           <Text onPhraseClick={onPhraseClick}/>
       </Grid>
 
       <Grid item xs={0} sm={0} md={1}>
         {/* TODO add onClick and icon prop so I can use this for next and previous buttons */}
-        <StationaryChapterNavButton children={<ArrowRightAltIcon style={{color:"black", backgroundColor: "#f2f2f2"}}/>}/>
+        <StationaryChapterNavButton children={<ArrowRightAltIcon className="TextViewContainer__arrowIcon"/>}/>
       </Grid>
     </Grid>
     </>

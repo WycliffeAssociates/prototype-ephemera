@@ -8,12 +8,10 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import PreviousFab from './components/PreviousFab';
-import NextFab from './components/NextFab';
+import NextChapterButton from './components/NextChapterButton';
+import PreviousChapterButton from './components/PreviousChapterButton';
 import TextView from "./components/TextView";
 import GreekWordsDialog from './components/GreekWordsDialog';
-
-import getChapter from './api';
 
 
 
@@ -32,11 +30,8 @@ function App() {
   const [greekTextDialogOpen, setGreekTextDialogOpen] = useState<Boolean>(false)
   const [currentGreekWord, setCurrentGreekWord] = useState([])
 
-
-  // useEffect(() => {
-  //   console.log(currentGreekWord);
-  // }, [currentGreekWord])
-
+  // Open dialog to display Greek phrase information 
+  // when there is space for it on the screen.
   useEffect(() => {
     if(textViewSize !== 12)
     {
@@ -56,9 +51,9 @@ function App() {
   return (
     <div className="App">
 
-      <Box sx={{ flexGrow: 1 }} style={{backgroundColor:"#001533", width:"100%"}}>
-        <AppBar position="static" style={{backgroundColor:"#001533", paddingRight:"0px", marginRight:"0px"}}>
-          <Toolbar style={{backgroundColor:"#001533", paddingRight:"0px", marginRight:"0px"}}>
+      <Box className="BannerContainer" sx={{ flexGrow: 1 }}>
+        <AppBar className="BannerContainer__elem" position="static">
+          <Toolbar className="BannerContainer__elem">
             <IconButton
               size="large"
               edge="start"
@@ -73,18 +68,31 @@ function App() {
       </Box>
 
 
-      <Grid container spacing={1} direction="row" justifyContent={{lg: "flex-start", md: "flex-start", sm:"flex-start"}} alignItems="center" style={{width:"100%", margin:"0px"}}>   
+      <Grid 
+        className="MainViewContainer" 
+        container 
+        spacing={1} 
+        justifyContent="flex-start" 
+        alignItems="center"
+      >   
         <Grid item xl={textViewSize} lg={textViewSize} md={textViewSize} sm={12} xs={12}>
           <TextView size={textViewSize} setSize={setTextViewSize} setCurrentGreekWord={setCurrentGreekWord}/>
         </Grid>
 
-        <Grid item xl={(textViewSize !== 12 ? 5 : 0)} lg={(textViewSize !== 12 ? 5 : 0)} md={(textViewSize !== 12 ? 5 : 0)} sm={0} xs={0}>
-            <GreekWordsDialog open={greekTextDialogOpen} onClose={onGreekTextClose} greekWord={currentGreekWord}/>
+        <Grid 
+          item 
+          xl={(textViewSize !== 12 ? 5 : 0)} 
+          lg={(textViewSize !== 12 ? 5 : 0)} 
+          md={(textViewSize !== 12 ? 5 : 0)} 
+          sm={0} 
+          xs={0}
+        >
+          <GreekWordsDialog open={greekTextDialogOpen} onClose={onGreekTextClose} greekWord={currentGreekWord}/>
         </Grid>
       </Grid>
 
-      <PreviousFab/>
-      <NextFab/>
+      <NextChapterButton/>
+      <PreviousChapterButton/>
     
     </div>
   );

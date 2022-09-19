@@ -1,4 +1,3 @@
-import { cp } from "fs";
 let PHMJSON = require('./testData/PHM.json');
 
 function getChapter()
