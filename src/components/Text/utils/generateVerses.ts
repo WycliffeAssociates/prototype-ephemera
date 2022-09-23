@@ -7,7 +7,6 @@ import { WordTag,
     NoteTag} from '../../../types'
 
 
-// TODO: extract to function. extractNoteElements(notes) => GreekWordNotes
 function extractNoteElements(notes : NoteTag[] | undefined) {
     let tempGreekWordNotes : any = {};
     if(notes !== undefined)
@@ -23,7 +22,6 @@ function extractNoteElements(notes : NoteTag[] | undefined) {
 }
 
 
-// TODO: convert to function. emptyGreekWordBuffer(greekWordBuffer, greekWords) => void
 function emptyGreekWordBuffer(greekWordBuffer : FormattedGreekWord[], greekWords : FormattedGreekWord[]) {
     let length = greekWordBuffer.length;
     for(let j = 0; j < length; j++)
@@ -35,8 +33,7 @@ function emptyGreekWordBuffer(greekWordBuffer : FormattedGreekWord[], greekWords
 
 
 
-// TODO: convert to function. handleConsumedPhraseWords(verseWordOutput, greekWordBuffer)
-function handleConsumedPhraseWords(verseWordOutput: any[], greekWordBuffer: FormattedGreekWord[], 
+function handleConsumedPhraseWords(greekWordBuffer: FormattedGreekWord[], 
                                     currentPhraseWords: string, greekWords: FormattedGreekWord[]) {
     let tempWord = {
         englishWords: currentPhraseWords,
@@ -44,13 +41,86 @@ function handleConsumedPhraseWords(verseWordOutput: any[], greekWordBuffer: Form
         isPhrase: true
     }
     
-    verseWordOutput.push(tempWord)
-
     greekWordBuffer.splice(0, greekWordBuffer.length);
+
+    return tempWord;
 }
 
 
 
+function handleConsumedSubWords(currentWord: FormattedGreekWord | string, greekWords: FormattedGreekWord[], 
+                                greekWordBuffer: FormattedGreekWord[])
+{
+    let currentEnglishWord = ""; 
+    if(typeof currentWord !== "string")
+    {
+        currentWord.text = currentWord.text.replace('[1]', greekWords[0].text);
+        greekWords.push({...currentWord}) // Examine verse 3
+        currentEnglishWord = currentWord.text;
+    }
+    else
+    {
+        currentWord = currentWord.replace('[1]', greekWords[0].text);
+        currentEnglishWord = currentWord;
+    }
+
+    let tempWord = {
+        englishWords: currentEnglishWord,
+        greekWords: greekWords,
+        containsSubWords: true
+    }
+
+    greekWordBuffer.splice(0, greekWordBuffer.length);
+
+    return tempWord;
+}
+
+
+
+function handleGreekWord(hasConsumedPhraseWord: boolean, hasConsumedSubWord: boolean, 
+                        greekWordBuffer: FormattedGreekWord[], currentGreekWord: FormattedGreekWord | string, 
+                        currentPhraseWords: string)
+{
+    let verseWordOutput: any[] = [];
+    let greekWords : FormattedGreekWord[] = [];
+
+    // check if buffer needs to be emptied. 
+    if(hasConsumedPhraseWord || hasConsumedSubWord)
+    {
+        emptyGreekWordBuffer(greekWordBuffer, greekWords);
+    }
+    
+    if(hasConsumedPhraseWord) // if buffer contains phrase words NOTE: current word is NOT processed
+    {
+        let tempWord = handleConsumedPhraseWords(greekWordBuffer, currentPhraseWords, greekWords) 
+        verseWordOutput.push(tempWord);
+    }
+    else if(hasConsumedSubWord)// buffer contain subWords. NOTE: Current word is processed in this case
+    {
+        let tempWord = handleConsumedSubWords(currentGreekWord, greekWords, greekWordBuffer)
+        verseWordOutput.push(tempWord);
+    }
+    else if(typeof currentGreekWord !== 'string')
+    {
+        if(currentGreekWord.text !== "√") // current word has english backing
+        {
+            let tempWord = {
+               englishWords: currentGreekWord.text,
+               greekWords: [currentGreekWord]
+            }
+            verseWordOutput.push(tempWord)
+        }
+    }
+    else
+    {
+        let tempWord = {
+            englishWords: currentGreekWord
+        }
+        verseWordOutput.push(tempWord)
+    }
+
+    return verseWordOutput;
+}
 
 
 function generateVerses (verses : VerseTag[]) {
@@ -60,129 +130,53 @@ function generateVerses (verses : VerseTag[]) {
     // populates verseOutput with verse
     verses.forEach((verse : VerseTag, idx : number, verses : VerseTag[]) => {
 
-        const verseWordOutput : any[] = [];
+        let verseWordOutput : any[] = [];
         let hasConsumedPhraseWord : boolean = false;
         let hasConsumedSubWord : boolean = false;
         let currentPhraseWords : string = "";
         let greekWordBuffer : FormattedGreekWord[] = [];
  
         // populates the verseWordOutput with verse words
-        verse.w.forEach((word : WordTag | string, i : number, words : any[]) => {
+        verse.w.forEach((word : WordTag | string) => {
 
-        // takes case of cases where there is no attributes or children in the <w> tag. 
-        if(typeof word !== "string")
-        {
-            let currentGreekWordNotes : GreekWordNotes = {} as any;
-            let currentGreekWordAttributes: GreekWordAttributes;
-
-
-            currentGreekWordNotes = extractNoteElements(word.note);
-            currentGreekWordAttributes = word.ATTR;
-
-            let currentGreekWord : FormattedGreekWord = {
-                                                ...currentGreekWordNotes, 
-                                                ...currentGreekWordAttributes, 
-                                                text: word._text
-                                            }
-
-            // if phraseWord or subWord, insert to buffer
-            if(currentGreekWordNotes.phraseWords !== undefined || currentGreekWordNotes.sub !== undefined) 
+            // TODO Convert to function. handleVerseWord(word, verseWordOutput)
+            // takes case of cases where there is no attributes or children in the <w> tag. 
+            if(typeof word !== "string")
             {
-                hasConsumedPhraseWord = (currentGreekWordNotes.phraseWords !== undefined );
-                hasConsumedSubWord = (currentGreekWordNotes.sub !== undefined);
+                let currentGreekWordNotes : GreekWordNotes = extractNoteElements(word.note);;
+                let currentGreekWordAttributes: GreekWordAttributes = word.ATTR;;
 
-                greekWordBuffer.push(currentGreekWord);
-                currentPhraseWords = (hasConsumedPhraseWord && currentGreekWordNotes.phraseWords !== undefined) 
-                                        ? currentGreekWordNotes.phraseWords : "";
-            }
-            else // is a normal greek word
-            {
-                let greekWords : FormattedGreekWord[] = [];
+                let currentGreekWord : FormattedGreekWord = {
+                                                    ...currentGreekWordNotes, 
+                                                    ...currentGreekWordAttributes, 
+                                                    text: word._text
+                                                }
 
-                // check if buffer needs to be emptied. 
-                if(hasConsumedPhraseWord || hasConsumedSubWord)
+                // if phraseWord or subWord, insert to buffer
+                if(currentGreekWordNotes.phraseWords !== undefined || currentGreekWordNotes.sub !== undefined) 
                 {
-                    emptyGreekWordBuffer(greekWordBuffer, greekWords);
+                    hasConsumedPhraseWord = (currentGreekWordNotes.phraseWords !== undefined );
+                    hasConsumedSubWord = (currentGreekWordNotes.sub !== undefined);
+
+                    greekWordBuffer.push(currentGreekWord);
+                    currentPhraseWords = (hasConsumedPhraseWord && currentGreekWordNotes.phraseWords !== undefined) 
+                                            ? currentGreekWordNotes.phraseWords : "";
                 }
-                
-                if(hasConsumedPhraseWord) // if buffer contains phrase words NOTE: current word is NOT processed
+                else // is a normal greek word
                 {
-                    handleConsumedPhraseWords(verseWordOutput, greekWordBuffer, currentPhraseWords, greekWords) 
+                    let words = handleGreekWord(hasConsumedPhraseWord, hasConsumedSubWord, greekWordBuffer, currentGreekWord, currentPhraseWords)
+                    verseWordOutput = verseWordOutput.concat(words);
                     hasConsumedPhraseWord = false;
-                }
-                
-                if(hasConsumedSubWord)// buffer contain subWords. NOTE: Current word is processed in this case
-                {
-
-                    // =======TODO convert to function. handleConsumedSubWords(word, greekWords, verWordOutput, greekWordBuffer)
-                    currentGreekWord.text = currentGreekWord.text.replace('[1]', greekWords[0].text);
-                    greekWords.push({...currentGreekWord}) // Examine verse 3
-
-                    let tempWord = {
-                        englishWords: currentGreekWord.text,
-                        greekWords: greekWords,
-                        containsSubWords: true
-                    }
-
-                    verseWordOutput.push(tempWord)
                     hasConsumedSubWord = false;
-                    greekWordBuffer.splice(0, greekWordBuffer.length);
-
-
-                }
-                else if(word._text !== "√") // current word has english backing
-                {
-                    let tempWord = {
-                       englishWords: word._text,
-                       greekWords: [currentGreekWord]
-                    }
-                    verseWordOutput.push(tempWord)
                 }
             }
-        }
-        else // word is just a string, but we still need to check buffer. 
-        {
-            let greekWords : FormattedGreekWord[] = [];
-
-            // check if buffer needs to be emptied. 
-            if(hasConsumedPhraseWord || hasConsumedSubWord)
+            else // word is just a string, but we still need to check buffer. 
             {
-                emptyGreekWordBuffer(greekWordBuffer, greekWords);
-            }
-            
-            if(hasConsumedPhraseWord) // if buffer contains phrase words NOTE: current word is NOT processed
-            {
-                handleConsumedPhraseWords(verseWordOutput, greekWordBuffer, currentPhraseWords, greekWords) 
+                let words = handleGreekWord(hasConsumedPhraseWord, hasConsumedSubWord, greekWordBuffer, word, currentPhraseWords)
+                verseWordOutput = verseWordOutput.concat(words);
                 hasConsumedPhraseWord = false;
-            }
-            else if(hasConsumedSubWord)// buffer contain subWords. NOTE: Current word is processed in this case
-            {
-
-                // ======== TODO convert to function. handleConsumedSubWords(word, greekWords, verWordOutput, greekWordBuffer)
-                // TODO: update this to accout for cases wheere there are multiple sub words. 
-                word = word.replace('[1]', greekWords[0].text);
-
-                let tempWord = {
-                    englishWords: word,
-                    greekWords: greekWords,
-                    containsSubWords: true
-                }
-
-                verseWordOutput.push(tempWord)
                 hasConsumedSubWord = false;
-
-                greekWordBuffer.splice(0, greekWordBuffer.length);
-
-
             }
-            else
-            {
-                let tempWord = {
-                    englishWords: word
-                }
-                verseWordOutput.push(tempWord)
-            }
-        }
         });
 
         // Ensures that phrase words at the end of a verse are processed
@@ -190,8 +184,9 @@ function generateVerses (verses : VerseTag[]) {
         {
             let greekWords : FormattedGreekWord[] = [];
             emptyGreekWordBuffer(greekWordBuffer, greekWords);
-            handleConsumedPhraseWords(verseWordOutput, greekWordBuffer, currentPhraseWords, greekWords)
+            let tempWord = handleConsumedPhraseWords(greekWordBuffer, currentPhraseWords, greekWords)
             hasConsumedPhraseWord = false;
+            verseWordOutput.push(tempWord);
         }
 
         let tempVerse = {

@@ -13,7 +13,6 @@ interface WordProps {
 }
 
 function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWords} : WordProps) {
-
   if(!greekWords)
   {
     return(
@@ -73,7 +72,6 @@ function Text({onPhraseClick}: TextProps)
   useEffect(() => {
     let data = getChapter();
     setVerses(generateVerses(data));
-   
   }, [])
 
 

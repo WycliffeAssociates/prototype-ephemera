@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 
 
 interface ButtonProps {
-    // 👇️ turn off type checking
     onTextClick: () => any;
   }
   function StationaryChapterNavButton({children}: any)
