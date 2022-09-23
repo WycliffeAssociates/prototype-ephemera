@@ -12,8 +12,7 @@ import NextChapterButton from './components/NextChapterButton';
 import PreviousChapterButton from './components/PreviousChapterButton';
 import TextView from "./components/TextView";
 import GreekWordsDialog from './components/GreekWordsDialog';
-import { GreekPhraseWord, FormattedGreekWord } from './types'
-import { getGreekWord } from './api/gwtUtils';
+import { FormattedGreekWord } from './types'
 
 
 
@@ -34,7 +33,6 @@ function App() {
   const [greekTextDialogOpen, setGreekTextDialogOpen] = useState<Boolean>(false)
   const [currentGreekWords, setCurrentGreekWords] = useState<FormattedGreekWord[]>([])
 
-
   // Open dialog to display Greek phrase information 
   // when there is space for it on the screen.
   useEffect(() => {
@@ -47,28 +45,6 @@ function App() {
       setGreekTextDialogOpen(false);
     }
   }, [textViewSize])
-
-
-  // useEffect(() => {
-
-  //     (async () => {
-
-  //       if(currentGreekWords.length > 0)
-  //       {
-
-  //         currentGreekWords.forEach(async (greekWord) => {
-  //           let greekWordMarkDown = await getGreekWord(greekWord.strongs);
-
-  //           greekWordMarkDown = await greekWordMarkDown?.data.split(/\n/);
-
-  //           greekWord.gwtGreekWord = greekWordMarkDown[0]
-  //         });
-  //       }
-  //       console.log("updating in app")
-  //       console.log(currentGreekWords)
-  //       setCurrentGreekWords(currentGreekWords)
-  //     })();
-  // }, [currentGreekWords])
 
   function onGreekTextClose() {
     setGreekTextDialogOpen(false);
