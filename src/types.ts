@@ -54,7 +54,7 @@ type FormattedGreekWord = {
   sub? : string,
   phraseWords? : string,
   morphology?: string,
-  description?: string[],
+  description: {mainDescription: string, subDescriptions: string[]},
   gwtGreekWord?: string,
 }
 
