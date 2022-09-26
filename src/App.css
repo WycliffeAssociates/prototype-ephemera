@@ -129,6 +129,26 @@
   background-color: #f2f2f2
 }
 
+.App__PreviousChapterButton {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  color: black;
+  position: fixed;
+  top: 85%;
+  left: 5%;
+}
+
+.App__NextChapterButton {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  color: black;
+  position: fixed;
+  top: 85%;
+  left: 5%;
+}
+
 .TextContainer {
   max-height: 70vh;
   overflow: auto;
@@ -147,3 +167,5 @@
   line-height: 48px;
   color: #001533CC;
 }
+
+
