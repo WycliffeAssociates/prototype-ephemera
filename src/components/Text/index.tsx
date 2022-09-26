@@ -29,7 +29,7 @@ function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWor
   {
     return(
             <>
-              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>
+              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick(greekWords)}}>
                 {englishWords}
               </span>
               <span> </span>
@@ -40,7 +40,7 @@ function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWor
   {
     return(
             <>
-              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>
+              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick(greekWords)}}>
                 {englishWords}
               </span>
               <span> </span>
@@ -51,7 +51,7 @@ function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWor
   {
     return(
             <>
-              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick([...greekWords])}}>
+              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick(greekWords)}}>
                 {englishWords}
               </span>
               <span> </span>
