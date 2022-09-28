@@ -45,7 +45,6 @@ function generateVerses (verses : VerseTag[]) {
             let currentGreekWord : FormattedGreekWord = {
                                                 ...currentGreekWordNotes, 
                                                 ...currentGreekWordAttributes, 
-                                                description: {mainDescription: "", subDescriptions: []},
                                                 text: word._text
                                             }
 
