@@ -87,7 +87,9 @@ function GreekWordInfo({currentGreekWord} : greekWord)
         <Grid item sm={12} xs={12}>
               <p className="GreekWordInfoSubCategoryValue">{greekWordState.morphology}</p>
         </Grid>
-          {greekWordState.descriptions !== undefined ? 
+
+
+          {greekWordState.descriptions !== undefined && greekWordState.descriptions.length > 0 ? 
             <>
               <Grid item sm={12} xs={12}>
                 <p className="GreekWordInfoSubCategory">Description</p>
