@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import getChapter from '../../api';
 import "../../App.css";
 import { FormattedGreekWord, FormattedVerse} from '../../types';
-import generateVerses from '../Text/utils/generateVerses'
+import mapVerses from '../Text/utils/generateVerses'
 
 interface WordProps {
   onPhraseClick: (greekWords : FormattedGreekWord[]) => void;
@@ -71,7 +71,7 @@ function Text({onPhraseClick}: TextProps)
 
   useEffect(() => {
     let data = getChapter();
-    setVerses(generateVerses(data));
+    setVerses(mapVerses(data));
   }, [])
 
 
