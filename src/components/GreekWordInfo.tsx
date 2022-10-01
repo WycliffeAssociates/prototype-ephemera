@@ -17,6 +17,31 @@ function GreekWordInfo({currentGreekWord} : greekWord)
 
     useEffect(() => {
 
+      // cases to examine: 
+      // "I pray that"
+      // "him"
+      // "faith"
+      // "may be"
+      // "brother"
+      // "to do what you should do,"
+      // "yet because of"
+      // "and"
+      // "Onesimus"
+      // "I have fathered"
+      // "but"
+      // "wish"
+      // "consent"
+      // "for"
+      // "a slave"
+      // "if"
+      // "not to mention"
+      // "I ask"
+      // "At the same time"
+      // "through"
+      // "Epaphras"
+      // "greets"
+      // "Demas"
+      
       // TODO separate this logic from the framework!
       // need an array of {description: string, subDescription: string[]}
       (async () => {
@@ -50,7 +75,7 @@ function GreekWordInfo({currentGreekWord} : greekWord)
             descriptions[descriptions.length - 1].subDescriptions?.push(greekWordMarkDown[i])
           }
           else if(!foundDescription) {
-            morphology = morphology + greekWordMarkDown[i];
+            morphology = morphology + "\n" + greekWordMarkDown[i];
           }
           else {
             if(foundDescription) {
@@ -64,6 +89,7 @@ function GreekWordInfo({currentGreekWord} : greekWord)
         temp.descriptions = [...descriptions];
         temp.morphology = morphology;  
 
+        console.log(temp);
         console.log(rest);
         setTestMD(rest);
         setGreekWordState(temp)
@@ -119,7 +145,8 @@ function GreekWordInfo({currentGreekWord} : greekWord)
       </Grid>
 
         {testMD !== undefined ? <ReactMarkdown children={testMD} components={{
-          li: ({node, ...props}) => <li><p className="GreekWordInfoSubCategoryValue">{props.children} </p></li>
+          li: ({node, ...props}) => <li><p className="GreekWordInfoSubCategoryValue">{props.children} </p></li>,
+          p: ({node, ...props}) => <p className="GreekWordInfoSubCategoryValue">{props.children}</p>
         }}/> :  ""}
       </>
     )
