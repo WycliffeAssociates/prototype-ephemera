@@ -1,5 +1,4 @@
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import "../App.css";
 import { FormattedGreekWord, Description } from '../types';
 import { useEffect, useState } from 'react';
@@ -13,34 +12,19 @@ interface greekWord {
 function GreekWordInfo({currentGreekWord} : greekWord)
 {
     const [greekWordState, setGreekWordState] = useState<FormattedGreekWord>(currentGreekWord)
-    const [testMD, setTestMD] = useState("");
+    const [unprocessedMarkdown, setUnprocessedMarkdown] = useState("");
+    const [verseReferences, setVerseReferences] = useState("");
 
     useEffect(() => {
 
       // cases to examine: 
-      // "I pray that"
-      // "him"
-      // "faith"
-      // "may be"
-      // "brother"
-      // "to do what you should do,"
-      // "yet because of"
-      // "and"
-      // "Onesimus"
-      // "I have fathered"
-      // "but"
-      // "wish"
-      // "consent"
-      // "for"
-      // "a slave"
-      // "if"
-      // "not to mention"
-      // "I ask"
-      // "At the same time"
-      // "through"
-      // "Epaphras"
-      // "greets"
-      // "Demas"
+      // "to do what you should do," ??? (handle See:)
+      // "Onesimus" ??? (handle See:)
+      // "a slave" ??? (IDK)
+      // "not to mention" ??? (NEED TO HANDLE CASES WHERE WORD IS NOT FOUND IN EN_GWT)
+      // "I ask" ???
+      // "Epaphras" ??? (handle See:)
+      // "Demas" ??? (handle See:)
       
       // TODO separate this logic from the framework!
       // need an array of {description: string, subDescription: string[]}
@@ -49,8 +33,6 @@ function GreekWordInfo({currentGreekWord} : greekWord)
 
         greekWordMarkDown = await greekWordMarkDown?.data.split(/\n/) as string[];
         let temp : FormattedGreekWord = {...currentGreekWord};
-
-        console.log(greekWordMarkDown);
 
         let foundDescription = false;
         let processedDescriptions = false;
@@ -61,11 +43,20 @@ function GreekWordInfo({currentGreekWord} : greekWord)
 
         for(let i = 1; i < greekWordMarkDown.length; i++) 
         {
-          if(greekWordMarkDown[i] == "\n") {
+          if(greekWordMarkDown[i] == "\n" || greekWordMarkDown[i] === "") {
             continue;
           }
 
-          if(greekWordMarkDown[i].charAt(0) == "*" && !processedDescriptions) {
+          if(greekWordMarkDown[i].charAt(0) == "*" && greekWordMarkDown[i].charAt(1) == "*") {
+            processedDescriptions = true;
+            rest = rest + "\n" + greekWordMarkDown[i];
+          }
+          else if(greekWordMarkDown[i].search("See:") !== -1)
+          {
+            processedDescriptions = true;
+            setVerseReferences(greekWordMarkDown[i])
+          }
+          else if(greekWordMarkDown[i].charAt(0) == "*" && !processedDescriptions) {
             greekWordMarkDown[i] = greekWordMarkDown[i].replace("*", "");
             foundDescription = true;
             descriptions.push({mainDescription: greekWordMarkDown[i] as string, subDescriptions: []})
@@ -89,12 +80,9 @@ function GreekWordInfo({currentGreekWord} : greekWord)
         temp.descriptions = [...descriptions];
         temp.morphology = morphology;  
 
-        console.log(temp);
-        console.log(rest);
-        setTestMD(rest);
+        setUnprocessedMarkdown(rest);
         setGreekWordState(temp)
       })();
-
     }, [currentGreekWord]); 
 
     return (
@@ -113,7 +101,6 @@ function GreekWordInfo({currentGreekWord} : greekWord)
         <Grid item sm={12} xs={12}>
               <p className="GreekWordInfoSubCategoryValue">{greekWordState.morphology}</p>
         </Grid>
-
 
           {greekWordState.descriptions !== undefined && greekWordState.descriptions.length > 0 ? 
             <>
@@ -144,7 +131,8 @@ function GreekWordInfo({currentGreekWord} : greekWord)
           : ""}
       </Grid>
 
-        {testMD !== undefined ? <ReactMarkdown children={testMD} components={{
+        {unprocessedMarkdown !== undefined ? <ReactMarkdown children={unprocessedMarkdown} components={{
+          ul: ({node, ...props}) => <ul style={{marginTop:"0px", paddingInlineStart: "25px",}}>{props.children}</ul>,
           li: ({node, ...props}) => <li><p className="GreekWordInfoSubCategoryValue">{props.children} </p></li>,
           p: ({node, ...props}) => <p className="GreekWordInfoSubCategoryValue">{props.children}</p>
         }}/> :  ""}
