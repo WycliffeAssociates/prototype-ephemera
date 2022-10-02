@@ -1,62 +1,72 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import getChapter from '../../api';
 import "../../App.css";
 import { FormattedGreekWord, FormattedVerse} from '../../types';
-import generateVerses from '../Text/utils/generateVerses'
+import generateVerses from '../Text/utils/generateVerses';
+
 
 interface WordProps {
   onPhraseClick: (greekWords : FormattedGreekWord[]) => void;
   englishWords : string,
   isPhrase? : boolean,
   containsSubWords? : boolean,
-  greekWords? : FormattedGreekWord[]
+  greekWords? : FormattedGreekWord[],
+  handleClick: (params: any) => any,
 }
 
-function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWords} : WordProps) {
+function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWords, handleClick} : WordProps) {
+
+  const wordRef = useRef(null);
 
   if(!greekWords)
   {
     return(
-            <>
-              <span>
-                {englishWords}
-              </span>
-              <span> </span>
-            </>
-          )
+      <>
+        <span>
+          {englishWords}
+        </span>
+        <span> </span>
+      </>
+    )
   }
   else if(isPhrase)
   {
     return(
-            <>
-              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick(greekWords)}}>
-                {englishWords}
-              </span>
-              <span> </span>
-            </>
-          )
+      <>
+        <span ref={wordRef} 
+              className="TextContainer__GreekPhrase"  
+              onClick={() => {onPhraseClick(greekWords); handleClick(wordRef)}}>
+          {englishWords}
+        </span>
+        <span> </span>
+      </>
+    )
   }
   else if(containsSubWords)
   {
     return(
-            <>
-              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick(greekWords)}}>
-                {englishWords}
-              </span>
-              <span> </span>
-            </>
-          )
+      <>
+        <span ref={wordRef} 
+              className="TextContainer__GreekPhrase" 
+              onClick={() => {onPhraseClick(greekWords); handleClick(wordRef)}}>
+          {englishWords}
+        </span>
+        <span> </span>
+      </>
+    )
   }
   else
   {
     return(
-            <>
-              <span className="TextContainer__GreekPhrase" onClick={() => {onPhraseClick(greekWords)}}>
-                {englishWords}
-              </span>
-              <span> </span>
-            </>
-          )
+      <>
+        <span ref={wordRef} 
+              className="TextContainer__GreekPhrase" 
+              onClick={() => {onPhraseClick(greekWords); handleClick(wordRef)}}>
+          {englishWords}
+        </span>
+        <span> </span>
+      </>
+    )
   }
 
 }
@@ -69,30 +79,41 @@ interface TextProps {
 function Text({onPhraseClick}: TextProps)
 {
   const [verses, setVerses] = useState([] as FormattedVerse[]);
+  const [childClicked, setChildClicked] = useState<any>({});
+
+  function handleChildClicked(newChildClicked: any) {
+
+    if(childClicked?.current?.style?.color !== undefined) 
+    {
+      childClicked.current.style.color = "#001533CC";
+      newChildClicked.current.style.color = "blue";
+    } 
+
+    setChildClicked(newChildClicked);
+  }
 
   useEffect(() => {
     let data = getChapter();
     setVerses(generateVerses(data));
-   
-  }, [])
+  }, []);
 
 
   let verseOutput : any[] = [];
 
-  verses.forEach((verse, index) => {
+  verses.forEach((verse, verseIdx) => {
     let verseWordOutput : any[] = [];
 
-    verse.verseWords.forEach((verseWord, idx) => {
-      verseWordOutput.push(<Word onPhraseClick={onPhraseClick} {...verseWord} />)
+    verse.verseWords.forEach((verseWord, wordIdx) => {
+      
+      verseWordOutput.push(<Word handleClick={handleChildClicked} onPhraseClick={onPhraseClick} {...verseWord}/>)
     })
 
     const tempVerse = (
-          <p className="TextContainer__Verse"><sup>{index + 1}</sup> {verseWordOutput}</p>
+      <p className="TextContainer__Verse"><sup>{verseIdx + 1}</sup> {verseWordOutput}</p>
     )
     verseOutput.push(tempVerse);
   })
   
-
   return (
     <>
       {verseOutput}
