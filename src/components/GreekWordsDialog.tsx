@@ -5,15 +5,6 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import IconButton from '@mui/material/IconButton';
 import { GreekPhraseWord, FormattedGreekWord } from '../types'
 
-let testWord1 : GreekPhraseWord = {
-  greekWords: "greek word here/more words",
-  englishWords: "hello",
-  morphology: "some morphology here",
-  descriptions: ["description1, description2","description3"]
-}
-
-let testData = [testWord1, testWord1, testWord1] as GreekPhraseWord[];
-
 
 interface GreekWordsDialogProps {
   open: Boolean;

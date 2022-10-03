@@ -29,7 +29,6 @@ function GreekWordInfo({currentGreekWord} : greekWord)
       (async () => {
         let greekWordMarkDown = await getGreekWord(currentGreekWord.strongs);
         let response = await mapGWTMarkdown(greekWordMarkDown.data);
-        let words : FormattedGreekWord[] = [];
 
         if(greekWordMarkDown !== undefined)
         {
