@@ -56,7 +56,8 @@
 .GreekWord {
   text-align: left;
   margin-bottom: 2px;
-  height: 36px;
+  /* height: 36px; */
+  margin-top: 2px;
   font-family: Lato;
   font-style: normal;
   font-weight: 700;

@@ -8,23 +8,15 @@ import { FormattedGreekWord } from '../types'
 
 
 interface TextViewProps {
-    size: number,
-    setSize: (params: any) => any,
-    setCurrentGreekWord: (params: any) => any,
+    onClick: (params: any) => any
 }
 
-function TextView({size, setSize, setCurrentGreekWord}: TextViewProps)
+function TextView({onClick}: TextViewProps)
 {
 
   const onPhraseClick = (greekWords : FormattedGreekWord[]) =>
   {
-    setCurrentGreekWord(greekWords);
-
-    // Reduces the size of the TextView to make room for GreekWordsDialog
-    if(size === 12)
-    {
-        setSize(7);
-    }
+    onClick(greekWords);
   }
 
   return (
