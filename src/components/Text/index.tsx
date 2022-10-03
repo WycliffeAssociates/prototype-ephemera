@@ -86,8 +86,12 @@ function Text({onPhraseClick}: TextProps)
     if(childClicked?.current?.style?.color !== undefined) 
     {
       childClicked.current.style.color = "#001533CC";
-      newChildClicked.current.style.color = "blue";
     } 
+
+    if(newChildClicked?.current?.style?.color !== undefined)
+    {
+      newChildClicked.current.style.color = "blue";
+    }
 
     setChildClicked(newChildClicked);
   }
