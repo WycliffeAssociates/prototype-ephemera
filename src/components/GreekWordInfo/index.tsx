@@ -2,7 +2,7 @@ import Grid from '@mui/material/Grid';
 import "../../App.css";
 import { FormattedGreekWord } from '../../types';
 import { useEffect, useState } from 'react';
-import { getGreekWord } from '../../api/gwtUtils';
+import getGreekWord from '../../api/gwtUtils';
 import Morphology from '../GreekWordInfo/utils/Morphology';
 import Description from '../GreekWordInfo/utils/Description';
 import UnprocessedMarkdown from '../GreekWordInfo/utils/UnprocessedMarkdown';
