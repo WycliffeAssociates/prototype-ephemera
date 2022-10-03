@@ -89,7 +89,8 @@ async function getGreekWord(strongs) {
         greekWordInfo = await axios.get(`http://localhost:8080/greekWord?strongs=${strongs}&range=${folder}`)
         return greekWordInfo;
     } catch (error) {
-         console.error(error)
+         console.error(error);
+         return undefined;
      }  
 }
 
