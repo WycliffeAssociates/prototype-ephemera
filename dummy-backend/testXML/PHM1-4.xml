@@ -1,0 +1,76 @@
+<book>
+    <chapter>
+
+        <verse osisID="Philemon 1:4">
+            <note type="x-Greek">Εὐχαριστῶ τῷ Θεῷ μου πάντοτε μνείαν σου ποιούμενος ἐπὶ τῶν προσευχῶν μου</note>
+            <note type="x-ULB">I always thank my God when I mention you in my prayers,</note>
+
+
+            <!-- phrases where all the words are there, but they have to be translated out of order -->
+            <w strongs="G3842" morph="ADV" lemma="πάντοτε">
+                <note type="x-OGNTsort">115336</note>
+                <note type="x-sub">1</note>
+                <note type="x-text">πάντοτε</note>
+                always
+            </w>
+            <w strongs="G2168" morph="V-PAI-1S" lemma="εὐχαριστέω">
+                <note type="x-OGNTsort">115332</note>
+                <note type="x-text">Εὐχαριστῶ</note>
+                I [1] thank
+            </w>
+
+
+            <w strongs="G1473" morph="P-1GS" lemma="ἐγώ">
+                <note type="x-OGNTsort">115335</note>
+                <note type="x-text">μου</note>
+                my
+            </w>
+
+            <w OGNTsort="115334" strongs="G2316" morph="N-DSM" lemma="θεός" text="Θεῷ">
+                <note type="x-OGNTsort">115334</note>
+                <note type="x-text">Θεῷ</note>
+                God
+            </w>
+
+            <!-- phrase level translation -->
+            <!--TODO:  Need to come up with a better implementation of this -->
+            <w strongs="G4160" morph="V-PMP-NSM" lemma="ποιέω">
+                <note type="x-OGNTsort">115339</note>
+                <note type="x-text">ποιούμενος</note>
+                <note type="x-phrase">when I mention</note>
+                <note type="x-phraseWord">some reason generic message notifying that this word is part of a phrase</note>
+                √
+            </w>
+            <w strongs="G3417" morph="N-ASF" lemma="μνεία">
+                <note type="x-OGNTsort">115337</note>
+                <note type="x-text">μνείαν</note>
+                <note type="x-phrase">when I mention</note>
+                <note type="x-phraseWord">some reason generic message notifying that this word is part of a phrase</note>
+                √
+            </w>
+            
+            <!-- Normal words past this point -->>
+            <w strongs="G4771" morph="P-2GS" lemma="σύ">
+                <note type="x-OGNTsort">115338</note>
+                <note type="x-text">σου</note>
+                you
+            </w>
+            <w strongs="G1909" morph="PREP" lemma="ἐπί">
+                <note type="x-OGNTsort">115340</note>
+                <note type="x-text">ἐπὶ</note>
+                in
+            </w>
+            <w strongs="G1473" morph="P-1GS" lemma="ἐγώ">
+                <note type="x-OGNTsort">115343</note>
+                <note type="x-text">μου</note>
+                my
+            </w>
+
+            <w strongs="G4335" morph="N-GPF" lemma="προσευχή">
+                <note type="x-OGNTsort">115342</note>
+                <note type="x-text">προσευχῶν</note>
+                prayers,
+            </w>
+        </verse>
+    </chapter>
+</book>
