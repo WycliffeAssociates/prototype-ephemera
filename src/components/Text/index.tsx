@@ -107,7 +107,7 @@ function Text({onPhraseClick}: TextProps)
   useEffect(() => {
     let data = getChapter();
 
-    setVerses(generateVerses(data));
+    setVerses(mapVerses(data));
 
     function handleWindowResize() {
       setWindowSize(getWindowSize());
