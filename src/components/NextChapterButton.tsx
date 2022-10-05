@@ -17,7 +17,7 @@ function NextChapterButton()
             right: "5%"
           }}
       >
-        <p>I</p>
+        <p>N</p>
       </Fab>
     </Box>
   )

@@ -18,7 +18,7 @@ function PreviousChapterButton()
             left: "5%"
           }}
       >
-        <p>I</p>
+        <p>P</p>
       </Fab>
     </Box>
   )

@@ -137,7 +137,10 @@
 }
 
 .TextViewContainer {
-  padding-top:0px;
+  width: 100%; 
+  margin: 0px; 
+  margin-top: 0px;
+  height: 100%;
 }
 
 .TextViewContainer__arrowIcon {
@@ -148,8 +151,8 @@
 .App__PreviousChapterButton {
   width: 50px;
   height: 50px;
-  background-color: white;
-  color: black;
+  background-color:white;
+  color:black;
   position: fixed;
   top: 85%;
   left: 5%;
@@ -158,11 +161,11 @@
 .App__NextChapterButton {
   width: 50px;
   height: 50px;
-  background-color: white;
-  color: black;
+  background-color:white;
+  color:black;
   position: fixed;
   top: 85%;
-  left: 5%;
+  right: 5%;
 }
 
 .TextContainer {
@@ -199,5 +202,18 @@
   padding-top:  0px  ;
   padding-left: 0px  ;
   outline:  none 
+}
+
+
+.ChapterNavigationBar__Span {
+  width:100%; 
+  color: #001533CC;
+  font-weight: 400;
+  text-transform:none;
+  font-size: 16px;
+}
+
+.ChapterNavigationBar__BookName {
+  text-align:left;
 }
 
