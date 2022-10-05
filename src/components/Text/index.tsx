@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import getChapter from '../../api';
 import "../../App.css";
 import { FormattedGreekWord, FormattedVerse} from '../../types';
-import generateVerses from '../Text/utils/generateVerses';
+import mapVerses from '../Text/utils/generateVerses'
 
 
 interface WordProps {
@@ -14,9 +14,11 @@ interface WordProps {
   handleClick: (params: any) => any,
 }
 
+
 function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWords, handleClick} : WordProps) {
 
   const wordRef = useRef(null);
+
 
   if(!greekWords)
   {
@@ -104,6 +106,7 @@ function Text({onPhraseClick}: TextProps)
 
   useEffect(() => {
     let data = getChapter();
+
     setVerses(generateVerses(data));
 
     function handleWindowResize() {

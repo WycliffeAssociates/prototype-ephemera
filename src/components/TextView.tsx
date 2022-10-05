@@ -4,8 +4,11 @@ import StationaryChapterNavButton from './StationaryChapterNavButton';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Text from './Text';
+
 import { FormattedGreekWord } from '../types';
 import Box from '@mui/material/Box';
+
+
 
 
 
