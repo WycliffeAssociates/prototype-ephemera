@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import { FormattedGreekWord } from '../types';
+import GreekWordsDialog from './GreekWordsDialog';
 
 
 
@@ -14,16 +15,14 @@ const style = {
     top: '60%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 300,
-    height: 300,
-    bgcolor: 'background.paper',
-    border: '1px solid #000',
+    width: "90%",
+    height: "70%",
+    background: "#FFFFFF",
+    borderRadius: "8px",
     boxShadow: 24,
     p: 1,
     paddingTop: "0px",
     paddingLeft:"0px",
-    overflow: "hidden",
-    overflowY: "scroll",
     outline: 'none'
 };
 
@@ -43,27 +42,29 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
             aria-describedby="modal-modal-description"
             hideBackdrop={true}> 
             <Box sx={style}>
-            <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
-                <Grid item xs={1} sm={1} md={1}>
-                    <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
-                    style={{margin:"0px", paddingLeft:"0px", paddingRight:"0px", marginTop: "8px", height:"30px", width:"30px"}}
-                    onClick={() => onClose()}
-                    >
-                    <KeyboardArrowRightIcon style={{margin:"0px"}}/>
+                <Grid container direction="row" style={{paddingTop: "8px", height:"100%",}}>
+                    <Grid item lg={1} xl={1} md={1} sm={1} xs={1} style={{height:"100%"}}>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                            style={{margin:"0px", paddingLeft:"4px", paddingRight:"0px", height:"40px", width:"40px"}}
+                            onClick={() => onClose()}
+                        >
+                            <KeyboardArrowRightIcon style={{margin:"0px"}}/>
+                        </IconButton>
+                    </Grid>
 
-                    </IconButton>
+                    <Grid item lg={10} xl={10} md={10} sm={10}  xs={10} style={{maxHeight: '89vh',overflowY: "auto", height:"100%"}}>
+
+                        {greekWords.map((data, idx) => (
+                            <GreekWordInfo key={idx} currentGreekWord={data}/>
+                        ))}
+                    
+                    </Grid>
                 </Grid>
-                <Grid item xs={11} sm={11} md={11}>
-                {greekWords.map((data, idx) => (
-                    <GreekWordInfo key={idx} currentGreekWord={data}/>
-                ))}
-                </Grid>
-            </Grid>
             </Box>
         </Modal>
     )

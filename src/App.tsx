@@ -74,7 +74,7 @@ function App() {
   return (
     <div className="App">
 
-      <Box className="BannerContainer" sx={{ flexGrow: 1 }}>
+      {/* <Box className="BannerContainer" sx={{ flexGrow: 1 }}>
         <AppBar className="BannerContainer__elem" position="static">
           <Toolbar className="BannerContainer__elem">
             <IconButton
@@ -88,7 +88,7 @@ function App() {
             </IconButton>
           </Toolbar>
         </AppBar>
-      </Box>
+      </Box> */}
 
 
       <Grid 
@@ -98,7 +98,9 @@ function App() {
         justifyContent="flex-start" 
         alignItems="center"
       >   
-        <Grid item xl={textViewSize} lg={textViewSize} md={textViewSize} sm={12} xs={12}>
+        {/* TOOD: add navbar here where the height is changed depending on TextContainer scroll.  */}
+        {/* <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{height:"0%", backgroundColor:"grey"}}> </Grid> */}
+        <Grid item xl={textViewSize} lg={textViewSize} md={textViewSize} sm={12} xs={12} style={{height:"100%"}}>
           <TextView onClick={onTextClick}/>
         </Grid>
 
@@ -109,6 +111,7 @@ function App() {
           md={(textViewSize !== 12 ? 5 : 0)} 
           sm={0} 
           xs={0}
+          style={{height:"100%", padding:"0px"}}
         >
           <GreekWordsDialog open={greekTextDialogOpen} onClose={onGreekTextClose} greekWords={currentGreekWords}/>
         </Grid>

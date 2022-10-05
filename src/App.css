@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .App-logo {
@@ -131,6 +133,7 @@
 .MainViewContainer {
   width:100%;
   margin:0px;
+  height: 100%;
 }
 
 .TextViewContainer {
@@ -159,4 +162,20 @@
   font-size: 20px;
   line-height: 48px;
   color: #001533CC;
+}
+
+.GreekWordModal__Box {
+  position:  absolute  as  absolute ;
+  top:  60%  ;
+  left:  50%  ;
+  transform:  translate(-50%, -50%)  ;
+  width:  90%  ;
+  height:  70%  ;
+  background:  #FFFFFF  ;
+  border-radius:  8px  ;
+  box-shadow: 24 ;
+  padding: 1 ;
+  padding-top:  0px  ;
+  padding-left: 0px  ;
+  outline:  none 
 }

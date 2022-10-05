@@ -22,12 +22,13 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
           lg:(open ? "block" : "none"), 
           xl:(open ? "block" : "none")
         }}
+        style={{height:"100%"}}
       >
      
         {/* TODO try to remove this box element and just use the above parent box element */}
-        <Box style={{height:"89vh", width:"100%", backgroundColor:"#f2f2f2"}}>
+        <Box style={{height:"100%", width:"100%", backgroundColor:"#f2f2f2"}}>
 
-          <Grid container direction="row">
+          <Grid container direction="row" style={{paddingTop: "8px"}}>
             <Grid item lg={(open ? 1 : 0)} xl={(open ? 1 : 0)} md={(open ? 1 : 0)}>
               <IconButton
                 size="large"
