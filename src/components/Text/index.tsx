@@ -1,77 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import getChapter from '../../api';
 import "../../App.css";
 import { FormattedGreekWord, FormattedVerse} from '../../types';
 import mapVerses from '../Text/utils/generateVerses'
+import Word from './utils/Word'
 
-
-interface WordProps {
-  onPhraseClick: (greekWords : FormattedGreekWord[]) => void;
-  englishWords : string,
-  isPhrase? : boolean,
-  containsSubWords? : boolean,
-  greekWords? : FormattedGreekWord[],
-  handleClick: (params: any) => any,
-}
-
-
-function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWords, handleClick} : WordProps) {
-
-  const wordRef = useRef(null);
-
-
-  if(!greekWords)
-  {
-    return(
-      <>
-        <span>
-          {englishWords}
-        </span>
-        <span> </span>
-      </>
-    )
-  }
-  else if(isPhrase)
-  {
-    return(
-      <>
-        <span ref={wordRef} 
-              className="TextContainer__GreekPhrase"  
-              onClick={() => {onPhraseClick(greekWords); handleClick(wordRef)}}>
-          {englishWords}
-        </span>
-        <span> </span>
-      </>
-    )
-  }
-  else if(containsSubWords)
-  {
-    return(
-      <>
-        <span ref={wordRef} 
-              className="TextContainer__GreekPhrase" 
-              onClick={() => {onPhraseClick(greekWords); handleClick(wordRef)}}>
-          {englishWords}
-        </span>
-        <span> </span>
-      </>
-    )
-  }
-  else
-  {
-    return(
-      <>
-        <span ref={wordRef} 
-              className="TextContainer__GreekPhrase" 
-              onClick={() => {onPhraseClick(greekWords); handleClick(wordRef)}}>
-          {englishWords}
-        </span>
-        <span> </span>
-      </>
-    )
-  }
-
-}
 
 
 interface TextProps {
