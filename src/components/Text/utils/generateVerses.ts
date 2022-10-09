@@ -134,6 +134,12 @@ function mapNotes(notes : NoteTag[] | undefined) {
     let tempGreekWordNotes : any = {};
     if(notes !== undefined)
     {
+
+        if(!Array.isArray(notes))
+        {
+            notes = [notes];
+        }
+
         notes.forEach((e) => {
             let greekWordNoteKey : ValidGreekWordNoteKeys = e.ATTR.type;
             let greekWordNoteValue : string = e._text;
