@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import getChapter from '../../api';
+import getChapterVerses from '../../api';
 import "../../App.css";
 import { FormattedGreekWord, FormattedVerse} from '../../types';
 import mapVerses from '../Text/utils/generateVerses'
@@ -38,7 +38,7 @@ function Text({onPhraseClick}: TextProps)
   }
 
   useEffect(() => {
-    let data = getChapter();
+    let data = getChapterVerses("Philemon", 1);
 
     setVerses(mapVerses(data));
 
