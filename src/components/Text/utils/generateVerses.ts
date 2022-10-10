@@ -90,6 +90,11 @@ function mapWord(word : FormattedGreekWord | string, flags: WordMapFlags, buffer
 {
     let greekWords : FormattedGreekWord[] = [];
 
+    if(typeof word !== "string" && word.text === "√")
+    {
+        return;
+    }
+
     // check if buffer needs to be emptied. 
     if(flags.consumedPhraseWord || flags.consumedSubWord)
     {
@@ -104,11 +109,14 @@ function mapWord(word : FormattedGreekWord | string, flags: WordMapFlags, buffer
     else if(flags.consumedSubWord)// buffer contain subWords. NOTE: Current word is processed in this case
     {
         let tempWord = processConsumedSubWords(word, greekWords, buffers.greekWords)
+        console.log("result being pushed to verseWords = ");
+        console.log(tempWord)
         buffers.verseWords.push(tempWord);
     }
     else if(typeof word !== 'string')
     {
-        if(word.text !== "√") // current word has english backing
+        // TODO: check if I can remove this if statement
+        if(word.text !== "√") // current word has english backing 
         {
             let tempWord = {
                englishWords: word.text,
@@ -180,10 +188,21 @@ function processConsumedPhraseWords(greekWordBuffer: FormattedGreekWord[],
 function processConsumedSubWords(currentWord: FormattedGreekWord | string, greekWords: FormattedGreekWord[], 
                                 greekWordBuffer: FormattedGreekWord[])
 {
+    console.log("sub words");
+    console.log(greekWords)
     let currentEnglishWord = ""; 
     if(typeof currentWord !== "string")
     {
         currentWord.text = currentWord.text.replace('[1]', greekWords[0].text);
+        // currentWord.text = currentWord.text.replace('[2]', greekWords[0].text);
+        for(let i = 0; i < greekWords.length; i++ )
+        {
+            console.log("current sub word")
+            console.log(greekWords[i]);
+
+            currentWord.text = currentWord.text.replace(greekWords[i].sub as string, greekWords[i].text);
+        }
+
         greekWords.push({...currentWord}) // Examine verse 3
         currentEnglishWord = currentWord.text;
     }
@@ -192,6 +211,10 @@ function processConsumedSubWords(currentWord: FormattedGreekWord | string, greek
         currentWord = currentWord.replace('[1]', greekWords[0].text);
         currentEnglishWord = currentWord;
     }
+
+    // TODO: change this filtering logic. Update the buffers.greekWord to be of type any | formattedGreekWords, not just formattedGreekWords
+    // So this makes more sense. This update in necessary since subWords are not always greekWords. 
+    greekWords = greekWords.filter(word => Object.keys(word).length > 2);
 
     let tempWord = {
         englishWords: currentEnglishWord,
