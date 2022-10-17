@@ -7,8 +7,18 @@ function PreviousChapterButton()
 {
   return (
     <Box display={{ xs: 'block', sm: 'block', md:"none", lg:"none", xl:"none" }}>
-      <Fab className="TextViewContainer__ChapterButton" color="primary" aria-label="add">
-        <p>I</p>
+      <Fab color="primary" aria-label="add"
+        style={{
+            width: "50px",
+            height: "50px",
+            backgroundColor:"white",
+            color:"black",
+            position: "fixed",
+            top: "85%",
+            left: "5%"
+          }}
+      >
+        <p>P</p>
       </Fab>
     </Box>
   )

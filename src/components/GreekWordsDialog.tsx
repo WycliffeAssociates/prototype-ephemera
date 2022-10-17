@@ -3,36 +3,16 @@ import Box from '@mui/material/Box';
 import GreekWordInfo from './GreekWordInfo';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import IconButton from '@mui/material/IconButton';
-import { useEffect } from 'react';
-import { GreekPhraseWord } from '../types'
+import { GreekPhraseWord, FormattedGreekWord } from '../types'
 
-
-let word1 : GreekPhraseWord = {
-  greekWords: "greek word here/more words",
-  englishWords: "hello",
-  morphology: "some morphology here",
-  descriptions: ["description1, description2","description3"]
-}
-
-
-let testData2 = [word1, word1, word1] as GreekPhraseWord[];
 
 interface GreekWordsDialogProps {
   open: Boolean;
   onClose: () => void;
-  greekWord: any;
+  greekWords: FormattedGreekWord[];
 };
 
-function GreekWordsDialog({open, onClose, greekWord} : GreekWordsDialogProps) {
-
-
-    useEffect(() => {
-      if(greekWord.length > 0)
-      {
-        console.log(greekWord);
-      }
-    }, [greekWord])
-
+function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
 
     return ( 
       <Box 
@@ -42,12 +22,13 @@ function GreekWordsDialog({open, onClose, greekWord} : GreekWordsDialogProps) {
           lg:(open ? "block" : "none"), 
           xl:(open ? "block" : "none")
         }}
+        style={{height:"100%"}}
       >
      
         {/* TODO try to remove this box element and just use the above parent box element */}
-        <Box style={{height:"89vh", width:"100%", backgroundColor:"#f2f2f2"}}>
+        <Box style={{height:"100%", width:"100%", backgroundColor:"#f2f2f2"}}>
 
-          <Grid container direction="row">
+          <Grid container direction="row" style={{paddingTop: "8px"}}>
             <Grid item lg={(open ? 1 : 0)} xl={(open ? 1 : 0)} md={(open ? 1 : 0)}>
               <IconButton
                 size="large"
@@ -64,8 +45,8 @@ function GreekWordsDialog({open, onClose, greekWord} : GreekWordsDialogProps) {
 
             <Grid item lg={11} xl={11} md={11} style={{maxHeight: '89vh', overflow: 'auto'}}>
 
-              {testData2.map((data, idx) => (
-                <GreekWordInfo key={idx} {...data}/>
+              {greekWords.map((data, idx) => (
+                <GreekWordInfo key={idx} currentGreekWord={data}/>
               ))}
               
             </Grid>

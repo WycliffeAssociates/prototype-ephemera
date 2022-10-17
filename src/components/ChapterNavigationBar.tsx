@@ -9,33 +9,16 @@ function ChapterNavigationBar()
 {
   return (
 
-    <Grid container direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start" style={{marginTop:"15px", marginLeft:"0px", marginBottom:"15px", height:"50px"}}>
+    <Grid container direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start" style={{marginLeft:"0px", marginBottom:"0px", height:"100%"}}>
       <Grid item lg={6} md={6} sm={10} xs={10}>
         <ButtonGroup variant="outlined" aria-label="outlined button group" style={{width:"100%", height:"48px", backgroundColor:"#f2f2f2", borderRadius:"25px 25px 25px 25px"}} >
           <Button onClick={() => {console.log("onClickHere")}} style={{width:"85%", borderColor:"#d9d9d9", borderRadius:"25px 0px 0px 25px"}}> 
-            <span 
-              style={{
-                width:"100%", 
-                textAlign:"left",
-                color: "#001533CC",
-                fontWeight: "400",
-                textTransform:"none",
-                fontSize: "16px",
-                }}
-              >
+            <span className="ChapterNavigationBar__Span ChapterNavigationBar__BookName">
                 Philemon
               </span>
           </Button>
           <Button onClick={() => {console.log("onClickHere")}} style={{width:"15%", borderColor:"#d9d9d9", borderRadius:"0px 25px 25px 0px"}}>
-            <span 
-              style={{
-                width:"100%", 
-                color: "#001533CC",
-                fontWeight: "400",
-                textTransform:"none",
-                fontSize: "16px",
-                }}
-            >
+            <span className="ChapterNavigationBar__Span">
               1
             </span>
           </Button>

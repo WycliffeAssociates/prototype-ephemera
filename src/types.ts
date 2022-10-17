@@ -53,6 +53,14 @@ type FormattedGreekWord = {
   strongs : string
   sub? : string,
   phraseWords? : string,
+  morphology?: string,
+  descriptions?: Description[],
+  gwtGreekWord?: string,
+}
+
+type Description = {
+  mainDescription: string,
+  subDescriptions?: string[]
 }
 
 type FormattedWord = {
@@ -79,5 +87,6 @@ export type {
     VerseTag,
     FormattedGreekWord,
     FormattedWord,
-    FormattedVerse
+    FormattedVerse,
+    Description
 };

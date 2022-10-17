@@ -1,47 +1,70 @@
-import React, { useEffect } from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import './App.css';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import NextChapterButton from './components/NextChapterButton';
 import PreviousChapterButton from './components/PreviousChapterButton';
 import TextView from "./components/TextView";
 import GreekWordsDialog from './components/GreekWordsDialog';
+import GreekWordsModal from './components/GreekWordsModal';
+import { FormattedGreekWord } from './types';
 
 
 
-const Item : any = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+
 
 
 function App() {
 
   const [textViewSize, setTextViewSize] = useState<number>(12);
-  const [greekTextDialogOpen, setGreekTextDialogOpen] = useState<Boolean>(false)
-  const [currentGreekWord, setCurrentGreekWord] = useState([])
+  const [greekTextDialogOpen, setGreekTextDialogOpen] = useState<boolean>(false);
+  const [greekTextModalOpen, setGreekTextModalOpen] = useState<boolean>(false);
+  const [currentGreekWords, setCurrentGreekWords] = useState<FormattedGreekWord[]>([]);
 
-  // Open dialog to display Greek phrase information 
-  // when there is space for it on the screen.
+  // TOOD: add this windowSize logic in a custom hook
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  function getWindowSize() {
+    const {innerWidth, innerHeight} = window;
+    return {innerWidth, innerHeight};
+  }
+
   useEffect(() => {
-    if(textViewSize !== 12)
+
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
+
+  function onTextClick(greekWords : FormattedGreekWord[] | undefined)
+  {
+    if(greekWords !== undefined)
     {
+      setCurrentGreekWords(greekWords);
+    }
+
+    // Reduces the size of the TextView to make room for GreekWordsDialog
+    if(windowSize.innerWidth >= 900 && textViewSize === 12)
+    {
+      setTextViewSize(7);
       setGreekTextDialogOpen(true);
     }
-    else
+
+    if(windowSize.innerWidth < 900)
     {
-      setGreekTextDialogOpen(false);
+      setGreekTextModalOpen(true);
     }
-  }, [textViewSize])
+
+  }
 
   function onGreekTextClose() {
     setGreekTextDialogOpen(false);
@@ -51,7 +74,7 @@ function App() {
   return (
     <div className="App">
 
-      <Box className="BannerContainer" sx={{ flexGrow: 1 }}>
+      {/* <Box className="BannerContainer" sx={{ flexGrow: 1 }}>
         <AppBar className="BannerContainer__elem" position="static">
           <Toolbar className="BannerContainer__elem">
             <IconButton
@@ -65,7 +88,7 @@ function App() {
             </IconButton>
           </Toolbar>
         </AppBar>
-      </Box>
+      </Box> */}
 
 
       <Grid 
@@ -75,8 +98,10 @@ function App() {
         justifyContent="flex-start" 
         alignItems="center"
       >   
-        <Grid item xl={textViewSize} lg={textViewSize} md={textViewSize} sm={12} xs={12}>
-          <TextView size={textViewSize} setSize={setTextViewSize} setCurrentGreekWord={setCurrentGreekWord}/>
+        {/* TOOD: add navbar here where the height is changed depending on TextContainer scroll.  */}
+        {/* <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{height:"0%", backgroundColor:"grey"}}> </Grid> */}
+        <Grid item xl={textViewSize} lg={textViewSize} md={textViewSize} sm={12} xs={12} style={{height:"100%"}}>
+          <TextView onClick={onTextClick}/>
         </Grid>
 
         <Grid 
@@ -86,13 +111,16 @@ function App() {
           md={(textViewSize !== 12 ? 5 : 0)} 
           sm={0} 
           xs={0}
+          style={{height:"100%", padding:"0px"}}
         >
-          <GreekWordsDialog open={greekTextDialogOpen} onClose={onGreekTextClose} greekWord={currentGreekWord}/>
+          <GreekWordsDialog open={greekTextDialogOpen} onClose={onGreekTextClose} greekWords={currentGreekWords}/>
         </Grid>
       </Grid>
 
       <NextChapterButton/>
       <PreviousChapterButton/>
+
+      <GreekWordsModal open={greekTextModalOpen} onClose={() => setGreekTextModalOpen(false)} greekWords={currentGreekWords}/>
     
     </div>
   );
