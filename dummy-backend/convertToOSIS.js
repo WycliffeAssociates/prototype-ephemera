@@ -55,12 +55,23 @@ function convertOrderedXMLtoOsis(orderedXML)
                     {
                         if(curVerseWord.phrase[l].w !== undefined)
                         { 
-                            let tempW = curVerseWord.phrase[l];
-                            let newNote = {note: [{'#text': phrase}], ':@': {'type': 'x-phraseWords'}}
-                            tempW.w.unshift(newNote);
-                            wordBuffer.push(tempW);
+                            let curVerseWordAttributes = curVerseWord[':@'];
+                            // console.log(curVerseWordAttributes)
+                            if(curVerseWordAttributes !== undefined && curVerseWordAttributes.sub !== undefined)
+                            {
+                                let tempW = curVerseWord.phrase[l];
+                                let newNote = {note: [{'#text': phrase}], ':@': {'type': 'x-subPhraseWords'}}
+                                tempW.w.unshift(newNote);
+                                wordBuffer.push(tempW);
+                            }
+                            else
+                            {
+                                let tempW = curVerseWord.phrase[l];
+                                let newNote = {note: [{'#text': phrase}], ':@': {'type': 'x-phraseWords'}}
+                                tempW.w.unshift(newNote);
+                                wordBuffer.push(tempW);
+                            }
                         }
-
                     }
 
                     // takes words in buffer and inserts them outside of the phrase tag and in-line with the rest of the words. 
@@ -139,7 +150,7 @@ function taggedULBToOsisULB(inputFilePath)
 
 
 // Converts current ULB XML file to an OSIS complient ULB XML file and then converts that to JSON
-let newXML = taggedULBToOsisULB("testXML/58-PHM.xml");
+let newXML = taggedULBToOsisULB("testXML/1TI.xml");
 fs.writeFile("PHMWithNotesWithoutSpacing.xml", newXML, (err) => {
     if (err) {
         throw err;
@@ -162,7 +173,7 @@ fs.writeFile("PHMWithNotesWithoutSpacing.xml", newXML, (err) => {
     
     
     // write JSON string to a file
-    fs.writeFile('PHMJSON.json', JSON.stringify(orderedXML), (err) => {
+    fs.writeFile('1TITest.json', JSON.stringify(orderedXML), (err) => {
         if (err) {
             throw err;
         }
