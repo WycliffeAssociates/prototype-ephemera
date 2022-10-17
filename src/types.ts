@@ -22,9 +22,10 @@ type GreekWordNotes = {
   text? : string,
   sub? : string,
   phraseWords? : string,
+  subPhraseWords?: string
 }
 
-type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
+type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs" | "subPhraseWords";
 
 type ValidGreekWordAttributeKeys = "lemma" | "morph";
 
@@ -53,10 +54,12 @@ type FormattedGreekWord = {
   strongs : string
   sub? : string,
   phraseWords? : string,
+  subPhraseWords? : string,
   morphology?: string,
   descriptions?: Description[],
   gwtGreekWord?: string,
 }
+
 
 type Description = {
   mainDescription: string,
@@ -69,6 +72,45 @@ type FormattedWord = {
   containsSubWords? : boolean,
   greekWords? : FormattedGreekWord[]
 }
+
+
+
+type NewFormattedGreekWord = {
+  lemma : string,
+  morph : string,
+  OGNTSort : string,
+  text : string,
+  strongs : string
+  morphology?: string,
+  descriptions?: Description[],
+  gwtGreekWord?: string,
+}
+
+
+
+type PhraseWord = NewFormattedGreekWord & {
+  phraseWords : string,
+}
+
+type SubWord = {
+  subIdx? : string,
+  word : NewFormattedGreekWord | string,
+  subPhraseWords? : PhraseWord[]
+}
+
+
+type NewFormattedWord = {
+  englishWords : string,
+  greekWords? : NewFormattedGreekWord[]
+  subWords? : SubWord[],
+  phraseWords? : PhraseWord[],
+  subPhraseWords? :  SubWord & PhraseWord [],
+}
+
+type NewFormattedVerse = {
+  verseWords : NewFormattedWord[];
+}
+
 
 type FormattedVerse = {
   verseWords : FormattedWord[];
@@ -88,5 +130,13 @@ export type {
     FormattedGreekWord,
     FormattedWord,
     FormattedVerse,
-    Description
+    Description,
+    NewFormattedGreekWord,
+    SubWord,
+    PhraseWord,
+    NewFormattedWord,
+    NewFormattedVerse,
+
+
+
 };
