@@ -73,24 +73,6 @@ function App() {
 
   return (
     <div className="App">
-
-      {/* <Box className="BannerContainer" sx={{ flexGrow: 1 }}>
-        <AppBar className="BannerContainer__elem" position="static">
-          <Toolbar className="BannerContainer__elem">
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              WA logo here
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </Box> */}
-
-
       <Grid 
         className="MainViewContainer" 
         container 
@@ -99,7 +81,6 @@ function App() {
         alignItems="center"
       >   
         {/* TOOD: add navbar here where the height is changed depending on TextContainer scroll.  */}
-        {/* <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{height:"0%", backgroundColor:"grey"}}> </Grid> */}
         <Grid item xl={textViewSize} lg={textViewSize} md={textViewSize} sm={12} xs={12} style={{height:"100%"}}>
           <TextView onClick={onTextClick}/>
         </Grid>

@@ -26,7 +26,8 @@ interface WordProps {
         </>
       )
     }
-    else if(versePhrase.phraseWords !== undefined)
+    
+    if(versePhrase.phraseWords !== undefined)
     {
       return(
         <>
@@ -39,7 +40,8 @@ interface WordProps {
         </>
       )
     }
-    else if(versePhrase.subWords !== undefined)
+    
+    if(versePhrase.subWords !== undefined)
     {
       let words : NewFormattedGreekWord[] = [];
 
@@ -61,19 +63,17 @@ interface WordProps {
         </>
       )
     }
-    else
-    {
-      return(
-        <>
-          <span ref={wordRef} 
-                className="TextContainer__GreekPhrase" 
-                onClick={() => {onPhraseClick(versePhrase.greekWords); handleClick(wordRef); console.log(versePhrase.greekWords)}}>
-            {versePhrase.englishWords}
-          </span>
-          <span> </span>
-        </>
-      )
-    }
+
+    return(
+      <>
+        <span ref={wordRef} 
+              className="TextContainer__GreekPhrase" 
+              onClick={() => {onPhraseClick(versePhrase.greekWords); handleClick(wordRef); console.log(versePhrase.greekWords)}}>
+          {versePhrase.englishWords}
+        </span>
+        <span> </span>
+      </>
+    )
   
   }
 
