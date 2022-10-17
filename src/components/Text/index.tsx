@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import getChapterVerses from '../../api';
 import "../../App.css";
-import { FormattedGreekWord, FormattedVerse} from '../../types';
+import { FormattedGreekWord, FormattedVerse, NewFormattedVerse, PhraseWord, SubWord} from '../../types';
 import mapVerses from '../Text/utils/generateVerses'
 import Word from './utils/Word'
 
 
 
 interface TextProps {
-    onPhraseClick: (greekWords : FormattedGreekWord[]) => any;
+    onPhraseClick: (words : FormattedGreekWord[] |  PhraseWord[] | SubWord[] | undefined) => any;
 }
 
 function Text({onPhraseClick}: TextProps)
 {
-  const [verses, setVerses] = useState([] as FormattedVerse[]);
+  const [verses, setVerses] = useState([] as NewFormattedVerse[]);
   const [childClicked, setChildClicked] = useState<any>({});
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
@@ -79,7 +79,7 @@ function Text({onPhraseClick}: TextProps)
 
     verse.verseWords.forEach((verseWord, wordIdx) => {
       
-      verseWordOutput.push(<Word handleClick={handleChildClicked} onPhraseClick={onPhraseClick} {...verseWord}/>)
+      verseWordOutput.push(<Word handleClick={handleChildClicked} onPhraseClick={onPhraseClick} versePhrase={{...verseWord}}/>)
     })
 
     const tempVerse = (

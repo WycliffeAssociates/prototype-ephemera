@@ -4,9 +4,7 @@ import StationaryChapterNavButton from './StationaryChapterNavButton';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Text from './Text';
-
-import { FormattedGreekWord } from '../types';
-import Box from '@mui/material/Box';
+import { NewFormattedGreekWord, NewFormattedVerse, PhraseWord, SubWord } from '../types';
 
 
 
@@ -19,9 +17,11 @@ interface TextViewProps {
 function TextView({onClick}: TextViewProps)
 {
 
-  const onPhraseClick = (greekWords : FormattedGreekWord[]) =>
+  const onPhraseClick = (words : NewFormattedGreekWord[] |  PhraseWord[] | SubWord[] | undefined) =>
   {
-    onClick(greekWords);
+    // console.log("words in TExtView")
+    // console.log(words);
+    onClick(words);
   }
 
   return (

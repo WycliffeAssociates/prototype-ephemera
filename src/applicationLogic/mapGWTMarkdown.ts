@@ -12,18 +12,22 @@ type GWTInformation = {
 // TODO: add logic to deal with words like "a slave" that have multiple greek words and are not phrase or sub words
 function mapGWTMarkdown (greekWordMarkDown : string) {
     let greekWordMarkDownArray : string[] = greekWordMarkDown.split(/\n/) as string[];
+
+    let startingIndex;
+    for(startingIndex = 0; greekWordMarkDownArray[startingIndex] === ""; startingIndex++);
+
     let gwtInformation : GWTInformation = {
       descriptions: [], 
       morphology: "", 
       gwtGreekWord: 
-      greekWordMarkDownArray[0].substr(1), 
+      greekWordMarkDownArray[startingIndex].substr(1), 
       unprocessed: ""
     };
 
     let foundDescription = false;
     let processedDescriptions = false;
 
-    for(let i = 1; i < greekWordMarkDownArray.length; i++) 
+    for(let i = startingIndex + 1; i < greekWordMarkDownArray.length; i++) 
     {
       if(greekWordMarkDownArray[i] == "\n" || greekWordMarkDownArray[i] === "") {
         continue;
