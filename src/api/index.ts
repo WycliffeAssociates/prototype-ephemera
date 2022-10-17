@@ -1,8 +1,9 @@
 let TITUSJSON = require('./testData/TIT.json')
 let PHMJSON = require('./testData/PHM.json');
 let FirstTim = require('./testData/1TI.json');
+let FirstTimTest = require('./testData/1TITest.json');
 
-let books : any = {Titus: TITUSJSON, Philemon: PHMJSON, "1 Timothy": FirstTim}
+let books : any = {Titus: TITUSJSON, Philemon: PHMJSON, "1 Timothy": FirstTimTest}
 
 function getBook(bookTitle: string)
 {
@@ -21,6 +22,8 @@ function getChapterVerses(bookTitle: string, chapterNumber: number)
     {
         return book.chapter.verse;
     }
+
+    console.log(book.chapter[chapterNumber - 1].verse)
 
     return book.chapter[chapterNumber - 1].verse;
 }
