@@ -42,7 +42,6 @@ function mapVerses (verses : VerseTag[]) {
         verseOutput.push(tempVerse);
     })
 
-    console.log(verseOutput);
 
     return verseOutput;
 }
@@ -110,8 +109,6 @@ function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordM
 
 function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buffers: WordMapBuffers)
 {
-
-    console.log(word);
 
     if(typeof word !== "string" && word.text === "√" && flags.consumedPhraseWord === false)
     {
