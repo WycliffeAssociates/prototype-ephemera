@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import getChapterVerses from '../../api';
 import "../../App.css";
-import { FormattedGreekWord, FormattedVerse, NewFormattedVerse, PhraseWord, SubWord} from '../../types';
+import { FormattedGreekWord, NewFormattedVerse, PhraseWord, SubWord} from '../../types';
 import mapVerses from '../Text/utils/generateVerses'
 import Word from './utils/Word'
 
@@ -13,6 +13,30 @@ interface TextProps {
 
 function Text({onPhraseClick}: TextProps)
 {
+
+  let queryString = window.location.search.split("?");
+  queryString = queryString[1].split("&");
+  let book = "Philemon";
+  let chapter = 1;
+
+  queryString.forEach((param) => {
+      let paramArr = param.split("=");
+      let paramName = paramArr[0];
+      let paramValue = paramArr[1];
+
+      if(paramName === "book")
+      {
+        book = paramValue.replace("%20", " ");
+        book = book.toLowerCase();
+      }
+
+      if(paramName === "chapter")
+      {
+        chapter = parseInt(paramValue);
+      }
+  })
+
+
   const [verses, setVerses] = useState([] as NewFormattedVerse[]);
   const [childClicked, setChildClicked] = useState<any>({});
   const [windowSize, setWindowSize] = useState(getWindowSize());
@@ -38,9 +62,13 @@ function Text({onPhraseClick}: TextProps)
   }
 
   useEffect(() => {
-    let data = getChapterVerses("Philemon", 1);
 
-    setVerses(mapVerses(data));
+    const fetchData = async () => {
+      const data = await getChapterVerses(book, chapter);
+      setVerses(mapVerses(data));
+    }
+
+    fetchData();
 
     function handleWindowResize() {
       setWindowSize(getWindowSize());
@@ -89,8 +117,7 @@ function Text({onPhraseClick}: TextProps)
   })
   
   return (
-    <>
-      {verseOutput}
+    <>{verses.length === 0 ? "Please enter a valid book / chapter" : verseOutput }
     </>
   )
 }
