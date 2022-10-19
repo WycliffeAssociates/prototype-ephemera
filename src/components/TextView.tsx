@@ -5,7 +5,7 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Text from './Text';
 import { NewFormattedGreekWord, NewFormattedVerse, PhraseWord, SubWord } from '../types';
-
+import NavigationDialog from "./NavigationDialog"
 
 
 
@@ -50,6 +50,9 @@ function TextView({onClick}: TextViewProps)
           <StationaryChapterNavButton children={<ArrowRightAltIcon className="TextViewContainer__arrowIcon"/>}/>
         </Grid>
       </Grid>
+
+
+      {/* <NavigationDialog/> */}
     </>
   )
 }
