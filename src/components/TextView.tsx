@@ -24,6 +24,10 @@ function TextView({onClick}: TextViewProps)
     onClick(words);
   }
 
+  // TOOD: have text take book and chapter as props
+  // TODO: add logic to update query parameters here when stationary button pushed
+  // TODO: add logic to update query parameters when chapterNavigationBar here
+
   return (
     <>
       <Grid className="TextViewContainer" 
@@ -38,7 +42,7 @@ function TextView({onClick}: TextViewProps)
 
         <Grid item xs={0} sm={0} md={2}>
           {/* TODO add onClick and icon prop so I can use this for next and previous buttons */}
-          <StationaryChapterNavButton children={<ArrowLeftAltIcon className="TextViewContainer__arrowIcon"/>}/>
+          <StationaryChapterNavButton children={<ArrowLeftAltIcon className="TextViewContainer__arrowIcon"/>} onClick={() => console.log("next chapter")}/>
         </Grid>
 
         <Grid className="TextContainer" item xs={12} sm={12} md={8} style={{ width: "100%", height: "100%", maxHeight: "90vh"}}>
@@ -47,7 +51,7 @@ function TextView({onClick}: TextViewProps)
 
         <Grid item xs={0} sm={0} md={2}>
           {/* TODO add onClick and icon prop so I can use this for next and previous buttons */}
-          <StationaryChapterNavButton children={<ArrowRightAltIcon className="TextViewContainer__arrowIcon"/>}/>
+          <StationaryChapterNavButton children={<ArrowRightAltIcon className="TextViewContainer__arrowIcon"/>} onClick={() => console.log("next chapter")}/>
         </Grid>
       </Grid>
 
