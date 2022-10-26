@@ -12,8 +12,6 @@ interface WordProps {
   function Word({onPhraseClick, versePhrase, handleClick} : WordProps) {
   
     const wordRef = useRef(null);
-
-    // console.log(versePhrase)
   
     if(versePhrase.phraseWords === undefined && versePhrase.subWords === undefined && versePhrase.subPhraseWords === undefined && versePhrase.greekWords === undefined)
     {
