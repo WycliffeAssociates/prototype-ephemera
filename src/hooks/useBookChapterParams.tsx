@@ -19,8 +19,7 @@ function useBookChapterParams()
   
         if(paramName === "book")
         {
-          setBook(paramValue.replace("%20", " ").toLowerCase());
-  
+          setBook(paramValue.replace("%20", " "));
         }
   
         if(paramName === "chapter")

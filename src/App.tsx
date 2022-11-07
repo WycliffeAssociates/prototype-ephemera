@@ -1,9 +1,5 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import './App.css';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import NextChapterButton from './components/NextChapterButton';
 import PreviousChapterButton from './components/PreviousChapterButton';
@@ -11,10 +7,7 @@ import TextView from "./components/TextView";
 import GreekWordsDialog from './components/GreekWordsDialog';
 import GreekWordsModal from './components/GreekWordsModal';
 import { FormattedGreekWord } from './types';
-
-
-
-
+import useWindowSize from './hooks/useWindowSize';
 
 
 function App() {
@@ -23,26 +16,7 @@ function App() {
   const [greekTextDialogOpen, setGreekTextDialogOpen] = useState<boolean>(false);
   const [greekTextModalOpen, setGreekTextModalOpen] = useState<boolean>(false);
   const [currentGreekWords, setCurrentGreekWords] = useState<FormattedGreekWord[]>([]);
-
-  // TOOD: add this windowSize logic in a custom hook
-  const [windowSize, setWindowSize] = useState(getWindowSize());
-
-  function getWindowSize() {
-    const {innerWidth, innerHeight} = window;
-    return {innerWidth, innerHeight};
-  }
-
-  useEffect(() => {
-
-    function handleWindowResize() {
-      setWindowSize(getWindowSize());
-    }
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  }, []);
+  const windowSize = useWindowSize([]);
 
 
   function onTextClick(greekWords : FormattedGreekWord[] | undefined)

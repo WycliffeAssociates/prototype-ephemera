@@ -4,9 +4,11 @@ import StationaryChapterNavButton from './StationaryChapterNavButton';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Text from './Text';
-import { NewFormattedGreekWord, NewFormattedVerse, PhraseWord, SubWord } from '../types';
+import { NewFormattedGreekWord, PhraseWord, SubWord } from '../types';
 import NavigationDialog from "./NavigationDialog"
-
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useWindowSize from '../hooks/useWindowSize';
 
 
 
@@ -16,17 +18,28 @@ interface TextViewProps {
 
 function TextView({onClick}: TextViewProps)
 {
+  const [navigationDialogOpen, setNavigationDialogOpen] = useState(false);
+  const { search } = useLocation();
+  const windowSize = useWindowSize([]);
+
+  let NavigationDialogFullScreen = (windowSize.innerWidth < 900 ? true : false);
+
+  useEffect(() => {
+    setNavigationDialogOpen(false);
+  }, [search])
 
   const onPhraseClick = (words : NewFormattedGreekWord[] |  PhraseWord[] | SubWord[] | undefined) =>
   {
-    // console.log("words in TExtView")
-    // console.log(words);
     onClick(words);
   }
 
-  // TOOD: have text take book and chapter as props
-  // TODO: add logic to update query parameters here when stationary button pushed
-  // TODO: add logic to update query parameters when chapterNavigationBar here
+  const onNavBarClick = () => {
+    setNavigationDialogOpen(true);
+  }
+
+  const onNavigationDialogClose = () => {
+    setNavigationDialogOpen(false);
+  }
 
   return (
     <>
@@ -36,27 +49,29 @@ function TextView({onClick}: TextViewProps)
       >  
 
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{height:"50px", paddingTop:"0px", paddingLeft:"0px"}}>
-          <ChapterNavigationBar/>
+          <ChapterNavigationBar onClick={onNavBarClick} />
         </Grid>
       
 
         <Grid item xs={0} sm={0} md={2}>
-          {/* TODO add onClick and icon prop so I can use this for next and previous buttons */}
-          <StationaryChapterNavButton children={<ArrowLeftAltIcon className="TextViewContainer__arrowIcon"/>} onClick={() => console.log("next chapter")}/>
+          <StationaryChapterNavButton nextChapter={false} children={<ArrowLeftAltIcon className="TextViewContainer__arrowIcon"/>}/>
         </Grid>
 
-        <Grid className="TextContainer" item xs={12} sm={12} md={8} style={{ width: "100%", height: "100%", maxHeight: "90vh"}}>
+        <Grid id="TextContainer" className="TextContainer" item xs={12} sm={12} md={8} style={{ width: "100%", height: "100%", maxHeight: "90vh"}}>
             <Text onPhraseClick={onPhraseClick}/>
         </Grid>
 
         <Grid item xs={0} sm={0} md={2}>
-          {/* TODO add onClick and icon prop so I can use this for next and previous buttons */}
-          <StationaryChapterNavButton children={<ArrowRightAltIcon className="TextViewContainer__arrowIcon"/>} onClick={() => console.log("next chapter")}/>
+          <StationaryChapterNavButton nextChapter={true} children={<ArrowRightAltIcon className="TextViewContainer__arrowIcon"/>}/>
         </Grid>
       </Grid>
 
 
-      {/* <NavigationDialog/> */}
+      <NavigationDialog 
+        open={navigationDialogOpen} 
+        onClose={onNavigationDialogClose} 
+        fullScreen={NavigationDialogFullScreen}
+      />
     </>
   )
 }
