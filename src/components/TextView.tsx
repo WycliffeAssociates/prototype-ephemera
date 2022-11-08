@@ -48,7 +48,7 @@ function TextView({onClick}: TextViewProps)
             spacing={1} 
       >  
 
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{height:"50px", paddingTop:"0px", paddingLeft:"0px"}}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{marginTop:"15px", height:"50px", paddingTop:"0px", paddingLeft:"0px"}}>
           <ChapterNavigationBar onClick={onNavBarClick} />
         </Grid>
       

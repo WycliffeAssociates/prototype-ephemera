@@ -28,7 +28,7 @@ function PreviousChapterButton()
     }
     else
     {
-      console.log("chapter numbe out of bounds");
+      console.log("chapter number out of bounds");
     }
   }
 
