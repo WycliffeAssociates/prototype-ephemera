@@ -5,7 +5,7 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Text from './Text';
 import { NewFormattedGreekWord, PhraseWord, SubWord } from '../types';
-import NavigationDialog from "./NavigationDialog"
+import NavigationModal from "./NavigationModal"
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useWindowSize from '../hooks/useWindowSize';
@@ -18,14 +18,14 @@ interface TextViewProps {
 
 function TextView({onClick}: TextViewProps)
 {
-  const [navigationDialogOpen, setNavigationDialogOpen] = useState(false);
+  const [navigationModalOpen, setNavigationModalOpen] = useState(false);
   const { search } = useLocation();
   const windowSize = useWindowSize([]);
 
-  let NavigationDialogFullScreen = (windowSize.innerWidth < 900 ? true : false);
+  let navigationModalFullScreen = (windowSize.innerWidth < 900 ? true : false);
 
   useEffect(() => {
-    setNavigationDialogOpen(false);
+    setNavigationModalOpen(false);
   }, [search])
 
   const onPhraseClick = (words : NewFormattedGreekWord[] |  PhraseWord[] | SubWord[] | undefined) =>
@@ -34,11 +34,11 @@ function TextView({onClick}: TextViewProps)
   }
 
   const onNavBarClick = () => {
-    setNavigationDialogOpen(true);
+    setNavigationModalOpen(true);
   }
 
-  const onNavigationDialogClose = () => {
-    setNavigationDialogOpen(false);
+  const onNavigationModalClose = () => {
+    setNavigationModalOpen(false);
   }
 
   return (
@@ -67,10 +67,10 @@ function TextView({onClick}: TextViewProps)
       </Grid>
 
 
-      <NavigationDialog 
-        open={navigationDialogOpen} 
-        onClose={onNavigationDialogClose} 
-        fullScreen={NavigationDialogFullScreen}
+      <NavigationModal
+        open={navigationModalOpen} 
+        onClose={onNavigationModalClose} 
+        fullScreen={navigationModalFullScreen}
       />
     </>
   )

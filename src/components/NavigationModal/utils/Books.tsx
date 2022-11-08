@@ -2,6 +2,7 @@ import Grid from '@mui/material/Grid';
 import { books as newTestamentMetadata } from "../../../applicationLogic/newTestamentMetadata";
 import { useRef, useState } from 'react';
 import BookSearchBar from '../../BookSearchBar';
+import Box from '@mui/material/Box';
 
 
 
@@ -63,6 +64,7 @@ function Books( { handleClick } : BooksProps) {
 
 
     return (
+        <Box sx={{height: "100%", overflow:"auto",}}>
             <Grid   
                 container
                 direction="row"
@@ -80,19 +82,31 @@ function Books( { handleClick } : BooksProps) {
                         direction="row"
                         justifyContent="center"
                         alignItems="center"
+                        
                     >
 
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{borderBottom: "1px solid grey"}}> 
                             <p className='GreekWordInfoSubCategory' style={{marginLeft: "15px",}}>New Testament</p>
                         </Grid>
 
-                        {Object.entries(newTestamentMetadata).map((book : any[]) => (
-                            <Book bookData={book} handleClick={handleChildClicked}/>
-                        ))}
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{borderBottom: "1px solid grey"}}> 
+                            <Grid   
+                                container
+                                direction="row"
+                                justifyContent="center"
+                                alignItems="center"
+                            >   
+                                {Object.entries(newTestamentMetadata).map((book : any[]) => (
+                                    <Book bookData={book} handleClick={handleChildClicked}/>
+                                ))}
+                            </Grid>
+                        </Grid>
+
                         
                     </Grid>
                 </Grid>
             </Grid>
+        </Box>
     );
 }
 

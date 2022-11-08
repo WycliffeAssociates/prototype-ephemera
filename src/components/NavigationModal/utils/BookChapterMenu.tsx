@@ -52,6 +52,7 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
 
     return (
         <>
+        {/* <Box sx={{height:"100%"}}> */}
             { withClickableOptions ? 
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', width:"100%", height:"48px"}}>
                     <Tabs value={value} 
@@ -66,28 +67,29 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
                 </Box>
                 :
                 <>
-                    <Grid className="NavigationDialog__MeanuHeader" item xs={0} sm={0} md={5} lg={5} xl={5} 
+                    <Grid className="NavigationModal__MeanuHeader" item xs={0} sm={0} md={5} lg={5} xl={5} 
                           style={{ borderRight: "1px solid grey" }}
                     >
                         <p >Books</p>
                     </Grid>
         
-                    <Grid className="NavigationDialog__MeanuHeader" item xs={0} sm={0} md={7} lg={7} xl={7}  >
+                    <Grid className="NavigationModal__MeanuHeader" item xs={0} sm={0} md={7} lg={7} xl={7}  >
                         <p>Chapters</p>
                     </Grid>
                 </>
             }  
 
             <Grid className="BookChapterMenu__Books" item xs={12} sm={12} md={5} lg={5} xl={5} 
-                    style={{ display: displayBooks ? "block" : "none" }}>
+                    style={{ display: displayBooks ? "block" : "none", height:"calc(100% - 88px)"}}>
                 <Books handleClick={onBookClick}/>
             </Grid>
 
             <Grid className="BookChapterMenu__Chapters" item xs={12} sm={12} md={7} lg={7} xl={7}
-                  style={{ display: displayChapters? "block" : "none" }} 
+                  style={{ display: displayChapters? "block" : "none", height:"calc(100% - 88px)" }} 
             >
                 <Chapters book={bookData}/>
             </Grid>
+        {/* </Box> */}
         </>
     )
     
