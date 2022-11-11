@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .App-logo {
@@ -37,10 +39,12 @@
   }
 }
 
+/* TODO delete*/
 .GreekPhrase {
   text-decoration: underline;
 }
 
+/* TODO delete*/
 .Verse {
   text-align: left;
   font-family: 'Lato';
@@ -54,7 +58,8 @@
 .GreekWord {
   text-align: left;
   margin-bottom: 2px;
-  height: 36px;
+  /* height: 36px; */
+  margin-top: 2px;
   font-family: Lato;
   font-style: normal;
   font-weight: 700;
@@ -74,6 +79,18 @@
   font-size: 16px;
   line-height: 150%;
   color:#001432;
+}
+
+
+.UnprocessedMarkdown {
+  text-align:left; 
+  margin-bottom:12px;
+  height: 18px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
 }
 
 
@@ -100,4 +117,215 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;
+}
+
+.BannerContainer {
+  background-color:#001533;
+  width:100%
+}
+
+.BannerContainer .BannerContainer__elem {
+  background-color: inherit;
+  padding-right:0px; 
+  margin-right:0px;
+}
+
+.MainViewContainer {
+  width:100%;
+  margin:0px;
+  height: 100%;
+}
+
+.TextViewContainer {
+  width: 100%; 
+  margin: 0px; 
+  margin-top: 0px;
+  height: 100%;
+}
+
+.TextViewContainer__arrowIcon {
+  color: black;
+  background-color: #f2f2f2
+}
+
+.App__PreviousChapterButton {
+  width: 50px;
+  height: 50px;
+  background-color:white;
+  color:black;
+  position: fixed;
+  top: 85%;
+  left: 5%;
+}
+
+.App__NextChapterButton {
+  width: 50px;
+  height: 50px;
+  background-color:white;
+  color:black;
+  position: fixed;
+  top: 85%;
+  right: 5%;
+}
+
+.TextContainer {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.TextContainer__GreekPhrase {
+  text-decoration: underline;
+}
+
+.TextContainer__Verse {
+  text-align: left;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 48px;
+  color: #001533CC;
+}
+
+
+.GreekWordModal__Box {
+  position:  absolute  as  absolute ;
+  top:  60%  ;
+  left:  50%  ;
+  transform:  translate(-50%, -50%)  ;
+  width:  90%  ;
+  height:  70%  ;
+  background:  #FFFFFF  ;
+  border-radius:  8px  ;
+  box-shadow: 24 ;
+  padding: 1 ;
+  padding-top:  0px  ;
+  padding-left: 0px  ;
+  outline:  none 
+}
+
+
+.ChapterNavigationBar__Span {
+  width:100%; 
+  color: #001533CC;
+  font-weight: 400;
+  text-transform:none;
+  font-size: 16px;
+}
+
+.ChapterNavigationBar__BookName {
+  text-align:left;
+}
+
+.NavigationModal__MeanuHeader p {
+    width: 56px;
+    height: 32px;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 32px;
+}
+
+.StationaryChapterNavButton {
+  max-width: 40px; 
+  max-height: 104px; 
+  min-width: 40px; 
+  min-height: 104px;
+  top:40%;  
+  background-color:#f2f2f2;
+  border: 0.5px solid;
+  border-color: #d9d9d9;
+}
+
+
+
+.BookChapterMenu__Chapters {
+  width:100%; 
+  overflow-y: scroll; 
+  height: calc(100% - 88px);
+}
+.BookChapterMenu__Chapters p {
+  text-align: center;
+}
+
+
+
+.BookChapterMenu__Books {
+  border-right: 1px solid grey;
+  width: 100%;
+  height:calc(100% - 88px)
+}
+
+.BookChapterMenu__Books__Book {
+  border-bottom: 1px solid grey;
+}
+
+
+
+.BookChapterMenu__Books__Book {
+  width: 100%
+}
+
+.BookChapterMenu__Books__Book p{
+  width: 237px;
+  height: 24px;
+  margin-left: 15px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+
+.Book__subcategory p{
+  text-align:left; 
+  margin-bottom:4px;
+  height: 18px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  text-transform: uppercase;
+  color:#00193c;
+  margin-left: 15px;
+}
+
+.Book__subcategory {
+  border-bottom: 1px solid grey;
+}
+
+
+.BookSearchBar {
+  margin-left: 0px; 
+  margin-bottom: 0px; 
+  height: 100%;
+}
+
+.BookSearchBar__ButtonGroup {
+  width: 100%;
+  height: 48px; 
+  background-color: #f2f2f2; 
+  border-radius: 60px 60px 60px 60px;
+}
+
+
+.NavigationModal  {
+  overflow-x: hidden;
+}
+
+.NavigationModal__navigation {
+  height: 32px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 32px;
+  margin-bottom:8px;
+  margin-left:8px
 }

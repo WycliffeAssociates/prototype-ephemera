@@ -1,9 +1,9 @@
 const fs = require('fs');
 const {XMLParser, XMLBuilder} = require('fast-xml-parser');
+const axios = require('axios');
 
 
-// 
-function convertOrderedXMLtoOsis(orderedXML)
+async function convertOrderedXMLtoOsis(orderedXML)
 {
     let curBook = orderedXML[1].xml[0].book;
     for(let i = 0; i < curBook.length; i++)
@@ -55,12 +55,23 @@ function convertOrderedXMLtoOsis(orderedXML)
                     {
                         if(curVerseWord.phrase[l].w !== undefined)
                         { 
-                            let tempW = curVerseWord.phrase[l];
-                            let newNote = {note: [{'#text': phrase}], ':@': {'type': 'x-phraseWords'}}
-                            tempW.w.unshift(newNote);
-                            wordBuffer.push(tempW);
+                            let curVerseWordAttributes = curVerseWord[':@'];
+                            // console.log(curVerseWordAttributes)
+                            if(curVerseWordAttributes !== undefined && curVerseWordAttributes.sub !== undefined)
+                            {
+                                let tempW = curVerseWord.phrase[l];
+                                let newNote = {note: [{'#text': phrase}], ':@': {'type': 'x-subPhraseWords'}}
+                                tempW.w.unshift(newNote);
+                                wordBuffer.push(tempW);
+                            }
+                            else
+                            {
+                                let tempW = curVerseWord.phrase[l];
+                                let newNote = {note: [{'#text': phrase}], ':@': {'type': 'x-phraseWords'}}
+                                tempW.w.unshift(newNote);
+                                wordBuffer.push(tempW);
+                            }
                         }
-
                     }
 
                     // takes words in buffer and inserts them outside of the phrase tag and in-line with the rest of the words. 
@@ -111,62 +122,90 @@ function convertOrderedXMLtoOsis(orderedXML)
 
 
 
-function taggedULBToOsisULB(inputFilePath)
+async function mapTaggedULBToOsisULB(xml)
 {
-    let xml_string = fs.readFileSync(inputFilePath, "utf8");
-
     const orderedParserOptions = {
         commentPropName: "#comment",
         ignoreAttributes: false,
         preserveOrder: true,
         parseTagValue: false,
-        trimValues: true, //default
+        trimValues: true,
         attributeNamePrefix: '',
     };
     const orderedParser = new XMLParser(orderedParserOptions);
     
     // traverses through the JSON representing the ordered XML and removes the phrase tages. 
-    let orderedXML = orderedParser.parse(xml_string);
-    orderedXML = convertOrderedXMLtoOsis(orderedXML)
+    let orderedXML = await orderedParser.parse(xml);
+    orderedXML = await convertOrderedXMLtoOsis(orderedXML)
 
     // rebuilds the xml from the newly modified JSON object. 
     const builder = new XMLBuilder(orderedParserOptions);
-    const xmlOutput = builder.build(orderedXML);
+    const xmlOutput = await builder.build(orderedXML);
 
     return xmlOutput;
 
 }
 
 
-// Converts current ULB XML file to an OSIS complient ULB XML file and then converts that to JSON
-let newXML = taggedULBToOsisULB("testXML/58-PHM.xml");
-fs.writeFile("PHMWithNotesWithoutSpacing.xml", newXML, (err) => {
-    if (err) {
-        throw err;
-    }
 
-    console.log(`Updated XML is written to ` + "PHMWithNotesWithoutSpacing.xml" + ".");
+async function getBookFromRepo(bookTitle)
+{
+    if(bookTitle !== undefined)
+    {
+        try {
+            book = await axios.get(`https://content.bibletranslationtools.org/WycliffeAssociates/en_ulb_tagged/raw/branch/master/Checked/${bookTitle}.xml`);
+            return book.data;
+        } catch (error) {
+            return undefined;
+        }  
+    }
+    else
+    {
+        return undefined;
+    }
+}
+
+
+
+
+async function mapTaggedOSISToJSONFile(bookTitle)
+{
+    bookTitle = bookTitle === undefined ? process.argv[2] : bookTitle;
+ 
+    let taggedULBBook = await getBookFromRepo(bookTitle);
+
+    if(taggedULBBook === undefined)
+    {
+        console.log("Please enter a valid book name!"); 
+        return undefined;
+    } 
+
+    // Converts current ULB XML file to an OSIS complient ULB XML file and then converts that to JSON
+    let newXML = await mapTaggedULBToOsisULB(taggedULBBook);
 
     const orderedParserOptions = {
         ignoreAttributes: false,
         attributesGroupName: "ATTR",
         attributeNamePrefix: '',
-        textNodeName: "_",
+        textNodeName: "_text",
     };
     const orderedParser = new XMLParser(orderedParserOptions);
-    let new_xml_string = fs.readFileSync("PHMWithNotesWithoutSpacing.xml", "utf8");
 
     // traverses through the JSON representing the ordered XML and removes the phrase tages. 
-    let orderedXML = orderedParser.parse(new_xml_string);
-    console.log(orderedXML);
-    
-    
-    // write JSON string to a file
-    fs.writeFile('PHMJSON.json', JSON.stringify(orderedXML), (err) => {
-        if (err) {
-            throw err;
-        }
-        console.log("JSON data is saved.");
-    })
+    let orderedXML = await orderedParser.parse(newXML);
 
-});
+    let response = undefined;
+    // write JSON string to a file
+    await fs.promises.writeFile(`taggedOSIS/${bookTitle}.json`, JSON.stringify(orderedXML), async (err) => {
+        console.log("writing file")
+        if (err) {
+            console.log("Error adding to folder")
+        }
+        console.log(`${bookTitle} successfully added to taggedOSIS folder`);
+        
+    }); 
+    response = await JSON.stringify(orderedXML);
+    return response;
+}
+
+module.exports = { mapTaggedOSISToJSONFile };
