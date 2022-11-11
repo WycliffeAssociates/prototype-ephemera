@@ -17,6 +17,7 @@ interface NavigationModalProps {
 
 function NavigationModal({open, onClose, fullScreen} : NavigationModalProps) {
     
+    // TODO: add this to its own style file after testing styles
     const style = {
         position: 'absolute' as 'absolute',
         top: '50%',
@@ -38,37 +39,28 @@ function NavigationModal({open, onClose, fullScreen} : NavigationModalProps) {
     return (
         <>
 
-            <Modal  open={open}         
+            <Modal  
+                    open={open}         
                     onClose={() => onClose(undefined)}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                     hideBackdrop={true}
             >
                 <Box sx={style}>
-                <Grid   
-                            container
-                            direction="row"
-                            justifyContent="center"
-                            alignItems="stretch"
-                            style={{margin:"0px", height:"100%"}}
-                            spacing={0}
-                        >
-                            <Grid item xs={12} sm={12} md={0} lg={0} style={{padding: "8px 16px",}}>
-                                <ArrowBackIcon onClick={onClose}/>
-                                <span style={{
-                                    width: "97px",
-                                    height: "32px",
-                                    fontFamily: 'Lato',
-                                    fontStyle: "normal",
-                                    fontWeight: "700",
-                                    fontSize: "20px",
-                                    lineHeight: "32px",
-                                    marginBottom:"8px",
-                                    marginLeft:"8px"
-                                }}>Navigation</span>
-                            </Grid>
-                            <BookChapterMenu withClickableOptions={fullScreen}/>
+                    <Grid   
+                        container
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="stretch"
+                        style={{margin:"0px", height:"100%"}}
+                        spacing={0}
+                    >
+                        <Grid item xs={12} sm={12} md={0} lg={0} style={{padding: "8px 16px",}}>
+                            <ArrowBackIcon onClick={onClose}/>
+                            <span className="NavigationModal__navigation">Navigation</span>
                         </Grid>
+                        <BookChapterMenu withClickableOptions={fullScreen}/>
+                    </Grid>
                 </Box>
             </Modal>
         </>

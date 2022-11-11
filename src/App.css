@@ -246,8 +246,7 @@
 .BookChapterMenu__Chapters {
   width:100%; 
   overflow-y: scroll; 
-  height: 100%;
-  max-height: 750px;
+  height: calc(100% - 88px);
 }
 .BookChapterMenu__Chapters p {
   text-align: center;
@@ -258,9 +257,12 @@
 .BookChapterMenu__Books {
   border-right: 1px solid grey;
   width: 100%;
-  height: 100%;
+  height:calc(100% - 88px)
 }
 
+.BookChapterMenu__Books__Book {
+  border-bottom: 1px solid grey;
+}
 
 
 
@@ -280,6 +282,25 @@
 }
 
 
+.Book__subcategory p{
+  text-align:left; 
+  margin-bottom:4px;
+  height: 18px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  text-transform: uppercase;
+  color:#00193c;
+  margin-left: 15px;
+}
+
+.Book__subcategory {
+  border-bottom: 1px solid grey;
+}
+
+
 .BookSearchBar {
   margin-left: 0px; 
   margin-bottom: 0px; 
@@ -294,5 +315,17 @@
 }
 
 
+.NavigationModal  {
+  overflow-x: hidden;
+}
 
-
+.NavigationModal__navigation {
+  height: 32px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 32px;
+  margin-bottom:8px;
+  margin-left:8px
+}
