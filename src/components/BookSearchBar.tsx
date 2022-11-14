@@ -14,6 +14,8 @@ function BookSearchBar( {onClick} : BookSearchBarProps)
 {
 
   const [userInput, setUserInput] = useState("Search books");
+
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(event.target.value);
   };
@@ -32,10 +34,12 @@ function BookSearchBar( {onClick} : BookSearchBarProps)
           variant="outlined" aria-label="outlined button group" 
           style={{borderRadius:"25px 25px 25px 25px"}} 
         >
-                <Input  
+                <Input
+                  onClick={() => setUserInput("")}
+                  value={userInput}
                   onChange={handleChange} 
                   disableUnderline={true} 
-                  defaultValue="Search books" 
+                  defaultValue={userInput} 
                   style={{
                       width:"85%", 
                       paddingLeft:"15px", 
