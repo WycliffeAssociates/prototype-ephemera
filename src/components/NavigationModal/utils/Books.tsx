@@ -3,15 +3,17 @@ import { books as newTestamentMetadata } from "../../../applicationLogic/newTest
 import { useRef, useState } from 'react';
 import BookSearchBar from '../../BookSearchBar';
 import Box from '@mui/material/Box';
+import useBookChapterParams from '../../../hooks/useBookChapterParams';
 
 
 
 interface BookProps {
     bookData: any[];
     handleClick: (params: any) => any;
+    isCurrentBook: boolean;
 }
 
-function Book({bookData, handleClick}: BookProps) {
+function Book({bookData, handleClick, isCurrentBook}: BookProps) {
 
     const bookRef = useRef(null);
 
@@ -19,11 +21,14 @@ function Book({bookData, handleClick}: BookProps) {
         handleClick(bookRef);
     }
 
+    if(isCurrentBook == true) {
+        handleClick(bookRef);
+    }
+
     return (
         <div className='BookChapterMenu__Books__Book' id={bookData[0]} ref={bookRef} onClick={onClick}>
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{borderBottom: "1px solid grey"}}> 
-                <p 
-                >{bookData[0]}</p>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}> 
+                <p>{bookData[0]}</p>
             </Grid> 
         </div>
     )
@@ -33,11 +38,13 @@ function Book({bookData, handleClick}: BookProps) {
 
 interface BooksProps {
     handleClick: (params: any) => any;
+    currentBook: string;
 }
 
 function Books( { handleClick } : BooksProps) {
 
-    const [childClicked, setChildClicked] = useState<any>({})
+    const bookChapter = useBookChapterParams();
+    const [childClicked, setChildClicked] = useState<any>(null);
 
     function handleChildClicked(newChildClicked: any) {
         handleClick(newChildClicked.current.id)
@@ -54,6 +61,7 @@ function Books( { handleClick } : BooksProps) {
             newChildClicked.current.style.backgroundColor = "#015ad90d";
         }
 
+        newChildClicked.current.scrollIntoView();
         setChildClicked(newChildClicked);
     }
 
@@ -97,7 +105,11 @@ function Books( { handleClick } : BooksProps) {
                                 alignItems="center"
                             >   
                                 {Object.entries(newTestamentMetadata).map((book : any[]) => (
-                                    <Book bookData={book} handleClick={handleChildClicked}/>
+                                    <Book 
+                                          bookData={book} 
+                                          handleClick={handleChildClicked}
+                                          isCurrentBook={(childClicked === null && book[0] === bookChapter.book)}
+                                    />    
                                 ))}
                             </Grid>
                         </Grid>

@@ -4,9 +4,8 @@ import { useLocation } from "react-router-dom";
 function useBookChapterParams()
 {
     const { search } = useLocation();
-    const [book, setBook] = useState("philemon"); // TODO: possibly change this default value
+    const [book, setBook] = useState("");
     const [chapter, setChapter] = useState(1);
-
 
     useEffect(() => {
       let queryString = search.split("?");

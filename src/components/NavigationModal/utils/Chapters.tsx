@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import { books as newTestamentMetadata } from "../../../applicationLogic/newTestamentMetadata";
 import {useNavigate, createSearchParams } from "react-router-dom";
-
+import useBookChapterParams from '../../../hooks/useBookChapterParams';
 
 
 interface ChapterProps {
@@ -22,23 +22,38 @@ function Chapter({onClick, chapterNum} : ChapterProps) {
 }
 
 
-
 interface ChaptersProps {
     book: string;
 }
 
 function Chapters({book} : ChaptersProps) {
 
+    const bookChapter = useBookChapterParams();
     const navigate = useNavigate();
 
-    let numChapters : number = (book && book !== "" ? newTestamentMetadata[book].numChapters : 0);
+    let numChapters;
+
+    // If a book has been clicked, then use the selected books chapters
+    // else use the most recently clicked book's chapters
+    if(book && book !== "") {
+        numChapters = newTestamentMetadata[book].numChapters;
+    }
+    else if(bookChapter.book && bookChapter.book !== "") {
+        numChapters = newTestamentMetadata[bookChapter.book].numChapters;
+    }
+    else
+    {
+        numChapters = 0;
+    }
+
+
     let chapters : any[]  = [];
 
 
     function onChapterClick(chapterNum : number) {
 
         const params = {
-            book: book,
+            book: book !== "" ? book : bookChapter.book,
             chapter: chapterNum + ""
           };
       
