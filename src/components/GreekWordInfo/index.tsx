@@ -9,74 +9,59 @@ import UnprocessedMarkdown from '../GreekWordInfo/utils/UnprocessedMarkdown';
 import GreekWord from '../GreekWordInfo/utils/GreekWord';
 import mapGWTMarkdown from '../../applicationLogic/mapGWTMarkdown';
 
-interface greekWord {
+
+interface GreekWordInfoProps {
     currentGreekWord: FormattedGreekWord;
 };
 
-function GreekWordInfo({currentGreekWord} : greekWord)
+function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
 {
-    const [greekWordState, setGreekWordState] = useState<FormattedGreekWord>(currentGreekWord)
-    const [unprocessedMarkdown, setUnprocessedMarkdown] = useState("");
-    const [verseReferences, setVerseReferences] = useState("");
-    const [adviceForTranslators, setAdviceForTranslators] = useState("");
+    
+    const [greekWordsState, setGreekWordsState] = useState<FormattedGreekWord[]>([])
 
     useEffect(() => {
-
-      // cases to examine: 
-      // "a slave" ??? (IDK)
-      // "I ask" (need to ask about en_gwt folder structure)
-      
       (async () => {
+
+        // TODO: discuss if I should move this to application logic folder. 
+        if(greekWordsState.length !== 0) {
+          greekWordsState.splice(0,greekWordsState.length)
+        }
+
         let greekWordMarkDown = await getGreekWord(currentGreekWord.strongs);
-        let response = await mapGWTMarkdown(greekWordMarkDown.data);
+        
+        if(greekWordMarkDown !== undefined) {
+          let gwtWords = await mapGWTMarkdown(greekWordMarkDown.data);
+          let wordsInfo : FormattedGreekWord[] = [];
+          gwtWords.forEach((gwtWord) => {
+            wordsInfo.push({...currentGreekWord, ...gwtWord}); 
+          })
 
-        if(greekWordMarkDown !== undefined)
-        {
-          let temp : FormattedGreekWord = {...currentGreekWord};
 
-          temp.gwtGreekWord = response.gwtGreekWord;
-          temp.descriptions = response.descriptions;
-          temp.morphology = response.morphology;  
-
-          if(response.verseReferences !== undefined) 
-          {
-            setVerseReferences(response.verseReferences);
-          }
-          else
-          {
-            setVerseReferences("");
-          }
-
-          if(response.adviceForTranslators !== undefined) 
-          {
-            setAdviceForTranslators(response.adviceForTranslators);
-          }
-          else
-          {
-            setAdviceForTranslators("");
-          }
-
-          if(response.unprocessed !== undefined) 
-          {
-            setUnprocessedMarkdown(response.unprocessed);
-          }
-
-          setGreekWordState(temp)
+          setGreekWordsState(wordsInfo)
         }
       })();
     }, [currentGreekWord]); 
 
 
-    return (
+    const greekWords : any[] = [];
+    greekWordsState.forEach((greekWordState) => {
+      greekWords.push(
       <>
         <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
-          <GreekWord greekWord={greekWordState.gwtGreekWord} englishEquivalent={greekWordState.text}/>
-          <Morphology morphology={greekWordState.morphology}/>
-          <Description descriptions={greekWordState.descriptions} />
+          <GreekWord greekWord={greekWordState?.gwtGreekWord} englishEquivalent={greekWordState?.text as string}/>
+          <Morphology morphology={greekWordState?.morphology}/>
+          <Description descriptions={greekWordState?.descriptions} />
         </Grid>
-        <UnprocessedMarkdown markdown={unprocessedMarkdown}/>
-        {verseReferences !== "" ? <p className="UnprocessedMarkdown">{verseReferences}</p> : ""}
-        <UnprocessedMarkdown markdown={adviceForTranslators}/>
+        {greekWordState?.unprocessedData ? <UnprocessedMarkdown markdown={greekWordState.unprocessedData}/> : ""}
+        {greekWordState?.verseReferences ? <p className="UnprocessedMarkdown">{greekWordState?.verseReferences}</p> : ""}
+        {greekWordState?.adviceForTranslators ? <UnprocessedMarkdown markdown={greekWordState.adviceForTranslators}/> : ""}
+      </>
+      )
+    })
+
+    return (
+      <>
+        {greekWords}
       </>
     )
 }

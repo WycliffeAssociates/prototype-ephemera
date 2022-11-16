@@ -58,6 +58,9 @@ type FormattedGreekWord = {
   morphology?: string,
   descriptions?: Description[],
   gwtGreekWord?: string,
+  adviceForTranslators?: string,
+  verseReferences?: string,
+  unprocessedData?: string,
 }
 
 
@@ -116,8 +119,18 @@ type FormattedVerse = {
   verseWords : FormattedWord[];
 }
 
+type GWTInformation = {
+  gwtGreekWord: string,
+  descriptions: Description[],
+  morphology: string,
+  verseReferences?: string,
+  adviceForTranslators?: string,
+  unprocessed?: string,
+}
+
 
 export type {
+    GWTInformation,
     GreekWord, 
     GreekWordNotes, 
     GreekWordAttributes,

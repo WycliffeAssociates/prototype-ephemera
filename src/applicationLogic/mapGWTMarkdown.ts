@@ -1,15 +1,6 @@
-import { FormattedGreekWord, Description as DescriptionType } from '../types';
+import { GWTInformation } from '../types';
 
-type GWTInformation = {
-  gwtGreekWord: string,
-  descriptions: DescriptionType[],
-  morphology: string,
-  verseReferences?: string,
-  adviceForTranslators?: string,
-  unprocessed?: string,
-}
 
-// TODO: add logic to deal with words like "a slave" that have multiple greek words and are not phrase or sub words
 function mapGWTMarkdown (greekWordMarkDown : string) {
     let greekWordMarkDownArray : string[] = greekWordMarkDown.split(/\n/) as string[];
 
@@ -24,6 +15,7 @@ function mapGWTMarkdown (greekWordMarkDown : string) {
       unprocessed: ""
     };
 
+    let gwtWords : GWTInformation[] = [];
     let foundDescription = false;
     let processedDescriptions = false;
 
@@ -54,6 +46,20 @@ function mapGWTMarkdown (greekWordMarkDown : string) {
       else if(!foundDescription) {
         gwtInformation.morphology = gwtInformation.morphology + "\n" + greekWordMarkDownArray[i];
       }
+      else if(greekWordMarkDownArray[i].charAt(0) == "#")
+      {
+        gwtWords.push(gwtInformation);
+        gwtInformation = {
+          descriptions: [], 
+          morphology: "", 
+          gwtGreekWord: 
+          greekWordMarkDownArray[startingIndex].substr(1), 
+          unprocessed: ""
+        };
+        foundDescription = false;
+        processedDescriptions = false;
+        
+      }
       else {
         if(foundDescription) {
           processedDescriptions = true;
@@ -61,8 +67,8 @@ function mapGWTMarkdown (greekWordMarkDown : string) {
         }
       }
     }
-
-    return gwtInformation;
+    gwtWords.push(gwtInformation);
+    return gwtWords;
   };
 
 
