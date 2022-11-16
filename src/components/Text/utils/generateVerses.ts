@@ -1,17 +1,12 @@
-import { Console } from 'console';
-import { buffer } from 'stream/consumers';
 import { WordTag, 
     VerseTag,
     NoteTag,
     ValidGreekWordNoteKeys, 
     GreekWordNotes, 
     GreekWordAttributes, 
-    FormattedGreekWord,
     NewFormattedGreekWord,
-    NewFormattedWord,
-    NewFormattedVerse,
     SubWord,
-    PhraseWord,} from '../../../types'
+    PhraseWord,} from '../../../types';
 
 
 function mapVerses (verses : VerseTag[]) {
@@ -64,7 +59,12 @@ function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordM
 
     if(typeof word !== "string")
     {
-        
+        // Fails gracefully for cases where given data is not valid
+        if(word._text === undefined) 
+        {
+            return;
+        }
+
         let currentGreekWordNotes : GreekWordNotes = mapNotes(word.note);
         let currentGreekWordAttributes: GreekWordAttributes = word.ATTR;;
     
