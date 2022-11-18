@@ -3,8 +3,6 @@ import { books as newTestamentMetadata } from "../../../applicationLogic/newTest
 import { useRef, useState } from 'react';
 import BookSearchBar from '../../BookSearchBar';
 import Box from '@mui/material/Box';
-import useBookChapterParams from '../../../hooks/useBookChapterParams';
-
 
 
 interface BookProps {
@@ -41,9 +39,9 @@ interface BooksProps {
     currentBook: string;
 }
 
-function Books( { handleClick } : BooksProps) {
+function Books( { handleClick, currentBook } : BooksProps) {
 
-    const bookChapter = useBookChapterParams();
+    // const bookChapter = useBookChapterParams();
     const [childClicked, setChildClicked] = useState<any>(null);
 
     function handleChildClicked(newChildClicked: any) {
@@ -108,7 +106,7 @@ function Books( { handleClick } : BooksProps) {
                                     <Book 
                                           bookData={book} 
                                           handleClick={handleChildClicked}
-                                          isCurrentBook={(childClicked === null && book[0] === bookChapter.book)}
+                                          isCurrentBook={(childClicked === null && book[0] === currentBook)}
                                     />    
                                 ))}
                             </Grid>
