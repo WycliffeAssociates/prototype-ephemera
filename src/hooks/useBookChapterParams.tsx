@@ -18,7 +18,10 @@ function useBookChapterParams()
   
         if(paramName === "book")
         {
-          setBook(paramValue.replace("%20", " "));
+          let book = paramValue.replace("%20", " ");
+          book = paramValue.replace("+", " ")
+          setBook(book);
+          
         }
   
         if(paramName === "chapter")
