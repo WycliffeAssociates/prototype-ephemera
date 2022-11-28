@@ -36,7 +36,6 @@ function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
             wordsInfo.push({...currentGreekWord, ...gwtWord}); 
           })
 
-
           setGreekWordsState(wordsInfo)
         }
       })();
@@ -59,11 +58,23 @@ function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
       )
     })
 
-    return (
-      <>
-        {greekWords}
-      </>
-    )
+    if(greekWords.length === 0) {
+      return (
+        <>
+          <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
+            <span style={{paddingTop:"50%"}}>Requested word "{currentGreekWord.text}" (with Strong number {currentGreekWord.strongs}) cannot be found.</span>
+          </Grid>
+
+        </>
+      )
+    } else {
+      return (
+        <>
+          {greekWords}
+        </>
+      )
+    }
+
 }
 
 export default GreekWordInfo;
