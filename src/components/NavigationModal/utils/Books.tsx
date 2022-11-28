@@ -43,6 +43,7 @@ function Books( { handleClick, currentBook } : BooksProps) {
 
     // const bookChapter = useBookChapterParams();
     const [childClicked, setChildClicked] = useState<any>(null);
+    const [filteredBooks, setFilteredBooks] = useState(Object.entries(newTestamentMetadata));
 
     function handleChildClicked(newChildClicked: any) {
         handleClick(newChildClicked.current.id)
@@ -68,6 +69,23 @@ function Books( { handleClick, currentBook } : BooksProps) {
         handleClick(userInput);
     }
 
+    function onBookFilter(filter : string) {
+        let tempArray = Object.entries(newTestamentMetadata).filter((book) => {
+
+            if(filter === "") {
+                return true;
+            }
+
+            if(filter.toLowerCase().charAt(0) === book[0].toLowerCase().charAt(0))
+            {
+                return book[0].toLowerCase().includes(filter.toLowerCase())
+            }
+            
+            return false;  
+        })
+        setFilteredBooks(tempArray)
+    }
+
 
     return (
         <Box sx={{height: "100%", overflow:"auto",}}>
@@ -79,7 +97,7 @@ function Books( { handleClick, currentBook } : BooksProps) {
             >
 
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  >
-                    <BookSearchBar onClick={handleSearchInput}/>
+                    <BookSearchBar onClick={handleSearchInput} onFilter={onBookFilter}/>
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  >
@@ -102,7 +120,7 @@ function Books( { handleClick, currentBook } : BooksProps) {
                                 justifyContent="center"
                                 alignItems="center"
                             >   
-                                {Object.entries(newTestamentMetadata).map((book : any[]) => (
+                                {filteredBooks.map((book : any[]) => (
                                     <Book 
                                           bookData={book} 
                                           handleClick={handleChildClicked}
@@ -112,7 +130,6 @@ function Books( { handleClick, currentBook } : BooksProps) {
                             </Grid>
                         </Grid>
 
-                        
                     </Grid>
                 </Grid>
             </Grid>
