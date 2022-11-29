@@ -1,5 +1,6 @@
 import Grid from '@mui/material/Grid';
 import { books as newTestamentMetadata } from "../../../applicationLogic/newTestamentMetadata";
+import { oldTestamentBooks } from "../../../applicationLogic/oldTestamentMetadata";
 import { useRef, useState } from 'react';
 import BookSearchBar from '../../BookSearchBar';
 import Box from '@mui/material/Box';
@@ -41,9 +42,9 @@ interface BooksProps {
 
 function Books( { handleClick, currentBook } : BooksProps) {
 
-    // const bookChapter = useBookChapterParams();
     const [childClicked, setChildClicked] = useState<any>(null);
     const [filteredBooks, setFilteredBooks] = useState(Object.entries(newTestamentMetadata));
+    const [errorMessage, setErrorMessage] = useState("");
 
     function handleChildClicked(newChildClicked: any) {
         handleClick(newChildClicked.current.id)
@@ -64,8 +65,8 @@ function Books( { handleClick, currentBook } : BooksProps) {
         setChildClicked(newChildClicked);
     }
 
-    function handleSearchInput(userInput: string) {
-        // TODO: add some validation logic here
+    function handleSearchInputClick(userInput: string) {
+        bookSearchValidation(userInput);
         handleClick(userInput);
     }
 
@@ -86,6 +87,20 @@ function Books( { handleClick, currentBook } : BooksProps) {
         setFilteredBooks(tempArray)
     }
 
+    function bookSearchValidation(book : string) {
+        if(oldTestamentBooks[book] !== undefined) {
+            setErrorMessage("The Greek Lexicon Prototype only contains New Testament Books")
+            return false;
+        } else {
+            if(newTestamentMetadata[book] !== undefined) {
+                setErrorMessage("")
+                return true
+            }
+            setErrorMessage("")
+            return false;
+        }
+    }
+
 
     return (
         <Box sx={{height: "100%", overflow:"auto",}}>
@@ -97,7 +112,7 @@ function Books( { handleClick, currentBook } : BooksProps) {
             >
 
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  >
-                    <BookSearchBar onClick={handleSearchInput} onFilter={onBookFilter}/>
+                    <BookSearchBar onClick={handleSearchInputClick} onFilter={onBookFilter} onValidation={bookSearchValidation}/>
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  >
@@ -120,13 +135,14 @@ function Books( { handleClick, currentBook } : BooksProps) {
                                 justifyContent="center"
                                 alignItems="center"
                             >   
-                                {filteredBooks.map((book : any[]) => (
+                                { errorMessage === "" ? 
+                                filteredBooks.map((book : any[]) => (
                                     <Book 
                                           bookData={book} 
                                           handleClick={handleChildClicked}
                                           isCurrentBook={(childClicked === null && book[0] === currentBook)}
                                     />    
-                                ))}
+                                )) : errorMessage}
                             </Grid>
                         </Grid>
 

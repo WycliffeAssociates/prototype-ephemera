@@ -9,15 +9,18 @@ import Input from '@mui/material/Input';
 interface BookSearchBarProps {
   onClick: (params: any) => any,
   onFilter: (params: any) => any,
+  onValidation: (searchValue: any) => boolean
 }
 
-function BookSearchBar( {onClick, onFilter} : BookSearchBarProps)
+function BookSearchBar( {onClick, onFilter, onValidation} : BookSearchBarProps)
 {
 
   const [userInput, setUserInput] = useState("Search books");
 
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if(onValidation !== undefined) {
+      onValidation(event.target.value);
+    }
     onFilter(event.target.value)
     setUserInput(event.target.value);
   };

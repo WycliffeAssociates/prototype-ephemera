@@ -7,7 +7,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import '../../../App.css';
 import useBookChapterParams from '../../../hooks/useBookChapterParams';
-
+import {books as newTestamentMetadata} from '../../../applicationLogic/newTestamentMetadata';
 
 
 interface BookChapterMenuProps {
@@ -44,10 +44,13 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
 
 
     function onBookClick(newBook : string) {
+        newBook = newBook.charAt(0).toUpperCase() + newBook.slice(1);
         if(newBook !== bookChapter.book) {
             setValue("Chapters")
         }
-        setBookData(newBook)
+        if(newTestamentMetadata[newBook] !== undefined) {
+            setBookData(newBook)
+        }
     }   
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
