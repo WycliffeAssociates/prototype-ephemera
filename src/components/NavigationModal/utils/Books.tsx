@@ -49,14 +49,12 @@ function Books( { handleClick, currentBook } : BooksProps) {
     function handleChildClicked(newChildClicked: any) {
         handleClick(newChildClicked.current.id)
 
-        if(childClicked?.current?.style?.color !== undefined) 
-        {
+        if(childClicked?.current?.style?.color !== undefined) {
             childClicked.current.style.color = "#001533CC";
             childClicked.current.style.backgroundColor = "white";
         } 
 
-        if(newChildClicked?.current?.style?.color !== undefined)
-        {
+        if(newChildClicked?.current?.style?.color !== undefined) {
             newChildClicked.current.style.color = "blue";
             newChildClicked.current.style.backgroundColor = "#015ad90d";
         }
@@ -77,8 +75,7 @@ function Books( { handleClick, currentBook } : BooksProps) {
                 return true;
             }
 
-            if(filter.toLowerCase().charAt(0) === book[0].toLowerCase().charAt(0))
-            {
+            if(filter.toLowerCase().charAt(0) === book[0].toLowerCase().charAt(0)) {
                 return book[0].toLowerCase().includes(filter.toLowerCase())
             }
             
@@ -88,6 +85,8 @@ function Books( { handleClick, currentBook } : BooksProps) {
     }
 
     function bookSearchValidation(book : string) {
+        book = book.toLowerCase();
+        book = book.charAt(0).toUpperCase() + book.slice(1);
         if(oldTestamentBooks[book] !== undefined) {
             setErrorMessage("The Greek Lexicon Prototype only contains New Testament Books")
             return false;
