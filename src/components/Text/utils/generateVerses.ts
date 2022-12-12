@@ -85,9 +85,6 @@ function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordM
             let subWord : SubWord = {subIdx: sub as string, word: {...currentGreekWord} as NewFormattedGreekWord};
             buffers.subWords.push(subWord);
         } else if(currentGreekWordNotes.subPhraseWords !== undefined) {
-            console.log("Found subphrase word");
-            console.log(currentGreekWordNotes)
-            // TODO: finish
             flags.consumedSubPhraseWord = true;
             buffers.subPhraseWords.push(currentGreekWord);
         }
@@ -109,9 +106,8 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
         return;
     }
 
-    // if buffer contains phrase words NOTE: current word is NOT processed
-    if(flags.consumedPhraseWord) { 
 
+    if(flags.consumedPhraseWord) { // if buffer contains phrase words NOTE: current word is NOT processed
 
         // TODO: may need to handle leftover sub words here
         // TODO: may also need to handle leftover phrase words, in the case that one phrase is directly
@@ -157,8 +153,7 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
         let tempWord = processConsumedSubWords(word, buffers.subWords);
 
         buffers.verseWords.push(tempWord);
-    }
-    else if(typeof word !== 'string') {
+    } else if(typeof word !== 'string') {
         // TODO: check if I can remove this if statement
         if(word.text !== "√") { // current word has english backing 
             let tempWord = {
@@ -205,7 +200,7 @@ function processConsumedPhraseWords(greekWordBuffer: PhraseWord[]) {
 
     let pharseWords = greekWordBuffer.filter((word) => (word.text === "√"))
     let tempWord = {
-        englishWords: pharseWords[0]?.phraseWords,
+        englishWords: pharseWords[0]?.subPhraseWords ? pharseWords[0]?.subPhraseWords : pharseWords[0]?.phraseWords,
         phraseWords: [...greekWordBuffer],
         subWords: [] as any[],
     }
@@ -215,13 +210,7 @@ function processConsumedPhraseWords(greekWordBuffer: PhraseWord[]) {
     return tempWord;
 }
 
-function insertSubWordToPhraseWords(currentWord: NewFormattedGreekWord | string, subWordBuffer: SubWord[]) {
-    // TODO WRITE FUNCTION HERE THAT IS BASICALLY THE SAME AS PROCESSCONSUMEDSUBWORD, BUT DOES THE REPLACE AT THE LEVEL OF TEH PHRASEWORDS
-}
 
-function insertSubWord(currentWord: NewFormattedGreekWord | string, subWordBuffer: SubWord[]) {
-
-}
 
 function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, subWordBuffer: SubWord[])
 {
