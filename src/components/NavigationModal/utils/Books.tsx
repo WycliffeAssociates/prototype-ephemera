@@ -100,6 +100,14 @@ function Books( { handleClick, currentBook } : BooksProps) {
         }
     }
 
+    // Sets color of selected book to be default colors. 
+    function handleBookSearchClick() {
+        if(childClicked?.current?.style?.color !== undefined) {
+            childClicked.current.style.color = "#001533CC";
+            childClicked.current.style.backgroundColor = "white";
+        } 
+    }
+
 
     return (
         <Box sx={{height: "100%", overflow:"auto",}}>
@@ -111,7 +119,12 @@ function Books( { handleClick, currentBook } : BooksProps) {
             >
 
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  >
-                    <BookSearchBar onClick={handleSearchInputClick} onFilter={onBookFilter} onValidation={bookSearchValidation}/>
+                    <BookSearchBar 
+                        handleClick={handleBookSearchClick} 
+                        onSearch={handleSearchInputClick} 
+                        onFilter={onBookFilter} 
+                        onValidation={bookSearchValidation}
+                    />
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  >

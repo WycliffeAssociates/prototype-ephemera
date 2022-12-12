@@ -7,12 +7,13 @@ import Input from '@mui/material/Input';
 
 
 interface BookSearchBarProps {
-  onClick: (params: any) => any,
+  onSearch: (params: any) => any,
+  handleClick?: () => any,
   onFilter: (params: any) => any,
   onValidation: (searchValue: any) => boolean
 }
 
-function BookSearchBar( {onClick, onFilter, onValidation} : BookSearchBarProps)
+function BookSearchBar( {onSearch, handleClick, onFilter, onValidation} : BookSearchBarProps)
 {
 
   const [userInput, setUserInput] = useState("Search books");
@@ -24,6 +25,13 @@ function BookSearchBar( {onClick, onFilter, onValidation} : BookSearchBarProps)
     onFilter(event.target.value)
     setUserInput(event.target.value);
   };
+
+  const onInputClick = () => {
+    if(handleClick !== undefined) {
+      handleClick();
+    }
+    setUserInput("");
+  }
 
   return (
 
@@ -40,7 +48,7 @@ function BookSearchBar( {onClick, onFilter, onValidation} : BookSearchBarProps)
           style={{borderRadius:"25px 25px 25px 25px"}} 
         >
                 <Input
-                  onClick={() => setUserInput("")}
+                  onClick={() => onInputClick()}
                   value={userInput}
                   onChange={handleChange} 
                   disableUnderline={true} 
@@ -53,7 +61,7 @@ function BookSearchBar( {onClick, onFilter, onValidation} : BookSearchBarProps)
                   }} 
                 />
           <Button 
-            onClick={() => onClick(userInput)} 
+            onClick={() => onSearch(userInput)} 
             style={{
                 width:"15%", 
                 borderColor:"#f2f2f2", 
