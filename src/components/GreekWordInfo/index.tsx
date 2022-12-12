@@ -21,28 +21,24 @@ function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
 
     useEffect(() => {
       (async () => {
-
-        // TODO: discuss if I should move this to application logic folder. 
-        if(greekWordsState.length !== 0) {
-          greekWordsState.splice(0,greekWordsState.length)
-        }
-
         let greekWordMarkDown = await getGreekWord(currentGreekWord.strongs);
-        
+        let wordsInfo : FormattedGreekWord[] = [];
+
         if(greekWordMarkDown !== undefined) {
           let gwtWords = await mapGWTMarkdown(greekWordMarkDown.data);
-          let wordsInfo : FormattedGreekWord[] = [];
           gwtWords.forEach((gwtWord) => {
             wordsInfo.push({...currentGreekWord, ...gwtWord}); 
           })
 
-          setGreekWordsState(wordsInfo)
         }
+        setGreekWordsState(wordsInfo)
+
       })();
     }, [currentGreekWord]); 
 
 
     const greekWords : any[] = [];
+
     console.log(greekWordsState)
     greekWordsState.forEach((greekWordState) => {
       greekWords.push(
