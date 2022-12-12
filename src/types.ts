@@ -87,6 +87,8 @@ type NewFormattedGreekWord = {
   morphology?: string,
   descriptions?: Description[],
   gwtGreekWord?: string,
+  subPhraseWords?: string,
+  phraseWords?: string,
 }
 
 

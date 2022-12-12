@@ -43,6 +43,7 @@ function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
 
 
     const greekWords : any[] = [];
+    console.log(greekWordsState)
     greekWordsState.forEach((greekWordState) => {
       greekWords.push(
       <>

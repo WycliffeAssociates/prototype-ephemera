@@ -1,3 +1,4 @@
+import { buffer } from 'stream/consumers';
 import { WordTag, 
     VerseTag,
     NoteTag,
@@ -17,7 +18,7 @@ function mapVerses (verses : VerseTag[]) {
     verses.forEach((verse : VerseTag) => {
 
         let flags = {consumedPhraseWord: false, consumedSubWord: false, consumedSubPhraseWord: false};
-        let buffers = {verseWords : [] as any[], subWords : [] as SubWord[], phraseWords : [] as PhraseWord[]}
+        let buffers = {verseWords : [] as any[], subWords : [] as SubWord[], phraseWords : [] as PhraseWord[], subPhraseWords : [] as any[]}
     
         // populates the verseWordOutput with verse words
         verse.w.forEach((word : WordTag | string) => {
@@ -25,8 +26,7 @@ function mapVerses (verses : VerseTag[]) {
         });
 
         // Ensures that phrase words at the end of a verse are processed
-        if(flags.consumedPhraseWord)
-        {
+        if(flags.consumedPhraseWord) {
             let tempWord = processConsumedPhraseWords(buffers.phraseWords)
             buffers.verseWords.push(tempWord);
         }
@@ -37,7 +37,7 @@ function mapVerses (verses : VerseTag[]) {
         verseOutput.push(tempVerse);
     })
 
-
+    console.log(verseOutput)
     return verseOutput;
 }
 
@@ -52,16 +52,15 @@ type WordMapBuffers = {
     verseWords : any[], 
     phraseWords : PhraseWord[],
     subWords: SubWord[],
+    subPhraseWords: any[],
 }
 
 
 function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordMapBuffers) {
 
-    if(typeof word !== "string")
-    {
+    if(typeof word !== "string") {
         // Fails gracefully for cases where given data is not valid
-        if(word._text === undefined) 
-        {
+        if(word._text === undefined) {
             return;
         }
 
@@ -78,30 +77,25 @@ function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordM
                                             ...currentGreekWordAttributes, 
                                             text: word._text
                                 }    
-        if(currentGreekWordNotes.phraseWords !== undefined)
-        {
+        if(currentGreekWordNotes.phraseWords !== undefined) {
             flags.consumedPhraseWord = true;
             buffers.phraseWords.push({...currentGreekWord, phraseWords: currentGreekWordNotes.phraseWords});
-        }
-        else if(sub !== undefined)
-        {
+        } else if(sub !== undefined) {
             flags.consumedSubWord = true;
             let subWord : SubWord = {subIdx: sub as string, word: {...currentGreekWord} as NewFormattedGreekWord};
             buffers.subWords.push(subWord);
-        }
-        else if(currentGreekWordNotes.subPhraseWords !== undefined)
-        {
+        } else if(currentGreekWordNotes.subPhraseWords !== undefined) {
+            console.log("Found subphrase word");
+            console.log(currentGreekWordNotes)
             // TODO: finish
-            // flags.consumedSubPhraseWord = true;
-            // buffers.subWords.push(currentGreekWord);
+            flags.consumedSubPhraseWord = true;
+            buffers.subPhraseWords.push(currentGreekWord);
         }
-        else // is a normal word
-        {
+        else { // is a normal word
             mapWord(currentGreekWord, flags, buffers)
         }
     }
-    else // word is just a string, but we still need to check buffer. 
-    {
+    else { // word is just a string, but we still need to check buffer. 
         mapWord(word, flags, buffers)
     }
 }
@@ -110,73 +104,70 @@ function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordM
 function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buffers: WordMapBuffers)
 {
 
-    if(typeof word !== "string" && word.text === "√" && flags.consumedPhraseWord === false)
-    {
+    if(typeof word !== "string" && word.text === "√" && flags.consumedPhraseWord === false) {
         // flags.consumedPhraseWord = false;
         return;
     }
 
-
-    if(flags.consumedPhraseWord) // if buffer contains phrase words NOTE: current word is NOT processed
-    {
+    // if buffer contains phrase words NOTE: current word is NOT processed
+    if(flags.consumedPhraseWord) { 
 
 
         // TODO: may need to handle leftover sub words here
         // TODO: may also need to handle leftover phrase words, in the case that one phrase is directly
         // followed by another. SHould be just a check against the phraseWords attribute. All words belonging to the same phrase
         // will have the same value for that. 
+        let subWords;
+        if(flags.consumedSubWord) { 
+            subWords = processConsumedSubWords(buffers.phraseWords[0], buffers.subWords);
+        } 
 
         let tempWord = processConsumedPhraseWords(buffers.phraseWords) 
+
+        if(subWords) {
+            tempWord.englishWords = subWords.englishWords;
+            tempWord.subWords = subWords.subWords;
+        }
+
         buffers.verseWords.push(tempWord);
 
-        if(typeof word !== 'string')
-        {
+        if(typeof word !== 'string') {
             // TODO: check if I can remove this if statement
-            if(word.text !== "√") // current word has english backing 
-            {
+            // current word has english backing 
+            if(word.text !== "√") {
                 let tempWord = {
                    englishWords: word.text,
                    greekWords: [word]
                 }
                 buffers.verseWords.push(tempWord)
             }
-        }
-        else
-        {
+        } else {
             let tempWord = {
                 englishWords: word
             }
             buffers.verseWords.push(tempWord)
         }
-    }
-    else if(flags.consumedSubWord)// buffer contain subWords. NOTE: Current word is processed in this case
-    {
+    } else if(flags.consumedSubWord) { // buffer contain subWords. NOTE: Current word is processed in this case
         let leftOverPhraseWords = processConsumedPhraseWords(buffers.phraseWords) 
 
-        if(leftOverPhraseWords.phraseWords.length > 0)
-        {
+        if(leftOverPhraseWords.phraseWords.length > 0) {
             buffers.verseWords.push(leftOverPhraseWords);
         }
         
         let tempWord = processConsumedSubWords(word, buffers.subWords);
 
         buffers.verseWords.push(tempWord);
-
     }
-    else if(typeof word !== 'string')
-    {
+    else if(typeof word !== 'string') {
         // TODO: check if I can remove this if statement
-        if(word.text !== "√") // current word has english backing 
-        {
+        if(word.text !== "√") { // current word has english backing 
             let tempWord = {
                englishWords: word.text,
                greekWords: [word]
             }
             buffers.verseWords.push(tempWord)
         }
-    }
-    else
-    {
+    } else {
         let tempWord = {
             englishWords: word
         }
@@ -192,11 +183,9 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
 
 function mapNotes(notes : NoteTag[] | undefined) {
     let tempGreekWordNotes : any = {};
-    if(notes !== undefined)
-    {
+    if(notes !== undefined) {
 
-        if(!Array.isArray(notes))
-        {
+        if(!Array.isArray(notes)) {
             notes = [notes];
         }
 
@@ -218,6 +207,7 @@ function processConsumedPhraseWords(greekWordBuffer: PhraseWord[]) {
     let tempWord = {
         englishWords: pharseWords[0]?.phraseWords,
         phraseWords: [...greekWordBuffer],
+        subWords: [] as any[],
     }
 
     greekWordBuffer.splice(0, pharseWords.length);
@@ -225,40 +215,59 @@ function processConsumedPhraseWords(greekWordBuffer: PhraseWord[]) {
     return tempWord;
 }
 
+function insertSubWordToPhraseWords(currentWord: NewFormattedGreekWord | string, subWordBuffer: SubWord[]) {
+    // TODO WRITE FUNCTION HERE THAT IS BASICALLY THE SAME AS PROCESSCONSUMEDSUBWORD, BUT DOES THE REPLACE AT THE LEVEL OF TEH PHRASEWORDS
+}
 
+function insertSubWord(currentWord: NewFormattedGreekWord | string, subWordBuffer: SubWord[]) {
+
+}
 
 function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, subWordBuffer: SubWord[])
 {
-
+    // TODO: refactor so I am not having two nearly identical forloops. Also, abstract this out to anotehr function since there seesm to be som many edge cases 
+    // when handling sub words, and additional functions are likely going to be needed
     let returnWords : any[] = [...subWordBuffer]
-
     let currentEnglishWord = ""; 
-    if(typeof currentWord !== "string")
-    {
-        for(let i = 0; i < subWordBuffer.length; i++ )
-        {
-            let currentSubWord = subWordBuffer[i].word;
-            if(typeof currentSubWord !== "string")
-            {
-                currentWord.text = currentWord.text.replace(subWordBuffer[i].subIdx as string, currentSubWord.text);
-            }
-        }
-        returnWords.push({word: currentWord})
-        currentEnglishWord = currentWord.text;
-    }
-    else
-    {
-        for(let i = 0; i < subWordBuffer.length; i++ )
-        {
-            let currentSubWord = subWordBuffer[i].word;
-            if(typeof currentSubWord !== "string")
-            {
-                currentWord = currentWord.replace(subWordBuffer[i].subIdx as string, currentSubWord.text);
-            }
-        }
-        currentEnglishWord = currentWord;
+
+    // let source : string = typeof(currentWord) === "string" ? currentWord : currentWord.text;
+    let source : string = "";
+    if(typeof(currentWord) === "string") {
+        source = currentWord;
+    } else if (currentWord.text === "√" && currentWord.phraseWords) {
+        source = currentWord.phraseWords;
+    } else {
+        source = currentWord.text
     }
 
+
+    // if(typeof currentWord !== "string") {
+    for(let i = 0; i < subWordBuffer.length; i++ )
+    {
+        let currentSubWord = subWordBuffer[i].word;
+        if(typeof(currentSubWord) !== "string")
+        {
+            // TODO: add else if for phrasewords
+            if(currentSubWord.subPhraseWords) {
+                source = source.replace(subWordBuffer[i].subIdx as string, currentSubWord.subPhraseWords);
+            }
+            else if(currentSubWord.phraseWords) {
+                currentSubWord.phraseWords = currentSubWord.phraseWords.replace(subWordBuffer[i].subIdx as string, currentSubWord.text);
+
+                // TODO: see if I can bring this out of the for loop to decrease run time
+                if(typeof currentWord !== "string" && currentWord.phraseWords) {
+                    currentWord.phraseWords = currentSubWord.phraseWords
+                }
+            } else {
+                source = source.replace(subWordBuffer[i].subIdx as string, currentSubWord.text);
+            }
+        }
+    }
+    currentEnglishWord = source;
+    if(typeof currentWord !== "string" && !currentWord.phraseWords) {
+        currentWord.text = source;
+        returnWords.push({word: currentWord});
+    } 
 
     let tempWord = {
         englishWords: currentEnglishWord,

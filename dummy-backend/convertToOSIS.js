@@ -56,12 +56,17 @@ async function convertOrderedXMLtoOsis(orderedXML)
                         if(curVerseWord.phrase[l].w !== undefined)
                         { 
                             let curVerseWordAttributes = curVerseWord[':@'];
-                            // console.log(curVerseWordAttributes)
+                            console.log(curVerseWordAttributes)
                             if(curVerseWordAttributes !== undefined && curVerseWordAttributes.sub !== undefined)
                             {
                                 let tempW = curVerseWord.phrase[l];
-                                let newNote = {note: [{'#text': phrase}], ':@': {'type': 'x-subPhraseWords'}}
-                                tempW.w.unshift(newNote);
+                                let subPhraseNote = {note: [{'#text': phrase}], ':@': {'type': 'x-subPhraseWords'}}
+                                let subIdxNote = {note: [{'#text': curVerseWordAttributes.sub}], ':@': {'type': 'x-sub'}}
+                                console.log("showing sub index");
+                                console.log(curVerseWordAttributes.sub);
+                                tempW.w.unshift(subPhraseNote);
+                                tempW.w.unshift(subIdxNote);
+
                                 wordBuffer.push(tempW);
                             }
                             else

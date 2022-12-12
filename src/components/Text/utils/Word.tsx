@@ -13,8 +13,8 @@ interface WordProps {
   
     const wordRef = useRef(null);
   
-    if(versePhrase.phraseWords === undefined && versePhrase.subWords === undefined && versePhrase.subPhraseWords === undefined && versePhrase.greekWords === undefined)
-    {
+    // TODO: come up with a more clever way to do this. 
+    if(versePhrase.phraseWords === undefined && versePhrase.subWords === undefined && versePhrase.subPhraseWords === undefined && versePhrase.greekWords === undefined) {
       return(
         <>
           <span style={{color:"#001533CC"}}>
@@ -23,46 +23,47 @@ interface WordProps {
           <span> </span>
         </>
       )
-    }
-    
-    else if(versePhrase.phraseWords !== undefined)
-    {
+    } else if(versePhrase.phraseWords !== undefined) {
+      let words : NewFormattedGreekWord[] = [...versePhrase.phraseWords];
+
+      if(versePhrase.subWords !== undefined) {
+        versePhrase.subWords.forEach((subWord) => {
+          if(typeof subWord.word !== "string" && subWord.word.strongs !== undefined) {
+            words.unshift(subWord.word);
+          }
+        })
+      }
       return(
         <>
           <span ref={wordRef} 
                 className="TextContainer__GreekPhrase"  
-                onClick={() => {onPhraseClick(versePhrase.phraseWords); handleClick(wordRef); console.log(versePhrase.phraseWords)}}>
+                onClick={() => {onPhraseClick(words); handleClick(wordRef); console.log(words)}}>
             {versePhrase.englishWords}
           </span>
           <span> </span>
         </>
       )
-    }
-    
-    else if(versePhrase.subWords !== undefined)
-    {
+    } else if(versePhrase.subWords !== undefined) {
       let words : NewFormattedGreekWord[] = [];
 
-      versePhrase.subWords.forEach((subWord, idx, subWords) => {
-        if(typeof subWord.word !== "string" && subWord.word.strongs !== undefined)
-        {
+      versePhrase.subWords.forEach((subWord) => {
+        if(typeof subWord.word !== "string" && subWord.word.strongs !== undefined) {
           words.push(subWord.word);
         }
       })
+      
       
       return(
         <>
           <span ref={wordRef} 
                 className="TextContainer__GreekPhrase" 
-                onClick={() => {onPhraseClick(words); handleClick(wordRef); console.log(versePhrase.subWords)}}>
+                onClick={() => {onPhraseClick(words); handleClick(wordRef); console.log(versePhrase.subWords); console.log("Here is the issue")}}>
             {versePhrase.englishWords}
           </span>
           <span> </span>
         </>
       )
-    }
-    else
-    {
+    } else {
       return(
         <>
           <span ref={wordRef} 

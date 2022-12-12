@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
   const readFile = async () => {
     try {
-      const data = await fs.promises.readFile(`./taggedOSIS/${book}.json`, 'utf8')
+      const data = await fs.promises.readFile(`./taggedOSIS/${book}.json`, 'utf8');
       return data
     }
     catch(err) {
