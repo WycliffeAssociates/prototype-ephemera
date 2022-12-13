@@ -84,7 +84,7 @@ function Text({onPhraseClick}: TextProps)
     })
 
     const tempVerse = (
-      <p className="TextContainer__Verse"><sup>{verseIdx + 1}</sup> {verseWordOutput}</p>
+      <p className="TextContainer__Verse"><sup>{verse.verseNum}</sup> {verseWordOutput}</p>
     )
     verseOutput.push(tempVerse);
   })

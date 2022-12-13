@@ -114,6 +114,7 @@ type NewFormattedWord = {
 
 type NewFormattedVerse = {
   verseWords : NewFormattedWord[];
+  verseNum : number,
 }
 
 

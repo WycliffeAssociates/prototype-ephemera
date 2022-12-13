@@ -32,6 +32,7 @@ function mapVerses (verses : VerseTag[]) {
         }
 
         let tempVerse = {
+            verseNum: parseInt(verse.ATTR.name.slice(verse.ATTR.name.indexOf(':') + 1)),
             verseWords: buffers.verseWords
         }
         verseOutput.push(tempVerse);
