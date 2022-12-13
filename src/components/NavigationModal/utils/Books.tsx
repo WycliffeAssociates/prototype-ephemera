@@ -69,15 +69,23 @@ function Books( { handleClick, currentBook, onChange } : BooksProps) {
         handleClick(userInput);
     }
 
-    function onBookFilter(filter : string) {
+    function onBookFilter(filterKey : string) {
         let tempArray = Object.entries(newTestamentMetadata).filter((book) => {
 
-            if(filter === "") {
+            if(filterKey === "") {
                 return true;
             }
 
-            if(filter.toLowerCase().charAt(0) === book[0].toLowerCase().charAt(0)) {
-                return book[0].toLowerCase().includes(filter.toLowerCase())
+            if(filterKey.toLowerCase().charAt(0) === book[0].toLowerCase().charAt(0)) {
+                return book[0].toLowerCase().includes(filterKey.toLowerCase())
+            }
+
+            // if the current book starts with a number
+            if(/^\d$/.test(book[0].charAt(0))) {
+                if(book[0].toLowerCase().slice(2).charAt(0) === filterKey.toLowerCase().charAt(0)) {
+                    return book[0].toLowerCase().slice(2).includes(filterKey.toLowerCase());
+                }
+                
             }
             
             return false;  
