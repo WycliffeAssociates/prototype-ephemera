@@ -51,7 +51,11 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
         if(newTestamentMetadata[newBook] !== undefined) {
             setBookData(newBook)
         }
-    }   
+    }
+    
+    function onBookChange() {
+        setBookData("");
+    }
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -88,7 +92,7 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
 
             <Grid className="BookChapterMenu__Books" item xs={12} sm={12} md={5} lg={5} xl={5} 
                     style={{ display: displayBooks ? "block" : "none", height:"calc(100% - 88px)"}}>
-                <Books handleClick={onBookClick} currentBook={bookChapter.book}/>
+                <Books onChange={onBookChange} handleClick={onBookClick} currentBook={bookChapter.book}/>
             </Grid>
 
             <Grid className="BookChapterMenu__Chapters" item xs={12} sm={12} md={7} lg={7} xl={7}

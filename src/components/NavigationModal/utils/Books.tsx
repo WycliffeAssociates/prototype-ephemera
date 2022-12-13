@@ -36,11 +36,12 @@ function Book({bookData, handleClick, isCurrentBook}: BookProps) {
 
 
 interface BooksProps {
+    onChange?: () => any;
     handleClick: (params: any) => any;
     currentBook: string;
 }
 
-function Books( { handleClick, currentBook } : BooksProps) {
+function Books( { handleClick, currentBook, onChange } : BooksProps) {
 
     const [childClicked, setChildClicked] = useState<any>(null);
     const [filteredBooks, setFilteredBooks] = useState(Object.entries(newTestamentMetadata));
@@ -81,6 +82,9 @@ function Books( { handleClick, currentBook } : BooksProps) {
             
             return false;  
         })
+        if(onChange) {
+            onChange();
+        }
         setFilteredBooks(tempArray)
     }
 

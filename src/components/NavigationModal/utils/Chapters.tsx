@@ -2,6 +2,7 @@ import Grid from '@mui/material/Grid';
 import { books as newTestamentMetadata } from "../../../applicationLogic/newTestamentMetadata";
 import {useNavigate, createSearchParams } from "react-router-dom";
 import useBookChapterParams from '../../../hooks/useBookChapterParams';
+import { useEffect, useState } from 'react';
 
 
 interface ChapterProps {
@@ -28,23 +29,28 @@ interface ChaptersProps {
 
 function Chapters({book} : ChaptersProps) {
 
+    const [numChapters, setNumChapters] = useState(0);
     const bookChapter = useBookChapterParams();
     const navigate = useNavigate();
 
-    let numChapters;
+    useEffect(() => {
 
-    // If a book has been clicked, then use the selected books chapters
-    // else use the most recently clicked book's chapters
-    if(book && book !== "") {
-        numChapters = newTestamentMetadata[book].numChapters;
-    }
-    else if(bookChapter.book && bookChapter.book !== "") {
-        numChapters = newTestamentMetadata[bookChapter.book].numChapters;
-    }
-    else
-    {
-        numChapters = 0;
-    }
+        // If a book has been clicked, then use the selected books chapters
+        // else use the most recently clicked book's chapters
+        if(book && book !== "") {
+            setNumChapters(newTestamentMetadata[book].numChapters);
+        }
+        else if(book === "") {
+            setNumChapters(0);
+        }
+        else if(bookChapter.book && bookChapter.book !== "") {
+            setNumChapters(newTestamentMetadata[bookChapter.book].numChapters);
+        }
+        else
+        {
+            setNumChapters(0);
+        }
+    }, [book])
 
 
     let chapters : any[]  = [];
@@ -66,13 +72,15 @@ function Chapters({book} : ChaptersProps) {
 
     }
 
-    for(let i = 0; i < numChapters; i++) {
+    if(numChapters !== undefined) {
+        for(let i = 0; i < numChapters; i++) {
 
-        let chapterElement = (
-            <Chapter chapterNum={(i+1)} onClick={onChapterClick} />
-        )
-
-        chapters.push(chapterElement);
+            let chapterElement = (
+                <Chapter chapterNum={(i+1)} onClick={onChapterClick} />
+            )
+    
+            chapters.push(chapterElement);
+        }
     }
 
     return (
@@ -82,7 +90,7 @@ function Chapters({book} : ChaptersProps) {
         justifyContent="flex-start"
         alignItems="flex-start"
         >
-            {chapters.map((chapter) => chapter)}
+            {numChapters > 0 ? chapters.map((chapter) => chapter) : ""}
         </Grid>
     )
 }
