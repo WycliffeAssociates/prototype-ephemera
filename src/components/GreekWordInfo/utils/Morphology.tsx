@@ -41,7 +41,7 @@ function Morphology({morphology, abbreviatedMorphology} : morphologyProps) {
                             <div>
                                 <LightTooltip
                                     title={getMorphDescription(abbreviatedMorphology)}
-                                    placement="bottom-start"
+                                    placement="bottom-end"
                                     PopperProps={{
                                         disablePortal: true,
                                     }}
@@ -56,7 +56,7 @@ function Morphology({morphology, abbreviatedMorphology} : morphologyProps) {
                                         style={{textDecoration: "underline", color:"blue", width:"100%"}}
                                         onClick={() => setMorphDescriptionOpen(true)}
                                     >
-                                        more
+                                        Learn More
                                     </p>
                                 </LightTooltip>
                             </div>
