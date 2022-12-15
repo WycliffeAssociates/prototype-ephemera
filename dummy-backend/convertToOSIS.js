@@ -56,14 +56,11 @@ async function convertOrderedXMLtoOsis(orderedXML)
                         if(curVerseWord.phrase[l].w !== undefined)
                         { 
                             let curVerseWordAttributes = curVerseWord[':@'];
-                            console.log(curVerseWordAttributes)
                             if(curVerseWordAttributes !== undefined && curVerseWordAttributes.sub !== undefined)
                             {
                                 let tempW = curVerseWord.phrase[l];
                                 let subPhraseNote = {note: [{'#text': phrase}], ':@': {'type': 'x-subPhraseWords'}}
                                 let subIdxNote = {note: [{'#text': curVerseWordAttributes.sub}], ':@': {'type': 'x-sub'}}
-                                console.log("showing sub index");
-                                console.log(curVerseWordAttributes.sub);
                                 tempW.w.unshift(subPhraseNote);
                                 tempW.w.unshift(subIdxNote);
 
@@ -91,7 +88,6 @@ async function convertOrderedXMLtoOsis(orderedXML)
 
                 // extracts w tag's attributes information and convert them to notes
                let curVerseWordAttributes = curVerseWord[':@'];
-               //console.log(curVerseWordAttributes);
                if(curVerseWordAttributes !== undefined)
                {
                     if(curVerseWordAttributes['OGNTsort'] !== undefined)
@@ -188,6 +184,16 @@ async function mapTaggedOSISToJSONFile(bookTitle)
     // Converts current ULB XML file to an OSIS complient ULB XML file and then converts that to JSON
     let newXML = await mapTaggedULBToOsisULB(taggedULBBook);
 
+    // write xml to file
+    await fs.promises.writeFile(`taggedOSISXML/${bookTitle}.xml`, newXML, async (err) => {
+        console.log("writing file")
+        if (err) {
+            console.log("Error adding to folder")
+        }
+        console.log(`${bookTitle} successfully added to taggedOSIS folder`);
+        
+    });
+
     const orderedParserOptions = {
         ignoreAttributes: false,
         attributesGroupName: "ATTR",
@@ -200,8 +206,9 @@ async function mapTaggedOSISToJSONFile(bookTitle)
     let orderedXML = await orderedParser.parse(newXML);
 
     let response = undefined;
+
     // write JSON string to a file
-    await fs.promises.writeFile(`taggedOSIS/${bookTitle}.json`, JSON.stringify(orderedXML), async (err) => {
+    await fs.promises.writeFile(`taggedOSISJSON/${bookTitle}.json`, JSON.stringify(orderedXML), async (err) => {
         console.log("writing file")
         if (err) {
             console.log("Error adding to folder")
