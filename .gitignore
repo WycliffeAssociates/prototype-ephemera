@@ -5,7 +5,8 @@
 /.pnp
 .pnp.js
 /dummy-backend/node_modules
-/dummy-backend/taggedOSIS
+/dummy-backend/taggedOSISJSON
+/dummy-backend/taggedOSISXML
 /src/api/testData
 
 # testing
