@@ -15,6 +15,7 @@ let books : any = {
     "2 Thessalonians": { abbreviatedBook: "54-2TH", numChapters: 3},
     "1 Timothy": { abbreviatedBook: "55-1TI", numChapters: 6},
     "2 Timothy": { abbreviatedBook: "56-2TI", numChapters: 4},
+    "Titus": {abbreviatedBook: "57-TIT", numChapters: 3},
     Philemon: { abbreviatedBook: "58-PHM", numChapters: 1},
     Hebrews: { abbreviatedBook: "59-HEB", numChapters: 13},
     James: { abbreviatedBook: "60-JAS", numChapters: 5},
