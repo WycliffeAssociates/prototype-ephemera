@@ -331,3 +331,51 @@
   margin-bottom:8px;
   margin-left:8px
 }
+
+
+.SettingsModal__settingsOption {
+  height: 36px;
+  margin: 0px;
+  margin-left: 6px;
+  /* margin-right:50%; */
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 100%;
+  /* display: inline; */
+  display: flex;
+
+  align-items: center;
+  color: #001533;
+}
+
+.SettingsModal__settingsHeader {
+  height: 36px;
+  margin: 0px;
+  margin-left: 6px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  color: #001533;
+}
+
+.SettingsModal__settingButton {
+  height:30px; 
+  width:30px; 
+  max-height:30px; 
+  max-width:30px; 
+  min-width:30px;
+}
+
+.SettingsModal__settingsValue {
+  margin:0px; 
+  text-align:center; 
+  line-height:30px; 
+  width:calc(100% - 70px); 
+  display:inline-block;
+}

@@ -131,6 +131,14 @@ type GWTInformation = {
   unprocessed?: string,
 }
 
+type SettingsOption = {
+  name: string,
+  value: string | number | boolean | undefined,
+  modifier: (newValue : string | number | boolean | undefined) => any,
+  type: "switch" | "increment",
+  unit?: string,
+}
+
 
 export type {
     GWTInformation,
@@ -152,7 +160,7 @@ export type {
     PhraseWord,
     NewFormattedWord,
     NewFormattedVerse,
-
+    SettingsOption,
 
 
 };
