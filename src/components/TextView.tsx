@@ -1,18 +1,18 @@
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Grid from '@mui/material/Grid';
-import ChapterNavigationBar from './ChapterNavigationBar';
 import StationaryChapterNavButton from './StationaryChapterNavButton';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
-import Text from './Text';
-import { NewFormattedGreekWord, PhraseWord, SubWord, SettingsOption } from '../types';
-import NavigationModal from "./NavigationModal"
-import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import useWindowSize from '../hooks/useWindowSize';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
+import { NewFormattedGreekWord, PhraseWord, SubWord } from '../types';
+import ChapterNavigationBar from './ChapterNavigationBar';
+import Text from './Text';
+import NavigationModal from "./NavigationModal"
+import useWindowSize from '../hooks/useWindowSize';
 import SettingsModal from './SettingsModal';
-import { valueToPercent } from '@mui/base';
+import {useSettings} from '../hooks/SettingsContext';
 
 
 interface TextViewProps {
@@ -25,12 +25,7 @@ function TextView({onClick}: TextViewProps)
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const { search } = useLocation();
   const windowSize = useWindowSize([]);
-  const [ULBLineHeightValue, setULBLineHeightValue] = useState<number>(100);
-  const [ULBFontSizeValue, setULBFontSizeValue] = useState<number>(20);
-  const [underlineTextValue, setUnderlineTextValue] = useState<boolean>(true);
-  const [GWTLineHeightValue, setGWTLineHeightValue] = useState<number>(100);
-  const [GWTFontSizeValue, setGWTFontSizeValue] = useState<number>(20);
-
+  const {ULBSettings, GWTSettings} = useSettings();
 
   let navigationModalFullScreen = (windowSize.innerWidth < 900 ? true : false);
 
@@ -57,56 +52,6 @@ function TextView({onClick}: TextViewProps)
 
   const onSettingsModalOpen = () => {
     setSettingsModalOpen(true);
-  }
-
-  // TODO: Possibly add this to a hook with Context
-  const underlineSetting : SettingsOption = {
-    name: "Underline Text",
-    value: underlineTextValue,
-    modifier: function () {
-      setUnderlineTextValue(!underlineTextValue);
-    },
-    type:"switch",
-  }
-
-  const ULBTextFontSetting : SettingsOption = {
-    name: "ULB Font Size",
-    value: ULBFontSizeValue,
-    modifier: function (newValue: number | string | number | boolean | undefined) {
-      setULBFontSizeValue(newValue as number);
-    },
-    type:"increment",
-    unit:"px",
-  }
-
-  const ULBLineHeightSetting : SettingsOption = {
-    name: "ULB Line Height",
-    value: ULBLineHeightValue,
-    modifier: function (newValue: number | string | number | boolean | undefined) {
-      setULBLineHeightValue(newValue as number);
-    },
-    type:"increment",
-    unit:"%",
-  }
-
-  const GWTTextFontSetting : SettingsOption = {
-    name: "GWT Font Size",
-    value: GWTFontSizeValue,
-    modifier: function (newValue: number | string | number | boolean | undefined) {
-      setGWTFontSizeValue(newValue as number);
-    },
-    type:"increment",
-    unit:"px",
-  }
-
-  const GWTLineHeightSetting : SettingsOption = {
-    name: "GWT Line Height",
-    value: GWTLineHeightValue,
-    modifier: function (newValue: number | string | number | boolean | undefined) {
-      setGWTLineHeightValue(newValue as number);
-    },
-    type:"increment",
-    unit:"%",
   }
 
   return (
@@ -149,14 +94,7 @@ function TextView({onClick}: TextViewProps)
           xs={12} sm={12} md={8} 
           style={{ width: "100%", height: "100%", maxHeight: "90vh"}}
         >
-            <Text 
-              onPhraseClick={onPhraseClick} 
-              ULBTextSettings={{
-                lineHeight: ULBLineHeightSetting.value + (ULBLineHeightSetting.unit ? ULBLineHeightSetting.unit : "%"), 
-                fontSize: ULBTextFontSetting.value + (ULBTextFontSetting.unit ? ULBTextFontSetting.unit : "px"), 
-                underlineText: underlineTextValue
-              }}
-              />
+            <Text onPhraseClick={onPhraseClick} />
         </Grid>
 
         <Grid item xs={0} sm={0} md={2}>
@@ -176,13 +114,7 @@ function TextView({onClick}: TextViewProps)
       <SettingsModal
         open={settingsModalOpen} 
         onClose={onSettingsModalClose} 
-        settings={[
-          underlineSetting, 
-          ULBTextFontSetting, 
-          ULBLineHeightSetting, 
-          GWTTextFontSetting, 
-          GWTLineHeightSetting
-        ]}
+        settings={[...ULBSettings, ...GWTSettings,]}
       />
     </>
   )

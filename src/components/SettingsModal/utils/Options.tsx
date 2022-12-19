@@ -3,6 +3,7 @@ import {SettingsOption} from '../../../types';
 import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
 
+
 const SettingsModal__decreaseButton = {
     height:"30px", 
     width:"30px", 
@@ -40,7 +41,10 @@ function Options({settings} : OptionsProps) {
                         if(setting.type == "switch") {
                             return (
                                 <Grid item lg={12} xl={12} md={12} sm={12} xs={12}>
-                                    <Switch defaultChecked size='medium'/>
+                                    <Switch size='medium'
+                                            checked={setting.value as boolean}
+                                            onChange={() => setting.modifier(undefined)} 
+                                    />
                                 </Grid>
                             );
                         } else {
@@ -52,7 +56,9 @@ function Options({settings} : OptionsProps) {
                                         style={SettingsModal__decreaseButton}
                                         onClick={() => {setting.modifier((setting.value as number) - 1);}}
                                     >-</Button>
-                                    <p className="SettingsModal__settingsValue">{setting.value}{setting.unit ? setting.unit : ""}</p>
+                                    <p className="SettingsModal__settingsValue">
+                                        {setting.value}{setting.unit ? setting.unit : ""}
+                                    </p>
                                     <Button 
                                         variant="outlined" 
                                         sx={{m: .25, p: .25}} 

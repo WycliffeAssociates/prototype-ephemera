@@ -9,10 +9,9 @@ import useChapterVerseData from "../../hooks/useChapterVerseData"
 
 interface TextProps {
     onPhraseClick: (words : FormattedGreekWord[] |  PhraseWord[] | SubWord[] | undefined) => any;
-    ULBTextSettings: {lineHeight: string,  underlineText: boolean, fontSize: string}  
 }
 
-function Text({onPhraseClick, ULBTextSettings}: TextProps)
+function Text({onPhraseClick}: TextProps)
 {
   const bookChapter = useBookChapterParams();
   const verses = useChapterVerseData(bookChapter.book, bookChapter.chapter);
