@@ -38,7 +38,7 @@ function Options({settings} : OptionsProps) {
             <Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
                 <Grid container direction="row">
                     {settings.map((setting) => {
-                        if(setting.type == "switch") {
+                        if(setting.inputType == "switch") {
                             return (
                                 <Grid item lg={12} xl={12} md={12} sm={12} xs={12}>
                                     <Switch size='medium'

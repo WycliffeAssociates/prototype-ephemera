@@ -135,8 +135,14 @@ type SettingsOption = {
   name: string,
   value: string | number | boolean | undefined,
   modifier: (newValue : string | number | boolean | undefined) => any,
-  type: "switch" | "increment",
+  inputType: "switch" | "increment",
   unit?: string,
+  styleOverrideKey?: string,
+  styleOverrideValue?: string,
+}
+
+type ULBSettingsOption = SettingsOption & {
+  level: "verse" | "word"
 }
 
 
@@ -161,6 +167,5 @@ export type {
     NewFormattedWord,
     NewFormattedVerse,
     SettingsOption,
-
-
+    ULBSettingsOption,
 };

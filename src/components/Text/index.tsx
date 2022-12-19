@@ -4,7 +4,8 @@ import { FormattedGreekWord, PhraseWord, SubWord} from '../../types';
 import Word from './utils/Word';
 import useBookChapterParams from "../../hooks/useBookChapterParams"
 import useWindowSize from '../../hooks/useWindowSize';
-import useChapterVerseData from "../../hooks/useChapterVerseData"
+import useChapterVerseData from "../../hooks/useChapterVerseData";
+import {useSettings} from '../../hooks/SettingsContext';
 
 
 interface TextProps {
@@ -17,6 +18,7 @@ function Text({onPhraseClick}: TextProps)
   const verses = useChapterVerseData(bookChapter.book, bookChapter.chapter);
   const windowSize = useWindowSize([bookChapter.book, bookChapter.chapter]);
   const [childClicked, setChildClicked] = useState<any>({});
+  const {ULBSettings} = useSettings();
 
 
   useEffect(() => {
@@ -36,8 +38,6 @@ function Text({onPhraseClick}: TextProps)
     }
   }, [childClicked, windowSize.innerWidth])
 
-
-
   useEffect(() => {
 
     // Makes sure that all text is default color after navigating to another chapter. 
@@ -51,7 +51,6 @@ function Text({onPhraseClick}: TextProps)
 
     setChildClicked({})
   }, [verses]);
-
 
   function handleChildClicked(newChildClicked: any) {
 
@@ -68,18 +67,29 @@ function Text({onPhraseClick}: TextProps)
     setChildClicked(newChildClicked);
   }
 
+  let overwriteStyle : any = {};
+
+  ULBSettings.forEach((setting : any) => {
+    if(setting.level === "verse" && setting?.styleOverrideKey && setting?.value){
+      let styleValue = setting?.styleOverrideValue ? setting?.styleOverrideValue : setting.value;
+      let styleUnit = setting.unit ? setting.unit : "";
+
+      overwriteStyle[setting.styleOverrideKey] = "" + styleValue + styleUnit;
+    }
+  });
+
   let verseOutput : any[] = [];
 
-  verses.forEach((verse, verseIdx) => {
+  verses.forEach((verse) => {
     let verseWordOutput : any[] = [];
 
-    verse.verseWords.forEach((verseWord, wordIdx) => {
+    verse.verseWords.forEach((verseWord) => {
       
       verseWordOutput.push(<Word handleClick={handleChildClicked} onPhraseClick={onPhraseClick} versePhrase={{...verseWord}}/>)
     })
 
     const tempVerse = (
-      <p className="TextContainer__Verse"><sup>{verse.verseNum}</sup> {verseWordOutput}</p>
+      <p className="TextContainer__Verse" style={{...overwriteStyle}}><sup>{verse.verseNum}</sup> {verseWordOutput}</p>
     )
     verseOutput.push(tempVerse);
   })

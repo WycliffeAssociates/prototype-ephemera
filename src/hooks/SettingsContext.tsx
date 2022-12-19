@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-import { SettingsOption } from '../types';
+import { SettingsOption, ULBSettingsOption } from '../types';
 
 
 const SettingsContext = React.createContext({
-    ULBSettings: {} as any, 
-    GWTSettings: {} as any
+    ULBSettings: [] as ULBSettingsOption[], 
+    GWTSettings: [] as SettingsOption[],
 });
 
 export function useSettings() {
@@ -13,39 +13,46 @@ export function useSettings() {
 
 export function SettingsProvider({children} : any) {
 
-    const [ULBLineHeightValue, setULBLineHeightValue] = useState<number>(100);
+    const [ULBLineHeightValue, setULBLineHeightValue] = useState<number>(200);
     const [ULBFontSizeValue, setULBFontSizeValue] = useState<number>(20);
     const [underlineTextValue, setUnderlineTextValue] = useState<boolean>(true);
-    const [GWTLineHeightValue, setGWTLineHeightValue] = useState<number>(100);
+    const [GWTLineHeightValue, setGWTLineHeightValue] = useState<number>(200);
     const [GWTFontSizeValue, setGWTFontSizeValue] = useState<number>(20);
 
-    const underlineSetting : SettingsOption = {
+    const underlineSetting : ULBSettingsOption = {
         name: "Underline Text",
         value: underlineTextValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
             setUnderlineTextValue(!underlineTextValue);
         },
-        type:"switch",
+        inputType:"switch",
+        styleOverrideKey: "textDecoration",
+        styleOverrideValue: underlineTextValue ? "underline" : "none",
+        level: "word",
     }
     
-    const ULBTextFontSetting : SettingsOption = {
+    const ULBTextFontSetting : ULBSettingsOption = {
         name: "ULB Font Size",
         value: ULBFontSizeValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
             setULBFontSizeValue(newValue as number);
         },
-        type:"increment",
+        inputType:"increment",
         unit:"px",
+        styleOverrideKey: "fontSize",
+        level: "word",
     }
     
-    const ULBLineHeightSetting : SettingsOption = {
+    const ULBLineHeightSetting : ULBSettingsOption = {
         name: "ULB Line Height",
         value: ULBLineHeightValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
             setULBLineHeightValue(newValue as number);
         },
-        type:"increment",
+        inputType:"increment",
         unit:"%",
+        styleOverrideKey: "lineHeight",
+        level: "verse",
     }
     
     const GWTTextFontSetting : SettingsOption = {
@@ -54,8 +61,9 @@ export function SettingsProvider({children} : any) {
         modifier: function (newValue: number | string | number | boolean | undefined) {
             setGWTFontSizeValue(newValue as number);
         },
-        type:"increment",
+        inputType:"increment",
         unit:"px",
+        styleOverrideKey: "fontSize",
     }
     
     const GWTLineHeightSetting : SettingsOption = {
@@ -64,8 +72,9 @@ export function SettingsProvider({children} : any) {
         modifier: function (newValue: number | string | number | boolean | undefined) {
             setGWTLineHeightValue(newValue as number);
         },
-        type:"increment",
+        inputType:"increment",
         unit:"%",
+        styleOverrideKey: "lineHeight",
     }
 
     return (
@@ -74,11 +83,11 @@ export function SettingsProvider({children} : any) {
                 underlineSetting, 
                 ULBTextFontSetting, 
                 ULBLineHeightSetting
-            ], 
+            ] as ULBSettingsOption[], 
             GWTSettings: [
                 GWTTextFontSetting, 
                 GWTLineHeightSetting
-            ]
+            ] as SettingsOption[]
         }}>
             {children}
         </SettingsContext.Provider>
