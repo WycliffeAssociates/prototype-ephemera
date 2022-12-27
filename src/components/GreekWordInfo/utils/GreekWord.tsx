@@ -1,4 +1,6 @@
 import Grid from '@mui/material/Grid';
+import { useSettings } from '../../../hooks/SettingsContext';
+import { mapValidGWTSettings } from './mapValidGWTSettings';
 
 interface greekWordProps {
     greekWord: string | undefined,
@@ -6,6 +8,8 @@ interface greekWordProps {
 };
 
 function GreekWord({greekWord, englishEquivalent} : greekWordProps) {
+    const { GWTSettings } = useSettings();
+    let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
 
     return (
         <>
@@ -13,7 +17,13 @@ function GreekWord({greekWord, englishEquivalent} : greekWordProps) {
                 <p className="GreekWord">{greekWord}</p> 
             </Grid>
             <Grid item sm={12} xs={12}>
-                { englishEquivalent !== "√" ? <p className="EnglishWord">{englishEquivalent}</p> : ""}
+                { 
+                    (englishEquivalent !== "√") ? 
+                        <p 
+                            className="EnglishWord"
+                            style={{...overwriteStyle}}
+                        >{englishEquivalent}</p> : ""
+                }
             </Grid>
         </>
     )

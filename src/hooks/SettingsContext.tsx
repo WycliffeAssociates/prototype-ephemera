@@ -16,8 +16,8 @@ export function SettingsProvider({children} : any) {
     const [ULBLineHeightValue, setULBLineHeightValue] = useState<number>(200);
     const [ULBFontSizeValue, setULBFontSizeValue] = useState<number>(20);
     const [underlineTextValue, setUnderlineTextValue] = useState<boolean>(true);
-    const [GWTLineHeightValue, setGWTLineHeightValue] = useState<number>(200);
-    const [GWTFontSizeValue, setGWTFontSizeValue] = useState<number>(20);
+    const [GWTLineHeightValue, setGWTLineHeightValue] = useState<number>(150);
+    const [GWTFontSizeValue, setGWTFontSizeValue] = useState<number>(16);
 
     const underlineSetting : ULBSettingsOption = {
         name: "Underline Text",

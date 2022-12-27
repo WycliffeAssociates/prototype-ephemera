@@ -1,9 +1,12 @@
+import {useState} from "react"
 import Grid from '@mui/material/Grid';
-import { getMorphDescription } from '../../../applicationLogic/mapMorph';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import {useState} from "react"
 import { styled } from '@mui/material/styles';
+import { useSettings } from '../../../hooks/SettingsContext';
+import { mapValidGWTSettings } from './mapValidGWTSettings';
+import { getMorphDescription } from '../../../applicationLogic/mapMorph';
+
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -23,7 +26,8 @@ interface morphologyProps {
 };
 
 function Morphology({morphology, abbreviatedMorphology} : morphologyProps) {
-
+    const { GWTSettings } = useSettings();
+    let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
     const [morphDescriptionOpen, setMorphDescriptionOpen] = useState(false);
     
     if(morphology !== undefined)
@@ -31,10 +35,10 @@ function Morphology({morphology, abbreviatedMorphology} : morphologyProps) {
         return (
             <>
                 <Grid item sm={12} xs={12}>
-                <p className="GreekWordInfoSubCategory">Morphology</p>
+                    <p className="GreekWordInfoSubCategory" style={{...overwriteStyle}}>Morphology</p>
                 </Grid>
                 <Grid item sm={12} xs={12}>
-                    <p className="GreekWordInfoSubCategoryValue">{morphology}</p>
+                    <p className="GreekWordInfoSubCategoryValue" style={{...overwriteStyle}}>{morphology}</p>
 
                     {abbreviatedMorphology ?
                         <ClickAwayListener onClickAway={() => {setMorphDescriptionOpen(false); }}>
@@ -53,7 +57,7 @@ function Morphology({morphology, abbreviatedMorphology} : morphologyProps) {
                                 >
                                     <p
                                         className="GreekWordInfoSubCategoryValue"
-                                        style={{textDecoration: "underline", color:"blue", width:"100%"}}
+                                        style={{textDecoration: "underline", color:"blue", width:"100%", ...overwriteStyle}}
                                         onClick={() => setMorphDescriptionOpen(true)}
                                     >
                                         Learn More
