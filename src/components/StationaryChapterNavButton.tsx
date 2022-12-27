@@ -32,7 +32,7 @@ interface ButtonProps {
       }
       else
       {
-        // TODO: possible move to next (or previous) book
+        // TODO: possibly move to next (or previous) book
         console.log("chapter number out of bounds");
       }
     }

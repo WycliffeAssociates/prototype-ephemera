@@ -39,22 +39,6 @@
   }
 }
 
-/* TODO delete*/
-.GreekPhrase {
-  text-decoration: underline;
-}
-
-/* TODO delete*/
-.Verse {
-  text-align: left;
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 48px;
-  color: #001533CC;
-}
-
 .GreekWord {
   text-align: left;
   margin-bottom: 2px;

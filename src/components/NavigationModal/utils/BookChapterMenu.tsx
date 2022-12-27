@@ -11,8 +11,8 @@ import {books as newTestamentMetadata} from '../../../applicationLogic/newTestam
 
 
 interface BookChapterMenuProps {
-    withClickableOptions: boolean; // TODO: change name of isClickable to be more descriptive to its acutal usage
-    openTab?: string; // TOOD: make thie restrictive to only "Books", "Chapters", and "Verses"
+    withClickableOptions: boolean;
+    openTab?: "Books" | "Chapters" | "Verses";
 }
 function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps) {
 
@@ -21,7 +21,6 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
     const [displayChapters, setDisplayChapters] = useState(true);
     const [bookData, setBookData] = useState("");
     const bookChapter = useBookChapterParams();
-
 
     useEffect(() => {
         if(withClickableOptions) {
@@ -57,10 +56,9 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
         setBookData("");
     }
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (event: React.SyntheticEvent, newValue: "Books" | "Chapters" | "Verses") => {
         setValue(newValue);
     };
-
 
     return (
         <>
@@ -78,25 +76,43 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
                 </Box>
                 :
                 <>
-                    <Grid className="NavigationModal__MeanuHeader" item xs={0} sm={0} md={5} lg={5} xl={5} 
-                          style={{ borderRight: "1px solid grey" }}
+                    <Grid 
+                        className="NavigationModal__MeanuHeader" 
+                        item 
+                        xs={0} sm={0} md={5} lg={5} xl={5} 
+                        style={{ borderRight: "1px solid grey" }}
                     >
                         <p>Books</p>
                     </Grid>
         
-                    <Grid className="NavigationModal__MeanuHeader" item xs={0} sm={0} md={7} lg={7} xl={7}  >
+                    <Grid 
+                        className="NavigationModal__MeanuHeader" 
+                        item 
+                        xs={0} sm={0} md={7} lg={7} xl={7}  
+                    >
                         <p>Chapters</p>
                     </Grid>
                 </>
             }  
 
-            <Grid className="BookChapterMenu__Books" item xs={12} sm={12} md={5} lg={5} xl={5} 
-                    style={{ display: displayBooks ? "block" : "none", height:"calc(100% - 88px)"}}>
-                <Books onChange={onBookChange} handleClick={onBookClick} currentBook={bookChapter.book}/>
+            <Grid 
+                className="BookChapterMenu__Books" 
+                item 
+                xs={12} sm={12} md={5} lg={5} xl={5} 
+                style={{ display: displayBooks ? "block" : "none", height:"calc(100% - 88px)"}}
+            >
+                <Books 
+                    onChange={onBookChange} 
+                    handleClick={onBookClick} 
+                    currentBook={bookChapter.book}
+                />
             </Grid>
 
-            <Grid className="BookChapterMenu__Chapters" item xs={12} sm={12} md={7} lg={7} xl={7}
-                  style={{ display: displayChapters ? "block" : "none", height:"calc(100% - 88px)" }} 
+            <Grid 
+                className="BookChapterMenu__Chapters" 
+                item 
+                xs={12} sm={12} md={7} lg={7} xl={7}
+                style={{ display: displayChapters ? "block" : "none", height:"calc(100% - 88px)" }} 
             >
                 <Chapters book={bookData}/>
             </Grid>

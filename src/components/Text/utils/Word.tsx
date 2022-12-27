@@ -1,6 +1,7 @@
 import { NewFormattedGreekWord, NewFormattedWord, PhraseWord, SubWord} from '../../../types';
 import { useRef } from 'react';
-import {useSettings} from '../../../hooks/SettingsContext';
+import { useSettings } from '../../../hooks/SettingsContext';
+import { mapValidULBSettings } from '../utils/mapValidULBSettings';
 
 
 interface WordProps {
@@ -12,30 +13,10 @@ interface WordProps {
   function Word({onPhraseClick, versePhrase, handleClick} : WordProps) {
 
     const wordRef = useRef(null);
-    const {ULBSettings} = useSettings();
-
-    let overwriteStyle : any = {};
-
-    ULBSettings.forEach((setting : any) => {
-      if(setting.level === "word" && setting?.styleOverrideKey && setting.value !== undefined){
-        let styleValue = setting?.styleOverrideValue ? setting?.styleOverrideValue : setting.value;
-        let styleUnit = setting.unit ? setting.unit : "";
-        
-        overwriteStyle[setting.styleOverrideKey] = "" + styleValue + styleUnit;
-      }
-    });
+    const { ULBSettings } = useSettings();
+    let overwriteStyle : any = mapValidULBSettings(ULBSettings);
   
-    // TODO: come up with a more clever way to do this. 
-    if(versePhrase.phraseWords === undefined && versePhrase.subWords === undefined && versePhrase.subPhraseWords === undefined && versePhrase.greekWords === undefined) {
-      return(
-        <>
-          <span style={{color:"#001533CC", textDecoration:"none", fontSize: overwriteStyle.fontSize}}>
-            {versePhrase.englishWords}
-          </span>
-          <span> </span>
-        </>
-      )
-    } else if(versePhrase.phraseWords !== undefined) {
+    if(versePhrase.phraseWords !== undefined) {
       let words : NewFormattedGreekWord[] = [...versePhrase.phraseWords];
 
       if(versePhrase.subWords !== undefined) {
@@ -83,7 +64,7 @@ interface WordProps {
           <span> </span>
         </>
       )
-    } else {
+    } else if(versePhrase.greekWords) {
 
       return(
         <>
@@ -96,6 +77,15 @@ interface WordProps {
                   console.log(versePhrase.greekWords)
                 }}
             >
+            {versePhrase.englishWords}
+          </span>
+          <span> </span>
+        </>
+      )
+    } else {
+      return(
+        <>
+          <span style={{color:"#001533CC", textDecoration:"none", fontSize: overwriteStyle.fontSize}}>
             {versePhrase.englishWords}
           </span>
           <span> </span>
