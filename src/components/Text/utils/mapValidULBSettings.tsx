@@ -1,14 +1,22 @@
 import { ULBSettingsOption } from "../../../types";
 
-export function mapValidULBSettings(ULBSettings : ULBSettingsOption[]) {
-    let overwriteStyle : any = {};
+
+export function mapValidULBSettings(ULBSettings : ULBSettingsOption[]) : {verseStyles: any, wordStyles: any}{
+    let overwriteStyle : any = {verseStyles: {}, wordStyles: {}};
     ULBSettings.forEach((setting : any) => {
-        if(setting.level === "word" && setting?.styleOverrideKey && setting.value !== undefined){
-          let styleValue = setting?.styleOverrideValue ? setting?.styleOverrideValue : setting.value;
-          let styleUnit = setting.unit ? setting.unit : "";
-          
-          overwriteStyle[setting.styleOverrideKey] = "" + styleValue + styleUnit;
-        }
+
+      let styleValue : any = {};
+      let styleUnit : string = "";
+      if(setting?.styleOverrideKey && setting?.value) {
+        styleValue = setting?.styleOverrideValue ? setting?.styleOverrideValue : setting.value;
+        styleUnit = setting.unit ? setting.unit : "";
+      }
+
+      if(setting.level === "word"){
+        overwriteStyle.wordStyles[setting.styleOverrideKey] = "" + styleValue + styleUnit;
+      } else if(setting.level === "verse") {
+        overwriteStyle.verseStyles[setting.styleOverrideKey] = "" + styleValue + styleUnit;
+      }
     });
 
     return overwriteStyle;

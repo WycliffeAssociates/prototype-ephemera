@@ -7,7 +7,7 @@ import { WordTag,
     GreekWordAttributes, 
     NewFormattedGreekWord,
     SubWord,
-    PhraseWord,} from '../../../types';
+    PhraseWord,} from '../types';
 
 
 function mapVerses (verses : VerseTag[]) {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {  NewFormattedVerse } from '../types';
 import getChapterVerses from '../api';
-import mapVerses from '../components/Text/utils/generateVerses'
+import mapVerses from '../applicationLogic/generateVerses';
 
 function useChapterVerseData( book: string, chapter: number)
 {

@@ -5,7 +5,8 @@ import Word from './utils/Word';
 import useBookChapterParams from "../../hooks/useBookChapterParams"
 import useWindowSize from '../../hooks/useWindowSize';
 import useChapterVerseData from "../../hooks/useChapterVerseData";
-import {useSettings} from '../../hooks/SettingsContext';
+import { useSettings } from '../../hooks/SettingsContext';
+import { mapValidULBSettings } from './utils/mapValidULBSettings';
 
 
 interface TextProps {
@@ -67,16 +68,7 @@ function Text({onPhraseClick}: TextProps)
     setChildClicked(newChildClicked);
   }
 
-  let overwriteStyle : any = {};
-
-  ULBSettings.forEach((setting : any) => {
-    if(setting.level === "verse" && setting?.styleOverrideKey && setting?.value){
-      let styleValue = setting?.styleOverrideValue ? setting?.styleOverrideValue : setting.value;
-      let styleUnit = setting.unit ? setting.unit : "";
-
-      overwriteStyle[setting.styleOverrideKey] = "" + styleValue + styleUnit;
-    }
-  });
+  let overwriteStyle : any = mapValidULBSettings(ULBSettings).verseStyles;
 
   let verseOutput : any[] = [];
 

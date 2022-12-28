@@ -14,14 +14,15 @@ function GreekWord({greekWord, englishEquivalent} : greekWordProps) {
     return (
         <>
             <Grid item sm={12} xs={12}>
-                <p className="GreekWord">{greekWord}</p> 
+                <p 
+                    className="GreekWord"
+                >{greekWord}</p> 
             </Grid>
             <Grid item sm={12} xs={12}>
                 { 
                     (englishEquivalent !== "√") ? 
                         <p 
                             className="EnglishWord"
-                            style={{...overwriteStyle}}
                         >{englishEquivalent}</p> : ""
                 }
             </Grid>
