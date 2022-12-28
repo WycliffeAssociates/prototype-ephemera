@@ -5,10 +5,10 @@ export function mapValidULBSettings(ULBSettings : ULBSettingsOption[]) : {verseS
     let overwriteStyle : any = {verseStyles: {}, wordStyles: {}};
     ULBSettings.forEach((setting : any) => {
 
-      let styleValue : any = {};
+      let styleValue : string = "";
       let styleUnit : string = "";
-      if(setting?.styleOverrideKey && setting?.value) {
-        styleValue = setting?.styleOverrideValue ? setting?.styleOverrideValue : setting.value;
+      if(setting?.styleOverrideKey && setting.value !== undefined) {
+        styleValue = setting?.styleOverrideValue ? setting.styleOverrideValue : setting.value;
         styleUnit = setting.unit ? setting.unit : "";
       }
 
