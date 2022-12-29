@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
+import Button from '@mui/material/Button';
 import {SettingsOption} from '../../types';
 import Options from './utils/Options';
 
@@ -31,6 +31,12 @@ interface SettingsModalProps {
 
 function SettingsModal({open, onClose, settings} : SettingsModalProps) {
 
+    function setToDefault() {
+        settings.forEach((setting) => {
+            setting.modifier = setting.modifier(setting.defaultValue);
+        })
+    }
+
     return (
         <Modal open={open}         
             onClose={() => onClose()}
@@ -38,7 +44,7 @@ function SettingsModal({open, onClose, settings} : SettingsModalProps) {
             aria-describedby="modal-modal-description"
             hideBackdrop={true}> 
             <Box sx={style} style={{minWidth:"225px"}}>
-                <Grid container direction="row">
+                <Grid container direction="row" justifyContent="center">
                     <Grid item lg={2} xl={2} md={2} sm={2} xs={2}>
                         <IconButton
                             size="large"
@@ -57,6 +63,15 @@ function SettingsModal({open, onClose, settings} : SettingsModalProps) {
                     </Grid>
 
                     <Options settings={settings}/>
+
+                    <Grid item lg={4} xl={4} md={4} sm={4} xs={4}>
+                        <Button 
+                            variant="outlined" 
+                            sx={{m: .25, p: .25}} 
+                            style={{ width:"90%", height:"25px"}}
+                            onClick={setToDefault}
+                        >reset</Button>
+                    </Grid>
                 </Grid>
             </Box>
         </Modal>

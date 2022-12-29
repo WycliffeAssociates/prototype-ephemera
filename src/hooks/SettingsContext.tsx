@@ -23,12 +23,13 @@ export function SettingsProvider({children} : any) {
         name: "Underline Text",
         value: underlineTextValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
-            setUnderlineTextValue(!underlineTextValue);
+            setUnderlineTextValue(newValue as boolean);
         },
         inputType:"switch",
         styleOverrideKey: "textDecoration",
         styleOverrideValue: underlineTextValue ? "underline" : "none",
         level: "word",
+        defaultValue: true,
     }
     
     const ULBTextFontSetting : ULBSettingsOption = {
@@ -41,6 +42,7 @@ export function SettingsProvider({children} : any) {
         unit:"px",
         styleOverrideKey: "fontSize",
         level: "word",
+        defaultValue: 20,
     }
     
     const ULBLineHeightSetting : ULBSettingsOption = {
@@ -53,6 +55,7 @@ export function SettingsProvider({children} : any) {
         unit:"%",
         styleOverrideKey: "lineHeight",
         level: "verse",
+        defaultValue: 200,
     }
     
     const GWTTextFontSetting : SettingsOption = {
@@ -64,6 +67,7 @@ export function SettingsProvider({children} : any) {
         inputType:"increment",
         unit:"px",
         styleOverrideKey: "fontSize",
+        defaultValue: 16,
     }
     
     const GWTLineHeightSetting : SettingsOption = {
@@ -75,6 +79,7 @@ export function SettingsProvider({children} : any) {
         inputType:"increment",
         unit:"%",
         styleOverrideKey: "lineHeight",
+        defaultValue: 150,
     }
 
     return (
@@ -87,7 +92,7 @@ export function SettingsProvider({children} : any) {
             GWTSettings: [
                 GWTTextFontSetting, 
                 GWTLineHeightSetting
-            ] as SettingsOption[]
+            ] as SettingsOption[],
         }}>
             {children}
         </SettingsContext.Provider>

@@ -135,10 +135,11 @@ type SettingsOption = {
   name: string,
   value: string | number | boolean | undefined,
   modifier: (newValue : string | number | boolean | undefined) => any,
-  inputType: "switch" | "increment",
+  inputType: "switch" | "increment" | "button",
   unit?: string,
   styleOverrideKey?: string,
   styleOverrideValue?: string,
+  defaultValue?: string | number | boolean
 }
 
 type ULBSettingsOption = SettingsOption & {

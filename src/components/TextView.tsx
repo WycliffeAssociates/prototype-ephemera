@@ -25,7 +25,7 @@ function TextView({onClick}: TextViewProps)
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const { search } = useLocation();
   const windowSize = useWindowSize([]);
-  const {ULBSettings, GWTSettings} = useSettings();
+  const {ULBSettings, GWTSettings,} = useSettings();
 
   let navigationModalFullScreen = (windowSize.innerWidth < 900 ? true : false);
 
@@ -114,7 +114,7 @@ function TextView({onClick}: TextViewProps)
       <SettingsModal
         open={settingsModalOpen} 
         onClose={onSettingsModalClose} 
-        settings={[...ULBSettings, ...GWTSettings,]}
+        settings={[...ULBSettings, ...GWTSettings]}
       />
     </>
   )
