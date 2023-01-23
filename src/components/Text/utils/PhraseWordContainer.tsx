@@ -1,11 +1,11 @@
 import { useRef } from 'react';
-import { NewFormattedGreekWord, NewFormattedWord, PhraseWord, SubWord} from '../../../types';
+import { NewFormattedGreekWord, NewFormattedWord} from '../../../types';
 import { useSettings } from '../../../hooks/SettingsContext';
 import { mapValidULBSettings } from '../utils/mapValidULBSettings';
 
 
 interface PhraseWordProps {
-    onPhraseClick: (words? : NewFormattedGreekWord[] |  PhraseWord[] | SubWord[]) => void;
+    onPhraseClick: (words : NewFormattedGreekWord[]) => void;
     handleClick: (params: any) => any,
     versePhrase: NewFormattedWord,
 }

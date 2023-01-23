@@ -4,7 +4,7 @@ import { useSettings } from '../../../hooks/SettingsContext';
 import { mapValidULBSettings } from '../utils/mapValidULBSettings';
 
 interface GreekWordProps {
-    onPhraseClick: (words? : NewFormattedGreekWord[] |  PhraseWord[] | SubWord[]) => void;
+    onPhraseClick: (words : NewFormattedGreekWord[]) => void;
     handleClick: (params: any) => any,
     versePhrase: NewFormattedWord,
 }
@@ -20,7 +20,7 @@ export function GreekWord({onPhraseClick, handleClick, versePhrase} : GreekWordP
                 className="TextContainer__GreekPhrase" 
                 style={{...overwriteStyles}}
                 onClick={() => {
-                    onPhraseClick(versePhrase.greekWords); 
+                    onPhraseClick(versePhrase.greekWords ? versePhrase.greekWords : []); 
                     handleClick(wordRef); 
                     console.log(versePhrase.greekWords)
                 }}

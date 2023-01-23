@@ -6,7 +6,6 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowForward';
 import ArrowLeftAltIcon from '@material-ui/icons/ArrowBack';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { NewFormattedGreekWord, PhraseWord, SubWord } from '../types';
 import ChapterNavigationBar from './ChapterNavigationBar';
 import Text from './Text';
 import NavigationModal from "./NavigationModal"
@@ -15,11 +14,7 @@ import SettingsModal from './SettingsModal';
 import {useSettings} from '../hooks/SettingsContext';
 
 
-interface TextViewProps {
-    onClick: (params: any) => any
-}
-
-function TextView({onClick}: TextViewProps)
+function TextView()
 {
   const [navigationModalOpen, setNavigationModalOpen] = useState(false);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
@@ -32,11 +27,6 @@ function TextView({onClick}: TextViewProps)
   useEffect(() => {
     setNavigationModalOpen(false);
   }, [search])
-
-  const onPhraseClick = (words : NewFormattedGreekWord[] |  PhraseWord[] | SubWord[] | undefined) =>
-  {
-    onClick(words);
-  }
 
   const onNavBarClick = () => {
     setNavigationModalOpen(true);
@@ -94,7 +84,7 @@ function TextView({onClick}: TextViewProps)
           xs={12} sm={12} md={8} 
           style={{ width: "100%", height: "100%", maxHeight: "90vh"}}
         >
-            <Text onPhraseClick={onPhraseClick} />
+            <Text/>
         </Grid>
 
         <Grid item xs={0} sm={0} md={2}>

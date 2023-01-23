@@ -1,28 +1,49 @@
 import { useState, useEffect } from 'react';
 import "../../App.css";
-import { FormattedGreekWord, PhraseWord, SubWord} from '../../types';
 import Word from './utils/Word';
 import useBookChapterParams from "../../hooks/useBookChapterParams"
 import useWindowSize from '../../hooks/useWindowSize';
 import useChapterVerseData from "../../hooks/useChapterVerseData";
 import { useSettings } from '../../hooks/SettingsContext';
 import { mapValidULBSettings } from './utils/mapValidULBSettings';
+import { useGreekWords } from '../../hooks/GreekWordsContext';
 
 
-interface TextProps {
-    onPhraseClick: (words : FormattedGreekWord[] |  PhraseWord[] | SubWord[] | undefined) => any;
-}
-
-function Text({onPhraseClick}: TextProps)
+function Text()
 {
   const bookChapter = useBookChapterParams();
   const verses = useChapterVerseData(bookChapter.book, bookChapter.chapter);
   const windowSize = useWindowSize([bookChapter.book, bookChapter.chapter]);
   const [childClicked, setChildClicked] = useState<any>({});
-  const {ULBSettings} = useSettings();
+  const { ULBSettings } = useSettings();
+  const { showGreekWords } = useGreekWords();
+  
+  const defaultTextColor = "#001533CC";
+  const highlightColor = "blue";
 
 
   useEffect(() => {
+    scrollSelectedPhraseIntoView()
+  }, [childClicked, windowSize.innerWidth])
+
+  useEffect(() => {
+    resetTextData()
+  }, [verses]);
+
+    
+  // TODO: add use effect that listens to when the greek word dialog open variable from useContext is set to close, then it will set the selected word's
+  // color back to default. 
+  useEffect(() => {
+    if(!showGreekWords) {
+      if(childClicked?.current?.style?.color !== undefined) 
+      {
+        childClicked.current.style.color = defaultTextColor;
+      } 
+    }
+  }, [showGreekWords])
+
+
+  function scrollSelectedPhraseIntoView() {
     // NOTE: 900px is the current breakpoint for mobile devices. 
     // Scroll to top when possible, else scroll to the bottom
     // TODO: add case where phrase is already at the top or at the bottom
@@ -37,47 +58,43 @@ function Text({onPhraseClick}: TextProps)
         childClicked?.current.scrollIntoView({block: "end"})
       }
     }
-  }, [childClicked, windowSize.innerWidth])
+  }
 
-  useEffect(() => {
-
+  function resetTextData() {
     // Makes sure that all text is default color after navigating to another chapter. 
     if(childClicked?.current?.style?.color !== undefined) 
     {
-      childClicked.current.style.color = "#001533CC";
+      childClicked.current.style.color = defaultTextColor;
     } 
-
     // Makes sure that the next chapter is starting from verse 1. 
     document.getElementById("TextContainer")?.scroll(0,0)
-
     setChildClicked({})
-  }, [verses]);
+  }
 
-  function handleChildClicked(newChildClicked: any) {
-
+  function highlightSelectedPhrase(newChildClicked: any) {
     if(childClicked?.current?.style?.color !== undefined) 
     {
-      childClicked.current.style.color = "#001533CC";
+      childClicked.current.style.color = defaultTextColor;
     } 
-
     if(newChildClicked?.current?.style?.color !== undefined)
     {
-      newChildClicked.current.style.color = "blue";
+      newChildClicked.current.style.color = highlightColor;
     }
-
+  }
+  
+  function handleChildClicked(newChildClicked: any) {
+    highlightSelectedPhrase(newChildClicked)
     setChildClicked(newChildClicked);
   }
 
   let overwriteStyle : any = mapValidULBSettings(ULBSettings).verseStyles;
-
   let verseOutput : any[] = [];
 
   verses.forEach((verse) => {
     let verseWordOutput : any[] = [];
 
     verse.verseWords.forEach((verseWord) => {
-      
-      verseWordOutput.push(<Word handleClick={handleChildClicked} onPhraseClick={onPhraseClick} versePhrase={{...verseWord}}/>)
+      verseWordOutput.push(<Word handleClick={handleChildClicked} versePhrase={{...verseWord}}/>)
     })
 
     const tempVerse = (

@@ -1,23 +1,30 @@
-import { NewFormattedGreekWord, NewFormattedWord, PhraseWord, SubWord} from '../../../types';
+import { NewFormattedWord, FormattedGreekWord} from '../../../types';
 import { EnglishWord } from './EnglishWord';
 import { GreekWord } from './GreekWord';
 import { SubWordContainer } from './SubWordContainer';
 import { PhraseWordContainer } from './PhraseWordContainer';
+import { useGreekWords } from '../../../hooks/GreekWordsContext';
 
 
 interface WordProps {
-    onPhraseClick: (words? : NewFormattedGreekWord[] |  PhraseWord[] | SubWord[]) => void;
     handleClick: (params: any) => any,
     versePhrase: NewFormattedWord
 }
   
-  function Word({onPhraseClick, versePhrase, handleClick} : WordProps) {
+  function Word({versePhrase, handleClick} : WordProps) {
+
+    const { setGreekWords, setShowGreekWords } = useGreekWords();
+
+    function handlePhraseClick(newGreekWords: FormattedGreekWord[]) {
+      setGreekWords(newGreekWords);
+      setShowGreekWords(true);
+    }
   
     if(versePhrase.phraseWords !== undefined) {
       return(
         <PhraseWordContainer 
           handleClick={handleClick} 
-          onPhraseClick={onPhraseClick} 
+          onPhraseClick={handlePhraseClick} 
           versePhrase={versePhrase} 
         />
       )
@@ -25,7 +32,7 @@ interface WordProps {
       return(
         <SubWordContainer
           handleClick={handleClick} 
-          onPhraseClick={onPhraseClick} 
+          onPhraseClick={handlePhraseClick} 
           versePhrase={versePhrase} 
         />
       )
@@ -33,7 +40,7 @@ interface WordProps {
       return(
         <GreekWord 
           handleClick={handleClick} 
-          onPhraseClick={onPhraseClick} 
+          onPhraseClick={handlePhraseClick} 
           versePhrase={versePhrase} 
         />
       )

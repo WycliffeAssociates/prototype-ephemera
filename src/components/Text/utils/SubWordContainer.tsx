@@ -5,7 +5,7 @@ import { mapValidULBSettings } from '../utils/mapValidULBSettings';
 
 
 interface SubWordProps {
-    onPhraseClick: (words? : NewFormattedGreekWord[] |  PhraseWord[] | SubWord[]) => void;
+    onPhraseClick: (words : NewFormattedGreekWord[]) => void;
     handleClick: (params: any) => any,
     versePhrase: NewFormattedWord,
 }
