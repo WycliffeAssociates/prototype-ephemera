@@ -78,7 +78,7 @@ export function View() {
 
             <GreekWordsModal 
                 open={greekTextModalOpen} 
-                onClose={() =>(onGreekWordsModalClose)} 
+                onClose={() =>(onGreekWordsModalClose())} 
                 greekWords={greekWords ? greekWords : []}
             />
         </>
