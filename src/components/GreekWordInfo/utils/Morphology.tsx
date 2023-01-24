@@ -57,7 +57,7 @@ function Morphology({morphology, abbreviatedMorphology} : morphologyProps) {
                                 >
                                     <p
                                         className="GreekWordInfoSubCategoryValue"
-                                        style={{textDecoration: "underline", color:"blue", width:"100%", ...overwriteStyle}}
+                                        style={{textDecoration: "underline", cursor:"pointer", color:"blue", width:"100%", ...overwriteStyle}}
                                         onClick={() => setMorphDescriptionOpen(true)}
                                     >
                                         Learn More
