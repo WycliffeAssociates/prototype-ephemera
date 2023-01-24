@@ -1,4 +1,3 @@
-import { buffer } from 'stream/consumers';
 import { WordTag, 
     VerseTag,
     NoteTag,
@@ -70,7 +69,6 @@ function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordM
     
         let sub = currentGreekWordNotes.sub;
 
-
         delete currentGreekWordNotes.sub;
 
         let currentGreekWord : NewFormattedGreekWord = {
@@ -103,35 +101,27 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
 {
 
     if(typeof word !== "string" && word.text === "√" && flags.consumedPhraseWord === false) {
-        // flags.consumedPhraseWord = false;
         return;
     }
 
-
     if(flags.consumedPhraseWord) { // if buffer contains phrase words NOTE: current word is NOT processed
 
-        // TODO: may need to handle leftover sub words here
         // TODO: may also need to handle leftover phrase words, in the case that one phrase is directly
-        // followed by another. SHould be just a check against the phraseWords attribute. All words belonging to the same phrase
+        // followed by another. Should be just a check against the phraseWords attribute. All words belonging to the same phrase
         // will have the same value for that. 
         let subWords;
         if(flags.consumedSubWord) { 
-            subWords = processConsumedSubWords(buffers.phraseWords[0], buffers.subWords);
+            subWords = processConsumedSubWords(word, buffers.subWords);
         } 
 
-        let tempWord = processConsumedPhraseWords(buffers.phraseWords) 
-
-        if(subWords) {
-            tempWord.englishWords = subWords.englishWords;
-            tempWord.subWords = subWords.subWords;
-        }
+        let tempWord = processConsumedPhraseWords(buffers.phraseWords);
 
         buffers.verseWords.push(tempWord);
 
         if(typeof word !== 'string') {
-            // TODO: check if I can remove this if statement
-            // current word has english backing 
-            if(word.text !== "√") {
+            if(subWords) {
+                buffers.verseWords.push(subWords);
+            } else if(word.text !== "√") {
                 let tempWord = {
                    englishWords: word.text,
                    greekWords: [word]
