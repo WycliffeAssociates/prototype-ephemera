@@ -52,7 +52,6 @@ function BookSearchBar( {onSearch, handleClick, onFilter, onValidation} : BookSe
                   value={userInput}
                   onChange={handleChange} 
                   disableUnderline={true} 
-                  defaultValue={userInput} 
                   style={{
                       width:"85%", 
                       paddingLeft:"15px", 

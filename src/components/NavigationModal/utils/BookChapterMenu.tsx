@@ -114,7 +114,7 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
                 xs={12} sm={12} md={7} lg={7} xl={7}
                 style={{ display: displayChapters ? "block" : "none", height:"calc(100% - 88px)" }} 
             >
-                <Chapters book={bookData}/>
+                <Chapters selectedBook={bookData}/>
             </Grid>
         </>
     )

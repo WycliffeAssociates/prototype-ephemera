@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import { books as newTestamentMetadata } from "../../../applicationLogic/newTestamentMetadata";
 import { oldTestamentBooks } from "../../../applicationLogic/oldTestamentMetadata";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import BookSearchBar from '../../BookSearchBar';
 import Box from '@mui/material/Box';
 
@@ -16,11 +16,13 @@ function Book({bookData, handleClick, isCurrentBook}: BookProps) {
 
     const bookRef = useRef(null);
 
-    function onClick() {
-        handleClick(bookRef);
-    }
+    useEffect(() => {
+        if(isCurrentBook == true) {
+            handleClick(bookRef);
+        }
+    }, [isCurrentBook])
 
-    if(isCurrentBook == true) {
+    function onClick() {
         handleClick(bookRef);
     }
 
@@ -64,6 +66,22 @@ function Books( { handleClick, currentBook, onChange } : BooksProps) {
         setChildClicked(newChildClicked);
     }
 
+    function bookSearchValidation(book : string) {
+        book = book.toLowerCase();
+        book = book.charAt(0).toUpperCase() + book.slice(1);
+        if(oldTestamentBooks[book] !== undefined) {
+            setErrorMessage("The Greek Lexicon Prototype only contains New Testament Books")
+            return false;
+        } else {
+            if(newTestamentMetadata[book] !== undefined) {
+                setErrorMessage("")
+                return true
+            }
+            setErrorMessage("")
+            return false;
+        }
+    }
+
     function handleSearchInputClick(userInput: string) {
         bookSearchValidation(userInput);
         handleClick(userInput);
@@ -94,22 +112,6 @@ function Books( { handleClick, currentBook, onChange } : BooksProps) {
             onChange();
         }
         setFilteredBooks(tempArray)
-    }
-
-    function bookSearchValidation(book : string) {
-        book = book.toLowerCase();
-        book = book.charAt(0).toUpperCase() + book.slice(1);
-        if(oldTestamentBooks[book] !== undefined) {
-            setErrorMessage("The Greek Lexicon Prototype only contains New Testament Books")
-            return false;
-        } else {
-            if(newTestamentMetadata[book] !== undefined) {
-                setErrorMessage("")
-                return true
-            }
-            setErrorMessage("")
-            return false;
-        }
     }
 
     // Sets color of selected book to be default colors. 
