@@ -1,3 +1,11 @@
+p {
+  cursor: default;
+}
+
+span {
+  cursor: default;
+}
+
 .App {
   text-align: center;
   height: 100vh;
@@ -37,10 +45,6 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.GreekWordContainer {
-  cursor: default;
 }
 
 .GreekWord {
@@ -85,7 +89,6 @@
 
 .GreekWordInfoSubCategory {
   text-align:left; 
-  margin-bottom:4px;
   height: 18px;
   font-family: 'Lato';
   font-style: normal;
@@ -164,6 +167,7 @@
 
 .TextContainer__GreekPhrase {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .TextContainer__Verse {
@@ -174,7 +178,6 @@
   font-size: 20px;
   line-height: 48px;
   color: #001533CC;
-  cursor: default;
 }
 
 
@@ -240,6 +243,7 @@
 }
 .BookChapterMenu__Chapters p {
   text-align: center;
+  cursor: pointer;
 }
 
 
@@ -253,6 +257,7 @@
 .BookChapterMenu__Books__Book {
   border-bottom: 1px solid grey;
   color: #001533CC;
+  cursor: pointer;
 }
 
 
@@ -318,7 +323,7 @@
   font-size: 20px;
   line-height: 32px;
   margin-bottom:8px;
-  margin-left:8px
+  margin-left:8px;
 }
 
 
