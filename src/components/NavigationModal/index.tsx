@@ -1,12 +1,9 @@
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
 import Grid from '@mui/material/Grid';
-import BookChapterMenu from "./utils/BookChapterMenu";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-
-
+import BookChapterMenu from "./utils/BookChapterMenu";
 
 
 interface NavigationModalProps {
@@ -38,7 +35,6 @@ function NavigationModal({open, onClose, fullScreen} : NavigationModalProps) {
 
     return (
         <>
-
             <Modal  
                     open={open}         
                     onClose={() => onClose(undefined)}
@@ -56,7 +52,17 @@ function NavigationModal({open, onClose, fullScreen} : NavigationModalProps) {
                         spacing={0}
                     >
                         <Grid item xs={12} sm={12} md={0} lg={0} style={{padding: "8px 16px",}}>
-                            <ArrowBackIcon onClick={onClose}/>
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                                sx={{ mr: 2 }}
+                                style={{margin:"0px", paddingLeft:"4px", paddingRight:"0px", height:"40px", width:"40px"}}
+                                onClick={onClose}
+                            >
+                                <CloseIcon style={{margin:"0px"}}/>
+                            </IconButton>
                             <span className="NavigationModal__navigation">Navigation</span>
                         </Grid>
                         <BookChapterMenu withClickableOptions={fullScreen}/>
