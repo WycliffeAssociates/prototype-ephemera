@@ -40,13 +40,21 @@ function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
 
     const greekWords : any[] = [];
 
-    greekWordsState.forEach((greekWordState) => {
+    greekWordsState.forEach((greekWordState, idx : number) => {
       greekWords.push(
-      <div className='GreekWordContainer'>
+      <div key={`greekWord ${idx}`} className='GreekWordContainer'>
         <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
-          <GreekWord greekWord={greekWordState?.gwtGreekWord} englishEquivalent={greekWordState?.text as string}/>
-          <Morphology morphology={greekWordState?.morphology} abbreviatedMorphology={greekWordState.morph}/>
-          <Description descriptions={greekWordState?.descriptions} />
+          <GreekWord 
+            greekWord={greekWordState?.gwtGreekWord}
+            englishEquivalent={greekWordState?.text as string}
+          />
+          <Morphology 
+            morphology={greekWordState?.morphology} 
+            abbreviatedMorphology={greekWordState.morph}
+          />
+          <Description 
+            descriptions={greekWordState?.descriptions} 
+          />
           {greekWordState.verseReferences ? <VerseReferences references={greekWordState.verseReferences}/> : ""}
         </Grid>
         {greekWordState?.unprocessedData ? <UnprocessedMarkdown markdown={greekWordState.unprocessedData}/> : ""}

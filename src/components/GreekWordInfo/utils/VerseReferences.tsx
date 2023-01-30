@@ -26,9 +26,13 @@ export function VerseReferences({references} : VerseReferencesProps) {
     return (
         <>
             <p className="UnprocessedMarkdown">See:&nbsp;</p>
-            {references.map((verseReference) => {
+            {references.map((verseReference, idx : number) => {
                 return (
-                    <p className="UnprocessedMarkdown" onClick={() => onVerseReferenceClick(verseReference)}>{verseReference}&nbsp;</p>
+                    <p 
+                        key={`reference ${idx}`}
+                        className="UnprocessedMarkdown" 
+                        onClick={() => onVerseReferenceClick(verseReference)}
+                    >{verseReference}&nbsp;</p>
                 )
             })}
         </>

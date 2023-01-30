@@ -93,12 +93,12 @@ function Text()
   verses.forEach((verse) => {
     let verseWordOutput : any[] = [];
 
-    verse.verseWords.forEach((verseWord) => {
-      verseWordOutput.push(<Word handleClick={handleChildClicked} versePhrase={{...verseWord}}/>)
+    verse.verseWords.forEach((verseWord, idx) => {
+      verseWordOutput.push(<Word key={`v${verse.verseNum} w${idx}`} handleClick={handleChildClicked} versePhrase={{...verseWord}}/>)
     })
 
     const tempVerse = (
-      <p className="TextContainer__Verse" style={{...overwriteStyle}}><sup>{verse.verseNum}</sup> {verseWordOutput}</p>
+      <p key={`verse + ${verse.verseNum}`} className="TextContainer__Verse" style={{...overwriteStyle}}><sup>{verse.verseNum}</sup> {verseWordOutput}</p>
     )
     verseOutput.push(tempVerse);
   })

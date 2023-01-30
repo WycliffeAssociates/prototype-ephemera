@@ -70,6 +70,7 @@ function Chapters({selectedBook} : ChaptersProps) {
         for(let i = 0; i < numChapters; i++) {
             let chapterElement = (
                 <Chapter 
+                    key={`chapter ${i}`}
                     chapterNum={(i+1)} 
                     onClick={onChapterClick} 
                     isActiveChapter={selectedBook === currentBookChapter.book && (i+1) === currentBookChapter.chapter}

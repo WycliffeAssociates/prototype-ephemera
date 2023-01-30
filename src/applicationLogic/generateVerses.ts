@@ -13,6 +13,10 @@ function mapVerses (verses : VerseTag[]) {
 
     const verseOutput : any[] = [];
 
+    if(verses === undefined) {
+        return verseOutput;
+    }
+
     // populates verseOutput with verse
     verses.forEach((verse : VerseTag) => {
 

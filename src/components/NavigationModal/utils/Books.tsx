@@ -162,11 +162,12 @@ function Books( { handleClick, currentBook, onChange } : BooksProps) {
                                 alignItems="center"
                             >   
                                 { errorMessage === "" ? 
-                                filteredBooks.map((book : any[]) => (
+                                filteredBooks.map((book : any[], idx: number) => (
                                     <Book 
-                                          bookData={book} 
-                                          handleClick={handleChildClicked}
-                                          isCurrentBook={(childClicked === null && book[0] === currentBook)}
+                                        key={`book ${idx}`}
+                                        bookData={book} 
+                                        handleClick={handleChildClicked}
+                                        isCurrentBook={(childClicked === null && book[0] === currentBook)}
                                     />    
                                 )) : errorMessage}
                             </Grid>

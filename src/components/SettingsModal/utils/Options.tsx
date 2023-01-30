@@ -29,18 +29,18 @@ function Options({settings} : OptionsProps) {
         <>
             <Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
                 <>
-                    {settings.map((setting) => {
-                        return <span className="SettingsModal__settingsOption">{setting.name}</span> 
+                    {settings.map((setting, idx: number) => {
+                        return <span key={`setting name ${idx}`} className="SettingsModal__settingsOption">{setting.name}</span> 
                     })}
                 </>
             </Grid>
 
             <Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
                 <Grid container direction="row">
-                    {settings.map((setting) => {
+                    {settings.map((setting, idx : number) => {
                         if(setting.inputType === "switch") {
                             return (
-                                <Grid item lg={12} xl={12} md={12} sm={12} xs={12}>
+                                <Grid key={`setting ${idx}`} item lg={12} xl={12} md={12} sm={12} xs={12}>
                                     <Switch size='medium'
                                             checked={setting.value as boolean}
                                             onChange={() => setting.modifier(!setting.value)} 
@@ -49,7 +49,7 @@ function Options({settings} : OptionsProps) {
                             );
                         } else if(setting.inputType === "increment") {
                             return (
-                                <Grid item lg={12} xl={12} md={12} sm={12} xs={12}>
+                                <Grid key={`setting ${idx}`} item lg={12} xl={12} md={12} sm={12} xs={12}>
                                     <Button 
                                         variant="outlined" 
                                         sx={{m: .25, p: .25}} 
@@ -69,7 +69,7 @@ function Options({settings} : OptionsProps) {
                             )
                         } else if(setting.inputType === "button") {
                             return (
-                                <Grid item lg={12} xl={12} md={12} sm={12} xs={12}>
+                                <Grid key={`setting ${idx}`} item lg={12} xl={12} md={12} sm={12} xs={12}>
                                     <Button 
                                         variant="outlined" 
                                         onClick={() => {setting.modifier((setting.value as number) - 1);}}

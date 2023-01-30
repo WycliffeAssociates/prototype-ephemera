@@ -25,16 +25,16 @@ function Description({descriptions} : descriptionProps) {
         <Grid item sm={12} xs={12}>
           <ul style={{marginTop:"0px", paddingInlineStart: "25px",}}>
 
-            {descriptions.map((description) => {
+            {descriptions.map((description, idx : number) => {
               return (
-                        <li>
+                        <li key={`description ${idx}`}>
                           <p className="GreekWordInfoSubCategoryValue" 
                              style={{...overwriteStyle}}
                           >
                             {description.mainDescription}
-                            {description?.subDescriptions?.map((subDescriptions) => {
+                            {description?.subDescriptions?.map((subDescriptions, subDescriptionIdx : number) => {
                               return (
-                                        <ul>
+                                        <ul key={`sub description ${subDescriptionIdx}`}>
                                           <li>
                                             <p 
                                               className="GreekWordInfoSubCategoryValue" 
