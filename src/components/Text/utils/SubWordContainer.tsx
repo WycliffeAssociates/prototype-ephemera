@@ -26,7 +26,8 @@ export function SubWordContainer({versePhrase, onPhraseClick, handleClick} : Sub
 
     return (
         <>
-            <span ref={wordRef} 
+            <span 
+                ref={wordRef} 
                 className="TextContainer__GreekPhrase" 
                 style={{...overwriteStyles}}
                 onClick={() => {

@@ -43,7 +43,7 @@ function SettingsModal({open, onClose, settings} : SettingsModalProps) {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             hideBackdrop={true}> 
-            <Box sx={style} style={{minWidth:"225px", minHeight: "245px"}}>
+            <Box sx={style} style={{minWidth:"225px", minHeight: "245px", maxHeight: "250px"}}>
                 <Grid container direction="row" justifyContent="center">
                     <Grid item lg={2} xl={2} md={2} sm={2} xs={2}>
                         <IconButton
