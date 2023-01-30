@@ -59,7 +59,7 @@ type FormattedGreekWord = {
   descriptions?: Description[],
   gwtGreekWord?: string,
   adviceForTranslators?: string,
-  verseReferences?: string,
+  verseReferences?: string[],
   unprocessedData?: string,
 }
 
@@ -126,7 +126,7 @@ type GWTInformation = {
   gwtGreekWord: string,
   descriptions: Description[],
   morphology: string,
-  verseReferences?: string,
+  verseReferences?: string[],
   adviceForTranslators?: string,
   unprocessed?: string,
 }

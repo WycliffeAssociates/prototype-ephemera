@@ -8,6 +8,7 @@ import Description from '../GreekWordInfo/utils/Description';
 import UnprocessedMarkdown from '../GreekWordInfo/utils/UnprocessedMarkdown';
 import GreekWord from '../GreekWordInfo/utils/GreekWord';
 import mapGWTMarkdown from '../../applicationLogic/mapGWTMarkdown';
+import { VerseReferences } from './utils/VerseReferences';
 
 
 interface GreekWordInfoProps {
@@ -46,9 +47,9 @@ function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
           <GreekWord greekWord={greekWordState?.gwtGreekWord} englishEquivalent={greekWordState?.text as string}/>
           <Morphology morphology={greekWordState?.morphology} abbreviatedMorphology={greekWordState.morph}/>
           <Description descriptions={greekWordState?.descriptions} />
+          {greekWordState.verseReferences ? <VerseReferences references={greekWordState.verseReferences}/> : ""}
         </Grid>
         {greekWordState?.unprocessedData ? <UnprocessedMarkdown markdown={greekWordState.unprocessedData}/> : ""}
-        {greekWordState?.verseReferences ? <p className="UnprocessedMarkdown">{greekWordState?.verseReferences}</p> : ""}
         {greekWordState?.adviceForTranslators ? <UnprocessedMarkdown markdown={greekWordState.adviceForTranslators}/> : ""}
       </div>
       )

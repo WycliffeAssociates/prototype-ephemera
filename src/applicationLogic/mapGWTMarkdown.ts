@@ -1,4 +1,5 @@
 import { GWTInformation } from '../types';
+import { books as newTestamentBooks } from './newTestamentMetadata';
 
 
 function mapGWTMarkdown (greekWordMarkDown : string) {
@@ -32,7 +33,18 @@ function mapGWTMarkdown (greekWordMarkDown : string) {
       else if(greekWordMarkDownArray[i].search("See:") !== -1)
       {
         processedDescriptions = true;
-        gwtInformation.verseReferences = greekWordMarkDownArray[i];
+        
+        let foundVerseReferences : any[] | null = greekWordMarkDownArray[i].match(/[A-Za-z]+ \d+:\d+/g);
+        let validVerseReferences : string[] = [];
+        if(foundVerseReferences) {
+          foundVerseReferences.forEach((foundVerseReference) => {
+            if(newTestamentBooks[foundVerseReference.match(/[A-Za-z]+/)]) {
+              validVerseReferences.push(foundVerseReference);
+            }
+          })
+        }
+
+        gwtInformation.verseReferences = validVerseReferences;
       }
       else if(greekWordMarkDownArray[i].charAt(0) == "*" && !processedDescriptions) {
         greekWordMarkDownArray[i] = greekWordMarkDownArray[i].replace("*", "");
