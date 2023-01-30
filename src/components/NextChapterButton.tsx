@@ -1,36 +1,18 @@
 import Fab from '@mui/material/Fab';
 import Box from '@mui/material/Box';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import useBookChapterParams from '../hooks/useBookChapterParams';
-import {useNavigate, createSearchParams } from "react-router-dom";
-import { books as newTestamentMetadata} from "../applicationLogic/newTestamentMetadata"
-
+import {useBookChapterParams} from '../hooks/useBookChapterParams';
 
 
 function NextChapterButton()
 {
-  const navigate = useNavigate();
-  const bookChapter = useBookChapterParams();
-
-  let newChapter = bookChapter.chapter + 1;
+  // const navigate = useNavigate();
+  const {getBookChaptersParams, setBookChapterParams} = useBookChapterParams();
+  let bookChapter = getBookChaptersParams();
 
   const onClick = () => {
-    if(newChapter > 0 && newChapter <= newTestamentMetadata[bookChapter.book].numChapters) {
-      const params = {
-        book: bookChapter.book,
-        chapter: (newChapter > 0 && newChapter <= newTestamentMetadata[bookChapter.book].numChapters ? newChapter + "" : (bookChapter.chapter - 1) + "")
-      };
-
-      const options = {
-        pathname: '/',
-        search: `?${createSearchParams(params)}`,
-      };
-      navigate(options, { replace: true });
-    }
-    else
-    {
-      console.log("chapter number out of bounds");
-    }
+    let newChapter = bookChapter.chapter + 1;
+    setBookChapterParams(bookChapter.book, newChapter + "");
   }
   return (
     <Box display={{ xs: 'block', sm: 'block', md:"none", lg:"none", xl:"none" }}>

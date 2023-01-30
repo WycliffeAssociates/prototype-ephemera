@@ -20,7 +20,7 @@ function BookChapterMenu({withClickableOptions, openTab} : BookChapterMenuProps)
     const [displayBooks, setDisplayBooks] = useState(true);
     const [displayChapters, setDisplayChapters] = useState(true);
     const [bookData, setBookData] = useState("");
-    const bookChapter = useBookChapterParams();
+    const bookChapter = useBookChapterParams().getBookChaptersParams();
 
     useEffect(() => {
         if(withClickableOptions) {

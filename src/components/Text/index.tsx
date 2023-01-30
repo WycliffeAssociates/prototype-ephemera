@@ -11,8 +11,8 @@ import { useGreekWords } from '../../hooks/GreekWordsContext';
 
 function Text()
 {
-  const bookChapter = useBookChapterParams();
-  const verses = useChapterVerseData(bookChapter.book, bookChapter.chapter);
+  const bookChapter = useBookChapterParams().getBookChaptersParams();
+  const verses = useChapterVerseData(bookChapter.book, parseInt(bookChapter.chapter));
   const windowSize = useWindowSize([bookChapter.book, bookChapter.chapter]);
   const [childClicked, setChildClicked] = useState<any>({});
   const { ULBSettings } = useSettings();
@@ -21,7 +21,7 @@ function Text()
   const defaultTextColor = "#001533CC";
   const highlightColor = "blue";
 
-
+  
   useEffect(() => {
     scrollSelectedPhraseIntoView()
   }, [childClicked, windowSize.innerWidth])

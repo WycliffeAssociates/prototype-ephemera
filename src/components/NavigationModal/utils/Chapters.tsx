@@ -29,7 +29,7 @@ interface ChaptersProps {
 function Chapters({selectedBook} : ChaptersProps) {
 
     const [numChapters, setNumChapters] = useState(0);
-    const currentBookChapter = useBookChapterParams();
+    const currentBookChapter = useBookChapterParams().getBookChaptersParams();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -73,7 +73,7 @@ function Chapters({selectedBook} : ChaptersProps) {
                     key={`chapter ${i}`}
                     chapterNum={(i+1)} 
                     onClick={onChapterClick} 
-                    isActiveChapter={selectedBook === currentBookChapter.book && (i+1) === currentBookChapter.chapter}
+                    isActiveChapter={selectedBook === currentBookChapter.book && (i+1) === parseInt(currentBookChapter.chapter)}
                 />
             )
             chapters.push(chapterElement);

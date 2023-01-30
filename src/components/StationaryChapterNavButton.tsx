@@ -1,8 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import {useNavigate, createSearchParams } from "react-router-dom";
 import useBookChapterParams from '../hooks/useBookChapterParams';
-import { books as newTestamentMetadata} from "../applicationLogic/newTestamentMetadata"
 
 
 interface ButtonProps {
@@ -11,33 +9,16 @@ interface ButtonProps {
   }
   function StationaryChapterNavButton({children, nextChapter}: ButtonProps)
   {
-    const navigate = useNavigate();
-    const bookChapter = useBookChapterParams();
-
-    let newChapter = (nextChapter === true? (bookChapter.chapter + 1) : (bookChapter.chapter - 1));
-
+    const {getBookChaptersParams, setBookChapterParams} = useBookChapterParams();
+    
+    let bookChapter = getBookChaptersParams();
+    let chapterNumber = parseInt(bookChapter.chapter);
+    let newChapter = (nextChapter === true? (chapterNumber + 1) : (chapterNumber - 1));
 
     const onClick = () => {
-      if(newChapter > 0 && newChapter <= newTestamentMetadata[bookChapter.book].numChapters) {
-        const params = {
-          book: bookChapter.book,
-          chapter: (newChapter > 0 && newChapter <= newTestamentMetadata[bookChapter.book].numChapters ? newChapter + "" : (bookChapter.chapter - 1) + "")
-        };
-
-        const options = {
-          pathname: '/',
-          search: `?${createSearchParams(params)}`,
-        };
-        navigate(options, { replace: true });
-      }
-      else
-      {
-        // TODO: possibly move to next (or previous) book
-        console.log("chapter number out of bounds");
-      }
+      setBookChapterParams(bookChapter.book, newChapter + "");
     }
     
-
     return (
       <Box style={{height:"100%"}} display={{ xs: 'none', sm: 'none', md:"block", lg:"block", xl:"block" }}>
           <Button style={{

@@ -1,26 +1,18 @@
-import {useNavigate, createSearchParams } from "react-router-dom";
+import {useBookChapterParams} from '../../../hooks/useBookChapterParams';
+
 
 interface VerseReferencesProps {
     references: string[];
 }
 
 export function VerseReferences({references} : VerseReferencesProps) {
-    const navigate = useNavigate();
+    const {setBookChapterParams} = useBookChapterParams();
 
     function onVerseReferenceClick(verseReference: string) {
         let verseReferenceBook : string= "" + verseReference.match(/[a-zA-Z]+/);
         let verseReferenceChapter : string= "" + verseReference.match(/\d+/);
 
-        const params = {
-            book: verseReferenceBook,
-            chapter: verseReferenceChapter,
-        }
-
-        const options = {
-            pathname: '/',
-            search: `?${createSearchParams(params)}`,
-        };
-        navigate(options, { replace: true });
+        setBookChapterParams(verseReferenceBook, verseReferenceChapter);
     }
 
     return (

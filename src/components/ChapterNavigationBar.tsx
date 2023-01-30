@@ -11,9 +11,7 @@ interface ChapterNavigationBarProps {
 
 function ChapterNavigationBar( {onClick} : ChapterNavigationBarProps)
 {
-
-  let bookChapter = useBookChapterParams();
-
+  let bookChapter = useBookChapterParams().getBookChaptersParams();
 
   return (
      <>
