@@ -19,8 +19,6 @@ function storeValidBookChapterParams(book: string, chapter: string) {
 
     let previousBookChapter = JSON.parse(localStorage.getItem("lastBookChapter") as string);
     if(previousBookChapter?.chapter !== chapter) {
-      console.log("storing previousBookChapter as ");
-      console.log(book + " " + chapter);
       localStorage.setItem("lastBookChapter", JSON.stringify({"book": book, "chapter": chapter}));
     }
   }
