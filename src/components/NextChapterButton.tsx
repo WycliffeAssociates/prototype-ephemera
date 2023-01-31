@@ -7,12 +7,12 @@ import {useBookChapterParams} from '../hooks/useBookChapterParams';
 function NextChapterButton()
 {
   // const navigate = useNavigate();
-  const {getBookChaptersParams, setBookChapterParams} = useBookChapterParams();
+  const {getBookChaptersParams, setValidBookChapterParams} = useBookChapterParams();
   let bookChapter = getBookChaptersParams();
 
   const onClick = () => {
     let newChapter = bookChapter.chapter + 1;
-    setBookChapterParams(bookChapter.book, newChapter + "");
+    setValidBookChapterParams(bookChapter.book, newChapter + "");
   }
   return (
     <Box display={{ xs: 'block', sm: 'block', md:"none", lg:"none", xl:"none" }}>

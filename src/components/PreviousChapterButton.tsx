@@ -6,12 +6,12 @@ import useBookChapterParams from '../hooks/useBookChapterParams';
 
 function PreviousChapterButton()
 {
-  const {getBookChaptersParams, setBookChapterParams} = useBookChapterParams();
+  const {getBookChaptersParams, setValidBookChapterParams} = useBookChapterParams();
   let bookChapter = getBookChaptersParams();
 
   const onClick = () => {
     let newChapter = parseInt(bookChapter.chapter) - 1;
-    setBookChapterParams(bookChapter.book, newChapter + "");
+    setValidBookChapterParams(bookChapter.book, newChapter + "");
   }
 
   return (

@@ -6,13 +6,13 @@ interface VerseReferencesProps {
 }
 
 export function VerseReferences({references} : VerseReferencesProps) {
-    const {setBookChapterParams} = useBookChapterParams();
+    const {setValidBookChapterParams} = useBookChapterParams();
 
     function onVerseReferenceClick(verseReference: string) {
         let verseReferenceBook : string= "" + verseReference.match(/[a-zA-Z]+/);
         let verseReferenceChapter : string= "" + verseReference.match(/\d+/);
 
-        setBookChapterParams(verseReferenceBook, verseReferenceChapter);
+        setValidBookChapterParams(verseReferenceBook, verseReferenceChapter);
     }
 
     return (

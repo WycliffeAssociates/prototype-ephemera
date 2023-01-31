@@ -9,14 +9,14 @@ interface ButtonProps {
   }
   function StationaryChapterNavButton({children, nextChapter}: ButtonProps)
   {
-    const {getBookChaptersParams, setBookChapterParams} = useBookChapterParams();
+    const {getBookChaptersParams, setValidBookChapterParams} = useBookChapterParams();
     
     let bookChapter = getBookChaptersParams();
     let chapterNumber = parseInt(bookChapter.chapter);
     let newChapter = (nextChapter === true? (chapterNumber + 1) : (chapterNumber - 1));
 
     const onClick = () => {
-      setBookChapterParams(bookChapter.book, newChapter + "");
+      setValidBookChapterParams(bookChapter.book, newChapter + "");
     }
     
     return (
