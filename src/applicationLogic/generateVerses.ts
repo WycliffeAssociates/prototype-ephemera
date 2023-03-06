@@ -109,11 +109,14 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
     }
 
     if(flags.consumedPhraseWord) { // if buffer contains phrase words NOTE: current word is NOT processed
-
         // TODO: may also need to handle leftover phrase words, in the case that one phrase is directly
         // followed by another. Should be just a check against the phraseWords attribute. All words belonging to the same phrase
         // will have the same value for that. 
         let subWords;
+        if(flags.consumedSubWord && typeof word !== "string" && word.text === "√") {
+            return;
+        }
+
         if(flags.consumedSubWord) { 
             subWords = processConsumedSubWords(word, buffers.subWords);
         } 
@@ -139,6 +142,7 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
             buffers.verseWords.push(tempWord)
         }
     } else if(flags.consumedSubWord) { // buffer contain subWords. NOTE: Current word is processed in this case
+        
         let leftOverPhraseWords = processConsumedPhraseWords(buffers.phraseWords) 
 
         if(leftOverPhraseWords.phraseWords.length > 0) {
@@ -209,12 +213,11 @@ function processConsumedPhraseWords(greekWordBuffer: PhraseWord[]) {
 
 function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, subWordBuffer: SubWord[])
 {
-    // TODO: refactor so I am not having two nearly identical forloops. Also, abstract this out to anotehr function since there seesm to be som many edge cases 
+    // TODO: refactor so I am not having two nearly identical forloops. Also, abstract this out to anotehr function since there seesm to be so many edge cases 
     // when handling sub words, and additional functions are likely going to be needed
     let returnWords : any[] = [...subWordBuffer]
     let currentEnglishWord = ""; 
 
-    // let source : string = typeof(currentWord) === "string" ? currentWord : currentWord.text;
     let source : string = "";
     if(typeof(currentWord) === "string") {
         source = currentWord;
