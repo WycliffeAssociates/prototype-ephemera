@@ -28,15 +28,32 @@ export function useBookChapterParams() {
     const { search } = useLocation();
     const [book, setBook] = useState("");
     const [chapter, setChapter] = useState(1);
+    const [refBook, setRefBook] = useState<string>();
+    const [refChapter, setRefChapter] = useState<number>();
     const navigate = useNavigate()
 
-    function setValidBookChapterParams(book: string, chapter: string) {
+    function setValidBookChapterParams(newBook: string, newChapter: string, isReference?: boolean) {
       
-      if(validateBookChapter(book, chapter)) {
-        const params = {
-          book: book,
-          chapter: chapter,
-        };
+      if(validateBookChapter(newBook, newChapter)) {
+        let params : any;
+
+        if(!isReference) {
+          params = {
+            book: newBook,
+            chapter: newChapter,
+          };
+        } 
+        else {
+          let oldParams = getBookChaptersParams();
+
+          params = {
+            book: oldParams.book,
+            chapter: oldParams.chapter,
+            refbook: newBook,
+            refchapter: newChapter,
+          }
+        }
+        
       
         const options = {
             pathname: '/',
@@ -48,7 +65,11 @@ export function useBookChapterParams() {
     }
 
     function getBookChaptersParams() {
-      return {book: book, chapter: chapter + ""};
+      if(refBook == undefined && refChapter == undefined) {
+        return {book: book, chapter: chapter + ""};
+      } else {
+        return {book: book, chapter: chapter + "", refBook: refBook, refChapter: refChapter + ""};
+      }
     }
 
     useEffect(() => {
@@ -62,16 +83,24 @@ export function useBookChapterParams() {
           let paramName = paramArr[0];
           let paramValue = paramArr[1];
     
-          if(paramName === "book")
-          {
+          if(paramName === "book") {
             let book = paramValue.replace("%20", " ");
             book = paramValue.replace("+", " ")
             setBook(book);
           }
     
-          if(paramName === "chapter")
-          {
+          if(paramName === "chapter") {
             setChapter(parseInt(paramValue));
+          }
+
+          if(paramName === "refbook") {
+            let book = paramValue.replace("%20", " ");
+            book = paramValue.replace("+", " ")
+            setRefBook(book);
+          }
+    
+          if(paramName === "refchapter") {
+            setRefChapter(parseInt(paramValue));
           }
         });
       }
