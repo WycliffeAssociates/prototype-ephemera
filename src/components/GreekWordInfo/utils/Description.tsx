@@ -19,7 +19,7 @@ function Description({descriptions} : descriptionProps) {
         <Grid item sm={12} xs={12}>
           <p className="GreekWordInfoSubCategory" 
              style={{...overwriteStyle}}
-          >Description</p>
+          >What does this word mean?</p>
         </Grid>
 
         <Grid item sm={12} xs={12}>

@@ -4,10 +4,9 @@ import { mapValidGWTSettings } from './mapValidGWTSettings';
 
 interface greekWordProps {
     greekWord: string | undefined,
-    englishEquivalent: string
 };
 
-function GreekWord({greekWord, englishEquivalent} : greekWordProps) {
+function GreekWord({greekWord} : greekWordProps) {
     const { GWTSettings } = useSettings();
     let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
 
@@ -15,16 +14,9 @@ function GreekWord({greekWord, englishEquivalent} : greekWordProps) {
         <>
             <Grid item sm={12} xs={12}>
                 <p 
+                    style={{color:"blue"}}
                     className="GreekWord"
                 >{greekWord}</p> 
-            </Grid>
-            <Grid item sm={12} xs={12}>
-                { 
-                    (englishEquivalent !== "√") ? 
-                        <p 
-                            className="EnglishWord"
-                        >{englishEquivalent}</p> : ""
-                }
             </Grid>
         </>
     )

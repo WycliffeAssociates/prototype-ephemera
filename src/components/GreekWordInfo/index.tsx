@@ -46,14 +46,13 @@ function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
         <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
           <GreekWord 
             greekWord={greekWordState?.gwtGreekWord}
-            englishEquivalent={greekWordState?.text as string}
+          />
+          <Description 
+            descriptions={greekWordState?.descriptions} 
           />
           <Morphology 
             morphology={greekWordState?.morphology} 
             abbreviatedMorphology={greekWordState.morph}
-          />
-          <Description 
-            descriptions={greekWordState?.descriptions} 
           />
           {greekWordState.verseReferences ? <VerseReferences references={greekWordState.verseReferences}/> : ""}
         </Grid>
