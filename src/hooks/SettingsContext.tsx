@@ -15,22 +15,9 @@ export function SettingsProvider({children} : any) {
 
     const [ULBLineHeightValue, setULBLineHeightValue] = useState<number>(200);
     const [ULBFontSizeValue, setULBFontSizeValue] = useState<number>(20);
-    const [underlineTextValue, setUnderlineTextValue] = useState<boolean>(true);
     const [GWTLineHeightValue, setGWTLineHeightValue] = useState<number>(150);
     const [GWTFontSizeValue, setGWTFontSizeValue] = useState<number>(16);
 
-    const underlineSetting : ULBSettingsOption = {
-        name: "Underline Text",
-        value: underlineTextValue,
-        modifier: function (newValue: number | string | number | boolean | undefined) {
-            setUnderlineTextValue(newValue as boolean);
-        },
-        inputType:"switch",
-        styleOverrideKey: "textDecoration",
-        styleOverrideValue: underlineTextValue ? "underline" : "none",
-        level: "word",
-        defaultValue: true,
-    }
     
     const ULBTextFontSetting : ULBSettingsOption = {
         name: "ULB Font Size",
@@ -85,7 +72,6 @@ export function SettingsProvider({children} : any) {
     return (
         <SettingsContext.Provider value={{
             ULBSettings: [
-                underlineSetting, 
                 ULBTextFontSetting, 
                 ULBLineHeightSetting
             ] as ULBSettingsOption[], 

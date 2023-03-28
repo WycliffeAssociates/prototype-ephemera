@@ -9,8 +9,7 @@ import { mapValidULBSettings } from './utils/mapValidULBSettings';
 import { useGreekWords } from '../../hooks/GreekWordsContext';
 
 
-function Text()
-{
+function Text() {
   const bookChapter = useBookChapterParams().getBookChaptersParams();
   const verses = useChapterVerseData(bookChapter.book, parseInt(bookChapter.chapter));
   const windowSize = useWindowSize([bookChapter.book, bookChapter.chapter]);
@@ -65,6 +64,7 @@ function Text()
     if(childClicked?.current?.style?.color !== undefined) 
     {
       childClicked.current.style.color = defaultTextColor;
+      childClicked.current.style.textDecoration = "none";
     } 
     // Makes sure that the next chapter is starting from verse 1. 
     document.getElementById("TextContainer")?.scroll(0,0)
@@ -75,10 +75,12 @@ function Text()
     if(childClicked?.current?.style?.color !== undefined) 
     {
       childClicked.current.style.color = defaultTextColor;
+      childClicked.current.style.textDecoration = "none"; 
     } 
     if(newChildClicked?.current?.style?.color !== undefined)
     {
       newChildClicked.current.style.color = highlightColor;
+      newChildClicked.current.style.textDecoration = "underline"; 
     }
   }
   
@@ -104,9 +106,9 @@ function Text()
   })
   
   return (
-    <>
+    <div style={{ paddingBottom:"50px" }}>
       {verses.length === 0 ? "Please enter a valid book / chapter" : verseOutput }
-    </>
+    </div>
   )
 }
 
