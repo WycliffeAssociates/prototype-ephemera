@@ -30,7 +30,9 @@ function BookSearchBar( {onSearch, handleClick, onFilter, onValidation} : BookSe
     if(handleClick !== undefined) {
       handleClick();
     }
-    setUserInput("");
+    if(userInput == "Search books") {
+      setUserInput("");
+    }
   }
 
   return (
