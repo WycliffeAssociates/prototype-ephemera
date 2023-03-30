@@ -62,7 +62,6 @@ function Books( { handleClick, currentBook, onChange } : BooksProps) {
             newChildClicked.current.style.backgroundColor = "#015ad90d";
         }
 
-        newChildClicked.current.scrollIntoView();
         setChildClicked(newChildClicked);
     }
 
@@ -124,15 +123,16 @@ function Books( { handleClick, currentBook, onChange } : BooksProps) {
 
 
     return (
-        <Box sx={{height: "100%", overflow:"auto",}}>
+        <Box >
             <Grid   
                 container
                 direction="row"
                 justifyContent="center"
                 alignItems="center"
+                style={{height:"100%"}}
             >
 
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  >
+                <Grid item xs={10} sm={10} md={10} lg={10} xl={10}  >
                     <BookSearchBar 
                         handleClick={handleBookSearchClick} 
                         onSearch={handleSearchInputClick} 
@@ -147,14 +147,14 @@ function Books( { handleClick, currentBook, onChange } : BooksProps) {
                         direction="row"
                         justifyContent="center"
                         alignItems="center"
-                        
+                        style={{height:"100%"}}
                     >
 
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{borderBottom: "1px solid grey"}}> 
-                            <p className='GreekWordInfoSubCategory' style={{marginLeft: "15px",}}>New Testament</p>
+                            <h5 style={{ color:"#66768B", float:"left", paddingLeft: "5%"}}>NEW TESTAMENT</h5>
                         </Grid>
 
-                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{borderBottom: "1px solid grey"}}> 
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{height:"calc(100% - 88px)"}}> 
                             <Grid   
                                 container
                                 direction="row"

@@ -12,9 +12,30 @@ interface ChapterProps {
 }
 
 function Chapter({chapterNum, onClick, isActiveChapter} : ChapterProps) {
+
+    let baseStyle = {
+        height:"56px", 
+        width:"93.5px",
+        "borderRadius": "3px"
+    }
+
+    let chapterStyle;
+    if(isActiveChapter) {
+        chapterStyle = {
+            color: "blue",
+            backgroundColor:"#F2F7FD",
+            ...baseStyle
+        }
+    } else {
+        chapterStyle = {
+            color: "black",
+            ...baseStyle
+        }
+    }
+
     return (
-        <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
-            <p onClick={() => onClick((chapterNum))} style={{color: isActiveChapter ? "blue" : "black"}}>
+        <Grid item xs={3} sm={3} md={3} lg={3} xl={3} style={chapterStyle} >
+            <p onClick={() => onClick((chapterNum))} >
                 {(chapterNum)}
             </p>
         </Grid>
