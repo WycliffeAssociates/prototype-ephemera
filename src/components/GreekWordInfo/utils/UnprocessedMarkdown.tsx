@@ -13,13 +13,13 @@ function UnprocessedMarkdown({markdown} : unprocessedMarkdownProps) {
     if(markdown !== undefined)
     {
         return (
-            <>
+            <div style={{paddingTop:"15px", paddingBottom:"15px"}}>
                 <ReactMarkdown children={markdown} components={{
                     ul: ({node, ...props}) => <ul style={{marginTop:"0px", paddingInlineStart: "25px",}}>{props.children}</ul>,
                     li: ({node, ...props}) => <li><p className="GreekWordInfoSubCategoryValue">{props.children} </p></li>,
                     p: ({node, ...props}) => <p className="GreekWordInfoSubCategoryValue" style={{...overwriteStyle}}>{props.children}</p>
                 }}/>
-            </>
+            </div>
         )
     }
     else
