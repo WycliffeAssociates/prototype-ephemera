@@ -29,10 +29,12 @@ export function useBookChapterParams() {
     const [book, setBook] = useState("");
     const [chapter, setChapter] = useState(1);
     const [refBook, setRefBook] = useState<string>();
+    const [refVerse, setRefVerse] = useState<string>();
+    const [refWord, setRefWord] = useState<string>();
     const [refChapter, setRefChapter] = useState<number>();
     const navigate = useNavigate()
 
-    function setValidBookChapterParams(newBook: string, newChapter: string, isReference?: boolean) {
+    function setValidBookChapterParams(newBook: string, newChapter: string, newVerse?: string, referenceWord?: string, isReference?: boolean) {
       
       if(validateBookChapter(newBook, newChapter)) {
         let params : any;
@@ -42,8 +44,7 @@ export function useBookChapterParams() {
             book: newBook,
             chapter: newChapter,
           };
-        } 
-        else {
+        } else {
           let oldParams = getBookChaptersParams();
 
           params = {
@@ -51,9 +52,10 @@ export function useBookChapterParams() {
             chapter: oldParams.chapter,
             refbook: newBook,
             refchapter: newChapter,
+            refverse: newVerse,
+            refword: referenceWord,
           }
         }
-        
       
         const options = {
             pathname: '/',
@@ -64,13 +66,35 @@ export function useBookChapterParams() {
       }
     }
 
-    function getBookChaptersParams() {
-      if(refBook == undefined && refChapter == undefined) {
-        return {book: book, chapter: chapter + ""};
-      } else {
-        return {book: book, chapter: chapter + "", refBook: refBook, refChapter: refChapter + ""};
+
+    function removeReferenceParams() {
+      let params : any;
+
+      let oldParams = getBookChaptersParams();
+      params = {
+        book: oldParams.book,
+        chapter: oldParams.chapter,
       }
+      
+      const options = {
+          pathname: '/',
+          search: `?${createSearchParams(params)}`,
+      }
+    
+      navigate(options, { replace: true });
+
+      setRefBook(undefined);
+      setRefChapter(undefined);
+      setRefVerse(undefined);
+      setRefWord(undefined);
+
     }
+
+
+    function getBookChaptersParams() {
+        return {book: book, chapter: chapter + "", refBook: refBook, refChapter: refChapter + "", refVerse: refVerse, refWord:  refWord};
+    }
+
 
     useEffect(() => {
       if(search.length !== 0 && search !== undefined) {
@@ -102,15 +126,24 @@ export function useBookChapterParams() {
           if(paramName === "refchapter") {
             setRefChapter(parseInt(paramValue));
           }
+
+          if(paramName === "refverse") {
+            setRefVerse(paramValue);
+          }
+
+          if(paramName === "refword") {
+            setRefWord(paramValue);
+          }
         });
       }
+
     }, [search]);
 
     useEffect(() => {
       storeValidBookChapterParams(book, chapter + "");
     }, [book, chapter]);
 
-    return {"setValidBookChapterParams": setValidBookChapterParams, "getBookChaptersParams": getBookChaptersParams};
+    return {"setValidBookChapterParams": setValidBookChapterParams, "getBookChaptersParams": getBookChaptersParams, "removeReferenceParams": removeReferenceParams};
 }
 
 
