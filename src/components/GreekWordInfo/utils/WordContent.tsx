@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedGreekWord } from '../../../types';
 import Grid from '@mui/material/Grid';
 import GreekWord from "./GreekWord";
@@ -16,8 +16,14 @@ interface WordContentProps {
 }
 
 export function WordContent({wordNumber, greekWordState, showMoreOptions} : WordContentProps) {
-    const [showMore, setShowMore] = useState(false);
+    const [showMore, setShowMore] = useState(showMoreOptions);
 
+    useEffect(() => {
+        if(showMoreOptions === true)
+        {
+            setShowMore(false);
+        }
+    }, [])
     return (
         <div key={`greekWord ${wordNumber}`} className='GreekWordContainer'>
             <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
