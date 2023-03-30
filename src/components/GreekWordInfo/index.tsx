@@ -9,13 +9,17 @@ import UnprocessedMarkdown from '../GreekWordInfo/utils/UnprocessedMarkdown';
 import GreekWord from '../GreekWordInfo/utils/GreekWord';
 import mapGWTMarkdown from '../../applicationLogic/mapGWTMarkdown';
 import { VerseReferences } from './utils/VerseReferences';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import { WordContent } from './utils/WordContent';
 
 
 interface GreekWordInfoProps {
     currentGreekWord: FormattedGreekWord;
+    showMoreOptions?: boolean,
 };
 
-function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
+function GreekWordInfo({currentGreekWord, showMoreOptions} : GreekWordInfoProps)
 {
     
     const [greekWordsState, setGreekWordsState] = useState<FormattedGreekWord[]>([])
@@ -42,23 +46,7 @@ function GreekWordInfo({currentGreekWord} : GreekWordInfoProps)
 
     greekWordsState.forEach((greekWordState, idx : number) => {
       greekWords.push(
-      <div key={`greekWord ${idx}`} className='GreekWordContainer'>
-        <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
-          <GreekWord 
-            greekWord={greekWordState?.gwtGreekWord}
-          />
-          <Description 
-            descriptions={greekWordState?.descriptions} 
-          />
-          <Morphology 
-            morphology={greekWordState?.morphology} 
-            abbreviatedMorphology={greekWordState.morph}
-          />
-          {greekWordState.verseReferences ? <VerseReferences references={greekWordState.verseReferences}/> : ""}
-        </Grid>
-        {greekWordState?.unprocessedData ? <UnprocessedMarkdown markdown={greekWordState.unprocessedData}/> : ""}
-        {greekWordState?.adviceForTranslators ? <UnprocessedMarkdown markdown={greekWordState.adviceForTranslators}/> : ""}
-      </div>
+        <WordContent wordNumber={idx} greekWordState={greekWordState} showMoreOptions={showMoreOptions}/>
       )
     })
 

@@ -8,10 +8,11 @@ import { getMorphDescription } from '../../../applicationLogic/mapMorph';
 
 interface morphologyProps {
     morphology?: string,
-    abbreviatedMorphology?: string
+    abbreviatedMorphology?: string,
+    showMore?: boolean,
 };
 
-function Morphology({morphology, abbreviatedMorphology} : morphologyProps) {
+function Morphology({morphology, abbreviatedMorphology, showMore} : morphologyProps) {
     const { GWTSettings } = useSettings();
     let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
     const [morphologyLinks, setMorphologyLinks] = useState<string[]>([]);
@@ -28,12 +29,21 @@ function Morphology({morphology, abbreviatedMorphology} : morphologyProps) {
     {
         return (
             <>
-                <Grid item sm={12} xs={12}>
-                    <p className="GreekWordInfoSubCategory" style={{...overwriteStyle}}>What type of word is this?</p>
-                </Grid>
+                {showMore === true || showMore === undefined 
+                ?
+                    <Grid item sm={12} xs={12}>
+                        <p className="GreekWordInfoSubCategory" style={{...overwriteStyle}}>What type of word is this?</p>
+                    </Grid>
+                :""}
+                
 
                 <Grid item sm={12} xs={12}>
-                    <p className="GreekWordInfoSubCategoryValue" style={{...overwriteStyle}}>{morphology}</p>
+
+                    {showMore === true || showMore === undefined 
+                    ? 
+                        <p className="GreekWordInfoSubCategoryValue" style={{...overwriteStyle}}>{morphology}</p>
+                    :""}
+                    
                     <div style={{float:"left"}}> 
                         {morphologyLinks.map((link, idx) => {
                             if(idx != morphologyLinks.length - 1)

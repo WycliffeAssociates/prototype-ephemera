@@ -5,10 +5,11 @@ import { mapValidGWTSettings } from './mapValidGWTSettings';
 
 
 interface descriptionProps {
-    descriptions: DescriptionType[] | undefined
+    descriptions: DescriptionType[] | undefined,
+    showMore?: boolean,
 };
 
-function Description({descriptions} : descriptionProps) {
+function Description({descriptions, showMore} : descriptionProps) {
   const { GWTSettings } = useSettings();
   let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
 
@@ -17,9 +18,13 @@ function Description({descriptions} : descriptionProps) {
     return (
       <>
         <Grid item sm={12} xs={12}>
-          <p className="GreekWordInfoSubCategory" 
-             style={{...overwriteStyle}}
-          >What does this word mean?</p>
+
+          {showMore === true || showMore === undefined ? 
+            <p className="GreekWordInfoSubCategory" 
+                style={{...overwriteStyle}}
+            >What does this word mean?</p>
+          :""}
+          
         </Grid>
 
         <Grid item sm={12} xs={12}>
