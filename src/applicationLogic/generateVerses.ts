@@ -40,8 +40,6 @@ function mapVerses (verses : VerseTag[]) {
         }
         verseOutput.push(tempVerse);
     })
-
-    console.log(verseOutput)
     return verseOutput;
 }
 
@@ -131,7 +129,7 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
             } else if(word.text !== "√") {
                 let tempWord = {
                    englishWords: word.text,
-                   greekWords: [word]
+                   greekWords: [word],
                 }
                 buffers.verseWords.push(tempWord)
             }
