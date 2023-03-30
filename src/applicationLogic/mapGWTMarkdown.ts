@@ -2,6 +2,14 @@ import { GWTInformation } from '../types';
 import { books as newTestamentBooks } from './newTestamentMetadata';
 
 
+// TODO: fix this blob using regex
+// header: # *\S*
+// Main/sub description:  {0,4}\* *[\w| |[[:punct:]]+
+  // sub descriptions are indented by four spaces. 
+// verse references: [A-Za-z]+ \d+:\d+
+// Advice for translators: [A|a]dvice for [T|t]ranslators +[\w| |[[:punct:]]+
+// Everything that is not a description, verse reference, or advice for translators: ^(?!#)^(?!\*)^(?!\n)^(?![S | s]ee)^(?![A|a]dvice for [T|t]ranslators)[\S* | |[[:punct:]]*
+
 function mapGWTMarkdown (greekWordMarkDown : string) {
     let greekWordMarkDownArray : string[] = greekWordMarkDown.split(/\n/) as string[];
 
