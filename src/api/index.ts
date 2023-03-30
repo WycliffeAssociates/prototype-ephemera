@@ -33,8 +33,6 @@ async function getChapterVerses(bookTitle: string, chapterNumber: number)
 
     book = book.xml.book
 
-    console.log(book);
-
     if(book && book.chapter && Array.isArray(book.chapter) === false)
     {
         return book.chapter.verse;
