@@ -95,8 +95,8 @@ span {
   font-weight: 400;
   font-size: 12px;
   line-height: 150%;
-  text-transform: uppercase;
   color:#00193c;
+  font-weight: bold;
 }
 
 .GreekWordInfoSubCategoryValue {
@@ -109,6 +109,13 @@ span {
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;
+}
+
+.GreekWordContainer {
+  /* border-bottom: solid;
+  border-color: #d9d9d9; */
+  padding-bottom: 15px;
+  padding-left: 15px;
 }
 
 .BannerContainer {
@@ -160,14 +167,24 @@ span {
   right: 5%;
 }
 
+
 .TextContainer {
-  max-height: 70vh;
+  max-height: fit-content; 
   overflow: auto;
+  width: 100%;
+  height: 100%;
+  position: relative; 
+  margin-right: 9px;
+  padding-left: 25px;
+  max-height: 75vh;
 }
 
 .TextContainer__GreekPhrase {
-  text-decoration: underline;
   cursor: pointer;
+}
+
+.TextContainer__GreekPhrase:hover {
+  text-decoration: underline !important;
 }
 
 .TextContainer__Verse {
@@ -249,7 +266,6 @@ span {
 
 
 .BookChapterMenu__Books {
-  border-right: 1px solid grey;
   width: 100%;
   height:calc(100% - 88px)
 }
@@ -267,14 +283,26 @@ span {
 }
 
 .BookChapterMenu__Books__Book p{
-  width: 237px;
+  padding-left: 5%;
   height: 24px;
-  margin-left: 15px;
-  font-family: 'Lato';
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 100%;
+  float:left
+}
+
+.BookChapterMenu__CloseButton {
+  position:fixed;
+  bottom: 5%;
+  left: 15%;
+  border: 1px solid #E5E8EB; 
+  box-shadow:0px 10px 20px rgba(0, 21, 51, 0.19), 0px 6px 6px rgba(0, 21, 51, 0.23); 
+  border-radius:16px;
+  color:#33445C;
+  background: white; 
+  width:115px;
 }
 
 
