@@ -6,19 +6,29 @@ import { useSettings } from '../../../hooks/SettingsContext';
 
 interface VerseReferencesProps {
     references: string[];
+    referenceWord: string;
 }
 
-export function VerseReferences({references} : VerseReferencesProps) {
+export function VerseReferences({references, referenceWord} : VerseReferencesProps) {
     const {setValidBookChapterParams} = useBookChapterParams();
     const { GWTSettings } = useSettings();
     let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
 
 
     function onVerseReferenceClick(verseReference: string) {
-        let verseReferenceBook : string= "" + verseReference.match(/[a-zA-Z]+/); // TODO: update to match the fact that some books start with a number and a space. 
-        let verseReferenceChapter : string= "" + verseReference.match(/\d+/);
 
-        setValidBookChapterParams(verseReferenceBook, verseReferenceChapter, true);
+        let referenceMatch = verseReference.match(/(\d\W){0,1}([a-zA-Z]+) (\d+):(\d+)/); 
+        let verseReferenceBook =  "";
+        let verseReferenceChapter = "";
+        let verseReferenceVerse = "";
+
+        if(referenceMatch) {
+            verseReferenceBook = referenceMatch[2];
+            verseReferenceChapter = referenceMatch[3];
+            verseReferenceVerse = referenceMatch[4];
+        }
+
+        setValidBookChapterParams(verseReferenceBook, verseReferenceChapter, verseReferenceVerse, referenceWord, true);
     }
 
     return (
