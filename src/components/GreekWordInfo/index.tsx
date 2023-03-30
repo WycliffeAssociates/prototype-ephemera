@@ -3,14 +3,7 @@ import "../../App.css";
 import { FormattedGreekWord } from '../../types';
 import { useEffect, useState } from 'react';
 import getGreekWord from '../../api/gwtUtils';
-import Morphology from '../GreekWordInfo/utils/Morphology';
-import Description from '../GreekWordInfo/utils/Description';
-import UnprocessedMarkdown from '../GreekWordInfo/utils/UnprocessedMarkdown';
-import GreekWord from '../GreekWordInfo/utils/GreekWord';
 import mapGWTMarkdown from '../../applicationLogic/mapGWTMarkdown';
-import { VerseReferences } from './utils/VerseReferences';
-import Divider from '@mui/material/Divider';
-import Button from '@mui/material/Button';
 import { WordContent } from './utils/WordContent';
 
 
