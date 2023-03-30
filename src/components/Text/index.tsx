@@ -23,7 +23,7 @@ function Text() {
   
   useEffect(() => {
     scrollSelectedPhraseIntoView()
-  }, [childClicked, windowSize.innerWidth])
+  }, [childClicked])
 
   useEffect(() => {
     resetTextData()
@@ -48,15 +48,29 @@ function Text() {
     // TODO: add case where phrase is already at the top or at the bottom
     if(childClicked?.current !== undefined && windowSize.innerWidth < 900)
     {
-      let startBottom = childClicked.current.getBoundingClientRect().bottom;
-      childClicked?.current.scrollIntoView({block: "start"})
-      let endBottom = childClicked.current.getBoundingClientRect().bottom;
+      // console.log(document.getElementById("TextContainerContent")?.offsetTop);
+      console.log(childClicked.current.getBoundingClientRect())
+      childClicked?.current.scroll(185, 185);
+      // childClicked?.current.scrollIntoView({block: "start"})
+      console.log(childClicked.current.offsetTop)
+      document.getElementById("TextContainer")?.scrollTo(0, childClicked.current.offsetTop);
 
-      if(startBottom == endBottom)
-      {
-        childClicked?.current.scrollIntoView({block: "end"})
-      }
+      console.log(childClicked.current.getBoundingClientRect())  // NOTE: if y is not between 156 to 175, then it is covered by the modal, and the text needs to be brought down
+      // let startBottom = childClicked.current.getBoundingClientRect().bottom;
+      
+      // childClicked?.current.scrollIntoView({block: "start"})
+      // let endBottom = childClicked.current.getBoundingClientRect().bottom;
+
+      // if(startBottom == endBottom)
+      // {
+      //   childClicked?.current.scrollIntoView({block: "end"})
+      // }
     }
+
+    // document.getElementById("TextContainer")?.scrollTo(0, 185);
+    //document.getElementById("TextContainer")?.scrollBy(0, 400);
+    
+
   }
 
   function resetTextData() {
@@ -106,7 +120,7 @@ function Text() {
   })
   
   return (
-    <div style={{ paddingBottom:"50px" }}>
+    <div id="TextContainerContent" style={{ paddingBottom:"50px",}}>
       {verses.length === 0 ? "Please enter a valid book / chapter" : verseOutput }
     </div>
   )
