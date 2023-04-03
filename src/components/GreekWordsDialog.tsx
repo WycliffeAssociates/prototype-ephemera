@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import { VerseReferenceDialogContent } from './VerseReferenceDialogContent';
 import Divider from '@mui/material/Divider';
+import useMorphologyParams from '../hooks/useMorphologyParams';
+import { MorphologyDialogContent } from './MorphologyDialogContent';
 
 
 
@@ -51,9 +53,12 @@ function BannerMessage({greekWords} : GreekWordsBannerProps)
 function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
 
     const {getBookChaptersParams, removeReferenceParams} = useBookChapterParams();
+    const { getMorphologyParams, removeMorphologyParams } = useMorphologyParams();
+
     const [openVerseReferenceDialog, setOpenVerseReferenceDialog] = useState(false);
     const [refBookChapter, setRefBookChapter] = useState<any>({});
-    
+    const [openMorphologyDialog, setOpenMorphologyDialog] = useState(false);
+
     useEffect(() => {
        let params = getBookChaptersParams();
        let newRefBookChapter = {refBook: params.refBook, refChapter: params.refChapter, refVerse: params.refVerse, refWord: params.refWord};
@@ -67,9 +72,27 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
        setRefBookChapter({...newRefBookChapter});
     }, [getBookChaptersParams().refBook])
 
+
     useEffect(() => {
       onVerseReferenceClose();
     }, [greekWords])
+
+
+    useEffect(() => {
+      let params = getMorphologyParams();
+
+      if(params.morphologyWord  !== undefined) {
+          setOpenMorphologyDialog(true);
+      } else {
+          setOpenMorphologyDialog(false);
+      }
+    }, [getMorphologyParams().morphologyWord])
+
+
+  function onMorphologyDialogClose() {
+    setOpenMorphologyDialog(false);
+    removeMorphologyParams();
+  }
 
 
     function onVerseReferenceClose() {
@@ -93,7 +116,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
 
           <Grid item lg={12} xl={12} md={12} style={{maxHeight: '89vh', overflow: 'auto'}}>
     
-            {openVerseReferenceDialog === false ? 
+            {openVerseReferenceDialog === false && openMorphologyDialog === false ? 
               <>
                 {greekWords !== undefined && greekWords.length > 0 ? 
                   <>
@@ -116,7 +139,20 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
                 }
               </>
             :
-              <VerseReferenceDialogContent open={openVerseReferenceDialog} onClose={onVerseReferenceClose} refBookChapterVerse={refBookChapter} /> 
+              (openVerseReferenceDialog === true) ? 
+                <VerseReferenceDialogContent 
+                    open={openVerseReferenceDialog} 
+                    onClose={onVerseReferenceClose} 
+                    refBookChapterVerse={refBookChapter} 
+                    fullScreen={false} 
+                /> 
+              :
+                <MorphologyDialogContent 
+                    open={openMorphologyDialog} 
+                    onClose={onMorphologyDialogClose} 
+                    fullScreen={false} 
+                    morphologyWord={getMorphologyParams().morphologyWord} 
+                />
             }
             
 

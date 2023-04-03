@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import { useSettings } from '../../../hooks/SettingsContext';
 import { mapValidGWTSettings } from './mapValidGWTSettings';
 import { getMorphDescription } from '../../../applicationLogic/mapMorph';
+import useMorphologyParams from "../../../hooks/useMorphologyParams";
 
 
 
@@ -16,7 +17,7 @@ function Morphology({morphology, abbreviatedMorphology, showMore} : morphologyPr
     const { GWTSettings } = useSettings();
     let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
     const [morphologyLinks, setMorphologyLinks] = useState<string[]>([]);
-
+    const { setMorphologyParams } = useMorphologyParams();
 
     useEffect(() => {
         if(abbreviatedMorphology)
@@ -53,6 +54,7 @@ function Morphology({morphology, abbreviatedMorphology, showMore} : morphologyPr
                                         <span
                                             className="GreekWordInfoSubCategoryValue"
                                             style={{textDecoration: "underline", cursor:"pointer", color:"blue", width:"100%", ...overwriteStyle}}
+                                            onClick={() => setMorphologyParams(link.trim().toLowerCase())}
                                         >
                                             {link}
                                         </span>
@@ -64,6 +66,7 @@ function Morphology({morphology, abbreviatedMorphology, showMore} : morphologyPr
                                     <span
                                         className="GreekWordInfoSubCategoryValue"
                                         style={{textDecoration: "underline", cursor:"pointer", color:"blue", width:"100%", ...overwriteStyle}}
+                                        onClick={() => setMorphologyParams(link.trim().toLowerCase())}
                                     >
                                         {link}
                                     </span>

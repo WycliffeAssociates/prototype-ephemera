@@ -11,23 +11,9 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { useEffect } from 'react';
+import { MorphologyDialogContent } from './MorphologyDialogContent';
+import useMorphologyParams from '../hooks/useMorphologyParams';
 
-
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '60%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: "80%",
-    height: "60%",
-    background: "#FFFFFF",
-    borderRadius: "8px",
-    boxShadow: 24,
-    p: 1,
-    paddingTop: "0px",
-    paddingLeft:"0px",
-    outline: 'none'
-};
 
 
 interface GreekWordsModalProps {
@@ -64,11 +50,14 @@ function BannerMessage({greekWords} : GreekWordsBannerProps)
 
 }
 
+
 function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
     const {getBookChaptersParams, removeReferenceParams} = useBookChapterParams();
+    const { getMorphologyParams, removeMorphologyParams } = useMorphologyParams();
+
     const [openVerseReferenceDialog, setOpenVerseReferenceDialog] = useState(false);
     const [refBookChapter, setRefBookChapter] = useState<any>({});
-    
+    const [openMorphologyDialog, setOpenMorphologyDialog] = useState(false);
     
     useEffect(() => {
        let params = getBookChaptersParams();
@@ -83,10 +72,29 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
        setRefBookChapter({...newRefBookChapter});
     }, [getBookChaptersParams().refBook])
 
+
+    useEffect(() => {
+        let params = getMorphologyParams();
+
+        if(params.morphologyWord  !== undefined) {
+            setOpenMorphologyDialog(true);
+        } else {
+            setOpenMorphologyDialog(false);
+        }
+    }, [getMorphologyParams().morphologyWord])
+
+
     function onVerseReferenceClose() {
         setOpenVerseReferenceDialog(false);
         removeReferenceParams();
     }
+
+
+    function onMorphologyDialogClose() {
+        setOpenMorphologyDialog(false);
+        removeMorphologyParams();
+    }
+
 
     useEffect(() => {
         onVerseReferenceClose();
@@ -102,7 +110,7 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
             >
                 <Grid container>
 
-                    {!openVerseReferenceDialog ? 
+                    {!openVerseReferenceDialog && !openMorphologyDialog ? 
                         <>
                             <Grid 
                                 item
@@ -134,7 +142,7 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
 
 
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}> 
-                        {openVerseReferenceDialog === false ? 
+                        {openVerseReferenceDialog === false && openMorphologyDialog === false? 
                             <>
                                 {greekWords !== undefined && greekWords.length > 0 ? 
                                     <>
@@ -151,13 +159,22 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                                 }
                             </>
                         :
-                            <VerseReferenceDialogContent 
-                                open={openVerseReferenceDialog} 
-                                onClose={onVerseReferenceClose} 
-                                refBookChapterVerse={refBookChapter} 
-                                fullScreen={true} 
-                            /> 
-                        }
+
+                            (openVerseReferenceDialog === true) ? 
+                                <VerseReferenceDialogContent 
+                                    open={openVerseReferenceDialog} 
+                                    onClose={onVerseReferenceClose} 
+                                    refBookChapterVerse={refBookChapter} 
+                                    fullScreen={true} 
+                                /> 
+                            :
+                                <MorphologyDialogContent 
+                                    open={openMorphologyDialog} 
+                                    onClose={onMorphologyDialogClose} 
+                                    fullScreen={true} 
+                                    morphologyWord={getMorphologyParams().morphologyWord} 
+                                />
+                        }                        
                     </Grid> 
                 </Grid>
             
