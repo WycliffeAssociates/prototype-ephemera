@@ -75,7 +75,6 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
     function onVerseReferenceClose() {
       setOpenVerseReferenceDialog(false);
       removeReferenceParams();
-      //setRefBookChapter({refBook: undefined, refChapter: undefined});
     }
 
 
@@ -93,8 +92,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
         <Grid container direction="row" style={{paddingTop: "8px"}}>
 
           <Grid item lg={12} xl={12} md={12} style={{maxHeight: '89vh', overflow: 'auto'}}>
-
-            
+    
             {openVerseReferenceDialog === false ? 
               <>
                 {greekWords !== undefined && greekWords.length > 0 ? 

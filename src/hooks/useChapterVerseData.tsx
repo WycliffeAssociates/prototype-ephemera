@@ -11,6 +11,10 @@ function useChapterVerseData( book: string, chapter: number)
 
         const fetchData = async () => {
             const data = await getChapterVerses(book, chapter);
+
+            // console.log("test case expected results (mapVerses(data))");
+            // console.log(JSON.stringify(mapVerses(data)))
+
             setVerses(mapVerses(data));
         }
 
