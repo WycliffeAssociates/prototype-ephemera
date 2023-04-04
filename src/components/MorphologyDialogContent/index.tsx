@@ -30,7 +30,6 @@ export function MorphologyDialogContent({open, onClose, fullScreen, morphologyWo
                 try {
                     let response = await axios.get(`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${morphologyWord}.md`);
                     setMorphologyWordMarkdown(response.data);
-                    //console.log(extractMorphologyFromMarkdown(morphologyWordMarkdown)[1]);
                 } catch(error) {
                     console.log(error);
                 }
