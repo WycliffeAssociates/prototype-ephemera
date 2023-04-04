@@ -77,7 +77,11 @@ export function View() {
                 alignItems="flex-start"
             >   
                 <Grid id="ViewHeader" container style={{borderBottom: "2px solid #E5E8EB"}}>
-                    { navigationModalOpen && windowSize.innerWidth < 900 ? <NavigationHeader onClick={onNavigationModalClose}/> : <ViewHeader/>}
+                    { navigationModalOpen && windowSize.innerWidth < 900 ? 
+                        <NavigationHeader onClick={onNavigationModalClose}/> 
+                    : 
+                        <ViewHeader showIconText={windowSize.innerWidth >= 900 }/>
+                    }
                 </Grid>
                 
 
@@ -125,7 +129,7 @@ export function View() {
                                     </Grid>
                                 </Grid>
 
-                            <Grid container style={{height: "100%", maxHeight: "85vh"}} alignItems="flex-end">
+                            <Grid container style={{height: "100%", maxHeight: "80vh"}} alignItems="flex-end">
                                 <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
                                     <PreviousChapterButton/>
                                 </Grid>
