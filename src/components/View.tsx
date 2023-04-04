@@ -86,7 +86,6 @@ export function View() {
                 
 
                 { navigationModalOpen ? 
-                <>
                     <Grid item xl={textViewSize} 
                         lg={textViewSize} 
                         md={textViewSize} 
@@ -100,46 +99,45 @@ export function View() {
                         </Grid>
                         
                     </Grid>
-                    
-                    </>
                 :
-                    <>
-                    
-                        <Grid 
-                            item 
-                            xl={textViewSize} 
-                            lg={textViewSize} 
-                            md={textViewSize} 
-                            sm={mobileTextWidthMax} 
-                            xs={mobileTextWidthMax} 
-                            style={{height:"100%",  position: "relative"}}
-                        >
+          
+                    <Grid 
+                        item 
+                        xl={textViewSize} 
+                        lg={textViewSize} 
+                        md={textViewSize} 
+                        sm={mobileTextWidthMax} 
+                        xs={mobileTextWidthMax} 
+                        style={{height:"100%",  position: "relative"}}
+                    >
+                            <Grid 
+                                container 
+                                direction="row" 
+                                justifyContent={{lg: "center", md: "center", sm:"flex-start"}} 
+                                alignItems="flex-start" 
+                                style={{marginLeft:"0px", marginBottom:"0px", height:"0px"}}
+                            >
                                 <Grid 
-                                    container 
-                                    direction="row" 
-                                    justifyContent={{lg: "center", md: "center", sm:"flex-start"}} 
-                                    alignItems="flex-start" 
-                                    style={{marginLeft:"0px", marginBottom:"0px", height:"0px"}}
+                                    item
+                                    xl={12} lg={12} md={12} sm={12} xs={12} 
+                                    style={{paddingTop:"5%"}}
                                 >
-                                    <Grid xl={12} lg={12} md={12} sm={12} xs={12} style={{paddingTop:"5%"}}>
-                                        <ChapterNavigationBar onClick={onNavBarClick} />
-                                    </Grid>
-                                    <Grid xl={12} lg={12} md={12} sm={12} xs={12} >
-                                        <TextView/>
-                                    </Grid>
+                                    <ChapterNavigationBar onClick={onNavBarClick} />
                                 </Grid>
+                                <Grid xl={12} lg={12} md={12} sm={12} xs={12} >
+                                    <TextView/>
+                                </Grid>
+                            </Grid>
 
-                            <Grid container style={{height: "100%", maxHeight: "80vh"}} alignItems="flex-end">
-                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                    <PreviousChapterButton/>
-                                </Grid>
-                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
-                                    <NextChapterButton/>
-                                </Grid>
-                            </Grid> 
-                        </Grid>
-
-                    </>
+                        <Grid container style={{height: "100%", maxHeight: "80vh"}} alignItems="flex-end">
+                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+                                <PreviousChapterButton/>
+                            </Grid>
+                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
+                                <NextChapterButton/>
+                            </Grid>
+                        </Grid> 
+                    </Grid>
                 }
                 
                 

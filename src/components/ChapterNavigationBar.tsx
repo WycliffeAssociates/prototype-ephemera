@@ -1,7 +1,6 @@
 import Grid from '@mui/material/Grid';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-import MenuIcon from '@material-ui/icons/Menu';
 import useBookChapterParams from '../hooks/useBookChapterParams';
 
 
@@ -14,12 +13,12 @@ function ChapterNavigationBar( {onClick} : ChapterNavigationBarProps)
   let bookChapter = useBookChapterParams().getBookChaptersParams();
 
   return (
-    <>
+    <Grid container justifyContent="center" alignItems="center">
       <Grid item lg={10} md={10} sm={10} xs={10}>
         <ButtonGroup 
           variant="outlined" 
           aria-label="outlined button group" 
-          style={{width:"100%", height:"48px", backgroundColor:"#f2f2f2", borderRadius:"25px 25px 25px 25px", }} 
+          style={{width:"100%", height:"48px", backgroundColor:"#f2f2f2", borderRadius:"25px 25px 25px 25px"}} 
         >
           <Button 
             onClick={onClick} 
@@ -39,7 +38,7 @@ function ChapterNavigationBar( {onClick} : ChapterNavigationBarProps)
           </Button>
         </ButtonGroup>
       </Grid>
-    </>
+    </Grid>
   )
 }
 
