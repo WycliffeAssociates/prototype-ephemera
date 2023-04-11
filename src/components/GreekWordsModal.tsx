@@ -108,7 +108,7 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                 open={open}
                 onClose={onClose}
             >
-                <Grid container>
+                <Grid container style={{overflow:"hidden", maxHeight:"fit-content"}}>
 
                     {!openVerseReferenceDialog && !openMorphologyDialog ? 
                         <>
@@ -141,7 +141,11 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                     
 
 
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12}> 
+                    <Grid 
+                        item 
+                        xl={12} lg={12} md={12} sm={12} xs={12} 
+                        style={{maxHeight:"90vh", overflowY:"scroll"}}
+                    > 
                         {openVerseReferenceDialog === false && openMorphologyDialog === false? 
                             <>
                                 {greekWords !== undefined && greekWords.length > 0 ? 
