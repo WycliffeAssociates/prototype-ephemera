@@ -39,6 +39,7 @@ export function View() {
       }
     }, [greekWords, showGreekWords])
 
+
     useEffect(() => {
       // default right dialog to open for desktop breakpoint
       if(windowSize.innerWidth >= 900)
@@ -48,12 +49,24 @@ export function View() {
       }
     }, [])
 
+
+    useEffect(() => {
+        if(windowSize.innerWidth < 900) {
+            setGreekTextDialogOpen(false);
+        } else {
+            setGreekTextDialogOpen(true);
+        }
+    }, [windowSize.innerWidth])
+
+
     function onGreekWordsModalClose() {
         setShowGreekWords(false);
         setGreekTextModalOpen(false)
     }
 
+
     const [navigationModalOpen, setNavigationModalOpen] = useState(false);
+
 
     const onNavBarClick = () => {
         setNavigationModalOpen(true);
@@ -100,7 +113,7 @@ export function View() {
                         
                     </Grid>
                 :
-          
+                    <> 
                     <Grid 
                         item 
                         xl={textViewSize} 
@@ -138,6 +151,9 @@ export function View() {
                             </Grid>
                         </Grid> 
                     </Grid>
+
+                    
+                    </>
                 }
                 
                 
