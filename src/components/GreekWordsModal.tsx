@@ -144,7 +144,7 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                     <Grid 
                         item 
                         xl={12} lg={12} md={12} sm={12} xs={12} 
-                        style={{maxHeight:"90vh", overflowY:"scroll"}}
+                        style={{maxHeight:"90vh", overflowY:"scroll", padding:"0px"}}
                     > 
                         {openVerseReferenceDialog === false && openMorphologyDialog === false? 
                             <>

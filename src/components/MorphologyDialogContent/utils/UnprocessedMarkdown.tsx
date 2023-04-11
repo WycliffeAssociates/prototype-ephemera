@@ -15,7 +15,7 @@ function UnprocessedMarkdown({markdown} : unprocessedMarkdownProps) {
     if(markdown !== undefined)
     {
         return (
-            <div style={{paddingTop:"15px", paddingBottom:"15px"}}>
+            <div style={{paddingTop:"15px", paddingBottom:"15px", maxHeight:"90vh"}}>
                 <ReactMarkdown children={markdown} components={{
                     h1: ({node, ...props}) => <></>,
                     h2: ({node, ...props}) => <h3>{props.children}</h3>,

@@ -109,17 +109,17 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
           lg:(open ? "block" : "none"), 
           xl:(open ? "block" : "none")
         }}
-        style={{height:"100%", width:"100%", backgroundColor:"#FFFFFF;"}}
+        style={{backgroundColor:"#FFFFFF;"}}
       >
 
         <Grid container direction="row" style={{paddingTop: "8px"}}>
 
-          <Grid item lg={12} xl={12} md={12} style={{maxHeight: '89vh', overflow: 'auto'}}>
+          <Grid item lg={12} xl={12} md={12}>
     
             {openVerseReferenceDialog === false && openMorphologyDialog === false ? 
               <>
                 {greekWords !== undefined && greekWords.length > 0 ? 
-                  <>
+                  <div style={{overflow:"auto", maxHeight:"90vh"}}>
                     <BannerMessage greekWords={greekWords}/>
                       {greekWords.map((data, idx) => (
                       <> 
@@ -132,7 +132,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
                       </Grid>
                       </>
                     ))}
-                  </>
+                  </div>
                   
                 :
                   <TipsDialogContent open={true} onClose={onClose}/> 
