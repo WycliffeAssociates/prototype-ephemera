@@ -5,6 +5,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import LanguageIcon from '@material-ui/icons/Language';
 import SettingsModal from './SettingsModal';
 import { useSettings } from '../hooks/SettingsContext';
+import { useNavigate } from 'react-router-dom';
 
 
 interface ViewHeaderProps {
@@ -15,6 +16,7 @@ export function ViewHeader({ showIconText }: ViewHeaderProps) {
 
     const [settingsModalOpen, setSettingsModalOpen] = useState(false);
     const {ULBSettings, GWTSettings,} = useSettings();
+    let navigate = useNavigate(); 
 
 
     const onSettingsModalClose = () => {
@@ -23,7 +25,12 @@ export function ViewHeader({ showIconText }: ViewHeaderProps) {
 
     const onSettingsModalOpen = () => {
         setSettingsModalOpen(true);
-      }
+    }
+
+    const routeChange = () =>{ 
+        window.location.href = `https://bibleineverylanguage.org/`; 
+        //avigate(path);
+    }
 
     return (
         <>
@@ -50,7 +57,7 @@ export function ViewHeader({ showIconText }: ViewHeaderProps) {
                     xl={2} lg={2} md={2} sm={2} xs={2} 
                     style={{margin: "auto"}}
                 >
-                    <Button variant="outlined" style={{float:"left", border: "1px solid #E5E8EB", borderRadius: "16px", color:"#33445C", textTransform:"none"}}>
+                    <Button onClick={routeChange} variant="outlined" style={{float:"left", border: "1px solid #E5E8EB", borderRadius: "16px", color:"#33445C", textTransform:"none"}}>
                         <LanguageIcon/>
                         { showIconText === true ? "Go to BIEL" : "" }  
                     </Button>
