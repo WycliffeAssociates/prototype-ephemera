@@ -17,7 +17,7 @@ export function VerseReferenceDialogContent({open, onClose, refBookChapterVerse,
       return (
         <Grid container direction="row" style={{paddingTop: "8px"}}>
 
-          <Grid item lg={12} xl={12} md={12} sm={12} xs={12} style={{maxHeight: '80vh', textAlign:"left", paddingLeft:"15px", paddingBottom:"50px"}}>
+          <Grid item lg={12} xl={12} md={12} sm={12} xs={12} style={{maxHeight:"fit-content", overflow:"hidden", textAlign:"left", paddingLeft:"15px"}}>
               <Grid container>
 
                 <Grid 
@@ -38,6 +38,7 @@ export function VerseReferenceDialogContent({open, onClose, refBookChapterVerse,
 
                 <Grid item 
                       xl={12} lg={12} md={12} sm={12} xs={12} 
+                      style={{maxHeight:"80vh", overflowY:"scroll"}}
                 >
                   <VerseReferenceText 
                     refBook={refBookChapterVerse.refBook} 

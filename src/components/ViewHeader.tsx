@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -29,7 +29,6 @@ export function ViewHeader({ showIconText }: ViewHeaderProps) {
 
     const routeChange = () =>{ 
         window.location.href = `https://bibleineverylanguage.org/`; 
-        //avigate(path);
     }
 
     return (

@@ -50,7 +50,7 @@ export function VerseReferenceText({ refBook, refChapter, refVerse, refWord } : 
     })
     
     return (
-        <div style={{ paddingBottom:"50px" }}>
+        <div style={{padding:"0px"}}>
             {verses.length === 0 ? "Please enter a valid book / chapter" : verseOutput }
         </div>
     )
