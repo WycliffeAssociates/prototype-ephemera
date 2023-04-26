@@ -7,16 +7,16 @@ import Button from "@mui/material/Button";
 
 
 const DesktopNextChapterButton = styled(Button)({
-  height: 25,
+  height: 48,
   borderRadius: 20,
   textTransform: "none",
-  fontSize: 12,
-  padding: "6px 12px",
+  fontSize: 20,
+  padding: "12px 16px 12px 16px",
   lineHeight: 1.0,
   backgroundColor:"white",
   color:"black",
-  maxWidth: 150,
-  minWidth: 150,
+  maxWidth: 231,
+  minWidth: 231,
 });
 
 
@@ -33,7 +33,7 @@ function NextChapterButton()
   return (
     <>
       <Box 
-        display={{ xs: 'block', sm: 'block', md:"none", lg:"none", xl:"none" }} 
+        display={{ xs: 'block', sm: 'block', md:"block", lg:"none", xl:"none" }} 
         style={{float:"right", paddingRight:"15%"}}
       >
         <Fab color="primary" aria-label="add"
@@ -52,7 +52,7 @@ function NextChapterButton()
       </Box>
 
       <Box 
-        display={{ xs: 'none', sm: 'none', md:"block", lg:"block", xl:"block" }}
+        display={{ xs: 'none', sm: 'none', md:"none", lg:"block", xl:"block" }}
         style={{float:"right", paddingRight:"15%"}}
       >
         <DesktopNextChapterButton variant="contained" disableRipple onClick={onClick}>

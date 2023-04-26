@@ -7,16 +7,16 @@ import Button from "@mui/material/Button";
 
 
 const BootstrapButton = styled(Button)({
-  height: 25,
+  height: 48,
   borderRadius: 20,
   textTransform: "none",
-  fontSize: 12,
-  padding: "6px 12px",
+  fontSize: 20,
+  padding: "12px 16px 12px 16px",
   lineHeight: 1.0,
   backgroundColor:"white",
   color:"black",
-  maxWidth: 150,
-  minWidth: 150,
+  maxWidth: 231,
+  minWidth: 231,
 });
 
 
@@ -32,7 +32,7 @@ function PreviousChapterButton()
 
   return (
     <> 
-      <Box display={{ xs: 'block', sm: 'block', md:"none", lg:"none", xl:"none" }} style={{float:"left", paddingLeft:"15%"}}>
+      <Box display={{ xs: 'block', sm: 'block', md:"block", lg:"none", xl:"none" }} style={{float:"left", paddingLeft:"13%"}}>
         <Fab color="primary" aria-label="add"
           style={{
               width: "50px",
@@ -47,8 +47,8 @@ function PreviousChapterButton()
       </Box>
 
       <Box 
-        display={{ xs: 'none', sm: 'none', md:"block", lg:"block", xl:"block" }}
-        style={{float:"left", paddingLeft:"10%"}}
+        display={{ xs: 'none', sm: 'none', md:"none", lg:"block", xl:"block" }}
+        style={{float:"left", paddingLeft:"8%"}}
       >
         <BootstrapButton variant="contained" disableRipple onClick={onClick}>
           <ChevronLeftIcon/> Previous Chapter
