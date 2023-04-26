@@ -13,7 +13,12 @@ function ChapterNavigationBar( {onClick} : ChapterNavigationBarProps)
   let bookChapter = useBookChapterParams().getBookChaptersParams();
 
   return (
-    <Grid container justifyContent="center" alignItems="center">
+    <Grid container justifyContent="center" alignItems="center" style={{
+                                                                          padding:"20px 40px 20px 40px", 
+                                                                          borderWidth:"0px 2px 2px 0px", 
+                                                                          borderColor: "rgb(229, 232, 235)", 
+                                                                          borderStyle:"solid"
+                                                                      }}>
       <Grid item lg={10} md={10} sm={10} xs={10}>
         <ButtonGroup 
           variant="outlined" 
