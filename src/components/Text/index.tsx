@@ -73,15 +73,18 @@ function Text() {
   let overwriteStyle : any = mapValidULBSettings(ULBSettings).verseStyles;
   let verseOutput : any[] = [];
 
-  verses.forEach((verse) => {
+  verses.forEach((verse, idx) => {
     let verseWordOutput : any[] = [];
-
+    let extraMarginTop : string = "20px"
+    if(idx == 0) {
+      extraMarginTop = "0px"
+    }
     verse.verseWords.forEach((verseWord, idx) => {
       verseWordOutput.push(<Word key={`v${verse.verseNum} w${idx}`} handleClick={handleChildClicked} versePhrase={{...verseWord}}/>)
     })
 
     const tempVerse = (
-      <p key={`verse + ${verse.verseNum}`} className="TextContainer__Verse" style={{...overwriteStyle}}><sup>{verse.verseNum}</sup> {verseWordOutput}</p>
+      <p key={`verse + ${verse.verseNum}`} className="TextContainer__Verse" style={{...overwriteStyle, marginTop:extraMarginTop}}><sup>{verse.verseNum}</sup> {verseWordOutput}</p>
     )
     verseOutput.push(tempVerse);
   })

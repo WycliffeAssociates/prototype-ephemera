@@ -51,7 +51,7 @@ export function MorphologyDialogContent({open, onClose, fullScreen, morphologyWo
 
                     <Grid item 
                             xl={12} lg={12} md={12} sm={12} xs={12} 
-                            style={{paddingLeft: "2%", overflowY:"auto", maxHeight:"80vh"}}
+                            style={{paddingLeft: "2%", overflowY:"auto", maxHeight:"70vh"}}
                     >
                         { morphologyWordMarkdown !== undefined && fullScreen === true ? 
                             <>
