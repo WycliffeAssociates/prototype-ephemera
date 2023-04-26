@@ -102,6 +102,19 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
 
 
     return ( 
+      // TODO: place Banner message here inside of its own Grid Item
+      <>
+      
+      <Grid item
+            xs = {12}
+            sm = {12}
+            md = {12}
+            lg = {12}
+            xl = {12}
+      >
+        <BannerMessage greekWords={greekWords}/>
+      </Grid>
+
       <Box 
         display={{ 
           xs: (open ? "block" : "none"), sm: (open ? "block" : "none"), 
@@ -109,18 +122,17 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
           lg:(open ? "block" : "none"), 
           xl:(open ? "block" : "none")
         }}
-        style={{backgroundColor:"#FFFFFF;"}}
+        style={{backgroundColor:"#FFFFFF;", padding:"20px 40px 0px 40px"}}
       >
 
-        <Grid container direction="row" style={{paddingTop: "8px"}}>
+        <Grid container direction="row">
 
           <Grid item lg={12} xl={12} md={12}>
     
             {openVerseReferenceDialog === false && openMorphologyDialog === false ? 
               <>
                 {greekWords !== undefined && greekWords.length > 0 ? 
-                  <div style={{overflow:"auto", maxHeight:"90vh"}}>
-                    <BannerMessage greekWords={greekWords}/>
+                  <div style={{overflow:"auto", maxHeight:"80vh"}}>
                       {greekWords.map((data, idx) => (
                       <> 
                       <GreekWordInfo key={idx} currentGreekWord={data}/>
@@ -160,6 +172,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
           </Grid>
         </Grid>
       </Box>
+      </>
     )
 }
 
