@@ -52,7 +52,7 @@ span {
   margin-bottom: 2px;
   /* height: 36px; */
   margin-top: 2px;
-  font-family: Lato;
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -65,10 +65,10 @@ span {
   margin-top: 0px;
   margin-bottom:0px;
   height: 24px;
-  font-family: 'Lato';
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 150%;
   color:#001432;
 }
@@ -78,10 +78,10 @@ span {
   text-align:left; 
   margin-bottom:12px;
   height: 18px;
-  font-family: 'Lato';
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 100%;
   margin-top: 4px;
 }
@@ -90,10 +90,10 @@ span {
 .GreekWordInfoSubCategory {
   text-align:left; 
   height: 18px;
-  font-family: 'Lato';
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 20px;
   line-height: 150%;
   color:#00193c;
   font-weight: bold;
@@ -104,10 +104,10 @@ span {
   width:100%; 
   margin-top:0px; 
   margin-bottom:2px; 
-  font-family: 'Lato';
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 150%;
 }
 
@@ -176,7 +176,8 @@ span {
   position: relative; 
   margin-right: 9px;
   padding-left: 25px;
-  max-height: 80vh;
+  max-height: 70vh; /* 74vh works OK*/
+  padding:20px 40px 0px;
 }
 
 .TextContainer__GreekPhrase {
@@ -189,7 +190,7 @@ span {
 
 .TextContainer__Verse {
   text-align: left;
-  font-family: 'Lato';
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -220,7 +221,7 @@ span {
   color: #001533CC;
   font-weight: 400;
   text-transform:none;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .ChapterNavigationBar__BookName {
@@ -233,7 +234,7 @@ span {
     margin-top: 0px;
     margin-bottom: 15px;
     margin-left: 15px;
-    font-family: 'Lato';
+    font-family: 'Noto Sans';
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
@@ -310,7 +311,7 @@ span {
   text-align:left; 
   margin-bottom:4px;
   height: 18px;
-  font-family: Lato;
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -345,7 +346,7 @@ span {
 
 .NavigationModal__navigation {
   height: 32px;
-  font-family: Lato;
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -360,10 +361,10 @@ span {
   margin: 0px;
   margin-left: 6px;
   /* margin-right:50%; */
-  font-family: 'Lato';
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 100%;
   /* display: inline; */
   display: flex;
@@ -376,7 +377,7 @@ span {
   height: 36px;
   margin: 0px;
   margin-left: 6px;
-  font-family: 'Lato';
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 24px;

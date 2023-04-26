@@ -16,7 +16,7 @@ export function SettingsProvider({children} : any) {
     const [ULBLineHeightValue, setULBLineHeightValue] = useState<number>(200);
     const [ULBFontSizeValue, setULBFontSizeValue] = useState<number>(20);
     const [GWTLineHeightValue, setGWTLineHeightValue] = useState<number>(150);
-    const [GWTFontSizeValue, setGWTFontSizeValue] = useState<number>(16);
+    const [GWTFontSizeValue, setGWTFontSizeValue] = useState<number>(20);
 
     
     const ULBTextFontSetting : ULBSettingsOption = {
@@ -54,7 +54,7 @@ export function SettingsProvider({children} : any) {
         inputType:"increment",
         unit:"px",
         styleOverrideKey: "fontSize",
-        defaultValue: 16,
+        defaultValue: 20,
     }
     
     const GWTLineHeightSetting : SettingsOption = {
