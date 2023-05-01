@@ -39,6 +39,7 @@ export function VerseReferenceDialogContent({open, onClose, refBookChapterVerse,
                 <Grid item 
                       xl={12} lg={12} md={12} sm={12} xs={12} 
                       style={{maxHeight:"80vh", overflowY:"scroll"}}
+                      id="verseReferenceContainer"
                 >
                   <VerseReferenceText 
                     refBook={refBookChapterVerse.refBook} 
