@@ -104,16 +104,18 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
     return ( 
       // TODO: place Banner message here inside of its own Grid Item
       <>
-      
-      <Grid item
-            xs = {12}
-            sm = {12}
-            md = {12}
-            lg = {12}
-            xl = {12}
-      >
-        <BannerMessage greekWords={greekWords}/>
-      </Grid>
+      {openVerseReferenceDialog === false && openMorphologyDialog === false ? 
+        <Grid item
+              xs = {12}
+              sm = {12}
+              md = {12}
+              lg = {12}
+              xl = {12}
+        >
+          <BannerMessage greekWords={greekWords}/>
+        </Grid>      
+      :""}
+
 
       <Box 
         display={{ 
