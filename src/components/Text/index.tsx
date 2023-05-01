@@ -32,6 +32,8 @@ function Text() {
       if(childClicked?.current?.style?.color !== undefined) 
       {
         childClicked.current.style.color = defaultTextColor;
+        childClicked.current.style.textDecoration = "none";
+
       } 
     }
   }, [showGreekWords])
