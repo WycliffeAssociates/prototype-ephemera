@@ -32,7 +32,7 @@ function PreviousChapterButton()
 
   return (
     <> 
-      <Box display={{ xs: 'block', sm: 'block', md:"block", lg:"none", xl:"none" }} style={{float:"left", paddingLeft:"13%"}}>
+      <Box display={{ xs: 'block', sm: 'block', md:"block", lg:"block", xl:"none" }} style={{float:"left", paddingLeft:"13%"}}>
         <Fab color="primary" aria-label="add"
           style={{
               width: "50px",
@@ -47,7 +47,7 @@ function PreviousChapterButton()
       </Box>
 
       <Box 
-        display={{ xs: 'none', sm: 'none', md:"none", lg:"block", xl:"block" }}
+        display={{ xs: 'none', sm: 'none', md:"none", lg:"none", xl:"block" }}
         style={{float:"left", paddingLeft:"8%"}}
       >
         <BootstrapButton variant="contained" disableRipple onClick={onClick}>

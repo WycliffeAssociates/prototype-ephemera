@@ -33,7 +33,7 @@ function NextChapterButton()
   return (
     <>
       <Box 
-        display={{ xs: 'block', sm: 'block', md:"block", lg:"none", xl:"none" }} 
+        display={{ xs: 'block', sm: 'block', md:"block", lg:"block", xl:"none" }} 
         style={{float:"right", paddingRight:"15%"}}
       >
         <Fab color="primary" aria-label="add"
@@ -52,7 +52,7 @@ function NextChapterButton()
       </Box>
 
       <Box 
-        display={{ xs: 'none', sm: 'none', md:"none", lg:"block", xl:"block" }}
+        display={{ xs: 'none', sm: 'none', md:"none", lg:"none", xl:"block" }}
         style={{float:"right", paddingRight:"15%"}}
       >
         <DesktopNextChapterButton variant="contained" disableRipple onClick={onClick}>
