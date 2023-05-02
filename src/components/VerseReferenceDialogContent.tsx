@@ -29,7 +29,7 @@ export function VerseReferenceDialogContent({open, onClose, refBookChapterVerse,
 
                   <Grid 
                       item xl={4} lg={4} md={4} sm={4} xs={4} 
-                      // style={{margin: "auto"}}
+                      style={{padding: "12px 16px 12px 16px", margin:"auto"}}
                   >
                       <Button onClick={onClose} variant="outlined" style={{ float:"right", border: "1px solid #E5E8EB", borderRadius: "16px", color:"#33445C", textTransform:"none",}}>
                           <ArrowBackIcon/> {fullScreen !== true ? "Go Back" : ""}
@@ -38,9 +38,16 @@ export function VerseReferenceDialogContent({open, onClose, refBookChapterVerse,
 
                 <Grid item 
                       xl={12} lg={12} md={12} sm={12} xs={12} 
-                      style={{maxHeight:"80vh", overflowY:"scroll"}}
                       id="verseReferenceContainer"
+                      style={{
+                              padding:"0px", 
+                              scrollMargin:"50px", 
+                              position: "relative", 
+                              maxHeight:(fullScreen ? "85vh" : "70vh"), 
+                              overflowY:"scroll"
+                      }}
                 >
+                  
                   <VerseReferenceText 
                     refBook={refBookChapterVerse.refBook} 
                     refChapter={parseInt(refBookChapterVerse.refChapter)} 

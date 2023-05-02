@@ -35,12 +35,12 @@ function BannerMessage({greekWords} : GreekWordsBannerProps)
 
       <Grid item lg={12} xl={12} md={12} sm={12} style={{backgroundColor:"#E6EEFB", width:"100%", height:"58px", display:"table"}}>
 
-      <Grid container style={{height:"100%",}} direction={"row"} justifyContent={"flex-start"} alignItems={"center"} >
-        <Grid item style={{paddingLeft:"3%",}} xl={12} lg={12} md={12} sm={12} xs={12}>
-          <InfoIcon style={{verticalAlign:"middle", lineHeight:"1px", float:"left",}}/>
-          <span style={{paddingLeft:"1%", float:"left",}}>There are {greekWords.length} Greek word translations</span>     
+        <Grid container style={{height:"100%",}} direction={"row"} justifyContent={"flex-start"} alignItems={"center"} >
+            <Grid item style={{paddingLeft:"3%",}} xl={12} lg={12} md={12} sm={12} xs={12}>
+            <InfoIcon style={{verticalAlign:"middle", lineHeight:"1px", float:"left",}}/>
+            <span style={{paddingLeft:"1%", float:"left",}}>There are {greekWords.length} Greek word translations</span>     
+            </Grid>
         </Grid>
-      </Grid>
 
       </Grid>
     )
@@ -144,20 +144,20 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                     <Grid 
                         item 
                         xl={12} lg={12} md={12} sm={12} xs={12} 
-                        style={{maxHeight:"90vh", overflowY:"scroll", padding:"0px"}}
+                        id="greekWordsModal"
                     > 
                         {openVerseReferenceDialog === false && openMorphologyDialog === false? 
                             <>
+                                <BannerMessage greekWords={greekWords}/>
+
                                 {greekWords !== undefined && greekWords.length > 0 ? 
-                                    <>
-                                        <BannerMessage greekWords={greekWords}/>
+                                    <div style={{maxHeight:"85vh", overflowY:"scroll", padding:"0px", scrollPadding:"50px"}}>
                                         {greekWords.map((data, idx) => (
                                             <div style={{borderBottom: "solid", borderColor: "#d9d9d9", overflow:"hidden"}}> 
                                                 <GreekWordInfo key={idx} currentGreekWord={data} showMoreOptions={true}/>                                          
                                             </div>
                                         ))}
-                                    </>
-                                    
+                                    </div>   
                                     :
                                     <TipsDialogContent open={true} onClose={onClose}/> 
                                 }
@@ -170,7 +170,7 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                                     onClose={onVerseReferenceClose} 
                                     refBookChapterVerse={refBookChapter} 
                                     fullScreen={true} 
-                                /> 
+                                />                                
                             :
                                 <MorphologyDialogContent 
                                     open={openMorphologyDialog} 
@@ -178,7 +178,7 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                                     fullScreen={true} 
                                     morphologyWord={getMorphologyParams().morphologyWord} 
                                 />
-                        }                        
+                        }    
                     </Grid> 
                 </Grid>
             
