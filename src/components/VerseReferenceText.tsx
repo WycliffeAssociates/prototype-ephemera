@@ -62,7 +62,7 @@ export function VerseReferenceText({ refBook, refChapter, refVerse, refWord } : 
         if(verseRef != null && verseRef.current != null)
         {                
             let scrollableParent = verseRef.current.parentNode?.parentNode as HTMLElement;
-            scrollableParent.scrollTo(0,verseRef.current.offsetTop - 230)
+            scrollableParent.scrollTo(0,verseRef.current.offsetTop - 40)
         }
     },[verseOutput])
 
