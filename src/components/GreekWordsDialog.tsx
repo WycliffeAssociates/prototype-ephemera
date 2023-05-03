@@ -6,12 +6,10 @@ import { TipsDialogContent } from './TipsDialogContent';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import { useBookChapterParams } from '../hooks/useBookChapterParams';
 import { useState, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
 import { VerseReferenceDialogContent } from './VerseReferenceDialogContent';
 import Divider from '@mui/material/Divider';
 import useMorphologyParams from '../hooks/useMorphologyParams';
 import { MorphologyDialogContent } from './MorphologyDialogContent';
-
 
 
 interface GreekWordsDialogProps {
@@ -58,6 +56,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
     const [openVerseReferenceDialog, setOpenVerseReferenceDialog] = useState(false);
     const [refBookChapter, setRefBookChapter] = useState<any>({});
     const [openMorphologyDialog, setOpenMorphologyDialog] = useState(false);
+    const [openTipsDialog, setOpenTipsDialog] = useState(false);
 
     useEffect(() => {
        let params = getBookChaptersParams();
@@ -72,8 +71,13 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
        setRefBookChapter({...newRefBookChapter});
     }, [getBookChaptersParams().refBook])
 
+    useEffect(() => {
+        setOpenTipsDialog(true)
+    }, [getBookChaptersParams().book, getBookChaptersParams().chapter])
+
 
     useEffect(() => {
+      setOpenTipsDialog(false);
       onVerseReferenceClose();
     }, [greekWords])
 
@@ -95,15 +99,20 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
   }
 
 
-    function onVerseReferenceClose() {
-      setOpenVerseReferenceDialog(false);
-      removeReferenceParams();
+  function onVerseReferenceClose() {
+    setOpenVerseReferenceDialog(false);
+    removeReferenceParams();
+  }
+
+  useEffect(() => {
+    if(openMorphologyDialog || openVerseReferenceDialog) {
+      setOpenTipsDialog(false);
     }
+  }, [openMorphologyDialog, openVerseReferenceDialog])
 
 
-    return ( 
-      // TODO: place Banner message here inside of its own Grid Item
-      <>
+  return ( 
+    <>
       {openVerseReferenceDialog === false && openMorphologyDialog === false ? 
         <Grid item
               xs = {12}
@@ -131,19 +140,19 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
 
           <Grid item lg={12} xl={12} md={12}>
     
-            {openVerseReferenceDialog === false && openMorphologyDialog === false ? 
+            {openVerseReferenceDialog === false && openMorphologyDialog === false && openTipsDialog == false? 
               <>
                 {greekWords !== undefined && greekWords.length > 0 ? 
                   <div style={{overflow:"auto", maxHeight:"72vh"}}>
                       {greekWords.map((data, idx) => (
                       <> 
-                      <GreekWordInfo key={idx} currentGreekWord={data}/>
-                      <Grid 
-                          item
-                          xl={12} lg={12} md={12} sm={12} xs={12} 
-                      >
-                          <Divider />
-                      </Grid>
+                        <GreekWordInfo key={idx} currentGreekWord={data}/>
+                        <Grid 
+                            item
+                            xl={12} lg={12} md={12} sm={12} xs={12} 
+                        >
+                            <Divider />
+                        </Grid>
                       </>
                     ))}
                   </div>
@@ -153,20 +162,24 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
                 }
               </>
             :
-              (openVerseReferenceDialog === true) ? 
+              <>
                 <VerseReferenceDialogContent 
-                    open={openVerseReferenceDialog} 
+                    open={openVerseReferenceDialog && !openMorphologyDialog && !openTipsDialog} 
                     onClose={onVerseReferenceClose} 
                     refBookChapterVerse={refBookChapter} 
                     fullScreen={false} 
                 /> 
-              :
+              
                 <MorphologyDialogContent 
-                    open={openMorphologyDialog} 
+                    open={openMorphologyDialog && !openVerseReferenceDialog && !openTipsDialog} 
                     onClose={onMorphologyDialogClose} 
                     fullScreen={false} 
                     morphologyWord={getMorphologyParams().morphologyWord} 
                 />
+                <TipsDialogContent open={openTipsDialog} onClose={onClose}/> 
+                  {/* {openTipsDialog ? <TipsDialogContent open={openTipsDialog} onClose={onClose}/> : ""} */}
+                   
+              </>
             }
             
 
@@ -174,8 +187,8 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
           </Grid>
         </Grid>
       </Box>
-      </>
-    )
+    </>
+  )
 }
 
 
