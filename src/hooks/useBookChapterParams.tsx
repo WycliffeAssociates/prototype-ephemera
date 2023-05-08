@@ -35,6 +35,13 @@ export function useBookChapterParams() {
     const navigate = useNavigate()
 
     function setValidBookChapterParams(newBook: string, newChapter: string, newVerse?: string, referenceWord?: string, isReference?: boolean) {
+
+      // NOTE: this is a hardcoded fix for a content issue found when 
+      // examining Philemon's 1:24 "Demas". The entry for that word in the gwt repo
+      // has a verse reference going to "Colossian", however, the en_ulb names the book "Colossians"
+      if(newBook === "Colossian") {
+        newBook = "Colossians";
+      }
       
       if(validateBookChapter(newBook, newChapter)) {
         let params : any;

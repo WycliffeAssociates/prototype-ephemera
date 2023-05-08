@@ -23,7 +23,7 @@ export function VerseReferences({references, referenceWord} : VerseReferencesPro
         let verseReferenceVerse = "";
 
         if(referenceMatch) {
-            verseReferenceBook = referenceMatch[2];
+            verseReferenceBook = (referenceMatch[1] !== undefined ? `${referenceMatch[1]}${referenceMatch[2]}` : referenceMatch[2]);
             verseReferenceChapter = referenceMatch[3];
             verseReferenceVerse = referenceMatch[4];
         }

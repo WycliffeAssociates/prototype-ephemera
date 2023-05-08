@@ -46,7 +46,7 @@ function getStrongsRange(strongs) {
 
     let strongsNumber = thousandsDigit + hundredsDigit + tensDigit + onesDigit;
 
-    strongsNumber = parseInt(strongsNumber)
+    strongsNumber = parseInt(strongsNumber);
 
     let startStrongsRangeNumber;
     let endStrongsRangeNumber;
@@ -70,7 +70,7 @@ function getStrongsRange(strongs) {
     let startStrongsRangeString = makeFourDigitStrongs("g" + startStrongsRangeNumber);
     let endStrongsRangeString = makeFourDigitStrongs("g" + endStrongsRangeNumber);
 
-    let strongsRange = (startStrongsRangeString +  "-").concat(endStrongsRangeString)
+    let strongsRange = (startStrongsRangeString +  "-").concat(endStrongsRangeString);
 
     return strongsRange.toLocaleLowerCase();
 }
@@ -86,7 +86,7 @@ async function getGreekWord(strongs) {
     let greekWordInfo;
 
     try {
-        greekWordInfo = await axios.get(`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/${folder}/${strongs}.md`)
+        greekWordInfo = await axios.get(`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/${folder}/${strongs}.md`);
         return greekWordInfo;
     } catch (error) {
          console.error(error);

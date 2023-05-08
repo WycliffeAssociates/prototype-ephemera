@@ -42,17 +42,43 @@ function mapGWTMarkdown (greekWordMarkDown : string) {
       {
         processedDescriptions = true;
         
-        let foundVerseReferences : any[] | null = greekWordMarkDownArray[i].match(/[A-Za-z]+ \d+:\d+/g);
-        let validVerseReferences : string[] = [];
-        if(foundVerseReferences) {
-          foundVerseReferences.forEach((foundVerseReference) => {
-            if(newTestamentBooks[foundVerseReference.match(/[A-Za-z]+/)]) {
-              validVerseReferences.push(foundVerseReference);
-            }
-          })
-        }
+        if(greekWordMarkDownArray[i].match(/\d+:\d+/) != null) // see if any verse references are present
+        {
+          let validVerseReferences : string[] = [];
+          let references : any[] | null  = greekWordMarkDownArray[i].split(";");
+          let previousBook : string; 
+          if(references != null) {
+            references[0] = references[0].replace(/See:\W*/g, "");
+  
+            references.forEach((reference) => {
+              let book = reference.match(/((\d +){0,1}[A-Za-z]+)/);
+              let chapterVerses = reference.match(/(\d+:\d+(,\W*\d+)*)/);
+              
+              book = book === null ? previousBook : book[0];
+              previousBook = book;
+  
+              if(chapterVerses !== null && chapterVerses[2] === undefined) {
+                // there are not additional verses to process
+                validVerseReferences.push(`${book} ${chapterVerses[1]}`);
+              } else {
+                // there are additional verses to process
+                chapterVerses = chapterVerses[0].replace(/,\W*/, ";")
+                chapterVerses = chapterVerses.split(":");
+                let chapter = chapterVerses[0];
+                let verses = chapterVerses[1].split(";");
+                
+                verses.forEach((verse : string) => {
+                  validVerseReferences.push(`${book} ${chapter}:${verse}`);
+                })
+              }
+  
+            })
+          }
+          gwtInformation.verseReferences = validVerseReferences;
 
-        gwtInformation.verseReferences = validVerseReferences;
+        }
+       
+
       }
       else if(greekWordMarkDownArray[i].charAt(0) == "*" && !processedDescriptions) {
         greekWordMarkDownArray[i] = greekWordMarkDownArray[i].replace("*", "");
