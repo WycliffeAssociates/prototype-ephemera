@@ -77,7 +77,8 @@ function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordM
                                             ...currentGreekWordNotes, 
                                             ...currentGreekWordAttributes, 
                                             text: word._text
-                                }    
+                                } 
+
         if(currentGreekWordNotes.phraseWords !== undefined) {
             flags.consumedPhraseWord = true;
             buffers.phraseWords.push({...currentGreekWord, phraseWords: currentGreekWordNotes.phraseWords});
@@ -110,22 +111,45 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
         // TODO: may also need to handle leftover phrase words, in the case that one phrase is directly
         // followed by another. Should be just a check against the phraseWords attribute. All words belonging to the same phrase
         // will have the same value for that. 
-        let subWords;
+        let nonInjectedsubWords;
+        let injectedSubWords;
         if(flags.consumedSubWord && typeof word !== "string" && word.text === "√") {
             return;
         }
 
         if(flags.consumedSubWord) { 
-            subWords = processConsumedSubWords(word, buffers.subWords);
+            // Checks if the phraseWords attribute needs to have sub words injected into it
+            if(buffers.phraseWords[0].phraseWords.match(/[\d+]/) != null) {
+                console.log("Showing word");
+                console.log(word);
+                console.log("showing sub words")
+                buffers.subWords.forEach((word) => console.log(word))
+                let tempSubWords = buffers.subWords;
+                console.log("showing phrase words")
+                buffers.phraseWords.forEach((word) => console.log(word));
+
+                // For each phrase word, if their phraseWords attribute is different, 
+                // then the ones with the same phraseWords attribute need to be processed differently. 
+                injectedSubWords = processConsumedSubWords(buffers.phraseWords[0], buffers.subWords);
+            }
+        
+            nonInjectedsubWords = processConsumedSubWords(word, buffers.subWords);
         } 
 
         let tempWord = processConsumedPhraseWords(buffers.phraseWords);
 
+        // Injects the sub words into the pharse word if necessary
+        if(injectedSubWords !== undefined) {
+            tempWord.englishWords = injectedSubWords.englishWords;
+            tempWord.subWords = injectedSubWords.subWords;
+        }
+
+
         buffers.verseWords.push(tempWord);
 
         if(typeof word !== 'string') {
-            if(subWords) {
-                buffers.verseWords.push(subWords);
+            if(nonInjectedsubWords) {
+                buffers.verseWords.push(nonInjectedsubWords);
             } else if(word.text !== "√") {
                 let tempWord = {
                    englishWords: word.text,
@@ -140,7 +164,6 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
             buffers.verseWords.push(tempWord)
         }
     } else if(flags.consumedSubWord) { // buffer contain subWords. NOTE: Current word is processed in this case
-        
         let leftOverPhraseWords = processConsumedPhraseWords(buffers.phraseWords) 
 
         if(leftOverPhraseWords.phraseWords.length > 0) {
@@ -155,8 +178,7 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
         if(word.text !== "√") { // current word has english backing 
             let tempWord = {
                englishWords: word.text,
-               greekWords: [word]
-            }
+               greekWords: [word],            }
             buffers.verseWords.push(tempWord)
         }
     } else {
@@ -235,8 +257,7 @@ function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, su
             // TODO: add else if for phrasewords
             if(currentSubWord.subPhraseWords) {
                 source = source.replace(subWordBuffer[i].subIdx as string, currentSubWord.subPhraseWords);
-            }
-            else if(currentSubWord.phraseWords) {
+            } else if(currentSubWord.phraseWords) {
                 currentSubWord.phraseWords = currentSubWord.phraseWords.replace(subWordBuffer[i].subIdx as string, currentSubWord.text);
 
                 // TODO: see if I can bring this out of the for loop to decrease run time
