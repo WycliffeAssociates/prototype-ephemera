@@ -20,7 +20,7 @@ function mapVerses (verses : VerseTag[]) {
     // populates verseOutput with verse
     verses.forEach((verse : VerseTag) => {
 
-        let flags = {consumedPhraseWord: false, consumedSubWord: false, consumedSubPhraseWord: false};
+        let flags = {consumedPhraseWord: false, consumedSubWord: false, consumedSubPhraseWord: false, processingSubsequentPhraseWord: false};
         let buffers = {verseWords : [] as any[], subWords : [] as SubWord[], phraseWords : [] as PhraseWord[], subPhraseWords : [] as any[]}
     
         // populates the verseWordOutput with verse words
@@ -46,6 +46,7 @@ function mapVerses (verses : VerseTag[]) {
 
 type WordMapFlags = {
     consumedPhraseWord: boolean, 
+    processingSubsequentPhraseWord: boolean,
     consumedSubWord: boolean,
     consumedSubPhraseWord: boolean,
 }
@@ -80,6 +81,18 @@ function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordM
                                 } 
 
         if(currentGreekWordNotes.phraseWords !== undefined) {
+
+            if(flags.consumedPhraseWord == true) {
+                if(currentGreekWordNotes.phraseWords != buffers.phraseWords[buffers.phraseWords.length - 1].phraseWords) {
+                    flags.processingSubsequentPhraseWord = true;
+                    // calls map words with processingSubsequentPhraseWord = true. 
+                    // processingSubsequentPhraseWord allows us to process one phrase word
+                    // without affecting the next
+                    mapWord(currentGreekWord, flags, buffers)
+                } 
+
+            }
+            
             flags.consumedPhraseWord = true;
             buffers.phraseWords.push({...currentGreekWord, phraseWords: currentGreekWordNotes.phraseWords});
         } else if(sub !== undefined) {
@@ -91,7 +104,7 @@ function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordM
             buffers.subPhraseWords.push(currentGreekWord);
         }
         else { // is a normal word
-            mapWord(currentGreekWord, flags, buffers)
+            mapWord(currentGreekWord, flags, buffers);
         }
     }
     else { // word is just a string, but we still need to check buffer. 
@@ -111,29 +124,32 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
         // TODO: may also need to handle leftover phrase words, in the case that one phrase is directly
         // followed by another. Should be just a check against the phraseWords attribute. All words belonging to the same phrase
         // will have the same value for that. 
+
+
         let nonInjectedsubWords;
         let injectedSubWords;
-        if(flags.consumedSubWord && typeof word !== "string" && word.text === "√") {
-            return;
-        }
 
         if(flags.consumedSubWord) { 
+
+            // For each phrase word, if their phraseWords attribute is different, 
+            // then the ones with the same phraseWords attribute need to be processed differently. 
+            let phraseWordGroups: { [key:string]: PhraseWord[]} = {};
+            buffers.phraseWords.forEach((phraseWord) => {
+                if(phraseWordGroups[phraseWord.phraseWords]) {
+                    phraseWordGroups[phraseWord.phraseWords].push(phraseWord);
+                } else {
+                    phraseWordGroups[phraseWord.phraseWords] = [phraseWord];
+                }
+            })
+
             // Checks if the phraseWords attribute needs to have sub words injected into it
             if(buffers.phraseWords[0].phraseWords.match(/[\d+]/) != null) {
-                console.log("Showing word");
-                console.log(word);
-                console.log("showing sub words")
-                buffers.subWords.forEach((word) => console.log(word))
-                let tempSubWords = buffers.subWords;
-                console.log("showing phrase words")
-                buffers.phraseWords.forEach((word) => console.log(word));
-
-                // For each phrase word, if their phraseWords attribute is different, 
-                // then the ones with the same phraseWords attribute need to be processed differently. 
                 injectedSubWords = processConsumedSubWords(buffers.phraseWords[0], buffers.subWords);
             }
-        
-            nonInjectedsubWords = processConsumedSubWords(word, buffers.subWords);
+            if(flags.processingSubsequentPhraseWord == false) {
+                nonInjectedsubWords = processConsumedSubWords(word, buffers.subWords);
+            }
+                
         } 
 
         let tempWord = processConsumedPhraseWords(buffers.phraseWords);
@@ -144,16 +160,23 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
             tempWord.subWords = injectedSubWords.subWords;
         }
 
-
         buffers.verseWords.push(tempWord);
 
+        if(flags.processingSubsequentPhraseWord === true) {
+            flags.consumedPhraseWord = false;
+            flags.consumedSubWord = false;
+            flags.consumedSubPhraseWord = false;
+            flags.processingSubsequentPhraseWord = false;
+            return;
+        }
+
         if(typeof word !== 'string') {
-            if(nonInjectedsubWords) {
+            if(nonInjectedsubWords && word.text !== "√") {
                 buffers.verseWords.push(nonInjectedsubWords);
             } else if(word.text !== "√") {
                 let tempWord = {
-                   englishWords: word.text,
-                   greekWords: [word],
+                    englishWords: word.text,
+                    greekWords: [word],
                 }
                 buffers.verseWords.push(tempWord)
             }
@@ -248,7 +271,6 @@ function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, su
     }
 
 
-    // if(typeof currentWord !== "string") {
     for(let i = 0; i < subWordBuffer.length; i++ )
     {
         let currentSubWord = subWordBuffer[i].word;
