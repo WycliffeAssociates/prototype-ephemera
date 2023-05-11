@@ -30,7 +30,18 @@ function mapVerses (verses : VerseTag[]) {
 
         // Ensures that phrase words at the end of a verse are processed
         if(flags.consumedPhraseWord) {
-            let tempWord = processConsumedPhraseWords(buffers.phraseWords)
+            let phraseWordsBackup = [...buffers.phraseWords];
+            let tempWord = processConsumedPhraseWords(buffers.phraseWords)      
+            let injectedSubWords;
+
+            if(flags.consumedSubWord) { 
+                // Checks if the phraseWords attribute needs to have sub words injected into it
+                if(phraseWordsBackup[0]?.phraseWords.match(/[\d+]/) != null) {
+                    injectedSubWords = processConsumedSubWords(phraseWordsBackup[0], buffers.subWords);
+                    tempWord.englishWords = injectedSubWords.englishWords;
+                    tempWord.subWords = injectedSubWords.subWords;
+                }
+            } 
             buffers.verseWords.push(tempWord);
         }
 
@@ -130,18 +141,6 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
         let injectedSubWords;
 
         if(flags.consumedSubWord) { 
-
-            // For each phrase word, if their phraseWords attribute is different, 
-            // then the ones with the same phraseWords attribute need to be processed differently. 
-            let phraseWordGroups: { [key:string]: PhraseWord[]} = {};
-            buffers.phraseWords.forEach((phraseWord) => {
-                if(phraseWordGroups[phraseWord.phraseWords]) {
-                    phraseWordGroups[phraseWord.phraseWords].push(phraseWord);
-                } else {
-                    phraseWordGroups[phraseWord.phraseWords] = [phraseWord];
-                }
-            })
-
             // Checks if the phraseWords attribute needs to have sub words injected into it
             if(buffers.phraseWords[0].phraseWords.match(/[\d+]/) != null) {
                 injectedSubWords = processConsumedSubWords(buffers.phraseWords[0], buffers.subWords);
@@ -149,7 +148,6 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
             if(flags.processingSubsequentPhraseWord == false) {
                 nonInjectedsubWords = processConsumedSubWords(word, buffers.subWords);
             }
-                
         } 
 
         let tempWord = processConsumedPhraseWords(buffers.phraseWords);
