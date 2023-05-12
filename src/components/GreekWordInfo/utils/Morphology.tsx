@@ -25,6 +25,18 @@ function Morphology({morphology, abbreviatedMorphology, showMore} : morphologyPr
         else
             setMorphologyLinks([]);
     }, [abbreviatedMorphology])
+
+    function capitalizeFirstLetter(str : string | undefined) : string {
+        if(str === undefined) {
+            return "";
+        }
+
+        if (/^[a-zA-Z]/.test(str)) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        } else {
+            return str;
+        }
+    }
     
     if(morphology !== undefined)
     {
@@ -56,7 +68,7 @@ function Morphology({morphology, abbreviatedMorphology, showMore} : morphologyPr
                                             style={{textDecoration: "underline", cursor:"pointer", color:"blue", width:"100%", ...overwriteStyle}}
                                             onClick={() => setMorphologyParams(link.trim().toLowerCase())}
                                         >
-                                            {link}
+                                            {capitalizeFirstLetter(link.trim())}
                                         </span>
                                         <span> | </span>
                                     </>
@@ -68,7 +80,7 @@ function Morphology({morphology, abbreviatedMorphology, showMore} : morphologyPr
                                         style={{textDecoration: "underline", cursor:"pointer", color:"blue", width:"100%", ...overwriteStyle}}
                                         onClick={() => setMorphologyParams(link.trim().toLowerCase())}
                                     >
-                                        {link}
+                                        {capitalizeFirstLetter(link.trim())}
                                     </span>
                                 )  
                             }

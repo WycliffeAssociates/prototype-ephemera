@@ -12,7 +12,19 @@ interface HeaderProps {
 
 
 export function Header({ onClose, fullScreen, morphologyWord}: HeaderProps) {
-    
+
+    function capitalizeFirstLetter(str : string | undefined) : string {
+        if(str === undefined) {
+            return "";
+        }
+
+        if (/^[a-zA-Z]/.test(str)) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        } else {
+            return str;
+        }
+    }
+
     return (
         <>
             <Grid 
@@ -20,7 +32,7 @@ export function Header({ onClose, fullScreen, morphologyWord}: HeaderProps) {
                 xl={8} lg={8} md={8} sm={8} xs={8}
             >
                 <h3 style={{float:"left", paddingLeft:"2%", color: (!fullScreen ? "#015AD9" : "black")}}>
-                    {fullScreen === false ? morphologyWord : "Learn More" }
+                    {fullScreen === false ? capitalizeFirstLetter(morphologyWord?.trim() as string) : "Learn More" }
                 </h3>
             </Grid>
 
