@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans');
+
 p {
   cursor: default;
 }
@@ -5,6 +7,18 @@ p {
 span {
   cursor: default;
 }
+
+body {
+  font-family: 'Noto Sans';
+}
+
+/* h4 {
+  font-family: Noto Sans;
+}
+
+h3 {
+  font-family: Noto Sans;
+} */
 
 .App {
   text-align: center;

@@ -151,7 +151,7 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                                 <BannerMessage greekWords={greekWords}/>
 
                                 {greekWords !== undefined && greekWords.length > 0 ? 
-                                    <div style={{maxHeight:"85vh", overflowY:"scroll", padding:"0px", scrollPadding:"50px"}}>
+                                    <div style={{maxHeight:"85vh", overflowY:"scroll", padding:"0px", paddingRight:"15px", scrollPadding:"50px"}}>
                                         {greekWords.map((data, idx) => (
                                             <div style={{borderBottom: "solid", borderColor: "#d9d9d9", overflow:"hidden"}}> 
                                                 <GreekWordInfo key={idx} currentGreekWord={data} showMoreOptions={true}/>                                          

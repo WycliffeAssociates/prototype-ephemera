@@ -143,7 +143,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
             {openVerseReferenceDialog === false && openMorphologyDialog === false && openTipsDialog == false? 
               <>
                 {greekWords !== undefined && greekWords.length > 0 ? 
-                  <div style={{overflow:"auto", maxHeight:"72vh"}}>
+                  <div style={{overflow:"auto", maxHeight:"72vh", paddingRight:"40px"}}>
                       {greekWords.map((data, idx) => (
                       <> 
                         <GreekWordInfo key={idx} currentGreekWord={data}/>

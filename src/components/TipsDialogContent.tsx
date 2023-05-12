@@ -10,7 +10,7 @@ interface TipsDialogContentProps {
 export function TipsDialogContent({open, onClose} : TipsDialogContentProps) {
   if(open) {
     return (
-      <Grid container direction="row" style={{paddingTop: "8px"}}>
+      <Grid container direction="row" style={{paddingTop: "8px", fontSize:"20px"}}>
         <Grid item lg={12} xl={12} md={12} style={{maxHeight: '80vh', textAlign:"left", paddingLeft:"15px", paddingBottom:"50px"}}>
             <Grid container>
               <Grid item>
