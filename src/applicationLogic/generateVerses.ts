@@ -132,10 +132,6 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
     }
 
     if(flags.consumedPhraseWord) { // if buffer contains phrase words NOTE: current word is NOT processed
-        // TODO: may also need to handle leftover phrase words, in the case that one phrase is directly
-        // followed by another. Should be just a check against the phraseWords attribute. All words belonging to the same phrase
-        // will have the same value for that. 
-
 
         let nonInjectedsubWords;
         let injectedSubWords;
@@ -189,8 +185,8 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
 
         if(leftOverPhraseWords.phraseWords.length > 0) {
             buffers.verseWords.push(leftOverPhraseWords);
-        }
-        
+        } 
+
         let tempWord = processConsumedSubWords(word, buffers.subWords);
 
         buffers.verseWords.push(tempWord);
@@ -251,6 +247,36 @@ function processConsumedPhraseWords(greekWordBuffer: PhraseWord[]) {
 }
 
 
+function processNestedSubWords(subWordBuffer: SubWord[]) {
+    subWordBuffer.forEach((subword, curIdx) => {
+        
+        if(typeof subword.word !== "string") {
+            let nestedSubWords = subword.word.text.match(/[\d+]/g);
+            if(nestedSubWords != null){
+
+                nestedSubWords.forEach((nestedSubWord) => {
+                    let subWordToInject = subWordBuffer.find((subWord) => subWord.subIdx == `[${nestedSubWord}]`);
+                    let textToInject = "";
+
+                    if(typeof subWordToInject?.word !== "string" && subWordToInject?.word.text != undefined) {
+                        textToInject = subWordToInject?.word.text;
+                    } else {
+                        if(subWordToInject?.word !== undefined && typeof subWordToInject.word === "string") {
+                            textToInject = subWordToInject.word;
+                        }
+                    }
+
+                    if(typeof subword.word !== "string") {
+                        subword.word.text = subword.word.text.replace(`[${nestedSubWord}]`, textToInject);
+                    } else {
+                        subword.word = subword.word.replace(`[${nestedSubWord}]`, textToInject);
+                    }
+                })
+            }
+        }
+    })
+}
+
 
 function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, subWordBuffer: SubWord[])
 {
@@ -269,12 +295,13 @@ function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, su
     }
 
 
+    processNestedSubWords(subWordBuffer)
+
     for(let i = 0; i < subWordBuffer.length; i++ )
     {
         let currentSubWord = subWordBuffer[i].word;
         if(typeof(currentSubWord) !== "string")
         {
-            // TODO: add else if for phrasewords
             if(currentSubWord.subPhraseWords) {
                 source = source.replace(subWordBuffer[i].subIdx as string, currentSubWord.subPhraseWords);
             } else if(currentSubWord.phraseWords) {
@@ -289,6 +316,7 @@ function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, su
             }
         }
     }
+
     currentEnglishWord = source;
     if(typeof currentWord !== "string" && !currentWord.phraseWords) {
         currentWord.text = source;

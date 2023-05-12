@@ -168,6 +168,7 @@ describe('Act 1', function () {
 });
 
 
+
 describe('Phrase words that need sub words injected into them', function () {
 
   let chapters = [13, 12, 2, 3, 4, 5, 6, 13];
@@ -190,7 +191,6 @@ describe('Phrase words that need sub words injected into them', function () {
     });
   }
 
-
   it(`Checks case where ends in phrase word needing injected sub words Acts 2:12`, async function () {
 
     let bookVerses = mapVerses(Acts.xml.book.chapter[1].verse as VerseTag[]);        
@@ -203,6 +203,24 @@ describe('Phrase words that need sub words injected into them', function () {
     // TODO: add method here to specify which differences to ignore. 
     
     expect(_.isEqual(bookVerses[11], expectedResults[10][0])).toBe(true);
+  });
+});
+
+
+describe('Matthew 13:54', function () {
+  it('Nested sub words', async function () {
+
+      let verses = mapVerses(Matthew.xml.book.chapter[12].verse as VerseTag[]);        
+      const diff = difference(verses[53], expectedResults[11][0]);
+
+      if(diff.length > 0) {
+        console.error(diff);
+      }
+
+      // TODO: add method here to specify which differences to ignore. 
+      
+      expect(_.isEqual(verses[53], expectedResults[11][0])).toBe(true);
+
   });
 });
 
@@ -285,6 +303,9 @@ const expectedResults = [
     [
       
       {"verseNum":12,"verseWords":[{"englishWords":"They were all amazed","subWords":[{"subIdx":"[1]","word":{"text":"all","strongs":"G3956","OGNTsort":65448,"morph":"A-NPM","lemma":"πᾶς"}},{"word":{"text":"They were all amazed","strongs":"G1839","OGNTsort":65446,"morph":"V-IMI-3P","lemma":"ἐξίστημι"}}]},{"englishWords":"and","greekWords":[{"text":"and","strongs":"G2532","OGNTsort":65449,"morph":"CONJ","lemma":"καί"}]},{"englishWords":"perplexed;","greekWords":[{"text":"perplexed;","strongs":"G1280","OGNTsort":65450,"morph":"V-IAI-3P","lemma":"διαπορέω"}]},{"englishWords":"they said","greekWords":[{"text":"they said","strongs":"G3004","OGNTsort":65454,"morph":"V-PAP-NPM","lemma":"λέγω"}]},{"englishWords":"to","greekWords":[{"text":"to","strongs":"G4314","OGNTsort":65452,"morph":"PREP","lemma":"πρός"}]},{"englishWords":"one another,","phraseWords":[{"text":"√","strongs":"G243","OGNTsort":65451,"phraseWords":"one another,","morph":"A-NSM","lemma":"ἄλλος"},{"text":"√","strongs":"G243","OGNTsort":65453,"phraseWords":"one another,","morph":"A-ASM","lemma":"ἄλλος"}],"subWords":[]},{"englishWords":"\"What","greekWords":[{"text":"\"What","strongs":"G5101","OGNTsort":65455,"morph":"I-NSN","lemma":"τίς"}]},{"englishWords":"does this mean?\"","phraseWords":[{"text":"√","strongs":"G2309","OGNTsort":65456,"phraseWords":"does [1] mean?\"","morph":"V-PAI-3S","lemma":"θέλω"},{"text":"√","strongs":"G1510","OGNTsort":65458,"phraseWords":"does [1] mean?\"","morph":"V-PAN","lemma":"εἰμί"}],"subWords":[{"subIdx":"[1]","word":{"text":"this","strongs":"G3778","OGNTsort":65457,"morph":"D-NSN","lemma":"οὗτος"}}]}]}
+    ],
+    [
+      {"verseNum":54,"verseWords":[{"englishWords":"Then","greekWords":[{"text":"Then","strongs":"G2532","OGNTsort":7983,"morph":"CONJ","lemma":"καί"}]},{"englishWords":"Jesus"},{"englishWords":"entered","greekWords":[{"text":"entered","strongs":"G2064","OGNTsort":7984,"morph":"V-2AAP-NSM","lemma":"ἔρχομαι"}]},{"englishWords":"his own","greekWords":[{"text":"his own","strongs":"G846","OGNTsort":7988,"morph":"P-GSM","lemma":"αὐτός"}]},{"englishWords":"region","greekWords":[{"text":"region","strongs":"G3968","OGNTsort":7987,"morph":"N-ASF","lemma":"πατρίς"}]},{"englishWords":"and"},{"englishWords":"taught","greekWords":[{"text":"taught","strongs":"G1321","OGNTsort":7989,"morph":"V-IAI-3S","lemma":"διδάσκω"}]},{"englishWords":"the people"},{"englishWords":"in","greekWords":[{"text":"in","strongs":"G1722","OGNTsort":7991,"morph":"PREP","lemma":"ἐν"}]},{"englishWords":"their","greekWords":[{"text":"their","strongs":"G846","OGNTsort":7994,"morph":"P-GPM","lemma":"αὐτός"}]},{"englishWords":"synagogue.","greekWords":[{"text":"synagogue.","strongs":"G4864","OGNTsort":7993,"morph":"N-DSF","lemma":"συναγωγή"}]},{"englishWords":"The result was that","greekWords":[{"text":"The result was that","strongs":"G5620","OGNTsort":7995,"morph":"CONJ","lemma":"ὥστε"}]},{"englishWords":"they","greekWords":[{"text":"they","strongs":"G846","OGNTsort":7997,"morph":"P-APM","lemma":"αὐτός"}]},{"englishWords":"were astonished","greekWords":[{"text":"were astonished","strongs":"G1605","OGNTsort":7996,"morph":"V-PPN","lemma":"ἐκπλήσσω"}]},{"englishWords":"and","greekWords":[{"text":"and","strongs":"G2532","OGNTsort":7998,"morph":"CONJ","lemma":"καί"}]},{"englishWords":"said,","greekWords":[{"text":"said,","strongs":"G3004","OGNTsort":7999,"morph":"V-PAN","lemma":"λέγω"}]},{"englishWords":"\"Where does this man get his wisdom and these miraculous powers from?","subWords":[{"subIdx":"[3]","word":{"text":"this man","strongs":"G3778","OGNTsort":8001,"morph":"D-DSM","lemma":"οὗτος"}},{"subIdx":"[4]","word":{"text":"does this man get"}},{"subIdx":"[5]","word":{"text":"his"}},{"subIdx":"[6]","word":{"text":"wisdom","strongs":"G4678","OGNTsort":8003,"morph":"N-NSF","lemma":"σοφία"}},{"subIdx":"[7]","word":{"text":"and","strongs":"G2532","OGNTsort":8005,"morph":"CONJ","lemma":"καί"}},{"subIdx":"[8]","word":{"text":"these","strongs":"G3778","OGNTsort":8004,"morph":"D-NSF","lemma":"οὗτος"}},{"subIdx":"[9]","word":{"text":"miraculous powers","strongs":"G1411","OGNTsort":8007,"morph":"N-NPF","lemma":"δύναμις"}},{"word":{"text":"\"Where does this man get his wisdom and these miraculous powers from?","strongs":"G4159","OGNTsort":8000,"morph":"ADV","lemma":"πόθεν"}}]}]}
     ]
 ]
 
