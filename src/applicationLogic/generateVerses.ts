@@ -181,6 +181,19 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
             buffers.verseWords.push(tempWord)
         }
     } else if(flags.consumedSubWord) { // buffer contain subWords. NOTE: Current word is processed in this case
+
+        // Process sub words interrupted by other types of words. 
+        if(typeof word !== "string") {
+            if(word.text.match(/[\d+]/) == null){
+                flags.consumedSubWord = false;
+                mapWord(word, flags, buffers);
+                flags.consumedSubWord = true;
+                flags.consumedPhraseWord = false;
+                flags.consumedSubPhraseWord = false;
+                return;
+            }
+        }
+        
         let leftOverPhraseWords = processConsumedPhraseWords(buffers.phraseWords) 
 
         if(leftOverPhraseWords.phraseWords.length > 0) {

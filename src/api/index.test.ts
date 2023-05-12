@@ -225,6 +225,24 @@ describe('Matthew 13:54', function () {
 });
 
 
+describe('Mark 6:16', function () {
+  it('Sub word interrupted by Greek word', async function () {
+
+      let verses = mapVerses(Mark.xml.book.chapter[5].verse as VerseTag[]);        
+      const diff = difference(verses[15], expectedResults[12][0]);
+
+      if(diff.length > 0) {
+        console.error(diff);
+      }
+
+      // TODO: add method here to specify which differences to ignore. 
+      
+      expect(_.isEqual(verses[15], expectedResults[12][0])).toBe(true);
+
+  });
+});
+
+
 export {};
 
 
@@ -306,143 +324,8 @@ const expectedResults = [
     ],
     [
       {"verseNum":54,"verseWords":[{"englishWords":"Then","greekWords":[{"text":"Then","strongs":"G2532","OGNTsort":7983,"morph":"CONJ","lemma":"καί"}]},{"englishWords":"Jesus"},{"englishWords":"entered","greekWords":[{"text":"entered","strongs":"G2064","OGNTsort":7984,"morph":"V-2AAP-NSM","lemma":"ἔρχομαι"}]},{"englishWords":"his own","greekWords":[{"text":"his own","strongs":"G846","OGNTsort":7988,"morph":"P-GSM","lemma":"αὐτός"}]},{"englishWords":"region","greekWords":[{"text":"region","strongs":"G3968","OGNTsort":7987,"morph":"N-ASF","lemma":"πατρίς"}]},{"englishWords":"and"},{"englishWords":"taught","greekWords":[{"text":"taught","strongs":"G1321","OGNTsort":7989,"morph":"V-IAI-3S","lemma":"διδάσκω"}]},{"englishWords":"the people"},{"englishWords":"in","greekWords":[{"text":"in","strongs":"G1722","OGNTsort":7991,"morph":"PREP","lemma":"ἐν"}]},{"englishWords":"their","greekWords":[{"text":"their","strongs":"G846","OGNTsort":7994,"morph":"P-GPM","lemma":"αὐτός"}]},{"englishWords":"synagogue.","greekWords":[{"text":"synagogue.","strongs":"G4864","OGNTsort":7993,"morph":"N-DSF","lemma":"συναγωγή"}]},{"englishWords":"The result was that","greekWords":[{"text":"The result was that","strongs":"G5620","OGNTsort":7995,"morph":"CONJ","lemma":"ὥστε"}]},{"englishWords":"they","greekWords":[{"text":"they","strongs":"G846","OGNTsort":7997,"morph":"P-APM","lemma":"αὐτός"}]},{"englishWords":"were astonished","greekWords":[{"text":"were astonished","strongs":"G1605","OGNTsort":7996,"morph":"V-PPN","lemma":"ἐκπλήσσω"}]},{"englishWords":"and","greekWords":[{"text":"and","strongs":"G2532","OGNTsort":7998,"morph":"CONJ","lemma":"καί"}]},{"englishWords":"said,","greekWords":[{"text":"said,","strongs":"G3004","OGNTsort":7999,"morph":"V-PAN","lemma":"λέγω"}]},{"englishWords":"\"Where does this man get his wisdom and these miraculous powers from?","subWords":[{"subIdx":"[3]","word":{"text":"this man","strongs":"G3778","OGNTsort":8001,"morph":"D-DSM","lemma":"οὗτος"}},{"subIdx":"[4]","word":{"text":"does this man get"}},{"subIdx":"[5]","word":{"text":"his"}},{"subIdx":"[6]","word":{"text":"wisdom","strongs":"G4678","OGNTsort":8003,"morph":"N-NSF","lemma":"σοφία"}},{"subIdx":"[7]","word":{"text":"and","strongs":"G2532","OGNTsort":8005,"morph":"CONJ","lemma":"καί"}},{"subIdx":"[8]","word":{"text":"these","strongs":"G3778","OGNTsort":8004,"morph":"D-NSF","lemma":"οὗτος"}},{"subIdx":"[9]","word":{"text":"miraculous powers","strongs":"G1411","OGNTsort":8007,"morph":"N-NPF","lemma":"δύναμις"}},{"word":{"text":"\"Where does this man get his wisdom and these miraculous powers from?","strongs":"G4159","OGNTsort":8000,"morph":"ADV","lemma":"πόθεν"}}]}]}
+    ],
+    [
+      {"verseNum":16,"verseWords":[{"englishWords":"But","greekWords":[{"text":"But","strongs":"G1161","OGNTsort":21796,"morph":"CONJ","lemma":"δέ"}]},{"englishWords":"when Herod heard this","subWords":[{"subIdx":"[1]","word":{"text":"Herod","strongs":"G2264","OGNTsort":21798,"morph":"N-NSM-P","lemma":"Ἡρώδης"}},{"word":{"text":"when Herod heard this","strongs":"G191","OGNTsort":21795,"morph":"V-AAP-NSM","lemma":"ἀκούω"}}]},{"englishWords":"he said,","greekWords":[{"text":"he said,","strongs":"G3004","OGNTsort":21799,"morph":"V-IAI-3S","lemma":"λέγω"}]},{"englishWords":"\"John,","greekWords":[{"text":"\"John,","strongs":"G2491","OGNTsort":21803,"morph":"N-ASM-P","lemma":"Ἰωάννης"}]},{"englishWords":"whom","greekWords":[{"text":"whom","strongs":"G3739","OGNTsort":21800,"morph":"R-ASM","lemma":"ὅς, ἥ"}]},{"englishWords":"I","greekWords":[{"text":"I","strongs":"G1473","OGNTsort":21801,"morph":"P-1NS","lemma":"ἐγώ"}]},{"englishWords":"beheaded,","greekWords":[{"text":"beheaded,","strongs":"G607","OGNTsort":21802,"morph":"V-AAI-1S","lemma":"ἀποκεφαλίζω"}]},{"englishWords":"has been raised.\"","greekWords":[{"text":"has been raised.\"","strongs":"G1453","OGNTsort":21805,"morph":"V-API-3S","lemma":"ἐγείρω"}]}]}
     ]
 ]
-
-// ================================================ 
-// Name: Mark 9:42 full
-// Examining: a series of sub words, occuring directly after a phrase word, that is interrupted by a number of √'s
-
-// <w OGNTsort="024449" strongs="G2532" morph="CONJ" lemma="καί" text="Καὶ">√</w>
-// <phrase>
-//         <w OGNTsort="024450" strongs="G3739" morph="R-NSM" lemma="ὅς, ἥ" text="ὃς">√</w>
-//         <w OGNTsort="024451" strongs="G302" morph="PRT" lemma="ἄν" text="ἂν">√</w>
-//     <phraseWords>Whoever</phraseWords>
-// </phrase>
-// <w OGNTsort="024453" strongs="G1520" morph="A-ASM" lemma="εἷς" sub="[1]" text="ἕνα">one</w>
-// <w OGNTsort="024454" strongs="G3588" morph="T-GPM" lemma="ὁ" text="τῶν">√</w>
-// <w OGNTsort="024456" strongs="G3778" morph="D-GPM" lemma="οὗτος" sub="[2]" text="τούτων">of these</w>
-// <w OGNTsort="024455" strongs="G3398" morph="A-GPM" lemma="μικρός" sub="[3]" text="μικρῶν">little ones</w>
-// <w OGNTsort="024457" strongs="G3588" morph="T-GPM" lemma="ὁ" text="τῶν">√</w>
-// <w OGNTsort="024458" strongs="G4100" morph="V-PAP-GPM" lemma="πιστεύω" sub="[4]" text="πιστευόντων">who believes</w>
-// <w OGNTsort="024459" strongs="G1519" morph="PREP" lemma="εἰς" sub="[5]" text="εἰς">in</w>
-// <w OGNTsort="024460" strongs="G1473" morph="P-1AS" lemma="ἐγώ" sub="[6]" text="ἐμέ">me</w>
-// <w OGNTsort="024452" strongs="G4624" morph="V-AAS-3S" lemma="σκανδαλίζω" text="σκανδαλίσῃ">causes [1] [2] [3] [4] [5] [6] to stumble,</w>
-// <w OGNTsort="024462" strongs="G1510" morph="V-PAI-3S" lemma="εἰμί" text="ἐστιν">it would be</w>
-// <phrase>
-//     <w OGNTsort="024461" strongs="G2570" morph="A-NSN" lemma="καλός" text="καλόν">√</w>
-//     <w OGNTsort="024464" strongs="G3123" morph="ADV" lemma="μᾶλλον" text="μᾶλλον">√</w>
-//     <phraseWords>better</phraseWords>
-// </phrase>
-// <w OGNTsort="024463" strongs="G846" morph="P-DSM" lemma="αὐτός" text="αὐτῷ">for him</w>
-// <phrase sub="[7]">
-//     <w OGNTsort="024465" strongs="G1487" morph="CONJ" lemma="εἰ" text="εἰ">√</w>
-//     <w OGNTsort="024467" strongs="G3458" morph="N-NSM" lemma="μύλος" text="μύλος">√</w>
-//     <w OGNTsort="024468" strongs="G3684" morph="A-NSM" lemma="ὀνικός" text="ὀνικὸς">√</w>
-//     <phraseWords>a large millstone</phraseWords>
-// </phrase>
-// <w OGNTsort="024466" strongs="G4029" morph="V-PNI-3S" lemma="περίκειμαι" text="περίκειται">to have [7] tied</w>
-// <w OGNTsort="024469" strongs="G4012" morph="PREP" lemma="περί" text="περὶ">around</w>
-// <w OGNTsort="024472" strongs="G846" morph="P-GSM" lemma="αὐτός" text="αὐτοῦ">his</w>
-// <w OGNTsort="024470" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="024471" strongs="G5137" morph="N-ASM" lemma="τράχηλος" text="τράχηλον">neck</w>
-// <w OGNTsort="024473" strongs="G2532" morph="CONJ" lemma="καί" text="καὶ">and</w>
-// <w OGNTsort="024474" strongs="G906" morph="V-RPI-3S" lemma="βάλλω" text="βέβληται">be thrown</w>
-// <w OGNTsort="024475" strongs="G1519" morph="PREP" lemma="εἰς" text="εἰς">into</w>
-// <w OGNTsort="024476" strongs="G3588" morph="T-ASF" lemma="ὁ" text="τὴν">the</w>
-// <w OGNTsort="024477" strongs="G2281" morph="N-ASF" lemma="θάλασσα" text="θάλασσαν">sea.</w>
-
-
-// ================================================ 
-// Name: Mark 9:18 partial 1
-// Examining: Injecting sub words into phrase words
-
-// <w OGNTsort="024043" strongs="G3101" morph="N-DPM" lemma="μαθητής" text="μαθηταῖς">disciples</w>
-// <w OGNTsort="024046" strongs="G846" morph="P-ASN" lemma="αὐτός" sub="[2]" text="αὐτὸ">it</w>
-// <phrase>
-//     <w OGNTsort="024045" strongs="G2443" morph="CONJ" lemma="ἵνα" text="ἵνα">√</w>
-//     <w OGNTsort="024047" strongs="G1544" morph="V-2AAS-3P" lemma="ἐκβάλλω" text="ἐκβάλωσιν">√</w>
-//     <phraseWords>to drive [2] out</phraseWords>
-// </phrase>
-// <w>of him,</w>
-
-
-// ================================================ 
-// Name: Mark 10:42 partial 1
-// Examining: a series of uninterrupted sub words, occuring directly after a phrase word
-
-// <w OGNTsort="005581" strongs="G2532" morph="CONJ" lemma="καί" text="καὶ">√</w>
-// <phrase>
-//     <w OGNTsort="005582" strongs="G3739" morph="R-NSM" lemma="ὅς, ἥ" text="ὃς">√</w>
-//     <w OGNTsort="005583" strongs="G302" morph="PRT" lemma="ἄν" text="ἂν">√</w>
-//     <phraseWords>Whoever</phraseWords>
-// </phrase>
-// <w OGNTsort="005585" strongs="G1520" morph="A-ASM" lemma="εἷς" sub="[1]" text="ἕνα">to one</w>
-// <w OGNTsort="005586" strongs="G3588" morph="T-GPM" lemma="ὁ" sub="[2]" text="τῶν">of</w>
-// <w OGNTsort="005588" strongs="G3778" morph="D-GPM" lemma="οὗτος" sub="[3]" text="τούτων">these</w>
-// <w OGNTsort="005587" strongs="G3398" morph="A-GPM" lemma="μικρός" sub="[4]" text="μικρῶν">little ones</w>
-// <w OGNTsort="005591" strongs="G3440" morph="ADV" lemma="μόνον" sub="[5]" text="μόνον">even</w>
-// <w OGNTsort="005589" strongs="G4221" morph="N-ASN" lemma="ποτήριον" sub="[6]" text="ποτήριον">a cup</w>
-// <w OGNTsort="005590" strongs="G5593" morph="A-GSN" lemma="ψυχρός" sub="[7]" text="ψυχροῦ">of cold water</w>
-// <w OGNTsort="005584" strongs="G4222" morph="V-AAS-3S" lemma="ποτίζω" text="ποτίσῃ">gives [1] [2] [3] [4] [5] [6] [7] to drink</w>
-// <w OGNTsort="005592" strongs="G1519" morph="PREP" lemma="εἰς" text="εἰς">in</w>
-// <w OGNTsort="005593" strongs="G3686" morph="N-ASN" lemma="ὄνομα" text="ὄνομα">the name</w>
-
-
-// ================================================ 
-// Name: Mark 10:42 partial 2
-// Examining: a phrase sub directly proceeding the substitution target. 
-
-// <w OGNTsort="005597" strongs="G4771" morph="P-2DP" lemma="σύ" text="ὑμῖν">to you,</w>
-// <phrase sub="[8]">
-//     <w OGNTsort="005598" strongs="G3756" morph="PRT-N" lemma="οὐ" text="οὐ">√</w>
-//     <w OGNTsort="005599" strongs="G3361" morph="PRT-N" lemma="μή" text="μὴ">√</w>
-//     <phraseWords>in no way</phraseWords>
-// </phrase>
-// <w OGNTsort="005600" strongs="G622" morph="V-AAS-3S" lemma="ἀπολλύω" text="ἀπολέσῃ">he will [8] lose</w>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005603" strongs="G846" morph="P-GSM" lemma="αὐτός" text="αὐτοῦ">his</w>
-// <w OGNTsort="005602" strongs="G3408" morph="N-ASM" lemma="μισθός" text="μισθὸν">reward."</w>
-
-
-// ================================================ 
-// Name: Mark 10:42 imaginary 1
-// Examining: a phrase sub interrupted by a number of √'s
-
-// <w OGNTsort="005597" strongs="G4771" morph="P-2DP" lemma="σύ" text="ὑμῖν">to you,</w>
-// <phrase sub="[8]">
-//     <w OGNTsort="005598" strongs="G3756" morph="PRT-N" lemma="οὐ" text="οὐ">√</w>
-//     <w OGNTsort="005599" strongs="G3361" morph="PRT-N" lemma="μή" text="μὴ">√</w>
-//     <phraseWords>in no way</phraseWords>
-// </phrase>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005600" strongs="G622" morph="V-AAS-3S" lemma="ἀπολλύω" text="ἀπολέσῃ">he will [8] lose</w>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005603" strongs="G846" morph="P-GSM" lemma="αὐτός" text="αὐτοῦ">his</w>
-// <w OGNTsort="005602" strongs="G3408" morph="N-ASM" lemma="μισθός" text="μισθὸν">reward."</w>
-
-
-// ================================================ 
-// Name: Mark 10:42 imaginary 2
-// Examining: a phrase sub interrupted by a number of interleaved √'s and Greek words
-
-// <w OGNTsort="005597" strongs="G4771" morph="P-2DP" lemma="σύ" text="ὑμῖν">to you,</w>
-// <phrase sub="[8]">
-//     <w OGNTsort="005598" strongs="G3756" morph="PRT-N" lemma="οὐ" text="οὐ">√</w>
-//     <w OGNTsort="005599" strongs="G3361" morph="PRT-N" lemma="μή" text="μὴ">√</w>
-//     <phraseWords>in no way</phraseWords>
-// </phrase>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005603" strongs="G846" morph="P-GSM" lemma="αὐτός" text="αὐτοῦ">his</w>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="024475" strongs="G1519" morph="PREP" lemma="εἰς" text="εἰς">into</w>
-// <w OGNTsort="024475" strongs="G1519" morph="PREP" lemma="εἰς" text="εἰς">into</w>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005600" strongs="G622" morph="V-AAS-3S" lemma="ἀπολλύω" text="ἀπολέσῃ">he will [8] lose</w>
-// <w OGNTsort="005601" strongs="G3588" morph="T-ASM" lemma="ὁ" text="τὸν">√</w>
-// <w OGNTsort="005603" strongs="G846" morph="P-GSM" lemma="αὐτός" text="αὐτοῦ">his</w>
-// <w OGNTsort="005602" strongs="G3408" morph="N-ASM" lemma="μισθός" text="μισθὸν">reward."</w>
