@@ -15,7 +15,7 @@ interface VerseReferenceDialogContentProps {
 export function VerseReferenceDialogContent({open, onClose, refBookChapterVerse, fullScreen} : VerseReferenceDialogContentProps) {
     if(open) {
       return (
-        <Grid container direction="row" style={{paddingTop: "8px"}}>
+        <Grid container direction="row">
 
           <Grid item lg={12} xl={12} md={12} sm={12} xs={12} style={{maxHeight:"fit-content", overflow:"hidden", textAlign:"left", paddingLeft:"15px"}}>
               <Grid container>
@@ -24,14 +24,22 @@ export function VerseReferenceDialogContent({open, onClose, refBookChapterVerse,
                       item
                       xl={8} lg={8} md={8} sm={8} xs={8} 
                   >
-                      <h3 style={{color: "#015AD9",}}>{refBookChapterVerse.refBook} {refBookChapterVerse.refChapter}</h3>
+                      <h3 style={{color: "#015AD9", float:"left", paddingLeft:"2%",}}>{refBookChapterVerse.refBook} {refBookChapterVerse.refChapter}</h3>
                   </Grid>
 
                   <Grid 
-                      item xl={4} lg={4} md={4} sm={4} xs={4} 
-                      style={{padding: "12px 16px 12px 16px", margin:"auto"}}
+                      item xl={2} lg={2} md={2} sm={2} xs={2} 
+                      style={{padding: "12px 0px 12px 16px", margin:"auto",}}
                   >
-                      <Button onClick={onClose} variant="outlined" style={{ float:"right", border: "1px solid #E5E8EB", borderRadius: "16px", color:"#33445C", textTransform:"none",}}>
+                      <Button onClick={onClose} variant="outlined" style={{
+                                                                            float:"right", 
+                                                                            border: "1px solid #E5E8EB", 
+                                                                            borderRadius: "16px", 
+                                                                            color:"#33445C", 
+                                                                            textTransform:"none",
+                                                                            minWidth: (fullScreen === false ? "113px" : "65px"),
+                                                                          }}
+                       >
                           <ArrowBackIcon/> {fullScreen !== true ? "Go Back" : ""}
                       </Button>
                   </Grid> 

@@ -25,10 +25,18 @@ export function Header({ onClose, fullScreen, morphologyWord}: HeaderProps) {
             </Grid>
 
             <Grid 
-                item xl={4} lg={4} md={4} sm={4} xs={4} 
-                // style={{margin: "auto",}}
+                item xl={2} lg={2} md={2} sm={2} xs={2} 
+                style={{margin: "auto",}}
             >
-                <Button onClick={onClose} variant="outlined" style={{ float:"right", border: "1px solid #E5E8EB", borderRadius: "16px", color:"#33445C", textTransform:"none",}}>
+                <Button onClick={onClose} variant="outlined" style={{
+                                                                        float:"right", 
+                                                                        border: "1px solid #E5E8EB", 
+                                                                        borderRadius: "16px", 
+                                                                        color:"#33445C", 
+                                                                        textTransform:"none", 
+                                                                        minWidth: (fullScreen === false ? "113px" : "65px")
+                                                                    }}
+                >
                     <ArrowBackIcon/> {fullScreen !== true ? "Go Back" : ""}
                 </Button>
             </Grid> 
