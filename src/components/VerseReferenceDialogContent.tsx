@@ -48,11 +48,11 @@ export function VerseReferenceDialogContent({open, onClose, refBookChapterVerse,
                       xl={12} lg={12} md={12} sm={12} xs={12} 
                       id="verseReferenceContainer"
                       style={{
-                              padding:"0px", 
                               scrollMargin:"50px", 
                               position: "relative", 
                               maxHeight:(fullScreen ? "85vh" : "70vh"), 
-                              overflowY:"scroll"
+                              overflowY:"scroll",
+                              padding:"0px 40px 0px 0px",
                       }}
                 >
                   

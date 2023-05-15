@@ -72,7 +72,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
     }, [getBookChaptersParams().refBook])
 
     useEffect(() => {
-        setOpenTipsDialog(true)
+        setOpenTipsDialog(true);
     }, [getBookChaptersParams().book, getBookChaptersParams().chapter])
 
 
@@ -113,7 +113,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
 
   return ( 
     <>
-      {openVerseReferenceDialog === false && openMorphologyDialog === false ? 
+      {openVerseReferenceDialog === false && openMorphologyDialog === false && openTipsDialog === false ? 
         <Grid item
               xs = {12}
               sm = {12}
