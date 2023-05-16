@@ -28,7 +28,7 @@ function Description({descriptions, showMore} : descriptionProps) {
         </Grid>
 
         <Grid item sm={12} xs={12}>
-          <ul style={{marginTop:"0px", paddingInlineStart: "25px",}}>
+          <ul className="GreekWordInfo__bulletPoint">
 
             {descriptions.map((description, idx : number) => {
               return (

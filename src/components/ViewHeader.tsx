@@ -37,7 +37,7 @@ export function ViewHeader({ showIconText }: ViewHeaderProps) {
                     item
                     xl={8} lg={8} md={8} sm={8} xs={8} 
                 >
-                    <h3 style={{float:"left", paddingLeft:"2%", }}>Greek Lexicon</h3>
+                    <h3 className="BannerHeader">Greek Lexicon</h3>
                 </Grid>
 
                 <Grid 

@@ -19,7 +19,7 @@ function UnprocessedMarkdown({markdown} : unprocessedMarkdownProps) {
                 <ReactMarkdown children={markdown} components={{
                     h1: ({node, ...props}) => <></>,
                     h2: ({node, ...props}) => <h3>{props.children}</h3>,
-                    ul: ({node, ...props}) => <ul style={{marginTop:"0px", paddingInlineStart: "25px",}}>{props.children}</ul>,
+                    ul: ({node, ...props}) => <ul className="GreekWordInfo__bulletPoint">{props.children}</ul>,
                     li: ({node, ...props}) => <li><p className="GreekWordInfoSubCategoryValue">{props.children} </p></li>,
                     p:  ({node, ...props}) => <p className="GreekWordInfoSubCategoryValue" style={{...overwriteStyle, paddingBottom:"5px"}}>{props.children}</p>,
                     em: ({node, ...props}) => <p className="GreekWordInfoSubCategoryValue" style={{...overwriteStyle}}>{props.children}</p>,

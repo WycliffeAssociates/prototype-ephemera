@@ -151,7 +151,7 @@ function Books( { handleClick, currentBook, onChange } : BooksProps) {
                     >
 
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{borderBottom: "1px solid grey"}}> 
-                            <h5 style={{ color:"#66768B", float:"left", paddingLeft: "5%"}}>NEW TESTAMENT</h5>
+                            <h5 className="NavigationModal__Books__newTestamentHeader">NEW TESTAMENT</h5>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{height:"calc(100% - 88px)"}}> 

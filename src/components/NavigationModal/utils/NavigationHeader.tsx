@@ -21,7 +21,7 @@ export function NavigationHeader({onClick} : NavigationHeaderProps) {
                 sm={8} 
                 xs={8} 
             >
-                <h3 style={{float:"left", paddingLeft:"2%", }}>Navigation</h3>
+                <h3 className="BannerHeader">Navigation</h3>
             </Grid>
 
             <Grid 

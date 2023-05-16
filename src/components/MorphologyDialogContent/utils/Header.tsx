@@ -31,7 +31,7 @@ export function Header({ onClose, fullScreen, morphologyWord}: HeaderProps) {
                 item
                 xl={8} lg={8} md={8} sm={8} xs={8}
             >
-                <h3 style={{float:"left", paddingLeft:"2%", color: (!fullScreen ? "#015AD9" : "black")}}>
+                <h3 className="BannerHeader" style={{color: (!fullScreen ? "#015AD9" : "black")}}>
                     {fullScreen === false ? capitalizeFirstLetter(morphologyWord?.trim() as string) : "Learn More" }
                 </h3>
             </Grid>

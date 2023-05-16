@@ -162,7 +162,11 @@ export function View() {
                     lg={(textViewSize !== desktopTextWidthMax ? 7 : 0)} 
                     md={(textViewSize !== desktopTextWidthMax ? 7 : 0)} 
                     sm={0} xs={0}
-                    style={{height:"100%", padding:"0px", backgroundColor: (navigationModalOpen) ? "rgba(0, 0, 0, 0.2)" : "white"}}
+                    style={{
+                            height:"100%", 
+                            padding:"0px", 
+                            backgroundColor: (navigationModalOpen) ? "rgba(0, 0, 0, 0.2)" : "white"
+                    }}
                 >
                     <GreekWordsDialog 
                         open={greekTextDialogOpen} 

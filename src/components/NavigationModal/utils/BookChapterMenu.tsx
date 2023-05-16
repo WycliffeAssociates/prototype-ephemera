@@ -76,14 +76,14 @@ function BookChapterMenu({withClickableOptions, openTab, onClose} : BookChapterM
                           onChange={handleChange} 
                           aria-label="basic tabs example" 
                           centered
-                          style={{width:"100%"}}
+                          className="BookChapterMenu__Tabs"
                     >
-                        <Tab style={{width:"45%"}} label="Books" value={"Books"}/>
-                        <Tab style={{width:"45%"}} label="Chapters" value={"Chapters"}/>
+                        <Tab className="BookChapterMenu__Tabs__Tab" label="Books" value={"Books"}/>
+                        <Tab className="BookChapterMenu__Tabs__Tab" label="Chapters" value={"Chapters"}/>
                     </Tabs>
                 </Box>
                 : ""
-            }  
+            }   
 
             <Grid 
                 className="BookChapterMenu__Books" 

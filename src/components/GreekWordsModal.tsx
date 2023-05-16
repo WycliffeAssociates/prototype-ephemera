@@ -116,7 +116,7 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                                 item
                                 xl={8} lg={8} md={8} sm={8} xs={8}
                             >
-                                <h3 style={{float:"left", paddingLeft:"2%",}}>Greek Word Translation</h3>
+                                <h3 className="BannerHeader">Greek Word Translation</h3>
                             </Grid>
 
                             <Grid 

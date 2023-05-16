@@ -41,9 +41,18 @@ export function MorphologyDialogContent({open, onClose, fullScreen, morphologyWo
 
     if(open) {
       return (
-        <Grid container lg={12} xl={12} md={12} sm={12} xs={12} direction="row" style={{ overflow:"hidden", maxHeight: '90vh',}}>
+        <Grid 
+            container 
+            lg={12} xl={12} md={12} sm={12} xs={12} 
+            direction="row" 
+            style={{ overflow:"hidden", maxHeight: '90vh',}}
+        >
 
-            <Grid item lg={12} xl={12} md={12} sm={12} xs={12} style={{ textAlign:"left", paddingLeft:"15px", paddingBottom:"50px"}}>
+            <Grid 
+                item 
+                lg={12} xl={12} md={12} sm={12} xs={12} 
+                style={{ textAlign:"left", paddingLeft:"15px", paddingBottom:"50px"}}
+            >
                 <Grid container direction="row" >
 
                     
@@ -55,7 +64,7 @@ export function MorphologyDialogContent({open, onClose, fullScreen, morphologyWo
                     >
                         { morphologyWordMarkdown !== undefined && fullScreen === true ? 
                             <>
-                                <h3 style={{color: "#015AD9", marginBottom:"0px" }}>{extractMorphologyFromMarkdown(morphologyWordMarkdown as string)[1]}</h3>
+                                <h3 className='MorphlolgyDialogContent__header'>{extractMorphologyFromMarkdown(morphologyWordMarkdown as string)[1]}</h3>
                             </>
                             
                         :""}
