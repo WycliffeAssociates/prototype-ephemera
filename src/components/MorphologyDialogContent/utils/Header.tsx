@@ -46,7 +46,7 @@ export function Header({ onClose, fullScreen, morphologyWord}: HeaderProps) {
                                                                         borderRadius: "16px", 
                                                                         color:"#33445C", 
                                                                         textTransform:"none", 
-                                                                        minWidth: (fullScreen === false ? "113px" : "65px")
+                                                                        minWidth: (fullScreen === false ? "115px" : "65px")
                                                                     }}
                 >
                     <ArrowBackIcon/> {fullScreen !== true ? "Go Back" : ""}
