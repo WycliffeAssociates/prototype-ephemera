@@ -4,20 +4,23 @@ import { GreekWord } from './GreekWord';
 import { SubWordContainer } from './SubWordContainer';
 import { PhraseWordContainer } from './PhraseWordContainer';
 import { useGreekWords } from '../../../hooks/GreekWordsContext';
+import { useEffect } from 'react';
 
 
 interface WordProps {
     handleClick: (params: any) => any,
-    versePhrase: NewFormattedWord
+    verseNumber: number,
+    versePhrase: NewFormattedWord,
 }
   
-  function Word({versePhrase, handleClick} : WordProps) {
+  function Word({verseNumber, versePhrase, handleClick} : WordProps) {
 
-    const { setGreekWords, setShowGreekWords } = useGreekWords();
+    const { setGreekWords, setShowGreekWords, setVerseNumber } = useGreekWords();
 
     function handlePhraseClick(newGreekWords: FormattedGreekWord[]) {
       setGreekWords(newGreekWords);
       setShowGreekWords(true);
+      setVerseNumber(verseNumber);
     }
   
     if(versePhrase.phraseWords !== undefined) {

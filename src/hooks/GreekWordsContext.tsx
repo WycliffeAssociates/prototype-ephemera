@@ -6,6 +6,8 @@ const GreekWordContext = React.createContext({
     setGreekWords: (newGreekWords: FormattedGreekWord[]) => {},
     showGreekWords: false as boolean,
     setShowGreekWords: (open: boolean) => {},
+    verseNumber: 0 as number,
+    setVerseNumber: (verseNumber: number) => {},
 });
 
 export function useGreekWords() {
@@ -15,13 +17,16 @@ export function useGreekWords() {
 export function GreekWordsProvider({children} : any) {
     const [showGreekWords, setShowGreekWords] = useState(false);
     const [currentGreekWords, setCurrentGreekWords] = useState<FormattedGreekWord[]>([]);
+    const [verseNumber, setVerseNumber] = useState<number>(0)
 
     return (
         <GreekWordContext.Provider value={{
                                         greekWords:currentGreekWords,  
                                         setGreekWords: setCurrentGreekWords,
                                         showGreekWords: showGreekWords,
-                                        setShowGreekWords: setShowGreekWords
+                                        setShowGreekWords: setShowGreekWords,
+                                        verseNumber: verseNumber,
+                                        setVerseNumber: setVerseNumber,
                                     }}>
             {children}
         </GreekWordContext.Provider>

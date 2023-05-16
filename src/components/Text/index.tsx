@@ -82,7 +82,12 @@ function Text() {
       extraMarginTop = "0px"
     }
     verse.verseWords.forEach((verseWord, idx) => {
-      verseWordOutput.push(<Word key={`v${verse.verseNum} w${idx}`} handleClick={handleChildClicked} versePhrase={{...verseWord}}/>)
+      verseWordOutput.push(<Word 
+                                  key={`v${verse.verseNum} w${idx}`} 
+                                  handleClick={handleChildClicked} 
+                                  versePhrase={{...verseWord}}
+                                  verseNumber={verse.verseNum}
+                          />)
     })
 
     const tempVerse = (
