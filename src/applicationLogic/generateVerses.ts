@@ -20,7 +20,13 @@ function mapVerses (verses : VerseTag[]) {
     // populates verseOutput with verse
     verses.forEach((verse : VerseTag) => {
 
-        let flags = {consumedPhraseWord: false, consumedSubWord: false, consumedSubPhraseWord: false, processingSubsequentPhraseWord: false};
+        let flags = {
+                        consumedPhraseWord: false, 
+                        consumedSubWord: false, 
+                        consumedSubPhraseWord: false, 
+                        processingSubsequentPhraseWord: false,
+                        skipFlagReset: false
+                    };
         let buffers = {verseWords : [] as any[], subWords : [] as SubWord[], phraseWords : [] as PhraseWord[], subPhraseWords : [] as any[]}
     
         // populates the verseWordOutput with verse words
@@ -72,54 +78,56 @@ type WordMapBuffers = {
 
 function mapVerseWord(word: WordTag |string, flags: WordMapFlags, buffers: WordMapBuffers) {
 
-    if(typeof word !== "string") {
-        // Fails gracefully for cases where given data is not valid
-        if(word._text === undefined) {
-            return;
-        }
-
-        let currentGreekWordNotes : GreekWordNotes = mapNotes(word.note);
-        let currentGreekWordAttributes: GreekWordAttributes = word.ATTR;;
-    
-        let sub = currentGreekWordNotes.sub;
-
-        delete currentGreekWordNotes.sub;
-
-        let currentGreekWord : NewFormattedGreekWord = {
-                                            ...currentGreekWordNotes, 
-                                            ...currentGreekWordAttributes, 
-                                            text: word._text
-                                } 
-
-        if(currentGreekWordNotes.phraseWords !== undefined) {
-
-            if(flags.consumedPhraseWord == true) {
-                if(currentGreekWordNotes.phraseWords != buffers.phraseWords[buffers.phraseWords.length - 1].phraseWords) {
-                    flags.processingSubsequentPhraseWord = true;
-                    // calls map words with processingSubsequentPhraseWord = true. 
-                    // processingSubsequentPhraseWord allows us to process one phrase word
-                    // without affecting the next
-                    mapWord(currentGreekWord, flags, buffers)
-                } 
-
-            }
-            
-            flags.consumedPhraseWord = true;
-            buffers.phraseWords.push({...currentGreekWord, phraseWords: currentGreekWordNotes.phraseWords});
-        } else if(sub !== undefined) {
-            flags.consumedSubWord = true;
-            let subWord : SubWord = {subIdx: sub as string, word: {...currentGreekWord} as NewFormattedGreekWord};
-            buffers.subWords.push(subWord);
-        } else if(currentGreekWordNotes.subPhraseWords !== undefined) {
-            flags.consumedSubPhraseWord = true;
-            buffers.subPhraseWords.push(currentGreekWord);
-        }
-        else { // is a normal word
-            mapWord(currentGreekWord, flags, buffers);
-        }
-    }
-    else { // word is just a string, but we still need to check buffer. 
+    // word is just a string, but we still need to check buffer. 
+    if(typeof word === "string") {
         mapWord(word, flags, buffers)
+        return;
+    }
+
+    // Fails gracefully for cases where given data is not valid
+    if(word._text === undefined) {
+        return;
+    }
+
+    let currentGreekWordNotes : GreekWordNotes = mapNotes(word.note);
+    let currentGreekWordAttributes: GreekWordAttributes = word.ATTR;;
+    let sub = currentGreekWordNotes.sub;
+
+    delete currentGreekWordNotes.sub;
+
+    let currentGreekWord : NewFormattedGreekWord = {
+                                        ...currentGreekWordNotes, 
+                                        ...currentGreekWordAttributes, 
+                                        text: word._text
+                            } 
+
+    if(currentGreekWordNotes.phraseWords !== undefined) {
+        mapConsecutivePhraseWords(currentGreekWord, flags, buffers);
+        flags.consumedPhraseWord = true;
+        buffers.phraseWords.push({...currentGreekWord, phraseWords: currentGreekWordNotes.phraseWords});
+    } else if(sub !== undefined) {
+        flags.consumedSubWord = true;
+        let subWord : SubWord = {subIdx: sub as string, word: {...currentGreekWord} as NewFormattedGreekWord};
+        buffers.subWords.push(subWord);
+    } else if(currentGreekWordNotes.subPhraseWords !== undefined) {
+        flags.consumedSubPhraseWord = true;
+        buffers.subPhraseWords.push(currentGreekWord);
+    } else { // is a normal word
+        mapWord(currentGreekWord, flags, buffers);
+    }
+}
+
+
+function mapConsecutivePhraseWords(currentGreekWord : NewFormattedGreekWord, flags : WordMapFlags, buffers : WordMapBuffers) {
+    if(flags.consumedPhraseWord == true) {
+
+        if(currentGreekWord.phraseWords != buffers.phraseWords[buffers.phraseWords.length - 1].phraseWords) {
+            flags.processingSubsequentPhraseWord = true;
+            // calls map words with processingSubsequentPhraseWord = true. 
+            // processingSubsequentPhraseWord allows us to process one phrase word
+            // without affecting the next
+            mapWord(currentGreekWord, flags, buffers)
+        } 
     }
 }
 
@@ -132,54 +140,7 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
     }
 
     if(flags.consumedPhraseWord) { // if buffer contains phrase words NOTE: current word is NOT processed
-
-        let nonInjectedsubWords;
-        let injectedSubWords;
-
-        if(flags.consumedSubWord) { 
-            // Checks if the phraseWords attribute needs to have sub words injected into it
-            if(buffers.phraseWords[0].phraseWords.match(/[\d+]/) != null) {
-                injectedSubWords = processConsumedSubWords(buffers.phraseWords[0], buffers.subWords);
-            }
-            if(flags.processingSubsequentPhraseWord == false) {
-                nonInjectedsubWords = processConsumedSubWords(word, buffers.subWords);
-            }
-        } 
-
-        let tempWord = processConsumedPhraseWords(buffers.phraseWords);
-
-        // Injects the sub words into the pharse word if necessary
-        if(injectedSubWords !== undefined) {
-            tempWord.englishWords = injectedSubWords.englishWords;
-            tempWord.subWords = injectedSubWords.subWords;
-        }
-
-        buffers.verseWords.push(tempWord);
-
-        if(flags.processingSubsequentPhraseWord === true) {
-            flags.consumedPhraseWord = false;
-            flags.consumedSubWord = false;
-            flags.consumedSubPhraseWord = false;
-            flags.processingSubsequentPhraseWord = false;
-            return;
-        }
-
-        if(typeof word !== 'string') {
-            if(nonInjectedsubWords && word.text !== "√") {
-                buffers.verseWords.push(nonInjectedsubWords);
-            } else if(word.text !== "√") {
-                let tempWord = {
-                    englishWords: word.text,
-                    greekWords: [word],
-                }
-                buffers.verseWords.push(tempWord)
-            }
-        } else {
-            let tempWord = {
-                englishWords: word
-            }
-            buffers.verseWords.push(tempWord)
-        }
+        mapPhraseWord(word, flags, buffers);
     } else if(flags.consumedSubWord) { // buffer contain subWords. NOTE: Current word is processed in this case
 
         // Process sub words interrupted by other types of words. 
@@ -194,21 +155,71 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
             }
         }
         
-        let leftOverPhraseWords = processConsumedPhraseWords(buffers.phraseWords) 
+        mapSubWords(word, flags, buffers);
+        
+    } else {
+        mapGenericWord(word, buffers, undefined);
+    }
 
-        if(leftOverPhraseWords.phraseWords.length > 0) {
-            buffers.verseWords.push(leftOverPhraseWords);
-        } 
+    flags.consumedPhraseWord = false;
+    flags.consumedSubWord = false;
+    flags.consumedSubPhraseWord = false;
+}
 
-        let tempWord = processConsumedSubWords(word, buffers.subWords);
 
-        buffers.verseWords.push(tempWord);
-    } else if(typeof word !== 'string') {
-        // TODO: check if I can remove this if statement
-        if(word.text !== "√") { // current word has english backing 
+
+type ProcessedSubWords = {
+    englishWords: string; 
+    subWords: any[];
+}
+
+function mapPhraseWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buffers: WordMapBuffers) {
+    
+    let nonInjectedsubWords: ProcessedSubWords | undefined;
+    let injectedSubWords: ProcessedSubWords | undefined = undefined;
+
+    if(flags.consumedSubWord) { 
+        // Checks if the phraseWords attribute needs to have sub words injected into it
+        if(buffers.phraseWords[0].phraseWords.match(/[\d+]/) != null) {
+            injectedSubWords = processConsumedSubWords(buffers.phraseWords[0], buffers.subWords);
+        }
+        if(flags.processingSubsequentPhraseWord == false) {
+            nonInjectedsubWords = processConsumedSubWords(word, buffers.subWords);
+        }
+    } 
+
+    let tempWord = processConsumedPhraseWords(buffers.phraseWords);
+
+    // Injects the sub words into the pharse word if necessary
+    if(injectedSubWords !== undefined) {
+        tempWord.englishWords = injectedSubWords.englishWords;
+        tempWord.subWords = injectedSubWords.subWords;
+    }
+
+    buffers.verseWords.push(tempWord);
+
+    if(flags.processingSubsequentPhraseWord === true) {
+        flags.consumedPhraseWord = false;
+        flags.consumedSubWord = false;
+        flags.consumedSubPhraseWord = false;
+        flags.processingSubsequentPhraseWord = false;
+        return;
+    }
+
+    // Processing the current word
+    mapGenericWord(word, buffers, nonInjectedsubWords);
+}
+ 
+
+function mapGenericWord(word : NewFormattedGreekWord | string,  buffers: WordMapBuffers, nonInjectedsubWords: ProcessedSubWords | undefined) {
+    if(typeof word !== 'string') {
+        if(nonInjectedsubWords && word.text !== "√") {
+            buffers.verseWords.push(nonInjectedsubWords);
+        } else if(word.text !== "√") {
             let tempWord = {
-               englishWords: word.text,
-               greekWords: [word],            }
+                englishWords: word.text,
+                greekWords: [word],
+            }
             buffers.verseWords.push(tempWord)
         }
     } else {
@@ -217,10 +228,20 @@ function mapWord(word : NewFormattedGreekWord | string, flags: WordMapFlags, buf
         }
         buffers.verseWords.push(tempWord)
     }
+}
 
-    flags.consumedPhraseWord = false;
-    flags.consumedSubWord = false;
-    flags.consumedSubPhraseWord = false;
+
+function mapSubWords(word : NewFormattedGreekWord | string, flags: WordMapFlags, buffers: WordMapBuffers) {
+
+    let leftOverPhraseWords = processConsumedPhraseWords(buffers.phraseWords) 
+
+    if(leftOverPhraseWords.phraseWords.length > 0) {
+        buffers.verseWords.push(leftOverPhraseWords);
+    } 
+
+    let tempWord = processConsumedSubWords(word, buffers.subWords);
+
+    buffers.verseWords.push(tempWord);
 }
 
 
@@ -313,8 +334,7 @@ function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, su
     for(let i = 0; i < subWordBuffer.length; i++ )
     {
         let currentSubWord = subWordBuffer[i].word;
-        if(typeof(currentSubWord) !== "string")
-        {
+        if(typeof(currentSubWord) !== "string") {
             if(currentSubWord.subPhraseWords) {
                 source = source.replace(subWordBuffer[i].subIdx as string, currentSubWord.subPhraseWords);
             } else if(currentSubWord.phraseWords) {
@@ -344,18 +364,6 @@ function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, su
     subWordBuffer.splice(0, subWordBuffer.length);
 
     return tempWord;
-}
-
-
-function emptyBuffer<BufferType>(greekWordBuffer : BufferType[]) {
-    let greekWords: BufferType[] = [];
-    let length = greekWordBuffer.length;
-    for(let j = 0; j < length; j++)
-    {
-        let tempGreekWord = {... greekWordBuffer.pop() as BufferType};
-        greekWords.unshift(tempGreekWord);
-    }
-    return greekWords;
 }
 
 
