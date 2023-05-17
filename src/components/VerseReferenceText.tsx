@@ -49,9 +49,15 @@ export function VerseReferenceText({ refBook, refChapter, refVerse, refWord } : 
     
             verse.verseWords.forEach((verseWord, wordIdx) => {
                 if((verseIdx + 1) === parseInt(refVerse) && checkForReferences(verseWord)) {
-
                     verseWordOutput.push(<>
                         <span ref={verseRef} className="TextContainer_GreekPhrase" style={{color:"#001533CC", textDecoration:"none", fontSize: wordOverwriteStyle.fontSize}}>
+                            <b>{verseWord.englishWords}</b>
+                        </span>
+                        <span> </span>
+                    </>)
+                } else if(checkForReferences(verseWord)) {
+                    verseWordOutput.push(<>
+                        <span className="TextContainer_GreekPhrase" style={{color:"#001533CC", textDecoration:"none", fontSize: wordOverwriteStyle.fontSize}}>
                             <b>{verseWord.englishWords}</b>
                         </span>
                         <span> </span>
