@@ -22,12 +22,12 @@ export function TipsDialogContent({open, onClose} : TipsDialogContentProps) {
               </Grid>
             </Grid>
             <h4>Get Started</h4>
-            <p>To view a Greek translation, select the desired word or phrase.</p>
-            <p>If you'd like to view a new word, select the desired word to view a new translation. Once a word is selected it will be underlined in blue.</p>
+            <p>To learn about a word or phrase, click on it.</p>
+            <p>Once a word is selected it will be underlined in blue. The information about that word will appear in the right-hand panel</p>
             <h4>Navigation</h4>
             <p>To change a book or chapter click the book name or chapter number located on the left panel above the Scripture text.</p>
             <h4>Settings</h4>
-            <p>To change how you view the font size, click the settings button at the top of the page.</p>
+            <p>To change a book or chapter, click the book name or chapter number located on the left panel above the Scripture text.</p>
         </Grid>
       </Grid>
     )
