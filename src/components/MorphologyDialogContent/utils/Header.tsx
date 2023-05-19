@@ -2,6 +2,8 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Divider from '@mui/material/Divider';
+import { mapValidGWTSettings } from '../../GreekWordInfo/utils/mapValidGWTSettings';
+import { useSettings } from '../../../hooks/SettingsContext';
 
 
 interface HeaderProps {
@@ -12,6 +14,9 @@ interface HeaderProps {
 
 
 export function Header({ onClose, fullScreen, morphologyWord}: HeaderProps) {
+
+    const { GWTSettings } = useSettings();
+    let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
 
     function capitalizeFirstLetter(str : string | undefined) : string {
         if(str === undefined) {
@@ -31,7 +36,7 @@ export function Header({ onClose, fullScreen, morphologyWord}: HeaderProps) {
                 item
                 xl={8} lg={8} md={8} sm={8} xs={8}
             >
-                <h3 className="BannerHeader" style={{color: (!fullScreen ? "#015AD9" : "black")}}>
+                <h3 className="BannerHeader" style={{color: (!fullScreen ? "#015AD9" : "black"), ...overwriteStyle}}>
                     {fullScreen === false ? capitalizeFirstLetter(morphologyWord?.trim() as string) : "Learn More" }
                 </h3>
             </Grid>

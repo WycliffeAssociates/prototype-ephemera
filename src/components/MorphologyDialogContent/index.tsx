@@ -3,6 +3,8 @@ import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import { Header } from './utils/Header';
 import UnprocessedMarkdown from './/utils/UnprocessedMarkdown';
+import { useSettings } from '../../hooks/SettingsContext';
+import { mapValidGWTSettings } from '../GreekWordInfo/utils/mapValidGWTSettings';
 
 interface MorphologyDialogContentProps {
     open: Boolean;
@@ -15,7 +17,8 @@ interface MorphologyDialogContentProps {
 export function MorphologyDialogContent({open, onClose, fullScreen, morphologyWord} : MorphologyDialogContentProps) {
 
     const [morphologyWordMarkdown, setMorphologyWordMarkdown] = useState<string>();
-
+    const { GWTSettings } = useSettings();
+    let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
 
     function extractMorphologyFromMarkdown(markdown: string) {
         return markdown.match(/#\W([a-zA-Z]+)/) as any[];
@@ -64,12 +67,19 @@ export function MorphologyDialogContent({open, onClose, fullScreen, morphologyWo
                     >
                         { morphologyWordMarkdown !== undefined && fullScreen === true ? 
                             <>
-                                <h3 className='MorphlolgyDialogContent__header'>{extractMorphologyFromMarkdown(morphologyWordMarkdown as string)[1]}</h3>
+                                <h3 
+                                    style={{...overwriteStyle}}
+                                    className='MorphlolgyDialogContent__header'
+                                >
+                                    {extractMorphologyFromMarkdown(morphologyWordMarkdown as string)[1]}
+                                </h3>
                             </>
                             
                         :""}
 
-                        { morphologyWordMarkdown !== undefined ? <UnprocessedMarkdown markdown={morphologyWordMarkdown}/> : <></>}
+                        { morphologyWordMarkdown !== undefined ? 
+                            <UnprocessedMarkdown markdown={morphologyWordMarkdown}/> 
+                        : <></>}
                         
                     </Grid>
                 </Grid>

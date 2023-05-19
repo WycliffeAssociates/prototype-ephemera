@@ -18,9 +18,10 @@ function UnprocessedMarkdown({markdown} : unprocessedMarkdownProps) {
             <div style={{paddingTop:"15px", paddingBottom:"15px", maxHeight:"90vh"}}>
                 <ReactMarkdown children={markdown} components={{
                     h1: ({node, ...props}) => <></>,
-                    h2: ({node, ...props}) => <h3>{props.children}</h3>,
-                    ul: ({node, ...props}) => <ul className="GreekWordInfo__bulletPoint">{props.children}</ul>,
-                    li: ({node, ...props}) => <li><p className="GreekWordInfoSubCategoryValue">{props.children} </p></li>,
+                    h2: ({node, ...props}) => <h3 style={{...overwriteStyle}}>{props.children}</h3>,
+                    h3: ({node, ...props}) => <h4 style={{...overwriteStyle}}>{props.children}</h4>,
+                    ul: ({node, ...props}) => <ul className="GreekWordInfo__bulletPoint" style={{...overwriteStyle}}>{props.children}</ul>,
+                    li: ({node, ...props}) => <li><p className="GreekWordInfoSubCategoryValue" style={{...overwriteStyle}}>{props.children} </p></li>,
                     p:  ({node, ...props}) => <p className="GreekWordInfoSubCategoryValue" style={{...overwriteStyle, paddingBottom:"5px"}}>{props.children}</p>,
                     em: ({node, ...props}) => <p className="GreekWordInfoSubCategoryValue" style={{...overwriteStyle}}>{props.children}</p>,
                 }}/>
