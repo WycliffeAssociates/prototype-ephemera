@@ -10,6 +10,8 @@ import { VerseReferenceDialogContent } from './VerseReferenceDialogContent';
 import Divider from '@mui/material/Divider';
 import useMorphologyParams from '../hooks/useMorphologyParams';
 import { MorphologyDialogContent } from './MorphologyDialogContent';
+import { useSettings } from '../hooks/SettingsContext';
+import { mapValidGWTSettings } from './GreekWordInfo/utils/mapValidGWTSettings';
 
 
 interface GreekWordsDialogProps {
@@ -27,6 +29,9 @@ interface GreekWordsBannerProps {
 
 function BannerMessage({greekWords} : GreekWordsBannerProps)
 {
+  const { GWTSettings } = useSettings();
+  let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
+  
   if(greekWords && greekWords?.length >= 4) {
     return (
 
@@ -35,7 +40,7 @@ function BannerMessage({greekWords} : GreekWordsBannerProps)
       <Grid container style={{height:"100%",}} direction={"row"} justifyContent={"flex-start"} alignItems={"center"} >
         <Grid item style={{paddingLeft:"3%",}} xl={12} lg={12} md={12} sm={12} xs={12}>
           <InfoIcon style={{verticalAlign:"middle", lineHeight:"1px", float:"left",}}/>
-          <span style={{paddingLeft:"1%", float:"left",}}>There are {greekWords.length} Greek word translations</span>     
+          <span style={{paddingLeft:"1%", float:"left", ...overwriteStyle}}>There are {greekWords.length} Greek word translations</span>     
         </Grid>
       </Grid>
 
