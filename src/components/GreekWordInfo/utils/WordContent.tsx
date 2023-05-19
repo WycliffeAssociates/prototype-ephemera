@@ -7,6 +7,8 @@ import Morphology from "./Morphology";
 import { VerseReferences } from "./VerseReferences";
 import UnprocessedMarkdown from "./UnprocessedMarkdown";
 import Button from '@mui/material/Button';
+import { useSettings } from '../../../hooks/SettingsContext';
+import { mapValidGWTSettings } from './mapValidGWTSettings';
 
 
 interface WordContentProps {
@@ -17,6 +19,8 @@ interface WordContentProps {
 
 export function WordContent({wordNumber, greekWordState, showMoreOptions} : WordContentProps) {
     const [showMore, setShowMore] = useState(showMoreOptions);
+    const { GWTSettings } = useSettings();
+    let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
 
     useEffect(() => {
         if(showMoreOptions === true)
@@ -58,6 +62,7 @@ export function WordContent({wordNumber, greekWordState, showMoreOptions} : Word
                                                                                         marginRight:"15px",
                                                                                         marginBottom:"10px",
                                                                                         marginTop:"10px",
+                                                                                        ...overwriteStyle
                                                                                     }}
                     >
                         Read {showMore ? "Less" : "More"}
