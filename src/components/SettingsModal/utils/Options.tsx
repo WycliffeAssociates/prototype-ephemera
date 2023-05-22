@@ -20,22 +20,14 @@ const SettingsModal__increaseButton = {
     minWidth:"30px", 
 }
 
-interface OptionsProps {
+
+interface PannelSettingsOptionsProps {
     settings: SettingsOption[];
 }
 
-function Options({settings} : OptionsProps) {
-    return (
-        <>
-            <Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
-                <>
-                    {settings.map((setting, idx: number) => {
-                        return <span key={`setting name ${idx}`} className="SettingsModal__settingsOption">{setting.name}</span> 
-                    })}
-                </>
-            </Grid>
+function PanelSettingsOptions( {settings} : PannelSettingsOptionsProps ) {
 
-            <Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
+    return (
                 <Grid container direction="row">
                     {settings.map((setting, idx : number) => {
                         if(setting.inputType === "switch") {
@@ -83,8 +75,28 @@ function Options({settings} : OptionsProps) {
                         }
                     })}
                 </Grid>
+            )
+}
+
+interface OptionsProps {
+    panelSettings: SettingsOption[];
+}
+
+function Options({panelSettings} : OptionsProps) {
+    return (
+        <Grid container>
+            <Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
+                <>
+                    {panelSettings.map((setting, idx: number) => {
+                        return <span key={`setting name ${idx}`} className="SettingsModal__settingsOption">{setting.name}</span> 
+                    })}
+                </>
             </Grid>
-    </>
+
+            <Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
+                <PanelSettingsOptions settings={panelSettings}/>
+            </Grid>
+    </Grid>
     )
 }
 

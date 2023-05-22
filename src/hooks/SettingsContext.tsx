@@ -13,17 +13,17 @@ export function useSettings() {
 
 export function SettingsProvider({children} : any) {
 
-    const [ULBLineHeightValue, setULBLineHeightValue] = useState<number>(200);
-    const [ULBFontSizeValue, setULBFontSizeValue] = useState<number>(20);
-    const [GWTLineHeightValue, setGWTLineHeightValue] = useState<number>(150);
-    const [GWTFontSizeValue, setGWTFontSizeValue] = useState<number>(20);
+    const [leftPanelLineHeightValue, setLeftPanelLineHeightValue] = useState<number>(200);
+    const [leftPanelFontSizeValue, setLeftPanelFontSizeValue] = useState<number>(20);
+    const [rightPanelLineHeightValue, setRightPanelLineHeightValue] = useState<number>(150);
+    const [rightPanelFontSizeValue, setRightPanelFontSizeValue] = useState<number>(20);
 
     
-    const ULBTextFontSetting : ULBSettingsOption = {
-        name: "ULB Font Size",
-        value: ULBFontSizeValue,
+    const leftPanelTextFontSetting : ULBSettingsOption = {
+        name: "Font Size",
+        value: leftPanelFontSizeValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
-            setULBFontSizeValue(newValue as number);
+            setLeftPanelFontSizeValue(newValue as number);
         },
         inputType:"increment",
         unit:"px",
@@ -32,11 +32,11 @@ export function SettingsProvider({children} : any) {
         defaultValue: 20,
     }
     
-    const ULBLineHeightSetting : ULBSettingsOption = {
-        name: "ULB Line Height",
-        value: ULBLineHeightValue,
+    const leftPanelLineHeightSetting : ULBSettingsOption = {
+        name: "Line Height",
+        value: leftPanelLineHeightValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
-            setULBLineHeightValue(newValue as number);
+            setLeftPanelLineHeightValue(newValue as number);
         },
         inputType:"increment",
         unit:"%",
@@ -45,11 +45,11 @@ export function SettingsProvider({children} : any) {
         defaultValue: 200,
     }
     
-    const GWTTextFontSetting : SettingsOption = {
-        name: "GWT Font Size",
-        value: GWTFontSizeValue,
+    const rightPanelTextFontSetting : SettingsOption = {
+        name: "Font Size",
+        value: rightPanelFontSizeValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
-            setGWTFontSizeValue(newValue as number);
+            setRightPanelFontSizeValue(newValue as number);
         },
         inputType:"increment",
         unit:"px",
@@ -57,11 +57,11 @@ export function SettingsProvider({children} : any) {
         defaultValue: 20,
     }
     
-    const GWTLineHeightSetting : SettingsOption = {
-        name: "GWT Line Height",
-        value: GWTLineHeightValue,
+    const rightPanelLineHeightSetting : SettingsOption = {
+        name: "Line Height",
+        value: rightPanelLineHeightValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
-            setGWTLineHeightValue(newValue as number);
+            setRightPanelLineHeightValue(newValue as number);
         },
         inputType:"increment",
         unit:"%",
@@ -72,12 +72,12 @@ export function SettingsProvider({children} : any) {
     return (
         <SettingsContext.Provider value={{
             ULBSettings: [
-                ULBTextFontSetting, 
-                ULBLineHeightSetting
+                leftPanelTextFontSetting, 
+                leftPanelLineHeightSetting
             ] as ULBSettingsOption[], 
             GWTSettings: [
-                GWTTextFontSetting, 
-                GWTLineHeightSetting
+                rightPanelTextFontSetting, 
+                rightPanelLineHeightSetting
             ] as SettingsOption[],
         }}>
             {children}

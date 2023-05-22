@@ -4,8 +4,6 @@ import Button from '@mui/material/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LanguageIcon from '@material-ui/icons/Language';
 import SettingsModal from './SettingsModal';
-import { useSettings } from '../hooks/SettingsContext';
-import { useNavigate } from 'react-router-dom';
 
 
 interface ViewHeaderProps {
@@ -15,9 +13,6 @@ interface ViewHeaderProps {
 export function ViewHeader({ showIconText }: ViewHeaderProps) {
 
     const [settingsModalOpen, setSettingsModalOpen] = useState(false);
-    const {ULBSettings, GWTSettings,} = useSettings();
-    let navigate = useNavigate(); 
-
 
     const onSettingsModalClose = () => {
         setSettingsModalOpen(false);
@@ -65,7 +60,6 @@ export function ViewHeader({ showIconText }: ViewHeaderProps) {
                 <SettingsModal
                     open={settingsModalOpen} 
                     onClose={onSettingsModalClose} 
-                    settings={[...ULBSettings, ...GWTSettings]}
                 />
         </>
     )
