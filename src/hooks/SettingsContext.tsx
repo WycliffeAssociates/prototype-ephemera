@@ -28,7 +28,7 @@ export function SettingsProvider({children} : any) {
         inputType:"increment",
         unit:"px",
         styleOverrideKey: "fontSize",
-        level: "word",
+        level: "all",
         defaultValue: 20,
     }
     

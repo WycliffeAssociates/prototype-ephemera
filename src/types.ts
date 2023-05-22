@@ -143,7 +143,7 @@ type SettingsOption = {
 }
 
 type ULBSettingsOption = SettingsOption & {
-  level: "verse" | "word"
+  level: "verse" | "word" | "all"
 }
 
 
