@@ -1,8 +1,6 @@
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 import Button from '@mui/material/Button';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 import Options from './utils/Options';
@@ -12,7 +10,7 @@ import { Header } from './utils/Header';
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '38%',
+    top: '48%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: "40%",
