@@ -14,11 +14,22 @@ export function Header({ onClose }: HeaderProps) {
 
     return (
         <>
+
+            <Grid 
+                item
+                xl={10} lg={10} md={10} sm={10} xs={8}
+                style={{padding:"0px 0px 0px 20px"}}
+            >
+                <h3 className="BannerHeader" style={{float:"left", fontSize: "20px", padding:"0px"}}>
+                    Settings
+                </h3>
+            </Grid>
+
             <Grid 
                 item xl={2} lg={2} md={2} sm={2} xs={4} 
                 style={{
                     margin: "auto",
-                    paddingLeft: "20px",
+                    padding: "0px 20px 0px 0px",
                 }}
             >
                 
@@ -33,14 +44,6 @@ export function Header({ onClose }: HeaderProps) {
                     <CloseIcon/>
                 </Button>
             </Grid> 
-            <Grid 
-                item
-                xl={10} lg={10} md={10} sm={10} xs={8}
-            >
-                <h3 className="BannerHeader" style={{float:"left"}}>
-                    Settings
-                </h3>
-            </Grid>
 
             <Grid 
                 item

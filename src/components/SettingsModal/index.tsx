@@ -54,7 +54,7 @@ function SettingsModal({open, onClose} : SettingsModalProps) {
             hideBackdrop={true}> 
             <div>
                 <ClickAwayListener onClickAway={() => onClose()}>
-                    <Box sx={style} style={{width: "70%", minWidth:"280px", maxWidth:"660px", minHeight: "325px", maxHeight: "250px"}}>
+                    <Box sx={style} style={{width: "70%", minWidth:"280px", maxWidth:"660px", minHeight: "370px", maxHeight: "250px"}}>
                         <Grid container direction="row" justifyContent="center">
 
                             <Header onClose={onClose}/>
