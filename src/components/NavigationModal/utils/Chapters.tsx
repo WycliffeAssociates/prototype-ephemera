@@ -43,6 +43,7 @@ function Chapter({chapterNum, onClick, isActiveChapter} : ChapterProps) {
 }
 
 
+
 interface ChaptersProps {
     selectedBook: string;
 }
@@ -103,10 +104,11 @@ function Chapters({selectedBook} : ChaptersProps) {
 
     return (
         <Grid   
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="flex-start"
+            container
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            style={{height:"100%", padding:"0px 0px 40px 0px"}}
         >
             {numChapters > 0 ? chapters.map((chapter) => chapter) : ""}
         </Grid>

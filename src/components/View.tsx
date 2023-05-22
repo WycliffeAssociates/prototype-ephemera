@@ -13,6 +13,7 @@ import BookChapterMenu from './NavigationModal/utils/BookChapterMenu';
 import ChapterNavigationBar from './ChapterNavigationBar';
 import { useLocation } from "react-router-dom";
 import { NavigationHeader } from './NavigationModal/utils/NavigationHeader';
+import { ClickAwayListener } from '@mui/material';
 
 
 export function View() {
@@ -108,7 +109,11 @@ export function View() {
                     >
                             
                         <Grid id="BookChapterMenu" container >
-                            <BookChapterMenu withClickableOptions={true} onClose={onNavigationModalClose}/>
+                            <ClickAwayListener onClickAway={onNavigationModalClose}>
+                                <div style={{width:"100%", padding:"0px 0px 40px 0px"}}>
+                                    <BookChapterMenu withClickableOptions={true} onClose={onNavigationModalClose}/>
+                                </div>
+                            </ClickAwayListener>
                         </Grid>
                         
                     </Grid>
