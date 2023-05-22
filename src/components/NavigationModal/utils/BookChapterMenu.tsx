@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import '../../../App.css';
 import useBookChapterParams from '../../../hooks/useBookChapterParams';
 import {books as newTestamentMetadata} from '../../../applicationLogic/newTestamentMetadata';
-import { Button, Fab } from "@mui/material";
+import { Button } from "@mui/material";
 import useWindowSize from "../../../hooks/useWindowSize";
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -28,7 +28,6 @@ function BookChapterMenu({withClickableOptions, openTab, onClose} : BookChapterM
     const [bookData, setBookData] = useState("");
     const bookChapter = useBookChapterParams().getBookChaptersParams();
     const windowSize = useWindowSize([]);
-
 
     useEffect(() => {
         if(withClickableOptions) {
@@ -78,7 +77,10 @@ function BookChapterMenu({withClickableOptions, openTab, onClose} : BookChapterM
                           centered
                           className="BookChapterMenu__Tabs"
                     >
-                        <Tab className="BookChapterMenu__Tabs__Tab" label="Books" value={"Books"}/>
+                        <Tab 
+                                className="BookChapterMenu__Tabs__Tab" 
+                                label={(bookData.length <= 2) ? bookChapter.book : bookData} 
+                                value={"Books"}/>
                         <Tab className="BookChapterMenu__Tabs__Tab" label="Chapters" value={"Chapters"}/>
                     </Tabs>
                 </Box>
