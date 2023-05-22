@@ -80,11 +80,22 @@ function PanelSettingsOptions( {settings} : PannelSettingsOptionsProps ) {
 
 interface OptionsProps {
     panelSettings: SettingsOption[];
+    title?: string;
 }
 
-function Options({panelSettings} : OptionsProps) {
+function Options({panelSettings, title} : OptionsProps) {
     return (
         <Grid container>
+
+            {title !== undefined ? 
+                <Grid
+                    item 
+                    lg={12} xl={12} md={12} sm={12} xs={12}
+                >
+                    <span className="SettingsModal__Options__title">{title}</span>
+                </Grid>
+            : ""}
+
             <Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
                 <>
                     {panelSettings.map((setting, idx: number) => {

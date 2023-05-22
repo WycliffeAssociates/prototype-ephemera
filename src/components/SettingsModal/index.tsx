@@ -58,6 +58,7 @@ function SettingsModal({open, onClose} : SettingsModalProps) {
                         <Grid container direction="row" justifyContent="center">
 
                             <Header onClose={onClose}/>
+
                             <Grid 
                                     item 
                                     lg={6} xl={6} md={6} sm={12} xs={12}
@@ -69,7 +70,7 @@ function SettingsModal({open, onClose} : SettingsModalProps) {
                                                             "0px 20px 20px 20px"
                                     }}
                             >
-                                <Options panelSettings={ULBSettings}/>
+                                <Options panelSettings={ULBSettings} title="LEFT PANEL"/>
                             </Grid>
 
                             <Grid 
@@ -81,7 +82,7 @@ function SettingsModal({open, onClose} : SettingsModalProps) {
                                                             "20px 20px 0px 20px"
                                     }}
                             >
-                                <Options panelSettings={GWTSettings}/>
+                                <Options panelSettings={GWTSettings} title="RIGHT PANEL"/>
                             </Grid>
 
 

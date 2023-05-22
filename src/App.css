@@ -325,6 +325,12 @@ body {
 }
 
 
+.SettingsModal__Options__title {
+  color:#66768B;
+  float:left;
+  font-weight: bold;
+}
+
 
 .BookChapterMenu__Books {
   width: 100%;
