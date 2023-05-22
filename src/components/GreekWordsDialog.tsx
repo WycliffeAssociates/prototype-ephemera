@@ -138,7 +138,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
           lg:(open ? "block" : "none"), 
           xl:(open ? "block" : "none")
         }}
-        style={{backgroundColor:"#FFFFFF;", padding:"20px 40px 0px 40px"}}
+        style={{backgroundColor:"#FFFFFF", padding:"20px 40px 0px 40px"}}
       >
 
         <Grid container direction="row">

@@ -97,15 +97,17 @@ export function View() {
                         <ViewHeader showIconText={windowSize.innerWidth >= 900 }/>
                     }
                 </Grid>
-                
 
                 { navigationModalOpen ? 
-                    <Grid item xl={textViewSize} 
+                    <Grid 
+                        item 
+                        xl={textViewSize} 
                         lg={textViewSize} 
                         md={textViewSize} 
                         sm={mobileTextWidthMax} 
                         xs={mobileTextWidthMax} 
                         style={{height:"90%", overflowY:"auto"}}
+                        id = "BookChapterMenuContainer"
                     >
                             
                         <Grid id="BookChapterMenu" container >
@@ -119,15 +121,15 @@ export function View() {
                     </Grid>
                 :
                     <> 
-                    <Grid 
-                        item 
-                        xl={textViewSize} 
-                        lg={textViewSize} 
-                        md={textViewSize} 
-                        sm={mobileTextWidthMax} 
-                        xs={mobileTextWidthMax} 
-                        style={{height:"100%",  position: "relative"}}
-                    >
+                        <Grid 
+                            item 
+                            xl={textViewSize} 
+                            lg={textViewSize} 
+                            md={textViewSize} 
+                            sm={mobileTextWidthMax} 
+                            xs={mobileTextWidthMax} 
+                            style={{height:"100%",  position: "relative"}}
+                        >
                             <Grid 
                                 container 
                                 direction="row" 
@@ -136,27 +138,27 @@ export function View() {
                                 style={{marginLeft:"0px", marginBottom:"0px", height:"0px"}}
                             >
                                 <Grid 
-                                    item
-                                    xl={12} lg={12} md={12} sm={12} xs={12} 
+                                        item
+                                        xl={12} lg={12} md={12} sm={12} xs={12} 
                                 >
                                     <ChapterNavigationBar onClick={onNavBarClick} />
                                 </Grid>
-                                <Grid xl={12} lg={12} md={12} sm={12} xs={12} >
+                                <Grid 
+                                        item 
+                                        xl={12} lg={12} md={12} sm={12} xs={12} >
                                     <TextView/>
                                 </Grid>
                             </Grid>
 
-                        <Grid container style={{height: "100%", maxHeight: "85vh"}} alignItems="flex-end">
-                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                <PreviousChapterButton/>
-                            </Grid>
-                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
-                                <NextChapterButton/>
-                            </Grid>
-                        </Grid> 
-                    </Grid>
-
-                    
+                            <Grid container style={{height: "100%", maxHeight: "85vh"}} alignItems="flex-end">
+                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+                                    <PreviousChapterButton/>
+                                </Grid>
+                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
+                                    <NextChapterButton/>
+                                </Grid>
+                            </Grid> 
+                        </Grid>
                     </>
                 }
                 
@@ -177,7 +179,7 @@ export function View() {
                         open={greekTextDialogOpen} 
                         greekWords={greekWords ? greekWords : []}
                     />
-                </Grid>
+                </Grid>  
             </Grid>
 
 

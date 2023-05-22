@@ -28,6 +28,7 @@ function BookChapterMenu({withClickableOptions, openTab, onClose} : BookChapterM
     const [bookData, setBookData] = useState("");
     const bookChapter = useBookChapterParams().getBookChaptersParams();
     const windowSize = useWindowSize([]);
+    const [clickedBookElement, setClickedBookElement] = useState<null | HTMLDivElement>();
 
     useEffect(() => {
         if(withClickableOptions) {
@@ -46,17 +47,31 @@ function BookChapterMenu({withClickableOptions, openTab, onClose} : BookChapterM
             setDisplayBooks(true);
         }
 
-    }, [withClickableOptions, value])
+    }, [withClickableOptions, value]);
 
 
-    function onBookClick(newBook : string) {
-        newBook = newBook.charAt(0).toUpperCase() + newBook.slice(1);
-        if(newBook !== bookChapter.book) {
+
+    useEffect(() => {
+        let scrollableParent = document.getElementById("BookChapterMenuContainer");
+        if(clickedBookElement !== null && clickedBookElement !== undefined) {
+            scrollableParent?.scrollTo(0,clickedBookElement.offsetTop - 70)
+        }
+        
+
+    }, [bookChapter, clickedBookElement])
+
+
+    function onBookClick(newBook : null | HTMLDivElement) {
+
+        let newBookName : string = newBook?.id.charAt(0).toUpperCase() + (newBook?.id.slice(1) as string);
+        if(newBookName !== bookChapter.book) {
             setValue("Chapters")
         }
-        if(newTestamentMetadata[newBook] !== undefined) {
-            setBookData(newBook)
+        if(newTestamentMetadata[newBookName] !== undefined) {
+            setBookData(newBookName)
         }
+
+        setClickedBookElement(newBook);
     }
     
     function onBookChange() {
