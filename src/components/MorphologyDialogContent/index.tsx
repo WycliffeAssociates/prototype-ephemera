@@ -46,7 +46,6 @@ export function MorphologyDialogContent({open, onClose, fullScreen, morphologyWo
       return (
         <Grid 
             container 
-            lg={12} xl={12} md={12} sm={12} xs={12} 
             direction="row" 
             style={{ overflow:"hidden", maxHeight: '90vh',}}
         >

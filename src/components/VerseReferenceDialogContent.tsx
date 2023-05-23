@@ -4,6 +4,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { VerseReferenceText } from './VerseReferenceText';
 import { useSettings } from '../hooks/SettingsContext';
 import { mapValidGWTSettings } from './GreekWordInfo/utils/mapValidGWTSettings';
+import useWindowSize from '../hooks/useWindowSize';
+import { useEffect, useState } from 'react';
 
 
 interface VerseReferenceDialogContentProps {
@@ -69,7 +71,7 @@ export function VerseReferenceDialogContent({open, onClose, refBookChapterVerse,
                     style={{
                             scrollMargin:"50px", 
                             position: "relative", 
-                            maxHeight:(fullScreen ? "85vh" : "70vh"), 
+                            maxHeight:(fullScreen ? "80vh" : "70vh"), 
                             overflowY:"scroll",
                             padding:"0px 40px 0px 0px",
                     }}
