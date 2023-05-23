@@ -82,8 +82,7 @@ export function View() {
     }, [search])
 
     const onNavigationModalClose = (event : any) => {
-        event.stopPropagation();
-        event.nativeEvent.stopImmediatePropagation();
+
         setNavigationModalOpen(false);
     }
 
@@ -98,7 +97,7 @@ export function View() {
             >   
                 <Grid id="ViewHeader" container style={{borderBottom: "2px solid #E5E8EB"}}>
                     { navigationModalOpen && windowSize.innerWidth < 900 ? 
-                        <NavigationHeader onClick={onNavigationModalClose}/> 
+                        ""
                     : 
                         <ViewHeader showIconText={windowSize.innerWidth >= 900 }/>
                     }
@@ -118,7 +117,15 @@ export function View() {
                             
                         <Grid id="BookChapterMenu" container >
                             <ClickAwayListener onClickAway={onNavigationModalClose}>
+                                
                                 <div style={{width:"100%", padding:"0px 0px 40px 0px"}}>
+                                    <Grid id="ViewHeader" container style={{borderBottom: "2px solid #E5E8EB"}}>
+                                        { navigationModalOpen && windowSize.innerWidth < 900 ? 
+                                            <NavigationHeader onClick={onNavigationModalClose}/> 
+                                        : 
+                                            ""
+                                        }
+                                    </Grid>
                                     <BookChapterMenu withClickableOptions={true} onClose={onNavigationModalClose}/>
                                 </div>
                             </ClickAwayListener>
