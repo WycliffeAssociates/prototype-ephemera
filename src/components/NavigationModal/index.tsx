@@ -3,13 +3,12 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import ClickAwayListener from '@mui/base/ClickAwayListener';
 import BookChapterMenu from "./utils/BookChapterMenu";
 
 
 interface NavigationModalProps {
     open: boolean;
-    onClose: (params: any) => any;
+    onClose: (params?: any) => any;
     fullScreen: boolean;
 }
 

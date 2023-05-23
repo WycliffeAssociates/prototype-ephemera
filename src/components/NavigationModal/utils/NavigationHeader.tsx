@@ -5,7 +5,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 interface NavigationHeaderProps {
-    onClick?: () => void;
+    onClick?: (params ?: any) => void;
 }
 
 export function NavigationHeader({onClick} : NavigationHeaderProps) {

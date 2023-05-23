@@ -16,7 +16,7 @@ import CloseIcon from '@material-ui/icons/Close';
 interface BookChapterMenuProps {
     withClickableOptions: boolean;
     openTab?: "Books" | "Chapters";
-    onClose?: () => void;
+    onClose?: (params ?: any) => void;
 }
 
 

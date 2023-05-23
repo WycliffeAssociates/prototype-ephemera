@@ -77,7 +77,9 @@ export function View() {
         setNavigationModalOpen(false);
     }, [search])
 
-    const onNavigationModalClose = () => {
+    const onNavigationModalClose = (event : any) => {
+        event.stopPropagation();
+        event.nativeEvent.stopImmediatePropagation();
         setNavigationModalOpen(false);
     }
 
