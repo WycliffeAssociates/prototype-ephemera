@@ -15,6 +15,7 @@ import { MorphologyDialogContent } from './MorphologyDialogContent';
 import useMorphologyParams from '../hooks/useMorphologyParams';
 import { useSettings } from '../hooks/SettingsContext';
 import { mapValidGWTSettings } from './GreekWordInfo/utils/mapValidGWTSettings';
+import useWindowSize from '../hooks/useWindowSize';
 
 
 
@@ -38,7 +39,11 @@ function BannerMessage({greekWords} : GreekWordsBannerProps)
     if(greekWords && greekWords?.length >= 4) {
         return (
 
-        <Grid item lg={12} xl={12} md={12} sm={12} style={{backgroundColor:"#E6EEFB", width:"100%", height:"58px", display:"table"}}>
+        <Grid 
+                item 
+                lg={12} xl={12} md={12} sm={12} 
+                style={{backgroundColor:"#E6EEFB", width:"100%", height:"58px", display:"table"}}
+        >
 
             <Grid container style={{height:"100%",}} direction={"row"} justifyContent={"flex-start"} alignItems={"center"} >
                 <Grid item style={{paddingLeft:"3%",}} xl={12} lg={12} md={12} sm={12} xs={12}>
@@ -63,8 +68,16 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
     const [openVerseReferenceDialog, setOpenVerseReferenceDialog] = useState(false);
     const [refBookChapter, setRefBookChapter] = useState<any>({});
     const [openMorphologyDialog, setOpenMorphologyDialog] = useState(false);
+    const [modalHeight, setModalHeight] = useState("");
     const { GWTSettings } = useSettings();
     let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
+    const windowSize = useWindowSize([]);
+
+
+    useEffect(() => {
+        let height = windowSize.innerHeight / 10.0; // Ratio for window height to scrollable area
+        setModalHeight(height + "vh");
+    }, [windowSize.innerHeight])
     
     useEffect(() => {
        let params = getBookChaptersParams();
@@ -152,13 +165,14 @@ function GreekWordsModal({greekWords, open, onClose} : GreekWordsModalProps) {
                         item 
                         xl={12} lg={12} md={12} sm={12} xs={12} 
                         id="greekWordsModal"
+                        style={{padding:"0px 0px 40px 0px"}}
                     > 
                         {openVerseReferenceDialog === false && openMorphologyDialog === false? 
                             <>
                                 <BannerMessage greekWords={greekWords}/>
 
                                 {greekWords !== undefined && greekWords.length > 0 ? 
-                                    <div style={{maxHeight:"85vh", overflowY:"scroll", padding:"0px", paddingRight:"15px", scrollPadding:"50px"}}>
+                                    <div style={{maxHeight:modalHeight, overflowY:"scroll", padding:"0px 0px 40px 0px", paddingRight:"15px", scrollPadding:"50px"}}>
                                         {greekWords.map((data, idx) => (
                                             <div style={{borderBottom: "solid", borderColor: "#d9d9d9", overflow:"hidden"}}> 
                                                 <GreekWordInfo key={idx} currentGreekWord={data} showMoreOptions={true}/>                                          
