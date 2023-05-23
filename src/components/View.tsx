@@ -22,6 +22,7 @@ export function View() {
     const {greekWords, showGreekWords, setShowGreekWords} = useGreekWords();
     const [greekTextDialogOpen, setGreekTextDialogOpen] = useState<boolean>(false);
     const [greekTextModalOpen, setGreekTextModalOpen] = useState<boolean>(false); 
+    const [defaultNavigationTab, setDefaultNavigationTab] = useState<"Books" | "Chapters">("Books");
     const { search } = useLocation();
     const desktopTextWidthMax = 10;
     const mobileTextWidthMax = 12;
@@ -69,7 +70,10 @@ export function View() {
     const [navigationModalOpen, setNavigationModalOpen] = useState(false);
 
 
-    const onNavBarClick = () => {
+    const onNavBarClick = (defaultOpenTab?:"Books" | "Chapters") => {
+        if(defaultOpenTab !== undefined) {
+            setDefaultNavigationTab(defaultOpenTab)
+        }
         setNavigationModalOpen(true);
     }
 

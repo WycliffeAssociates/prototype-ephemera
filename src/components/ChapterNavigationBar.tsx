@@ -26,7 +26,7 @@ function ChapterNavigationBar( {onClick} : ChapterNavigationBarProps)
           style={{width:"100%", height:"48px", backgroundColor:"#f2f2f2", borderRadius:"25px 25px 25px 25px"}} 
         >
           <Button 
-            onClick={onClick} 
+            onClick={() => onClick("Books")} 
             style={{width:"85%", borderColor:"#d9d9d9", borderRadius:"25px 0px 0px 25px"}}
           > 
             <span className="ChapterNavigationBar__Span ChapterNavigationBar__BookName">
@@ -34,7 +34,7 @@ function ChapterNavigationBar( {onClick} : ChapterNavigationBarProps)
             </span>
           </Button>
           <Button 
-            onClick={onClick} 
+            onClick={() => onClick("Chapters")} 
             style={{width:"15%", borderColor:"#d9d9d9", borderRadius:"0px 25px 25px 0px"}}
           >
             <span className="ChapterNavigationBar__Span">
