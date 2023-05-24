@@ -12,7 +12,8 @@ import useMorphologyParams from '../hooks/useMorphologyParams';
 import { MorphologyDialogContent } from './MorphologyDialogContent';
 import { useSettings } from '../hooks/SettingsContext';
 import { mapValidGWTSettings } from './GreekWordInfo/utils/mapValidGWTSettings';
-
+import { Button } from '@mui/material';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 interface GreekWordsDialogProps {
   open: Boolean;
@@ -148,20 +149,43 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
             {openVerseReferenceDialog === false && openMorphologyDialog === false && openTipsDialog == false? 
               <>
                 {greekWords !== undefined && greekWords.length > 0 ? 
-                  <div style={{overflow:"auto", maxHeight:"72vh", paddingRight:"40px"}}>
-                      {greekWords.map((data, idx) => (
-                      <> 
-                        <GreekWordInfo key={idx} currentGreekWord={data}/>
-                        <Grid 
-                            item
-                            xl={12} lg={12} md={12} sm={12} xs={12} 
-                        >
-                            <Divider />
-                        </Grid>
-                      </>
-                    ))}
-                  </div>
-                  
+                  <> 
+                    <div style={{overflow:"auto", maxHeight:"72vh", paddingRight:"40px"}}>
+                        {greekWords.map((data, idx) => (
+                        <> 
+                          <GreekWordInfo key={idx} currentGreekWord={data}/>
+                          <Grid 
+                              item
+                              xl={12} lg={12} md={12} sm={12} xs={12} 
+                          >
+                              <Divider />
+                          </Grid>
+                        </>
+                      ))}
+
+                      
+                      <Button 
+                              onClick={() => console.log("Figure out what Aby wants to do here")} 
+                              variant="text" 
+                              style={{
+                                        position:"fixed", 
+                                        bottom: "8%", 
+                                        right: "24.17%", 
+                                        border: "1px solid #E5E8EB", 
+                                        boxShadow:"0px 10px 20px rgba(0, 21, 51, 0.19), 0px 6px 6px rgba(0, 21, 51, 0.23)", 
+                                        borderRadius:"16px", 
+                                        color:"#33445C", 
+                                        background: "white", 
+                                        width:"170px"
+                                    }}
+                      >
+
+                        <ArrowDownwardIcon/> Read More <ArrowDownwardIcon/>
+                      </Button>
+                    
+                    </div>
+                    
+                  </>
                 :
                   <TipsDialogContent open={true} onClose={onClose}/> 
                 }
@@ -181,9 +205,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
                     fullScreen={false} 
                     morphologyWord={getMorphologyParams().morphologyWord} 
                 />
-                <TipsDialogContent open={openTipsDialog} onClose={onClose}/> 
-                  {/* {openTipsDialog ? <TipsDialogContent open={openTipsDialog} onClose={onClose}/> : ""} */}
-                   
+                <TipsDialogContent open={openTipsDialog} onClose={onClose}/>                    
               </>
             }
             
