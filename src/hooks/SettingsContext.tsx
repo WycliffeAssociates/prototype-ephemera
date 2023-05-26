@@ -15,8 +15,8 @@ export function SettingsProvider({children} : any) {
 
     const [leftPanelLineHeightValue, setLeftPanelLineHeightValue] = useState<number>(200);
     const [leftPanelFontSizeValue, setLeftPanelFontSizeValue] = useState<number>(20);
-    const [rightPanelLineHeightValue, setRightPanelLineHeightValue] = useState<number>(150);
-    const [rightPanelFontSizeValue, setRightPanelFontSizeValue] = useState<number>(20);
+    const [informationPanelLineHeightValue, setInformationPanelLineHeightValue] = useState<number>(150);
+    const [informationPanelFontSizeValue, setInformationPanelFontSizeValue] = useState<number>(20);
 
     
     const leftPanelTextFontSetting : ULBSettingsOption = {
@@ -45,11 +45,11 @@ export function SettingsProvider({children} : any) {
         defaultValue: 200,
     }
     
-    const rightPanelTextFontSetting : SettingsOption = {
+    const informationPanelTextFontSetting : SettingsOption = {
         name: "Font Size",
-        value: rightPanelFontSizeValue,
+        value: informationPanelFontSizeValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
-            setRightPanelFontSizeValue(newValue as number);
+            setInformationPanelFontSizeValue(newValue as number);
         },
         inputType:"increment",
         unit:"px",
@@ -57,11 +57,11 @@ export function SettingsProvider({children} : any) {
         defaultValue: 20,
     }
     
-    const rightPanelLineHeightSetting : SettingsOption = {
+    const informationPanelLineHeightSetting : SettingsOption = {
         name: "Line Height",
-        value: rightPanelLineHeightValue,
+        value: informationPanelLineHeightValue,
         modifier: function (newValue: number | string | number | boolean | undefined) {
-            setRightPanelLineHeightValue(newValue as number);
+            setInformationPanelLineHeightValue(newValue as number);
         },
         inputType:"increment",
         unit:"%",
@@ -76,8 +76,8 @@ export function SettingsProvider({children} : any) {
                 leftPanelLineHeightSetting
             ] as ULBSettingsOption[], 
             GWTSettings: [
-                rightPanelTextFontSetting, 
-                rightPanelLineHeightSetting
+                informationPanelTextFontSetting, 
+                informationPanelLineHeightSetting
             ] as SettingsOption[],
         }}>
             {children}

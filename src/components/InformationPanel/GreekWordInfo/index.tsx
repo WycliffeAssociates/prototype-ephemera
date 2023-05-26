@@ -1,9 +1,9 @@
 import Grid from '@mui/material/Grid';
-import "../../App.css";
-import { FormattedGreekWord } from '../../types';
+import "../../../App.css";
+import { FormattedGreekWord } from '../../../types';
 import { useEffect, useState } from 'react';
-import getGreekWord from '../../api/gwtUtils';
-import mapGWTMarkdown from '../../applicationLogic/mapGWTMarkdown';
+import getGreekWord from '../../../api/gwtUtils';
+import mapGWTMarkdown from '../../../applicationLogic/mapGWTMarkdown';
 import { WordContent } from './utils/WordContent';
 
 

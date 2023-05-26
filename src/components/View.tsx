@@ -4,8 +4,7 @@ import Grid from '@mui/material/Grid';
 import NextChapterButton from './NextChapterButton';
 import PreviousChapterButton from './PreviousChapterButton';
 import TextView from "./TextView";
-import GreekWordsDialog from './GreekWordsDialog';
-import GreekWordsModal from './GreekWordsModal';
+import InformationPanel from '../components/InformationPanel';
 import useWindowSize from '../hooks/useWindowSize';
 import { useGreekWords } from '../hooks/GreekWordsContext';
 import { ViewHeader } from './ViewHeader';
@@ -14,6 +13,7 @@ import ChapterNavigationBar from './ChapterNavigationBar';
 import { useLocation } from "react-router-dom";
 import { NavigationHeader } from './NavigationModal/utils/NavigationHeader';
 import { ClickAwayListener } from '@mui/material';
+import GreekWordsModal from './GreekWordsModal';
 
 
 export function View() {
@@ -126,7 +126,7 @@ export function View() {
                                             ""
                                         }
                                     </Grid>
-                                    <BookChapterMenu withClickableOptions={true} onClose={onNavigationModalClose}/>
+                                    <BookChapterMenu withClickableOptions={true} onClose={onNavigationModalClose} openTab={defaultNavigationTab}/>
                                 </div>
                             </ClickAwayListener>
                         </Grid>
@@ -188,7 +188,7 @@ export function View() {
                             backgroundColor: (navigationModalOpen) ? "rgba(0, 0, 0, 0.2)" : "white"
                     }}
                 >
-                    <GreekWordsDialog 
+                    <InformationPanel 
                         open={greekTextDialogOpen} 
                         greekWords={greekWords ? greekWords : []}
                     />

@@ -1,5 +1,5 @@
 import ReactMarkdown from 'react-markdown'
-import { useSettings } from '../../../hooks/SettingsContext';
+import { useSettings } from '../../../../hooks/SettingsContext';
 import { mapValidGWTSettings } from '../../GreekWordInfo/utils/mapValidGWTSettings';
 
 

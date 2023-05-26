@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import { Header } from './utils/Header';
 import UnprocessedMarkdown from './/utils/UnprocessedMarkdown';
-import { useSettings } from '../../hooks/SettingsContext';
+import { useSettings } from '../../../hooks/SettingsContext';
 import { mapValidGWTSettings } from '../GreekWordInfo/utils/mapValidGWTSettings';
 
 interface MorphologyDialogContentProps {
@@ -14,7 +14,7 @@ interface MorphologyDialogContentProps {
 };
   
 
-export function MorphologyDialogContent({open, onClose, fullScreen, morphologyWord} : MorphologyDialogContentProps) {
+export default function MorphologyDialogContent({open, onClose, fullScreen, morphologyWord} : MorphologyDialogContentProps) {
 
     const [morphologyWordMarkdown, setMorphologyWordMarkdown] = useState<string>();
     const { GWTSettings } = useSettings();

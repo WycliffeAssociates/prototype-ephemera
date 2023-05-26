@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
-import { Description as DescriptionType } from '../../../types';
-import { useSettings } from '../../../hooks/SettingsContext';
+import { Description as DescriptionType } from '../../../../types';
+import { useSettings } from '../../../../hooks/SettingsContext';
 import { mapValidGWTSettings } from './mapValidGWTSettings';
 
 

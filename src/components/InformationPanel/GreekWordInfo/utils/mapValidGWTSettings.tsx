@@ -1,4 +1,4 @@
-import { SettingsOption } from "../../../types";
+import { SettingsOption } from "../../../../types";
 
 export function mapValidGWTSettings(GWTSettings : SettingsOption[]) {
 

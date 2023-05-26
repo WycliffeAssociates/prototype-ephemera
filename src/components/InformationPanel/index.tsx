@@ -1,19 +1,15 @@
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import GreekWordInfo from './GreekWordInfo';
-import { FormattedGreekWord } from '../types'
-import { TipsDialogContent } from './TipsDialogContent';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import { useBookChapterParams } from '../hooks/useBookChapterParams';
+import { FormattedGreekWord } from '../../types'
+import TipsDialogContent from './TipsDialogContent'
+import MorphologyDialogContent from './MorphologyDialogContent';
+import VerseReferenceDialogContent from './VerseReferenceDialogContent';
+import { useBookChapterParams } from '../../hooks/useBookChapterParams';
 import { useState, useEffect } from 'react';
-import { VerseReferenceDialogContent } from './VerseReferenceDialogContent';
-import Divider from '@mui/material/Divider';
-import useMorphologyParams from '../hooks/useMorphologyParams';
-import { MorphologyDialogContent } from './MorphologyDialogContent';
-import { useSettings } from '../hooks/SettingsContext';
-import { mapValidGWTSettings } from './GreekWordInfo/utils/mapValidGWTSettings';
-import { Button } from '@mui/material';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import useMorphologyParams from '../../hooks/useMorphologyParams';
+import BannerMessage from './GreekWordsDialogContent/utils/BannerMessage';
+import GreekWordsDialogContent from './GreekWordsDialogContent';
+ 
 
 interface GreekWordsDialogProps {
   open: Boolean;
@@ -21,40 +17,7 @@ interface GreekWordsDialogProps {
   greekWords: FormattedGreekWord[];
 };
 
-
-interface GreekWordsBannerProps {
-  greekWords: FormattedGreekWord[];
-};
-
-
-
-function BannerMessage({greekWords} : GreekWordsBannerProps)
-{
-  const { GWTSettings } = useSettings();
-  let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
-  
-  if(greekWords && greekWords?.length >= 4) {
-    return (
-
-      <Grid item lg={12} xl={12} md={12} sm={12} style={{backgroundColor:"#E6EEFB", width:"100%", height:"58px", display:"table"}}>
-
-      <Grid container style={{height:"100%",}} direction={"row"} justifyContent={"flex-start"} alignItems={"center"} >
-        <Grid item style={{paddingLeft:"3%",}} xl={12} lg={12} md={12} sm={12} xs={12}>
-          <InfoIcon style={{verticalAlign:"middle", lineHeight:"1px", float:"left",}}/>
-          <span style={{paddingLeft:"1%", float:"left", ...overwriteStyle}}>There are {greekWords.length} Greek word translations</span>     
-        </Grid>
-      </Grid>
-
-      </Grid>
-    )
-  } else {
-    return <></>
-  }
-
-}
-
-
-function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
+function InformationPanel({open, onClose, greekWords} : GreekWordsDialogProps) {
 
     const {getBookChaptersParams, removeReferenceParams} = useBookChapterParams();
     const { getMorphologyParams, removeMorphologyParams } = useMorphologyParams();
@@ -148,47 +111,7 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
     
             {openVerseReferenceDialog === false && openMorphologyDialog === false && openTipsDialog == false? 
               <>
-                {greekWords !== undefined && greekWords.length > 0 ? 
-                  <> 
-                    <div style={{overflow:"auto", maxHeight:"72vh", paddingRight:"40px"}}>
-                        {greekWords.map((data, idx) => (
-                        <> 
-                          <GreekWordInfo key={idx} currentGreekWord={data}/>
-                          <Grid 
-                              item
-                              xl={12} lg={12} md={12} sm={12} xs={12} 
-                          >
-                              <Divider />
-                          </Grid>
-                        </>
-                      ))}
-
-                      
-                      <Button 
-                              onClick={() => console.log("Figure out what Aby wants to do here")} 
-                              variant="text" 
-                              style={{
-                                        position:"fixed", 
-                                        bottom: "8%", 
-                                        right: "24.17%", 
-                                        border: "1px solid #E5E8EB", 
-                                        boxShadow:"0px 10px 20px rgba(0, 21, 51, 0.19), 0px 6px 6px rgba(0, 21, 51, 0.23)", 
-                                        borderRadius:"16px", 
-                                        color:"#33445C", 
-                                        background: "white", 
-                                        width:"170px"
-                                    }}
-                      >
-
-                        <ArrowDownwardIcon/> Read More <ArrowDownwardIcon/>
-                      </Button>
-                    
-                    </div>
-                    
-                  </>
-                :
-                  <TipsDialogContent open={true} onClose={onClose}/> 
-                }
+                <GreekWordsDialogContent open={true} onClose={onClose} greekWords={greekWords}/>
               </>
             :
               <>
@@ -209,8 +132,6 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
               </>
             }
             
-
-
           </Grid>
         </Grid>
       </Box>
@@ -219,4 +140,4 @@ function GreekWordsDialog({open, onClose, greekWords} : GreekWordsDialogProps) {
 }
 
 
-export default GreekWordsDialog;
+export default InformationPanel;

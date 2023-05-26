@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
-import { useSettings } from '../hooks/SettingsContext';
+import { useSettings } from '../../hooks/SettingsContext';
 import { mapValidGWTSettings } from './GreekWordInfo/utils/mapValidGWTSettings';
 
 interface TipsDialogContentProps {
@@ -9,7 +9,7 @@ interface TipsDialogContentProps {
   };
   
 
-export function TipsDialogContent({open, onClose} : TipsDialogContentProps) {
+export default function TipsDialogContent({open, onClose} : TipsDialogContentProps) {
 
   const { GWTSettings } = useSettings();
   let overwriteStyle : any = mapValidGWTSettings(GWTSettings);

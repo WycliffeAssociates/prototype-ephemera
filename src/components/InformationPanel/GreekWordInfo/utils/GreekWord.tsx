@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid';
-import { useSettings } from '../../../hooks/SettingsContext';
+import { useSettings } from '../../../../hooks/SettingsContext';
 import { mapValidGWTSettings } from './mapValidGWTSettings';
 import { useEffect, useState } from 'react';
 

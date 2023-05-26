@@ -1,8 +1,8 @@
-import useChapterVerseData from "../hooks/useChapterVerseData";
-import { useSettings } from '../hooks/SettingsContext';
+import useChapterVerseData from "../../../hooks/useChapterVerseData";
+import { useSettings } from '../../../hooks/SettingsContext';
 import { useEffect, useRef, useState } from "react";
-import { NewFormattedGreekWord, NewFormattedWord, PhraseWord, SubWord } from "../types";
-import { mapValidGWTSettings } from "./GreekWordInfo/utils/mapValidGWTSettings";
+import { NewFormattedGreekWord, NewFormattedWord, PhraseWord, SubWord } from "../../../types";
+import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
 
 
 interface VerseReferenceTextProps {

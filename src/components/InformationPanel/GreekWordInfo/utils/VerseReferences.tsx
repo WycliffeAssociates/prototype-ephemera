@@ -1,9 +1,9 @@
-import {useBookChapterParams} from '../../../hooks/useBookChapterParams';
+import {useBookChapterParams} from '../../../../hooks/useBookChapterParams';
 import Grid from '@mui/material/Grid';
 import { mapValidGWTSettings } from './mapValidGWTSettings';
-import { useSettings } from '../../../hooks/SettingsContext';
+import { useSettings } from '../../../../hooks/SettingsContext';
 import { useEffect, useState } from 'react';
-import { useGreekWords } from '../../../hooks/GreekWordsContext';
+import { useGreekWords } from '../../../../hooks/GreekWordsContext';
 
 
 interface VerseReferencesProps {

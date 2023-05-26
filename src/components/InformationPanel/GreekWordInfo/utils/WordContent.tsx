@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FormattedGreekWord } from '../../../types';
+import { FormattedGreekWord } from '../../../../types';
 import Grid from '@mui/material/Grid';
 import GreekWord from "./GreekWord";
 import Description from "./Description";
@@ -7,7 +7,7 @@ import Morphology from "./Morphology";
 import { VerseReferences } from "./VerseReferences";
 import UnprocessedMarkdown from "./UnprocessedMarkdown";
 import Button from '@mui/material/Button';
-import { useSettings } from '../../../hooks/SettingsContext';
+import { useSettings } from '../../../../hooks/SettingsContext';
 import { mapValidGWTSettings } from './mapValidGWTSettings';
 
 
