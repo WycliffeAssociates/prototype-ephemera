@@ -19,47 +19,47 @@ interface GreekWordsDialogProps {
 
 function InformationPanel({open, onClose, greekWords} : GreekWordsDialogProps) {
 
-    const {getBookChaptersParams, removeReferenceParams} = useBookChapterParams();
-    const { getMorphologyParams, removeMorphologyParams } = useMorphologyParams();
+  const {getBookChaptersParams, removeReferenceParams} = useBookChapterParams();
+  const { getMorphologyParams, removeMorphologyParams } = useMorphologyParams();
 
-    const [openVerseReferenceDialog, setOpenVerseReferenceDialog] = useState(false);
-    const [refBookChapter, setRefBookChapter] = useState<any>({});
-    const [openMorphologyDialog, setOpenMorphologyDialog] = useState(false);
-    const [openTipsDialog, setOpenTipsDialog] = useState(false);
+  const [openVerseReferenceDialog, setOpenVerseReferenceDialog] = useState(false);
+  const [refBookChapter, setRefBookChapter] = useState<any>({});
+  const [openMorphologyDialog, setOpenMorphologyDialog] = useState(false);
+  const [openTipsDialog, setOpenTipsDialog] = useState(false);
 
-    useEffect(() => {
-       let params = getBookChaptersParams();
-       let newRefBookChapter = {refBook: params.refBook, refChapter: params.refChapter, refVerse: params.refVerse, refWord: params.refWord};
+  useEffect(() => {
+      let params = getBookChaptersParams();
+      let newRefBookChapter = {refBook: params.refBook, refChapter: params.refChapter, refVerse: params.refVerse, refWord: params.refWord};
 
-       if(newRefBookChapter.refBook !== undefined && newRefBookChapter.refChapter !== undefined) {
-          setOpenVerseReferenceDialog(true);
-       } else {
-          setOpenVerseReferenceDialog(false);
-       }
-
-       setRefBookChapter({...newRefBookChapter});
-    }, [getBookChaptersParams().refBook])
-
-    useEffect(() => {
-        setOpenTipsDialog(true);
-    }, [getBookChaptersParams().book, getBookChaptersParams().chapter])
-
-
-    useEffect(() => {
-      setOpenTipsDialog(false);
-      onVerseReferenceClose();
-    }, [greekWords])
-
-
-    useEffect(() => {
-      let params = getMorphologyParams();
-
-      if(params.morphologyWord  !== undefined) {
-          setOpenMorphologyDialog(true);
+      if(newRefBookChapter.refBook !== undefined && newRefBookChapter.refChapter !== undefined) {
+        setOpenVerseReferenceDialog(true);
       } else {
-          setOpenMorphologyDialog(false);
+        setOpenVerseReferenceDialog(false);
       }
-    }, [getMorphologyParams().morphologyWord])
+
+      setRefBookChapter({...newRefBookChapter});
+  }, [getBookChaptersParams().refBook])
+
+  useEffect(() => {
+      setOpenTipsDialog(true);
+  }, [getBookChaptersParams().book, getBookChaptersParams().chapter])
+
+
+  useEffect(() => {
+    setOpenTipsDialog(false);
+    onVerseReferenceClose();
+  }, [greekWords])
+
+
+  useEffect(() => {
+    let params = getMorphologyParams();
+
+    if(params.morphologyWord  !== undefined) {
+        setOpenMorphologyDialog(true);
+    } else {
+        setOpenMorphologyDialog(false);
+    }
+  }, [getMorphologyParams().morphologyWord])
 
 
   function onMorphologyDialogClose() {

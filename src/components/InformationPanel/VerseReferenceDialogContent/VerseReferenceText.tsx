@@ -21,11 +21,6 @@ export function VerseReferenceText({ refBook, refChapter, refVerse, refWord } : 
     const { GWTSettings } = useSettings();
     let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
 
-    useEffect(() => {
-        console.log("changing settings");
-        console.log(overwriteStyle);
-    }, [GWTSettings])
-
     function checkSubWordsForReference(subWords : SubWord[] | undefined) {
         return subWords?.map((foo) => { 
             foo.word = foo.word as NewFormattedGreekWord; 

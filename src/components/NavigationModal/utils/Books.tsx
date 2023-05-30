@@ -22,20 +22,6 @@ function Book({bookData, handleClick, isCurrentBook}: BookProps) {
         } 
     }, [isCurrentBook])
 
-    useEffect(() => {
-                    // console.log(bookData)
-            // bookRef?.current?.scrollIntoView();
-
-            // console.log("scrolling into view");
-            // console.log(bookRef)
-            // let scrollableParent = document.getElementById("BookChapterMenuDesktopContainer");
-            // let clickedBookElement = bookRef?.current; 
-            // if(clickedBookElement !== null && clickedBookElement !== undefined && scrollableParent !== null && scrollableParent !== undefined) {
-
-            //     console.log(clickedBookElement.getBoundingClientRect().y)
-            //     scrollableParent.scrollTo(0,clickedBookElement.getBoundingClientRect().y);
-            // }
-    },)
 
     function onClick() {
         handleClick(bookRef);
@@ -66,18 +52,6 @@ function Books( { handleClick, currentBook, onChange } : BooksProps) {
 
     function handleChildClicked(newChildClicked: any) {
 
-        // // TODO: add scrolling here
-
-        // let scrollableParent = document.getElementById("BookChapterMenuDesktopContainer"); // TODO: make this conditional based on if it is a desktop view or mobile view
-        // let bookElementToScrollTo = newChildClicked;
-        // bookElementToScrollTo?.current?.scrollIntoView()
-
-        // // scrollableParent?.scrollTo(0,chapterElementToScrollTo.current.offsetTop - 40)
-        // console.log(newChildClicked as HTMLElement)
-        // // console.log(chapterElementToScrollTo.current.offsetTop - 40)
-        //newChildClicked.current?.scrollIntoView();
-
-        // console.log(scrollableParent)
         handleClick(newChildClicked.current)
 
         if(childClicked?.current?.style?.color !== undefined) {
