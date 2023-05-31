@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import "../../../App.css";
 import { FormattedGreekWord } from '../../../types';
-import { useEffect, useState } from 'react';
+import { MutableRefObject, useEffect, useState } from 'react';
 import getGreekWord from '../../../api/gwtUtils';
 import mapGWTMarkdown from '../../../applicationLogic/mapGWTMarkdown';
 import { WordContent } from './utils/WordContent';
@@ -9,13 +9,14 @@ import { WordContent } from './utils/WordContent';
 
 interface GreekWordInfoProps {
     currentGreekWord: FormattedGreekWord;
-    showMoreOptions?: boolean,
+    showMoreOptions?: boolean;
+    containerRef: MutableRefObject<HTMLDivElement | null>;
 };
 
-function GreekWordInfo({currentGreekWord, showMoreOptions} : GreekWordInfoProps)
-{
+function GreekWordInfo({currentGreekWord, showMoreOptions, containerRef} : GreekWordInfoProps) {
     
     const [greekWordsState, setGreekWordsState] = useState<FormattedGreekWord[]>([])
+    const [greekWordsContent, setGreekWordsContent] = useState<any[]>([])
 
     useEffect(() => {
       (async () => {
@@ -34,16 +35,29 @@ function GreekWordInfo({currentGreekWord, showMoreOptions} : GreekWordInfoProps)
       })();
     }, [currentGreekWord]); 
 
+    useEffect(() => {
 
-    const greekWords : any[] = [];
+      const greekWords : any[] = [];
 
-    greekWordsState.forEach((greekWordState, idx : number) => {
-      greekWords.push(
-        <WordContent wordNumber={idx} greekWordState={greekWordState} showMoreOptions={showMoreOptions}/>
-      )
-    })
+      greekWordsState.forEach((greekWordState, idx : number) => {
+        greekWords.push(
+          <WordContent 
+                        wordNumber={idx} 
+                        greekWordState={greekWordState} 
+                        showMoreOptions={showMoreOptions}
+                        containerRef={containerRef}
+            />
+        )
+      });
 
-    if(greekWords.length === 0) {
+      setGreekWordsContent([...greekWords]);
+
+    }, [greekWordsState])
+
+
+
+
+    if(greekWordsContent.length === 0) {
       return (
         <>
           <Grid container spacing={0} direction="row" style={{padding:"0px"}}>
@@ -55,7 +69,7 @@ function GreekWordInfo({currentGreekWord, showMoreOptions} : GreekWordInfoProps)
     } else {
       return (
         <>
-          {greekWords}
+          {greekWordsContent}
         </>
       )
     }

@@ -3,8 +3,8 @@ import { FormattedGreekWord } from '../../../types'
 import TipsDialogContent from '../TipsDialogContent'
 import GreekWordInfo from '../GreekWordInfo';
 import Divider from '@mui/material/Divider';
-import { Button } from '@mui/material';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import { ContinueReadingButton } from './utils/ContinueReadingButton';
+import { useEffect, useRef, useState } from 'react';
  
 
 interface GreekWordsDialogProps {
@@ -15,16 +15,29 @@ interface GreekWordsDialogProps {
 
 
 function GreekWordsDialogContent({open, onClose, greekWords} : GreekWordsDialogProps) {
+
+    const containerRef = useRef<HTMLDivElement | null>(null);  
+
+    // scrolls the container to the top when the greek words change
+    useEffect(() => {
+        if(containerRef !== null && containerRef !== undefined) {
+            let el = containerRef.current as unknown as HTMLElement;
+            if(el !== null) {
+                el.scrollTo(0,0)
+            }
+        }
+    }, [greekWords]);
+
     if(open === false) return <></>;
 
     return ( 
         <>
             {greekWords !== undefined && greekWords.length > 0 ? 
                 <> 
-                    <div style={{overflow:"auto", maxHeight:"72vh", paddingRight:"40px"}}>
+                    <div ref={containerRef} style={{overflow:"auto", maxHeight:"72vh", paddingRight:"40px"}}>
                         {greekWords.map((data, idx) => (
                             <> 
-                                <GreekWordInfo key={idx} currentGreekWord={data}/>
+                                <GreekWordInfo key={idx} currentGreekWord={data} containerRef={containerRef}/>
                                 <Grid 
                                     item
                                     xl={12} lg={12} md={12} sm={12} xs={12} 
@@ -32,27 +45,10 @@ function GreekWordsDialogContent({open, onClose, greekWords} : GreekWordsDialogP
                                     <Divider />
                                 </Grid>
                             </>
-                        ))}
-
-                        <Button 
-                                onClick={() => console.log("Figure out what Aby wants to do here")} 
-                                variant="text" 
-                                style={{
-                                        position:"fixed", 
-                                        bottom: "8%", 
-                                        right: "24.17%", 
-                                        border: "1px solid #E5E8EB", 
-                                        boxShadow:"0px 10px 20px rgba(0, 21, 51, 0.19), 0px 6px 6px rgba(0, 21, 51, 0.23)", 
-                                        borderRadius:"16px", 
-                                        color:"#33445C", 
-                                        background: "white", 
-                                        width:"210px"
-                                    }}
-                        >
-                            <ArrowDownwardIcon/> Continue Reading <ArrowDownwardIcon/>
-                        </Button>
-                    
+                        ))}                   
                     </div>
+
+                    <ContinueReadingButton containerRef={containerRef} rightPosition="20.17%"/>
                 
                 </>
             :
