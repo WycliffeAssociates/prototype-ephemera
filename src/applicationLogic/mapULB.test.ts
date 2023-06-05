@@ -243,6 +243,24 @@ describe('Mark 6:16', function () {
 });
 
 
+describe('Matthew 12:40', function () {
+  it('Injected sub word is a checkmark', async function () {
+
+      let verses = mapVerses(Matthew.xml.book.chapter[11].verse as VerseTag[]);        
+      const diff = difference(verses[39], expectedResults[13][0]);
+
+      if(diff.length > 0) {
+        console.error(diff);
+      }
+
+      // TODO: add method here to specify which differences to ignore. 
+      
+      expect(_.isEqual(verses[39], expectedResults[13][0])).toBe(true);
+
+  });
+});
+
+
 export {};
 
 
@@ -327,5 +345,8 @@ const expectedResults = [
     ],
     [
       {"verseNum":16,"verseWords":[{"englishWords":"But","greekWords":[{"text":"But","strongs":"G1161","OGNTsort":21796,"morph":"CONJ","lemma":"δέ"}]},{"englishWords":"when Herod heard this","subWords":[{"subIdx":"[1]","word":{"text":"Herod","strongs":"G2264","OGNTsort":21798,"morph":"N-NSM-P","lemma":"Ἡρώδης"}},{"word":{"text":"when Herod heard this","strongs":"G191","OGNTsort":21795,"morph":"V-AAP-NSM","lemma":"ἀκούω"}}]},{"englishWords":"he said,","greekWords":[{"text":"he said,","strongs":"G3004","OGNTsort":21799,"morph":"V-IAI-3S","lemma":"λέγω"}]},{"englishWords":"\"John,","greekWords":[{"text":"\"John,","strongs":"G2491","OGNTsort":21803,"morph":"N-ASM-P","lemma":"Ἰωάννης"}]},{"englishWords":"whom","greekWords":[{"text":"whom","strongs":"G3739","OGNTsort":21800,"morph":"R-ASM","lemma":"ὅς, ἥ"}]},{"englishWords":"I","greekWords":[{"text":"I","strongs":"G1473","OGNTsort":21801,"morph":"P-1NS","lemma":"ἐγώ"}]},{"englishWords":"beheaded,","greekWords":[{"text":"beheaded,","strongs":"G607","OGNTsort":21802,"morph":"V-AAI-1S","lemma":"ἀποκεφαλίζω"}]},{"englishWords":"has been raised.\"","greekWords":[{"text":"has been raised.\"","strongs":"G1453","OGNTsort":21805,"morph":"V-API-3S","lemma":"ἐγείρω"}]}]}
+    ],
+    [
+      {"verseNum":40,"verseWords":[{"englishWords":"For","greekWords":[{"text":"For","strongs":"G1063","OGNTsort":6764,"morph":"CONJ","lemma":"γάρ"}]},{"englishWords":"as","greekWords":[{"text":"as","strongs":"G5618","OGNTsort":6763,"morph":"CONJ","lemma":"ὥσπερ"}]},{"englishWords":"Jonah","greekWords":[{"text":"Jonah","strongs":"G2495","OGNTsort":6766,"morph":"N-NSM-P","lemma":"Ἰωνᾶς"}]},{"englishWords":"was","greekWords":[{"text":"was","strongs":"G1510","OGNTsort":6765,"morph":"V-IAI-3S","lemma":"εἰμί"}]},{"englishWords":"three","greekWords":[{"text":"three","strongs":"G5140","OGNTsort":6772,"morph":"A-APF","lemma":"τρεῖς, τρία"}]},{"englishWords":"days","greekWords":[{"text":"days","strongs":"G2250","OGNTsort":6773,"morph":"N-APF","lemma":"ἡμέρα"}]},{"englishWords":"and","greekWords":[{"text":"and","strongs":"G2532","OGNTsort":6774,"morph":"CONJ","lemma":"καί"}]},{"englishWords":"three","greekWords":[{"text":"three","strongs":"G5140","OGNTsort":6775,"morph":"A-APF","lemma":"τρεῖς, τρία"}]},{"englishWords":"nights","greekWords":[{"text":"nights","strongs":"G3571","OGNTsort":6776,"morph":"N-APF","lemma":"νύξ"}]},{"englishWords":"in","greekWords":[{"text":"in","strongs":"G1722","OGNTsort":6767,"morph":"PREP","lemma":"ἐν"}]},{"englishWords":"the","greekWords":[{"text":"the","strongs":"G3588","OGNTsort":6768,"morph":"T-DSF","lemma":"ὁ"}]},{"englishWords":"stomach","greekWords":[{"text":"stomach","strongs":"G2836","OGNTsort":6769,"morph":"N-DSF","lemma":"κοιλία"}]},{"englishWords":"of the","greekWords":[{"text":"of the","strongs":"G3588","OGNTsort":6770,"morph":"T-GSN","lemma":"ὁ"}]},{"englishWords":"big fish,","greekWords":[{"text":"big fish,","strongs":"G2785","OGNTsort":6771,"morph":"N-GSN","lemma":"κῆτος"}]},{"englishWords":"so","greekWords":[{"text":"so","strongs":"G3779","OGNTsort":6777,"morph":"ADV","lemma":"οὕτω, οὕτως"}]},{"englishWords":"will the Son  of Man be","subWords":[{"subIdx":"[1]","word":{"text":"the","strongs":"G3588","OGNTsort":6779,"morph":"T-NSM","lemma":"ὁ"}},{"subIdx":"[2]","word":{"text":"Son","strongs":"G5207","OGNTsort":6780,"morph":"N-NSM","lemma":"υἱός"}},{"subIdx":"[3]","word":{"text":"√","strongs":"G3588","OGNTsort":6781,"morph":"T-GSM","lemma":"ὁ"}},{"subIdx":"[4]","word":{"text":"of Man","strongs":"G444","OGNTsort":6782,"morph":"N-GSM","lemma":"ἄνθρωπος"}},{"word":{"text":"will the Son  of Man be","strongs":"G1510","OGNTsort":6778,"morph":"V-FDI-3S","lemma":"εἰμί"}}]},{"englishWords":"three","greekWords":[{"text":"three","strongs":"G5140","OGNTsort":6788,"morph":"A-APF","lemma":"τρεῖς, τρία"}]},{"englishWords":"days","greekWords":[{"text":"days","strongs":"G2250","OGNTsort":6789,"morph":"N-APF","lemma":"ἡμέρα"}]},{"englishWords":"and","greekWords":[{"text":"and","strongs":"G2532","OGNTsort":6790,"morph":"CONJ","lemma":"καί"}]},{"englishWords":"three","greekWords":[{"text":"three","strongs":"G5140","OGNTsort":6791,"morph":"A-APF","lemma":"τρεῖς, τρία"}]},{"englishWords":"nights","greekWords":[{"text":"nights","strongs":"G3571","OGNTsort":6792,"morph":"N-APF","lemma":"νύξ"}]},{"englishWords":"in","greekWords":[{"text":"in","strongs":"G1722","OGNTsort":6783,"morph":"PREP","lemma":"ἐν"}]},{"englishWords":"the","greekWords":[{"text":"the","strongs":"G3588","OGNTsort":6784,"morph":"T-DSF","lemma":"ὁ"}]},{"englishWords":"heart","greekWords":[{"text":"heart","strongs":"G2588","OGNTsort":6785,"morph":"N-DSF","lemma":"καρδία"}]},{"englishWords":"of the","greekWords":[{"text":"of the","strongs":"G3588","OGNTsort":6786,"morph":"T-GSF","lemma":"ὁ"}]},{"englishWords":"earth.","greekWords":[{"text":"earth.","strongs":"G1093","OGNTsort":6787,"morph":"N-GSF","lemma":"γῆ"}]}]}
     ]
 ]

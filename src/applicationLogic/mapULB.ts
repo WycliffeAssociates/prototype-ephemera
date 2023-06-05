@@ -324,16 +324,20 @@ function processConsumedSubWords(currentWord: NewFormattedGreekWord | string, su
         let currentSubWord = subWordBuffer[i].word;
         if(typeof(currentSubWord) !== "string") {
             if(currentSubWord.subPhraseWords) {
-                source = source.replace(subWordBuffer[i].subIdx as string, currentSubWord.subPhraseWords);
+                let injectedString = currentSubWord.subPhraseWords === "√" ? "" : currentSubWord.subPhraseWords;
+                source = source.replace(subWordBuffer[i].subIdx as string, injectedString);
+
             } else if(currentSubWord.phraseWords) {
-                currentSubWord.phraseWords = currentSubWord.phraseWords.replace(subWordBuffer[i].subIdx as string, currentSubWord.text);
+                let injectedString = currentSubWord.text === "√" ? "" : currentSubWord.text;
+                currentSubWord.phraseWords = currentSubWord.phraseWords.replace(subWordBuffer[i].subIdx as string, injectedString);
 
                 // TODO: see if I can bring this out of the for loop to decrease run time
                 if(typeof currentWord !== "string" && currentWord.phraseWords) {
                     currentWord.phraseWords = currentSubWord.phraseWords
                 }
             } else {
-                source = source.replace(subWordBuffer[i].subIdx as string, currentSubWord.text);
+                let injectedString = currentSubWord.text === "√" ? "" : currentSubWord.text;
+                source = source.replace(subWordBuffer[i].subIdx as string, injectedString);
             }
         }
     }
