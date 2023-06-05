@@ -5,6 +5,43 @@ import { Header } from './utils/Header';
 import UnprocessedMarkdown from './/utils/UnprocessedMarkdown';
 import { useSettings } from '../../../hooks/SettingsContext';
 import { mapValidGWTSettings } from '../GreekWordInfo/utils/mapValidGWTSettings';
+import { useGreekWords } from '../../../hooks/GreekWordsContext';
+
+
+interface missingReport {
+    word: string,
+    abbreviated: string,
+    full: string,
+    strongs: string,
+    ogntSort: string,
+}
+
+async function reportMissingMorphology(data : missingReport) {
+
+    try {
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://wagwtfeedbackhandler.azurewebsites.net/api/MissingHandler',
+            headers: {
+                'Accept': '*/*',
+                'User-Agent': 'GWT',
+                'x-functions-key': 'LFRaycifocGWKg-97QV13FFYNxMpXop847cwTlxdgXb2AzFuQXNxbg==',
+                'Content-Type': 'text/plain',
+            },
+            data : data
+        };
+
+        let res = await axios.request(config);
+    
+        console.log("report status = " + JSON.stringify(res.status));
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+  
 
 interface MorphologyDialogContentProps {
     open: Boolean;
@@ -12,18 +49,18 @@ interface MorphologyDialogContentProps {
     fullScreen?: boolean;
     morphologyWord?: string
 };
-  
+
 
 export default function MorphologyDialogContent({open, onClose, fullScreen, morphologyWord} : MorphologyDialogContentProps) {
 
     const [morphologyWordMarkdown, setMorphologyWordMarkdown] = useState<string>();
     const { GWTSettings } = useSettings();
     let overwriteStyle : any = mapValidGWTSettings(GWTSettings);
+    let { greekWords } = useGreekWords();
 
     function extractMorphologyFromMarkdown(markdown: string) {
         return markdown.match(/#\W([a-zA-Z]+)/) as any[];
     }
-
 
 
     useEffect(() => {
@@ -34,7 +71,21 @@ export default function MorphologyDialogContent({open, onClose, fullScreen, morp
                     let response = await axios.get(`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${morphologyWord}.md`);
                     setMorphologyWordMarkdown(response.data);
                 } catch(error) {
-                    console.log(error);
+                    if(greekWords) {
+
+                        let greekWord = greekWords[greekWords?.length - 1] as any;
+                        let requestBody = {
+                            word: greekWords[greekWords?.length - 1].text,
+                            abbreviated: greekWords[greekWords?.length - 1].morph,
+                            full: morphologyWord,
+                            strongs: greekWords[greekWords?.length - 1].strongs,
+                            ogntSort: (greekWord.OGNTsort ? greekWord.OGNTsort : greekWord.OGNTSort)+"",
+                        };
+
+                        reportMissingMorphology(requestBody);
+
+                    }
+                    
                 }
             })();
         }
