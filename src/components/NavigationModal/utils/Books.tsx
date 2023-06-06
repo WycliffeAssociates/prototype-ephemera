@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
-import { books as newTestamentMetadata } from "../../../applicationLogic/newTestamentMetadata";
-import { oldTestamentBooks } from "../../../applicationLogic/oldTestamentMetadata";
+import { books as newTestamentMetadata } from "../../../applicationLogic/data/newTestamentMetadata";
+import { oldTestamentBooks } from "../../../applicationLogic/data/oldTestamentMetadata";
 import { useEffect, useRef, useState } from 'react';
 import BookSearchBar from '../../BookSearchBar';
 import Box from '@mui/material/Box';

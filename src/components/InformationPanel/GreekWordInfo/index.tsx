@@ -3,7 +3,7 @@ import "../../../App.css";
 import { FormattedGreekWord } from '../../../types';
 import { MutableRefObject, useEffect, useState } from 'react';
 import getGreekWord from '../../../api/gwtUtils';
-import mapGWTMarkdown from '../../../applicationLogic/mapGWTMarkdown';
+import mapGWTMarkdown from '../../../applicationLogic/mapping/mapGWTMarkdown';
 import { WordContent } from './utils/WordContent';
 
 

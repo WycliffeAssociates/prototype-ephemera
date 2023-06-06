@@ -6,6 +6,7 @@ import UnprocessedMarkdown from './/utils/UnprocessedMarkdown';
 import { useSettings } from '../../../hooks/SettingsContext';
 import { mapValidGWTSettings } from '../GreekWordInfo/utils/mapValidGWTSettings';
 import { useGreekWords } from '../../../hooks/GreekWordsContext';
+import { fullMorphToFileName } from '../../../applicationLogic/mapping/mapFullMorph';
 
 
 interface missingReport {
@@ -68,7 +69,13 @@ export default function MorphologyDialogContent({open, onClose, fullScreen, morp
         {
             (async function () {
                 try {
-                    let response = await axios.get(`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${morphologyWord}.md`);
+                    let fileName : string = morphologyWord;
+
+                    if(fullMorphToFileName[fileName] !== undefined) {
+                        fileName = fullMorphToFileName[fileName];
+                    }
+                    
+                    let response = await axios.get(`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${fileName}.md`);
                     setMorphologyWordMarkdown(response.data);
                 } catch(error) {
                     if(greekWords) {

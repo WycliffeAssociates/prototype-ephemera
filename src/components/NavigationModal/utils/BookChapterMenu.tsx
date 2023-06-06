@@ -7,7 +7,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import '../../../App.css';
 import useBookChapterParams from '../../../hooks/useBookChapterParams';
-import {books as newTestamentMetadata} from '../../../applicationLogic/newTestamentMetadata';
+import {books as newTestamentMetadata} from '../../../applicationLogic/data/newTestamentMetadata';
 import { Button } from "@mui/material";
 import useWindowSize from "../../../hooks/useWindowSize";
 import CloseIcon from '@material-ui/icons/Close';

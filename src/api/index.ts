@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { books } = require('../applicationLogic/newTestamentMetadata');
+const { books } = require('../applicationLogic/data/newTestamentMetadata');
 
 async function getBook(bookTitle: string)
 {

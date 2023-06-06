@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import {useNavigate, createSearchParams } from "react-router-dom";
-import { books as newTestamentMetadata } from "../applicationLogic/newTestamentMetadata";
+import { books as newTestamentMetadata } from "../applicationLogic/data/newTestamentMetadata";
 
 
 function validateBookChapter(book: string, chapter: string) : boolean {

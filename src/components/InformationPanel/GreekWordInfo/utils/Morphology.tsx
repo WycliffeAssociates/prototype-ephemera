@@ -2,7 +2,7 @@ import {useEffect, useState} from "react"
 import Grid from '@mui/material/Grid';
 import { useSettings } from '../../../../hooks/SettingsContext';
 import { mapValidGWTSettings } from './mapValidGWTSettings';
-import { getMorphDescription } from '../../../../applicationLogic/mapMorph';
+import { getMorphDescription } from '../../../../applicationLogic/mapping/mapAbbreviatedMorph';
 import useMorphologyParams from "../../../../hooks/useMorphologyParams";
 
 

@@ -1,5 +1,5 @@
-import { GWTInformation } from '../types';
-import { books as newTestamentBooks } from './newTestamentMetadata';
+import { GWTInformation } from '../../types';
+import { books as newTestamentBooks } from '../data/newTestamentMetadata';
 
 
 // TODO: fix this blob using regex

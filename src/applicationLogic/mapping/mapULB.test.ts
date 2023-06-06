@@ -1,11 +1,11 @@
-import getChapterVerses from "../api";
+import getChapterVerses from "../../api";
 import mapVerses from "./mapULB";
-import * as Matthew from "../../public/taggedOSIS/41-MAT.json";
-import * as Mark from "../../public/taggedOSIS/42-MRK.json";
-import * as First_timothy from "../../public/taggedOSIS/55-1TI.json"
-import * as Philemon from "../../public/taggedOSIS/58-PHM.json";
-import * as Acts from "../../public/taggedOSIS/45-ACT.json";
-import { VerseTag } from "../types";
+import * as Matthew from "../../../public/taggedOSIS/41-MAT.json";
+import * as Mark from "../../../public/taggedOSIS/42-MRK.json";
+import * as First_timothy from "../../../public/taggedOSIS/55-1TI.json"
+import * as Philemon from "../../../public/taggedOSIS/58-PHM.json";
+import * as Acts from "../../../public/taggedOSIS/45-ACT.json";
+import { VerseTag } from "../../types";
 import _ from "lodash";
 
 

@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid';
-import { books as newTestamentMetadata } from "../../../applicationLogic/newTestamentMetadata";
+import { books as newTestamentMetadata } from "../../../applicationLogic/data/newTestamentMetadata";
 import {useNavigate, createSearchParams } from "react-router-dom";
 import useBookChapterParams from '../../../hooks/useBookChapterParams';
 import { useEffect, useState } from 'react';
