@@ -69,7 +69,7 @@ export function VerseReferences({references, referenceWord} : VerseReferencesPro
     return (
         <>
             <Grid item sm={12} xs={12}>
-                <p className="GreekWordInfoSubCategory" style={{...overwriteStyle}}>Where is this word used?</p>
+                <p className="GreekWordInfoSubCategory" style={{...overwriteStyle}}>Where else is this word used?</p>
             </Grid>
 
             {filteredVersereferences.map((verseReference, idx : number) => {
