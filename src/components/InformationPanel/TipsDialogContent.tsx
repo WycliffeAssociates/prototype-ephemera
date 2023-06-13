@@ -35,7 +35,7 @@ export default function TipsDialogContent({open, onClose} : TipsDialogContentPro
             <h4>Navigation</h4>
             <p>To change a book or chapter click the book name or chapter number located on the left panel above the Scripture text.</p>
             <h4>Settings</h4>
-            <p>To change a book or chapter, click the book name or chapter number located on the left panel above the Scripture text.</p>
+            <p>To change how the font size and line height, click the settings button at the top of the page.</p>
         </Grid>
       </Grid>
     )
