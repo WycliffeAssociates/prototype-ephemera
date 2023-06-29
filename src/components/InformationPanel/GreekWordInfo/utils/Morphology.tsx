@@ -52,7 +52,7 @@ function Morphology({
 		return (
 			<>
 				{showMore === true || showMore === undefined ? (
-					<Grid item sm={12} xs={12}>
+					<Grid item xs={12}>
 						<p
 							className="GreekWordInfoSubCategory"
 							style={{ ...overwriteStyle }}
@@ -64,7 +64,7 @@ function Morphology({
 					""
 				)}
 
-				<Grid item sm={12} xs={12}>
+				<Grid item xs={12}>
 					{showMore === true || showMore === undefined ? (
 						<p
 							className="GreekWordInfoSubCategoryValue"

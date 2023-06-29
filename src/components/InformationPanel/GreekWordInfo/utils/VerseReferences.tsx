@@ -102,7 +102,7 @@ export function VerseReferences({
 
 	return (
 		<>
-			<Grid item sm={12} xs={12}>
+			<Grid item xs={12}>
 				<p
 					className="GreekWordInfoSubCategory"
 					style={{ ...overwriteStyle }}

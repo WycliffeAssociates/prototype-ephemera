@@ -75,10 +75,7 @@ function SettingsModal({
 
 							<Grid
 								item
-								lg={6}
-								xl={6}
 								md={6}
-								sm={12}
 								xs={12}
 								style={{
 									borderRight:
@@ -103,10 +100,7 @@ function SettingsModal({
 
 							<Grid
 								item
-								lg={6}
-								xl={6}
 								md={6}
-								sm={12}
 								xs={12}
 								style={{
 									padding:
@@ -123,10 +117,6 @@ function SettingsModal({
 
 							<Grid
 								item
-								lg={4}
-								xl={4}
-								md={4}
-								sm={4}
 								xs={4}
 								style={{
 									marginTop: "20px",

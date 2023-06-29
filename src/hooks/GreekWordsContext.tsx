@@ -21,7 +21,7 @@ export function GreekWordsProvider({ children }: any) {
 		useState(false);
 	const [currentGreekWords, setCurrentGreekWords] =
 		useState<FormattedGreekWord[]>([]);
-	const [verseNumber, setVerseNumber] = useState<number>(0);
+	const [verseNumber, setVerseNumber] = useState(0);
 
 	return (
 		<GreekWordContext.Provider

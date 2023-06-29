@@ -40,10 +40,6 @@ export default function BannerMessage({
 					<Grid
 						item
 						style={{ paddingLeft: "3%" }}
-						xl={12}
-						lg={12}
-						md={12}
-						sm={12}
 						xs={12}
 					>
 						<InfoIcon

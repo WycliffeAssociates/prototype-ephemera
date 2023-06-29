@@ -33,10 +33,6 @@ export default function VerseReferenceDialogContent({
 			<Grid container direction="row">
 				<Grid
 					item
-					lg={12}
-					xl={12}
-					md={12}
-					sm={12}
 					xs={12}
 					style={{
 						maxHeight: "fit-content",
@@ -46,7 +42,7 @@ export default function VerseReferenceDialogContent({
 					}}
 				>
 					<Grid container>
-						<Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+						<Grid item xs={8}>
 							<h3
 								style={{
 									color: "#015AD9",
@@ -62,10 +58,6 @@ export default function VerseReferenceDialogContent({
 
 						<Grid
 							item
-							xl={2}
-							lg={2}
-							md={2}
-							sm={2}
 							xs={2}
 							style={{
 								padding: "12px 0px 12px 16px",
@@ -92,20 +84,12 @@ export default function VerseReferenceDialogContent({
 
 						<Grid
 							item
-							xl={12}
-							lg={12}
-							md={12}
-							sm={12}
 							xs={12}
 						>
 							<Divider />
 						</Grid>
 						<Grid
 							item
-							xl={12}
-							lg={12}
-							md={12}
-							sm={12}
 							xs={12}
 							id="verseReferenceContainer"
 							style={{

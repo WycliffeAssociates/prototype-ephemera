@@ -56,9 +56,7 @@ function NavigationModal({
 							<Grid
 								item
 								xs={12}
-								sm={12}
 								md={0}
-								lg={0}
 								style={{ padding: "8px 16px" }}
 							>
 								<IconButton

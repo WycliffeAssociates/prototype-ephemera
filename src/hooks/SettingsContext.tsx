@@ -17,19 +17,19 @@ export function SettingsProvider({ children }: any) {
 	const [
 		leftPanelLineHeightValue,
 		setLeftPanelLineHeightValue,
-	] = useState<number>(200);
+	] = useState(200);
 	const [
 		leftPanelFontSizeValue,
 		setLeftPanelFontSizeValue,
-	] = useState<number>(20);
+	] = useState(20);
 	const [
 		informationPanelLineHeightValue,
 		setInformationPanelLineHeightValue,
-	] = useState<number>(150);
+	] = useState(150);
 	const [
 		informationPanelFontSizeValue,
 		setInformationPanelFontSizeValue,
-	] = useState<number>(20);
+	] = useState(20);
 
 	const leftPanelTextFontSetting: ULBSettingsOption = {
 		name: "Font Size",

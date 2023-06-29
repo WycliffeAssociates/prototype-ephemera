@@ -35,7 +35,7 @@ function Book({
 			ref={bookRef}
 			onClick={onClick}
 		>
-			<Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+			<Grid item xs={12}>
 				<p>{bookData[0]}</p>
 			</Grid>
 		</div>
@@ -159,7 +159,7 @@ function Books({
 				alignItems="center"
 				style={{ height: "100%" }}
 			>
-				<Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+				<Grid item xs={10}>
 					<BookSearchBar
 						handleClick={handleBookSearchClick}
 						onSearch={handleSearchInputClick}
@@ -168,7 +168,7 @@ function Books({
 					/>
 				</Grid>
 
-				<Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+				<Grid item xs={12}>
 					<Grid
 						container
 						direction="row"
@@ -179,10 +179,6 @@ function Books({
 						<Grid
 							item
 							xs={12}
-							sm={12}
-							md={12}
-							lg={12}
-							xl={12}
 							style={{ borderBottom: "1px solid grey" }}
 						>
 							<h5 className="NavigationModal__Books__newTestamentHeader">
@@ -193,10 +189,6 @@ function Books({
 						<Grid
 							item
 							xs={12}
-							sm={12}
-							md={12}
-							lg={12}
-							xl={12}
 							style={{ height: "calc(100% - 88px)" }}
 						>
 							<Grid

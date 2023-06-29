@@ -52,7 +52,7 @@ function BookSearchBar({
 			}}
 			alignItems="flex-start"
 		>
-			<Grid item lg={12} md={12} sm={12} xs={12}>
+			<Grid item xs={12}>
 				<ButtonGroup
 					className="BookSearchBar__ButtonGroup"
 					variant="outlined"

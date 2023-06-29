@@ -20,7 +20,7 @@ export function ContinueReadingButton({
 	const [
 		showContinueReadingButton,
 		setShowContinueReadingButton,
-	] = useState<boolean>(true);
+	] = useState(true);
 
 	useEffect(() => {
 		if (!containerRef.current) return;

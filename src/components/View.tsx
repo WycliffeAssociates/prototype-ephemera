@@ -17,14 +17,14 @@ import GreekWordsModal from "./GreekWordsModal";
 
 export function View() {
 	const [textViewSize, setTextViewSize] =
-		useState<number>(10);
+		useState(10);
 	const windowSize = useWindowSize([]);
 	const { greekWords, showGreekWords, setShowGreekWords } =
 		useGreekWords();
 	const [greekTextDialogOpen, setGreekTextDialogOpen] =
-		useState<boolean>(false);
+		useState(false);
 	const [greekTextModalOpen, setGreekTextModalOpen] =
-		useState<boolean>(false);
+		useState(false);
 	const [defaultNavigationTab, setDefaultNavigationTab] =
 		useState<"Books" | "Chapters">("Books");
 	const { search } = useLocation();
@@ -114,10 +114,7 @@ export function View() {
 				{navigationModalOpen ? (
 					<Grid
 						item
-						xl={textViewSize}
-						lg={textViewSize}
 						md={textViewSize}
-						sm={mobileTextWidthMax}
 						xs={mobileTextWidthMax}
 						style={{ height: "90%", overflowY: "auto" }}
 						id="BookChapterMenuContainer"
@@ -161,10 +158,7 @@ export function View() {
 					<>
 						<Grid
 							item
-							xl={textViewSize}
-							lg={textViewSize}
 							md={textViewSize}
-							sm={mobileTextWidthMax}
 							xs={mobileTextWidthMax}
 							style={{
 								height: "100%",
@@ -188,10 +182,6 @@ export function View() {
 							>
 								<Grid
 									item
-									xl={12}
-									lg={12}
-									md={12}
-									sm={12}
 									xs={12}
 								>
 									<ChapterNavigationBar
@@ -200,10 +190,6 @@ export function View() {
 								</Grid>
 								<Grid
 									item
-									xl={12}
-									lg={12}
-									md={12}
-									sm={12}
 									xs={12}
 								>
 									<TextView />
@@ -220,20 +206,12 @@ export function View() {
 							>
 								<Grid
 									item
-									xl={6}
-									lg={6}
-									md={6}
-									sm={6}
 									xs={6}
 								>
 									<PreviousChapterButton />
 								</Grid>
 								<Grid
 									item
-									xl={6}
-									lg={6}
-									md={6}
-									sm={6}
 									xs={6}
 								>
 									<NextChapterButton />
@@ -245,10 +223,7 @@ export function View() {
 
 				<Grid
 					item
-					xl={textViewSize !== desktopTextWidthMax ? 7 : 0}
-					lg={textViewSize !== desktopTextWidthMax ? 7 : 0}
 					md={textViewSize !== desktopTextWidthMax ? 7 : 0}
-					sm={0}
 					xs={0}
 					style={{
 						height: "100%",

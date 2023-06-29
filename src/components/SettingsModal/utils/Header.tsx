@@ -13,10 +13,7 @@ export function Header({ onClose }: HeaderProps) {
 		<>
 			<Grid
 				item
-				xl={10}
-				lg={10}
 				md={10}
-				sm={10}
 				xs={8}
 				style={{ padding: "0px 0px 0px 20px" }}
 			>
@@ -34,9 +31,6 @@ export function Header({ onClose }: HeaderProps) {
 
 			<Grid
 				item
-				xl={2}
-				lg={2}
-				md={2}
 				sm={2}
 				xs={4}
 				style={{
@@ -60,10 +54,6 @@ export function Header({ onClose }: HeaderProps) {
 
 			<Grid
 				item
-				xl={12}
-				lg={12}
-				md={12}
-				sm={12}
 				xs={12}
 				style={{ padding: "0px 0px 20px 0px" }}
 			>

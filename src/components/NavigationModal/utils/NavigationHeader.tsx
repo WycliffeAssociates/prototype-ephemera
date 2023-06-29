@@ -11,16 +11,12 @@ export function NavigationHeader({
 }: NavigationHeaderProps) {
 	return (
 		<>
-			<Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+			<Grid item xs={8}>
 				<h3 className="BannerHeader">Navigation</h3>
 			</Grid>
 
 			<Grid
 				item
-				xl={2}
-				lg={2}
-				md={2}
-				sm={2}
 				xs={2}
 				style={{ margin: "auto" }}
 			>

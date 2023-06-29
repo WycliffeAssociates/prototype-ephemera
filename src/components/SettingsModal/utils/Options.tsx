@@ -34,10 +34,6 @@ function PanelSettingsOptions({
 						<Grid
 							key={`setting ${idx}`}
 							item
-							lg={12}
-							xl={12}
-							md={12}
-							sm={12}
 							xs={12}
 						>
 							<Switch
@@ -54,10 +50,6 @@ function PanelSettingsOptions({
 						<Grid
 							key={`setting ${idx}`}
 							item
-							lg={12}
-							xl={12}
-							md={12}
-							sm={12}
 							xs={12}
 						>
 							<Button
@@ -98,10 +90,6 @@ function PanelSettingsOptions({
 						<Grid
 							key={`setting ${idx}`}
 							item
-							lg={12}
-							xl={12}
-							md={12}
-							sm={12}
 							xs={12}
 						>
 							<Button
@@ -133,7 +121,7 @@ function Options({ panelSettings, title }: OptionsProps) {
 	return (
 		<Grid container>
 			{title !== undefined ? (
-				<Grid item lg={12} xl={12} md={12} sm={12} xs={12}>
+				<Grid item xs={12}>
 					<span className="SettingsModal__Options__title">
 						{title}
 					</span>
@@ -142,7 +130,7 @@ function Options({ panelSettings, title }: OptionsProps) {
 				""
 			)}
 
-			<Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
+			<Grid item xs={6}>
 				<>
 					{panelSettings.map((setting, idx: number) => {
 						return (
@@ -157,7 +145,7 @@ function Options({ panelSettings, title }: OptionsProps) {
 				</>
 			</Grid>
 
-			<Grid item lg={6} xl={6} md={6} sm={6} xs={6}>
+			<Grid item xs={6}>
 				<PanelSettingsOptions settings={panelSettings} />
 			</Grid>
 		</Grid>

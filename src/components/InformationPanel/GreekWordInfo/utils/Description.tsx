@@ -22,7 +22,7 @@ function Description({
 	) {
 		return (
 			<>
-				<Grid item sm={12} xs={12}>
+				<Grid item xs={12}>
 					{showMore === true || showMore === undefined ? (
 						<p
 							className="GreekWordInfoSubCategory"
@@ -35,7 +35,7 @@ function Description({
 					)}
 				</Grid>
 
-				<Grid item sm={12} xs={12}>
+				<Grid item xs={12}>
 					<ul className="GreekWordInfo__bulletPoint">
 						{descriptions.map(
 							(description, idx: number) => {

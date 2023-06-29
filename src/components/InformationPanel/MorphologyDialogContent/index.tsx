@@ -118,10 +118,6 @@ export default function MorphologyDialogContent({
 			>
 				<Grid
 					item
-					lg={12}
-					xl={12}
-					md={12}
-					sm={12}
 					xs={12}
 					style={{
 						textAlign: "left",
@@ -138,10 +134,6 @@ export default function MorphologyDialogContent({
 
 						<Grid
 							item
-							xl={12}
-							lg={12}
-							md={12}
-							sm={12}
 							xs={12}
 							style={{
 								padding: "0px 40px 0px 0px",

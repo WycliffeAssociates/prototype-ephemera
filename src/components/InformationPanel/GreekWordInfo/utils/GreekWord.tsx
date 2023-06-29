@@ -29,7 +29,7 @@ function GreekWord({ greekWord }: greekWordProps) {
 
 	return (
 		<>
-			<Grid item sm={12} xs={12}>
+			<Grid item xs={12}>
 				<p
 					style={{
 						color: "blue",

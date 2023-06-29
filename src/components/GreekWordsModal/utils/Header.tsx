@@ -19,7 +19,7 @@ export function Header({ onClose, show }: HeaderProps) {
 
 	return (
 		<>
-			<Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+			<Grid item xs={8}>
 				<h3
 					style={{ ...overwriteStyle }}
 					className="BannerHeader"
@@ -30,10 +30,6 @@ export function Header({ onClose, show }: HeaderProps) {
 
 			<Grid
 				item
-				xl={2}
-				lg={2}
-				md={2}
-				sm={2}
 				xs={2}
 				style={{ margin: "auto" }}
 			>
@@ -52,7 +48,7 @@ export function Header({ onClose, show }: HeaderProps) {
 				</Button>
 			</Grid>
 
-			<Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+			<Grid item xs={12}>
 				<Divider />
 			</Grid>
 		</>

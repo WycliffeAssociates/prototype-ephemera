@@ -133,10 +133,6 @@ function BookChapterMenu({
 				className="BookChapterMenu__Books"
 				item
 				xs={12}
-				sm={12}
-				md={12}
-				lg={12}
-				xl={12}
 				style={{
 					display: displayBooks ? "block" : "none",
 					paddingTop: "5%",
@@ -154,10 +150,6 @@ function BookChapterMenu({
 				className="BookChapterMenu__Chapters"
 				item
 				xs={12}
-				sm={12}
-				md={12}
-				lg={12}
-				xl={12}
 				style={{
 					display: displayChapters ? "block" : "none",
 					height: "calc(100% - 88px)",

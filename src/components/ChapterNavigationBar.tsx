@@ -25,7 +25,7 @@ function ChapterNavigationBar({
 				borderStyle: "solid",
 			}}
 		>
-			<Grid item lg={10} md={10} sm={10} xs={10}>
+			<Grid item xs={10}>
 				<ButtonGroup
 					variant="outlined"
 					aria-label="outlined button group"
