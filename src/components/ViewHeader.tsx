@@ -16,12 +16,8 @@ export function ViewHeader({
 	const [settingsModalOpen, setSettingsModalOpen] =
 		useState(false);
 
-	const onSettingsModalClose = () => {
-		setSettingsModalOpen(false);
-	};
-
-	const onSettingsModalOpen = () => {
-		setSettingsModalOpen(true);
+	const toggleSettingsModalOpen = () => {
+		setSettingsModalOpen(!settingsModalOpen);
 	};
 
 	const routeChange = () => {
@@ -40,7 +36,7 @@ export function ViewHeader({
 				style={{ margin: "auto" }}
 			>
 				<Button
-					onClick={() => onSettingsModalOpen()}
+					onClick={() => toggleSettingsModalOpen()}
 					variant="outlined"
 					style={{
 						float: "right",
@@ -78,7 +74,7 @@ export function ViewHeader({
 
 			<SettingsModal
 				open={settingsModalOpen}
-				onClose={onSettingsModalClose}
+				onClose={toggleSettingsModalOpen}
 			/>
 		</>
 	);
