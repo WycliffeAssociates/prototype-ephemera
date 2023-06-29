@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import SettingsIcon from "@material-ui/icons/Settings";
 import LanguageIcon from "@material-ui/icons/Language";
 import SettingsModal from "./SettingsModal";
+import { BIEL_LINK } from "../constants";
 
 interface ViewHeaderProps {
 	showIconText: boolean;
@@ -24,7 +25,7 @@ export function ViewHeader({
 	};
 
 	const routeChange = () => {
-		window.location.href = `https://bibleineverylanguage.org/`;
+		window.location.href = BIEL_LINK;
 	};
 
 	return (

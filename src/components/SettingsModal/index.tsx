@@ -7,6 +7,7 @@ import Options from "./utils/Options";
 import { useSettings } from "../../hooks/SettingsContext";
 import useWindowSize from "../../hooks/useWindowSize";
 import { Header } from "./utils/Header";
+import { DESKTOP_BREAKPOINT } from "../../constants";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -79,15 +80,15 @@ function SettingsModal({
 								xs={12}
 								style={{
 									borderRight:
-										windowSize.innerWidth >= 900
+										windowSize.innerWidth >= DESKTOP_BREAKPOINT
 											? "1px solid black"
 											: "none",
 									borderBottom:
-										windowSize.innerWidth < 900
+										windowSize.innerWidth < DESKTOP_BREAKPOINT
 											? "1px solid black"
 											: "none",
 									padding:
-										windowSize.innerWidth >= 900
+										windowSize.innerWidth >= DESKTOP_BREAKPOINT
 											? "0px 20px 0px 20px"
 											: "0px 20px 20px 20px",
 								}}
@@ -104,7 +105,7 @@ function SettingsModal({
 								xs={12}
 								style={{
 									padding:
-										windowSize.innerWidth >= 900
+										windowSize.innerWidth >= DESKTOP_BREAKPOINT
 											? "0px 20px 0px 20px"
 											: "20px 20px 0px 20px",
 								}}

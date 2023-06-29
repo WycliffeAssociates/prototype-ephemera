@@ -3,6 +3,12 @@ import {
 	SettingsOption,
 	ULBSettingsOption,
 } from "../types";
+import { 
+	DEFAULT_INFORMATIONPANEL_FONT_SIZE, 
+	DEFAULT_INFORMATIONPANEL_LINE_HEIGHT,
+	DEFAULT_ULB_FONT_SIZE,
+	DEFAULT_ULB_LINE_HEIGHT
+} from "../constants";
 
 const SettingsContext = React.createContext({
 	ULBSettings: [] as ULBSettingsOption[],
@@ -17,19 +23,19 @@ export function SettingsProvider({ children }: any) {
 	const [
 		leftPanelLineHeightValue,
 		setLeftPanelLineHeightValue,
-	] = useState(200);
+	] = useState(DEFAULT_ULB_LINE_HEIGHT);
 	const [
 		leftPanelFontSizeValue,
 		setLeftPanelFontSizeValue,
-	] = useState(20);
+	] = useState(DEFAULT_ULB_FONT_SIZE);
 	const [
 		informationPanelLineHeightValue,
 		setInformationPanelLineHeightValue,
-	] = useState(150);
+	] = useState(DEFAULT_INFORMATIONPANEL_LINE_HEIGHT);
 	const [
 		informationPanelFontSizeValue,
 		setInformationPanelFontSizeValue,
-	] = useState(20);
+	] = useState(DEFAULT_INFORMATIONPANEL_FONT_SIZE);
 
 	const leftPanelTextFontSetting: ULBSettingsOption = {
 		name: "Font Size",
@@ -48,7 +54,7 @@ export function SettingsProvider({ children }: any) {
 		unit: "px",
 		styleOverrideKey: "fontSize",
 		level: "all",
-		defaultValue: 20,
+		defaultValue: DEFAULT_ULB_FONT_SIZE,
 	};
 
 	const leftPanelLineHeightSetting: ULBSettingsOption = {
@@ -68,7 +74,7 @@ export function SettingsProvider({ children }: any) {
 		unit: "%",
 		styleOverrideKey: "lineHeight",
 		level: "verse",
-		defaultValue: 200,
+		defaultValue: DEFAULT_ULB_LINE_HEIGHT,
 	};
 
 	const informationPanelTextFontSetting: SettingsOption = {
@@ -87,7 +93,7 @@ export function SettingsProvider({ children }: any) {
 		inputType: "increment",
 		unit: "px",
 		styleOverrideKey: "fontSize",
-		defaultValue: 20,
+		defaultValue: DEFAULT_INFORMATIONPANEL_FONT_SIZE,
 	};
 
 	const informationPanelLineHeightSetting: SettingsOption =
@@ -109,7 +115,7 @@ export function SettingsProvider({ children }: any) {
 			inputType: "increment",
 			unit: "%",
 			styleOverrideKey: "lineHeight",
-			defaultValue: 150,
+			defaultValue: DEFAULT_INFORMATIONPANEL_LINE_HEIGHT,
 		};
 
 	return (

@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 import { NavigationHeader } from "./NavigationModal/utils/NavigationHeader";
 import { ClickAwayListener } from "@mui/material";
 import GreekWordsModal from "./GreekWordsModal";
+import { DESKTOP_BREAKPOINT } from "../constants";
 
 export function View() {
 	const [textViewSize, setTextViewSize] =
@@ -35,28 +36,28 @@ export function View() {
 		// Reduces the size of the TextView to make room for GreekWordsDialog
 		if (
 			showGreekWords &&
-			windowSize.innerWidth >= 900 &&
+			windowSize.innerWidth >= DESKTOP_BREAKPOINT &&
 			textViewSize === desktopTextWidthMax
 		) {
 			setTextViewSize(5);
 			setGreekTextDialogOpen(true);
 		}
 
-		if (showGreekWords && windowSize.innerWidth < 900) {
+		if (showGreekWords && windowSize.innerWidth < DESKTOP_BREAKPOINT) {
 			setGreekTextModalOpen(true);
 		}
 	}, [greekWords, showGreekWords]);
 
 	useEffect(() => {
 		// default right dialog to open for desktop breakpoint
-		if (windowSize.innerWidth >= 900) {
+		if (windowSize.innerWidth >= DESKTOP_BREAKPOINT) {
 			setTextViewSize(5);
 			setGreekTextDialogOpen(true);
 		}
 	}, []);
 
 	useEffect(() => {
-		if (windowSize.innerWidth < 900) {
+		if (windowSize.innerWidth < DESKTOP_BREAKPOINT) {
 			setGreekTextDialogOpen(false);
 		} else {
 			setGreekTextDialogOpen(true);
@@ -102,11 +103,11 @@ export function View() {
 					style={{ borderBottom: "2px solid #E5E8EB" }}
 				>
 					{navigationModalOpen &&
-					windowSize.innerWidth < 900 ? (
+					windowSize.innerWidth < DESKTOP_BREAKPOINT ? (
 						""
 					) : (
 						<ViewHeader
-							showIconText={windowSize.innerWidth >= 900}
+							showIconText={windowSize.innerWidth >= DESKTOP_BREAKPOINT}
 						/>
 					)}
 				</Grid>
@@ -137,7 +138,7 @@ export function View() {
 										}}
 									>
 										{navigationModalOpen &&
-										windowSize.innerWidth < 900 ? (
+										windowSize.innerWidth < DESKTOP_BREAKPOINT ? (
 											<NavigationHeader
 												onClick={onNavigationModalClose}
 											/>

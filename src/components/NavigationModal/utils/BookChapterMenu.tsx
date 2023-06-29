@@ -11,6 +11,7 @@ import { books as newTestamentMetadata } from "../../../applicationLogic/data/ne
 import { Button } from "@mui/material";
 import useWindowSize from "../../../hooks/useWindowSize";
 import CloseIcon from "@material-ui/icons/Close";
+import { DESKTOP_BREAKPOINT } from "../../../constants";
 
 interface BookChapterMenuProps {
 	withClickableOptions: boolean;
@@ -158,7 +159,7 @@ function BookChapterMenu({
 				<Chapters selectedBook={bookData} />
 			</Grid>
 
-			{windowSize.innerWidth >= 900 ? (
+			{windowSize.innerWidth >= DESKTOP_BREAKPOINT ? (
 				<Button
 					onClick={onClose}
 					variant="text"
