@@ -7,7 +7,6 @@ import { GreekWord } from "./GreekWord";
 import { SubWordContainer } from "./SubWordContainer";
 import { PhraseWordContainer } from "./PhraseWordContainer";
 import { useGreekWords } from "../../../hooks/GreekWordsContext";
-import { useEffect } from "react";
 
 interface WordProps {
 	handleClick: (params: any) => any;
