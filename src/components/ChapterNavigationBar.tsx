@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import useBookChapterParams from "../hooks/useBookChapterParams";
 
 interface ChapterNavigationBarProps {
-	onClick: (params: any) => any;
+	onClick: (params: "Books" | "Chapters") => any;
 }
 
 function ChapterNavigationBar({
