@@ -57,9 +57,8 @@ interface ChaptersProps {
 
 function Chapters({ selectedBook }: ChaptersProps) {
 	const [numChapters, setNumChapters] = useState(0);
-	const currentBookChapter =
-		useBookChapterParams().getBookChaptersParams();
-	const navigate = useNavigate();
+	const {setValidBookChapterParams, getBookChaptersParams} = useBookChapterParams();
+	const currentBookChapter = getBookChaptersParams();
 
 	useEffect(() => {
 		// If a book has been clicked, then use the selected books chapters
@@ -92,12 +91,7 @@ function Chapters({ selectedBook }: ChaptersProps) {
 			chapter: chapterNum + "",
 		};
 
-		const options = {
-			pathname: "/",
-			search: `?${createSearchParams(params)}`,
-		};
-
-		navigate(options, { replace: true });
+		setValidBookChapterParams(params.book, params.chapter);
 	}
 
 	if (numChapters !== undefined) {
