@@ -32,7 +32,7 @@ export function useMorphologyParams() {
 				setMorphologyWord(undefined);
 			}
 		}
-	}, [searchParams]);
+	}, [searchParams.get("morphologyWord")]);
 
 	return {
 		setMorphologyParams: setMorphologyParams,

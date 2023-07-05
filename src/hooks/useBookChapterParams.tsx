@@ -140,7 +140,6 @@ export function useBookChapterParams() {
 				urlParams.set("book", newBook);
 				urlParams.set("chapter", newChapter);
 			}
-			console.log("setting search params in useBook")
 			setSearchParams(urlParams);
 		}
 	}
