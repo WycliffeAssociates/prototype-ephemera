@@ -4,6 +4,7 @@ import { oldTestamentBooks } from "../../../applicationLogic/data/oldTestamentMe
 import { useEffect, useRef, useState } from "react";
 import BookSearchBar from "../../BookSearchBar";
 import Box from "@mui/material/Box";
+import { BOOKCHAPTERMENU_OFFSET } from "../../../constants";
 
 interface BookProps {
 	bookData: any[];
@@ -189,7 +190,7 @@ function Books({
 						<Grid
 							item
 							xs={12}
-							style={{ height: "calc(100% - 88px)" }}
+							style={{ height: `calc(100% - ${BOOKCHAPTERMENU_OFFSET})` }}
 						>
 							<Grid
 								container

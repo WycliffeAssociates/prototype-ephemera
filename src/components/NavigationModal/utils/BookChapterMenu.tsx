@@ -11,7 +11,7 @@ import { books as newTestamentMetadata } from "../../../applicationLogic/data/ne
 import { Button } from "@mui/material";
 import useWindowSize from "../../../hooks/useWindowSize";
 import CloseIcon from "@material-ui/icons/Close";
-import { DESKTOP_BREAKPOINT } from "../../../constants";
+import { BOOKCHAPTERMENU_OFFSET, DESKTOP_BREAKPOINT } from "../../../constants";
 
 interface BookChapterMenuProps {
 	withClickableOptions: boolean;
@@ -153,7 +153,7 @@ function BookChapterMenu({
 				xs={12}
 				style={{
 					display: displayChapters ? "block" : "none",
-					height: "calc(100% - 88px)",
+					height:  `calc(100% - ${BOOKCHAPTERMENU_OFFSET})`,
 				}}
 			>
 				<Chapters selectedBook={bookData} />
