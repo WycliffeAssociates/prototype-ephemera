@@ -1,7 +1,7 @@
 import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { useBookChapterParams } from "../hooks/useBookChapterParams";
+import useBookChapterParams from "../hooks/useBookChapterParams";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 
@@ -57,7 +57,7 @@ function NextChapterButton() {
 					}}
 					onClick={onClick}
 				>
-					<ChevronRightIcon onClick={onClick} />
+					<ChevronRightIcon/>
 				</Fab>
 			</Box>
 
