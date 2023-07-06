@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import {
-	useNavigate,
-	createSearchParams,
 	useSearchParams,
 } from "react-router-dom";
 import { books as newTestamentMetadata } from "../applicationLogic/data/newTestamentMetadata";
@@ -41,48 +39,46 @@ function storeValidBookChapterParams(
 }
 
 export function useBookChapterParams() {
-	const [book, setBook] = useState("");
-	const [chapter, setChapter] = useState<number>();
+	const [book, setBook] = useState<string | undefined>("");
+	const [chapter, setChapter] = useState<string>();
 	const [refBook, setRefBook] = useState<string>();
 	const [refVerse, setRefVerse] = useState<string>();
 	const [refWord, setRefWord] = useState<string>();
-	const [refChapter, setRefChapter] = useState<number>();
-	const navigate = useNavigate();
+	const [refChapter, setRefChapter] = useState<string>();
 	const [searchParams, setSearchParams] = useSearchParams();
 
-	let bookChapterQueryParameters = [
-		{
-			name: "book", 
-			stateSetter: (newVal : string) => {setBook(newVal)},
+	let bookChapterQueryParameters: {
+		[key: string]: {
+		  stateSetter: Dispatch<SetStateAction<string | undefined>>
+		  stateGetter: () => string | number | undefined
+		}
+	  } =  {
+		"book": { 
+			stateSetter: setBook,
 			stateGetter: () => {return book}
 		}, 
-		{
-			name: "chapter", 
-			stateSetter: (newVal : string) => {setChapter(parseInt(newVal))},
+		"chapter": { 
+			stateSetter: setChapter,
 			stateGetter: () => {return chapter}
 		},
-		{
-			name: "refBook",
-			stateSetter: (newVal : string) => {setRefBook(newVal)},
+		"refBook": {
+			stateSetter: setRefBook,
 			stateGetter: () => {return refBook}
 		},
-		{
-			name: "refChapter", 
-			stateSetter: (newVal : string) => {setRefChapter(parseInt(newVal))},
+		"refChapter": { 
+			stateSetter: setRefChapter,
 			stateGetter: () => {return refChapter}
 		},
-		{
-			name: "refVerse",
-			stateSetter: (newVal : string) => {setRefVerse(newVal)},
+		"refVerse": {
+			stateSetter: setRefVerse,
 			stateGetter: () => {return refVerse}
 		},
-		{
-			name: "refWord", 
-			stateSetter: (newVal : string) => {setRefWord(newVal)},
+		"refWord": { 
+			stateSetter: setRefWord,
 			stateGetter: () => {return refWord}
 		},
 		
-	]
+	}
 
 	function navigateToMostRecentBookChapter() {
 		let lastBookChapter:
@@ -91,6 +87,7 @@ export function useBookChapterParams() {
 		lastBookChapter = JSON.parse(
 			localStorage.getItem("lastBookChapter") as string
 		);
+		
 		
 		//let urlParams = new URLSearchParams(searchParams);
 		let bookParam = searchParams.get("book");
@@ -114,8 +111,8 @@ export function useBookChapterParams() {
 	}
 
 	function setValidBookChapterParams(
-		newBook: string,
-		newChapter: string,
+		newBook?: string,
+		newChapter?: string,
 		newVerse?: string,
 		referenceWord?: string,
 		isReference?: boolean
@@ -127,7 +124,7 @@ export function useBookChapterParams() {
 			newBook = "Colossians";
 		}
 
-		if (validateBookChapter(newBook, newChapter)) {
+		if (newBook && newChapter && validateBookChapter(newBook, newChapter)) {
 			let urlParams = new URLSearchParams(searchParams);
 
 			if(isReference && newVerse && referenceWord) {
@@ -139,26 +136,32 @@ export function useBookChapterParams() {
 			} else {
 				urlParams.set("book", newBook);
 				urlParams.set("chapter", newChapter);
+				trimURLParams(urlParams);
 			}
 			setSearchParams(urlParams);
 		}
 	}
 
+	// removes all query parameters excepts ones related to book/chapter
+	function trimURLParams(params: URLSearchParams) {
+		const paramsArray = Array.from(params.entries());
+
+		paramsArray.forEach((param) => {
+			let paramName = param[0];
+			if(bookChapterQueryParameters[paramName] === undefined) {
+				params.delete(paramName);
+			}
+		})
+	}
+
 	function removeReferenceParams() {
-		let params: any;
 
-		let oldParams = getBookChaptersParams();
-		params = {
-			book: oldParams.book,
-			chapter: oldParams.chapter,
-		};
-
-		const options = {
-			pathname: "/",
-			search: `?${createSearchParams(params)}`,
-		};
-
-		navigate(options, { replace: true });
+		let urlParams = new URLSearchParams(searchParams);
+		urlParams.delete("refBook");
+		urlParams.delete("refChapter");
+		urlParams.delete("refVerse");
+		urlParams.delete("refWord");
+		setSearchParams(urlParams);
 
 		setRefBook(undefined);
 		setRefChapter(undefined);
@@ -181,16 +184,22 @@ export function useBookChapterParams() {
 
 		let urlParams = new URLSearchParams(searchParams);
 
-		bookChapterQueryParameters.forEach((param) => {
-			let paramValue = urlParams.get(param.name);
-			if(paramValue && paramValue !== " " && parseInt(paramValue) !== param.stateGetter()) {
-				param.stateSetter(paramValue);
+		// Iterates through book/chapter query parameters and sets
+		// the state variable for that corresponding query parameter
+		for (const key in bookChapterQueryParameters) {
+			let bookChapterParamState  = bookChapterQueryParameters[key];
+			let paramValue = urlParams.get(key);
+			if(paramValue && paramValue !== " " && parseInt(paramValue) !== bookChapterParamState.stateGetter()) {
+				bookChapterParamState.stateSetter(paramValue);
 			}
-		})
+		}
+
 	}, [searchParams.get("book"), searchParams.get("chapter"), searchParams.get("refBook")]);
 
 	useEffect(() => {
-		storeValidBookChapterParams(book, chapter + "");
+		if(book && chapter) {
+			storeValidBookChapterParams(book, chapter + "");
+		}
 	}, [book, chapter]);
 
 	return {
