@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import { mapValidGWTSettings } from "./mapValidGWTSettings";
 import { useSettings } from "../../../../hooks/SettingsContext";
 import { useEffect, useState } from "react";
-import { useGreekWords } from "../../../../hooks/GreekWordsContext";
+import { useGreekWordsParams } from "../../../../hooks/useGreekWordsParams";
 
 interface VerseReferencesProps {
 	references: string[];
@@ -18,7 +18,7 @@ export function VerseReferences({
 		filteredVersereferences,
 		setFilteredVerseReferences,
 	] = useState<string[]>([]);
-	const { verseNumber } = useGreekWords();
+	const { greekWordverseNumber } = useGreekWordsParams();
 	const {
 		setValidBookChapterParams,
 		getBookChaptersParams,
@@ -44,7 +44,7 @@ export function VerseReferences({
 			if (
 				currentBook !== referenceBook ||
 				currentChapter !== referenceChapter ||
-				referenceVerse !== verseNumber
+				referenceVerse !== greekWordverseNumber
 			) {
 				tempVerseReferences.push(reference);
 			}
@@ -52,7 +52,7 @@ export function VerseReferences({
 
 		setFilteredVerseReferences([...tempVerseReferences]);
 	}, [
-		verseNumber,
+		greekWordverseNumber,
 		references,
 		getBookChaptersParams().book,
 	]);

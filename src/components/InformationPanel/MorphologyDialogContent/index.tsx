@@ -5,7 +5,7 @@ import { Header } from "./utils/Header";
 import UnprocessedMarkdown from ".//utils/UnprocessedMarkdown";
 import { useSettings } from "../../../hooks/SettingsContext";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
-import { useGreekWords } from "../../../hooks/GreekWordsContext";
+import { useGreekWordsParams } from "../../../hooks/useGreekWordsParams";
 import { fetchMorphologyWord } from "../../../api/morphology"
 
 interface MorphologyDialogContentProps {
@@ -28,7 +28,7 @@ export default function MorphologyDialogContent({
 	const { GWTSettings } = useSettings();
 	let overwriteStyle: any =
 		mapValidGWTSettings(GWTSettings);
-	let { greekWords } = useGreekWords();
+	let { greekWords } = useGreekWordsParams();
 
 	function extractMorphologyFromMarkdown(markdown: string) {
 		return markdown.match(/#\W([a-zA-Z]+)/) as any[];

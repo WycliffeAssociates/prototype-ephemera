@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import "../../App.css";
 import Word from "./utils/Word";
 import useBookChapterParams from "../../hooks/useBookChapterParams";
-import useWindowSize from "../../hooks/useWindowSize";
 import useChapterVerseData from "../../hooks/useChapterVerseData";
 import { useSettings } from "../../hooks/SettingsContext";
 import { mapValidULBSettings } from "./utils/mapValidULBSettings";
-import { useGreekWords } from "../../hooks/GreekWordsContext";
+import { useGreekWordsParams } from "../../hooks/useGreekWordsParams";
 
 function Text() {
 	const bookChapter =
@@ -17,7 +16,7 @@ function Text() {
 	);
 	const [childClicked, setChildClicked] = useState<any>({});
 	const { ULBSettings } = useSettings();
-	const { showGreekWords } = useGreekWords();
+	const { showGreekWords } = useGreekWordsParams();
 
 	const defaultTextColor = "#001533CC";
 	const highlightColor = "blue";

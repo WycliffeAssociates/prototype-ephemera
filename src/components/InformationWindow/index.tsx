@@ -9,77 +9,56 @@ import { useEffect } from "react";
 import useMorphologyParams from "../../hooks/useMorphologyParams";
 import { Header } from "./utils/Header";
 import { GreekWordsContent } from "./utils/GreekWordsContent";
+import { useInformationLayout } from "src/hooks/useInformationLayout";
+import useGreekWordsParams from "src/hooks/useGreekWordsParams";
 
-interface GreekWordsModalProps {
+
+interface InformationWindowProps {
 	greekWords: FormattedGreekWord[];
 	open: boolean;
 	onClose: () => any;
 }
 
-function GreekWordsModal({
+function InformationWindow({
 	greekWords,
 	open,
 	onClose,
-}: GreekWordsModalProps) {
-	const { getBookChaptersParams, removeReferenceParams } =
-		useBookChapterParams();
-	const { getMorphologyParams, removeMorphologyParams } =
-		useMorphologyParams();
+}: InformationWindowProps) {
 
-	const [
-		openVerseReferenceDialog,
-		setOpenVerseReferenceDialog,
-	] = useState(false);
+	const { 
+		openMorphologyDialog, 
+		openGreekWordsDialog, 
+		openVerseReferenceDialog, 
+		onVerseReferenceClose, 
+		onMorphologyDialogClose  
+	} = useInformationLayout();
+
+	const { refBook, refChapter, refVerse, refWord } = useBookChapterParams().getBookChaptersParams();
 	const [refBookChapter, setRefBookChapter] = useState<any>(
 		{}
 	);
-	const [openMorphologyDialog, setOpenMorphologyDialog] =
-		useState(false);
+
+	const { getMorphologyParams } =
+	useMorphologyParams();
+
+	const { showGreekWords } = useGreekWordsParams();
 
 	useEffect(() => {
-		let params = getBookChaptersParams();
-		let newRefBookChapter = {
-			refBook: params.refBook,
-			refChapter: params.refChapter,
-			refVerse: params.refVerse,
-			refWord: params.refWord,
-		};
-
 		if (
-			newRefBookChapter.refBook !== undefined &&
-			newRefBookChapter.refChapter !== undefined
+			refBook !== undefined &&
+			refChapter !== undefined
 		) {
-			setOpenVerseReferenceDialog(true);
-		} else {
-			setOpenVerseReferenceDialog(false);
+			let newRefBookChapter = {
+				refBook: refBook,
+				refChapter: refChapter,
+				refVerse: refVerse,
+				refWord: refWord
+			}
+			setRefBookChapter({ ...newRefBookChapter });
 		}
 
-		setRefBookChapter({ ...newRefBookChapter });
-	}, [getBookChaptersParams().refBook]);
+	}, [refBook, refChapter, refVerse, refWord]);
 
-	useEffect(() => {
-		let params = getMorphologyParams();
-
-		if (params.morphologyWord !== undefined) {
-			setOpenMorphologyDialog(true);
-		} else {
-			setOpenMorphologyDialog(false);
-		}
-	}, [getMorphologyParams().morphologyWord]);
-
-	function onVerseReferenceClose() {
-		setOpenVerseReferenceDialog(false);
-		removeReferenceParams();
-	}
-
-	function onMorphologyDialogClose() {
-		setOpenMorphologyDialog(false);
-		removeMorphologyParams();
-	}
-
-	useEffect(() => {
-		onVerseReferenceClose();
-	}, [greekWords]);
 
 	return (
 		<>
@@ -102,23 +81,26 @@ function GreekWordsModal({
 					<Grid
 						item
 						xs={12}
-						id="greekWordsModal"
+						id="InformationWindow"
 						style={{ padding: "0px 0px 40px 0px" }}
 					>
-						{openVerseReferenceDialog === false &&
-						openMorphologyDialog === false ? (
+						{openGreekWordsDialog ?
 							<GreekWordsContent
 								greekWords={greekWords}
 								onClose={onClose}
 							/>
-						) : openVerseReferenceDialog === true ? (
+						: <></>}
+
+						{openVerseReferenceDialog ? 
 							<VerseReferenceDialogContent
 								open={openVerseReferenceDialog}
 								onClose={onVerseReferenceClose}
 								refBookChapterVerse={refBookChapter}
 								fullScreen={true}
 							/>
-						) : (
+						: <></>}
+
+						{openMorphologyDialog ? 
 							<MorphologyDialogContent
 								open={openMorphologyDialog}
 								onClose={onMorphologyDialogClose}
@@ -127,7 +109,7 @@ function GreekWordsModal({
 									getMorphologyParams().morphologyWord
 								}
 							/>
-						)}
+						:<></>}
 					</Grid>
 				</Grid>
 			</Dialog>
@@ -135,4 +117,4 @@ function GreekWordsModal({
 	);
 }
 
-export default GreekWordsModal;
+export default InformationWindow;

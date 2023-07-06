@@ -6,25 +6,25 @@ import PreviousChapterButton from "./PreviousChapterButton";
 import TextView from "./TextView";
 import InformationPanel from "../components/InformationPanel";
 import useWindowSize from "../hooks/useWindowSize";
-import { useGreekWords } from "../hooks/GreekWordsContext";
 import { ViewHeader } from "./ViewHeader";
 import BookChapterMenu from "./NavigationModal/utils/BookChapterMenu";
 import ChapterNavigationBar from "./ChapterNavigationBar";
 import { useLocation } from "react-router-dom";
 import { NavigationHeader } from "./NavigationModal/utils/NavigationHeader";
 import { ClickAwayListener } from "@mui/material";
-import GreekWordsModal from "./GreekWordsModal";
+import InformationWindow from "./InformationWindow";
 import { DESKTOP_BREAKPOINT } from "../constants";
+import useGreekWordsParams from "src/hooks/useGreekWordsParams";
 
 export function View() {
 	const [textViewSize, setTextViewSize] =
 		useState(10);
 	const windowSize = useWindowSize([]);
-	const { greekWords, showGreekWords, setShowGreekWords } =
-		useGreekWords();
-	const [greekTextDialogOpen, setGreekTextDialogOpen] =
+	const { greekWords, showGreekWords, removeAllParams, setShowGreekWordsParams } =
+		useGreekWordsParams();
+	const [informationPanelOpen, setInformationPanelOpen] =
 		useState(false);
-	const [greekTextModalOpen, setGreekTextModalOpen] =
+	const [informationWindowOpen, setInformationWindowOpen] =
 		useState(false);
 	const [defaultNavigationTab, setDefaultNavigationTab] =
 		useState<"Books" | "Chapters">("Books");
@@ -40,11 +40,11 @@ export function View() {
 			textViewSize === desktopTextWidthMax
 		) {
 			setTextViewSize(5);
-			setGreekTextDialogOpen(true);
+			setInformationPanelOpen(true);
 		}
 
 		if (showGreekWords && windowSize.innerWidth < DESKTOP_BREAKPOINT) {
-			setGreekTextModalOpen(true);
+			setInformationWindowOpen(true);
 		}
 	}, [greekWords, showGreekWords]);
 
@@ -52,21 +52,21 @@ export function View() {
 		// default right dialog to open for desktop breakpoint
 		if (windowSize.innerWidth >= DESKTOP_BREAKPOINT) {
 			setTextViewSize(5);
-			setGreekTextDialogOpen(true);
+			setInformationPanelOpen(true);
 		}
 	}, []);
 
 	useEffect(() => {
 		if (windowSize.innerWidth < DESKTOP_BREAKPOINT) {
-			setGreekTextDialogOpen(false);
+			setInformationPanelOpen(false);
 		} else {
-			setGreekTextDialogOpen(true);
+			setInformationPanelOpen(true);
 		}
 	}, [windowSize.innerWidth]);
 
-	function onGreekWordsModalClose() {
-		setShowGreekWords(false);
-		setGreekTextModalOpen(false);
+	function onInformationWindowClose() {
+		removeAllParams();
+		setInformationWindowOpen(false);
 	}
 
 	const [navigationModalOpen, setNavigationModalOpen] =
@@ -98,7 +98,6 @@ export function View() {
 				alignItems="flex-start"
 			>
 				<Grid
-					id="ViewHeader"
 					container
 					style={{ borderBottom: "2px solid #E5E8EB" }}
 				>
@@ -235,15 +234,15 @@ export function View() {
 					}}
 				>
 					<InformationPanel
-						open={greekTextDialogOpen}
+						open={informationPanelOpen}
 						greekWords={greekWords ? greekWords : []}
 					/>
 				</Grid>
 			</Grid>
 
-			<GreekWordsModal
-				open={greekTextModalOpen}
-				onClose={() => onGreekWordsModalClose()}
+			<InformationWindow
+				open={informationWindowOpen && showGreekWords}
+				onClose={() => onInformationWindowClose()}
 				greekWords={greekWords ? greekWords : []}
 			/>
 		</>

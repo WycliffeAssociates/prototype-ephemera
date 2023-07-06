@@ -6,7 +6,7 @@ import { EnglishWord } from "./EnglishWord";
 import { GreekWord } from "./GreekWord";
 import { SubWordContainer } from "./SubWordContainer";
 import { PhraseWordContainer } from "./PhraseWordContainer";
-import { useGreekWords } from "../../../hooks/GreekWordsContext";
+import { useGreekWordsParams } from "../../../hooks/useGreekWordsParams";
 
 interface WordProps {
 	handleClick: (params: any) => any;
@@ -19,18 +19,20 @@ function Word({
 	versePhrase,
 	handleClick,
 }: WordProps) {
+
 	const {
-		setGreekWords,
-		setShowGreekWords,
-		setVerseNumber,
-	} = useGreekWords();
+		setGreekWordsParams, 
+	} = useGreekWordsParams();
 
 	function handlePhraseClick(
 		newGreekWords: FormattedGreekWord[]
 	) {
-		setGreekWords(newGreekWords);
-		setShowGreekWords(true);
-		setVerseNumber(verseNumber);
+		let newParams = {
+			greekWords: newGreekWords,
+			show: true,
+			verseNumber: verseNumber
+		}
+		setGreekWordsParams(newParams);
 	}
 
 	if (versePhrase.phraseWords !== undefined) {

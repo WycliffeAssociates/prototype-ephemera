@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import useMorphologyParams from "../../hooks/useMorphologyParams";
 import BannerMessage from "./GreekWordsDialogContent/utils/BannerMessage";
 import GreekWordsDialogContent from "./GreekWordsDialogContent";
+import { useInformationLayout } from "../../hooks/useInformationLayout";
 
 interface GreekWordsDialogProps {
 	open: Boolean;
@@ -21,87 +22,45 @@ function InformationPanel({
 	onClose,
 	greekWords,
 }: GreekWordsDialogProps) {
-	const { getBookChaptersParams, removeReferenceParams } =
-		useBookChapterParams();
-	const { getMorphologyParams, removeMorphologyParams } =
-		useMorphologyParams();
+	
+	const { 
+		openMorphologyDialog, 
+		openGreekWordsDialog, 
+		openTipsDialog, 
+		openVerseReferenceDialog, 
+		onVerseReferenceClose, 
+		onMorphologyDialogClose  
+	} = useInformationLayout();
 
-	const [
-		openVerseReferenceDialog,
-		setOpenVerseReferenceDialog,
-	] = useState(false);
+	const { refBook, refChapter, refVerse, refWord } = useBookChapterParams().getBookChaptersParams();
 	const [refBookChapter, setRefBookChapter] = useState<any>(
 		{}
 	);
-	const [openMorphologyDialog, setOpenMorphologyDialog] =
-		useState(false);
-	const [openTipsDialog, setOpenTipsDialog] =
-		useState(false);
+	
+	const { getMorphologyParams } =
+		useMorphologyParams();
+
 
 	useEffect(() => {
-		let params = getBookChaptersParams();
-		let newRefBookChapter = {
-			refBook: params.refBook,
-			refChapter: params.refChapter,
-			refVerse: params.refVerse,
-			refWord: params.refWord,
-		};
-
 		if (
-			newRefBookChapter.refBook !== undefined &&
-			newRefBookChapter.refChapter !== undefined
+			refBook !== undefined &&
+			refChapter !== undefined
 		) {
-			setOpenVerseReferenceDialog(true);
-		} else {
-			setOpenVerseReferenceDialog(false);
+			let newRefBookChapter = {
+				refBook: refBook,
+				refChapter: refChapter,
+				refVerse: refVerse,
+				refWord: refWord
+			}
+			setRefBookChapter({ ...newRefBookChapter });
 		}
 
-		setRefBookChapter({ ...newRefBookChapter });
-	}, [getBookChaptersParams().refBook]);
+	}, [refBook, refChapter, refVerse, refWord]);
 
-	useEffect(() => {
-		setOpenTipsDialog(true);
-	}, [
-		getBookChaptersParams().book,
-		getBookChaptersParams().chapter,
-	]);
-
-	useEffect(() => {
-		setOpenTipsDialog(false);
-		onVerseReferenceClose();
-	}, [greekWords]);
-
-	useEffect(() => {
-		let params = getMorphologyParams();
-
-		if (params.morphologyWord !== undefined) {
-			setOpenMorphologyDialog(true);
-		} else {
-			setOpenMorphologyDialog(false);
-		}
-	}, [getMorphologyParams().morphologyWord]);
-
-	function onMorphologyDialogClose() {
-		setOpenMorphologyDialog(false);
-		removeMorphologyParams();
-	}
-
-	function onVerseReferenceClose() {
-		setOpenVerseReferenceDialog(false);
-		removeReferenceParams();
-	}
-
-	useEffect(() => {
-		if (openMorphologyDialog || openVerseReferenceDialog) {
-			setOpenTipsDialog(false);
-		}
-	}, [openMorphologyDialog, openVerseReferenceDialog]);
 
 	return (
 		<>
-			{openVerseReferenceDialog === false &&
-			openMorphologyDialog === false &&
-			openTipsDialog === false ? (
+			{openGreekWordsDialog ? (
 				<Grid item xs={12}>
 					<BannerMessage greekWords={greekWords} />
 				</Grid>
@@ -121,47 +80,41 @@ function InformationPanel({
 			>
 				<Grid container direction="row">
 					<Grid item lg={12} xl={12} md={12}>
-						{openVerseReferenceDialog === false &&
-						openMorphologyDialog === false &&
-						openTipsDialog == false ? (
-							<>
-								<GreekWordsDialogContent
-									open={true}
-									onClose={onClose}
-									greekWords={greekWords}
-								/>
-							</>
-						) : (
-							<>
-								<VerseReferenceDialogContent
-									open={
-										openVerseReferenceDialog &&
-										!openMorphologyDialog &&
-										!openTipsDialog
-									}
-									onClose={onVerseReferenceClose}
-									refBookChapterVerse={refBookChapter}
-									fullScreen={false}
-								/>
+						{openTipsDialog ? 
+							<TipsDialogContent open={openTipsDialog} onClose={onClose}/>
+						: <></>}
 
-								<MorphologyDialogContent
-									open={
-										openMorphologyDialog &&
-										!openVerseReferenceDialog &&
-										!openTipsDialog
-									}
-									onClose={onMorphologyDialogClose}
-									fullScreen={false}
-									morphologyWord={
-										getMorphologyParams().morphologyWord
-									}
-								/>
-								<TipsDialogContent
-									open={openTipsDialog}
-									onClose={onClose}
-								/>
-							</>
-						)}
+						{openVerseReferenceDialog ? 
+							<VerseReferenceDialogContent
+								open={
+									openVerseReferenceDialog
+								}
+								onClose={onVerseReferenceClose}
+								refBookChapterVerse={refBookChapter}
+								fullScreen={false}
+							/>
+						: <></>}
+
+						{openGreekWordsDialog ? 
+							<GreekWordsDialogContent
+								open={true}
+								onClose={onClose}
+								greekWords={greekWords}
+							/>
+						: <></>}
+
+						{openMorphologyDialog ? 
+							<MorphologyDialogContent
+							open={
+								openMorphologyDialog
+							}
+							onClose={onMorphologyDialogClose}
+							fullScreen={false}
+							morphologyWord={
+								getMorphologyParams().morphologyWord
+							}
+						/>
+						: <></>}
 					</Grid>
 				</Grid>
 			</Box>
