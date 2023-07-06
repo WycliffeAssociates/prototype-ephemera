@@ -16,6 +16,7 @@ export function useMorphologyParams() {
 		let urlParams = new URLSearchParams(searchParams);
 		urlParams.delete("morphologyWord");
 		setSearchParams(urlParams);
+		setMorphologyWord(undefined);
 	}
 
 	function getMorphologyParams() {

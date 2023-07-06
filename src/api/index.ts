@@ -14,10 +14,8 @@ async function getBook(bookTitle: string) {
 			);
 			return JSON.parse(book.data);
 		} else {
-			book = await axios.get(
-				`taggedOSIS/${books[bookTitle].abbreviatedBook}.json`
-			);
-			return book.data;
+			book = await fetch(`taggedOSIS/${books[bookTitle].abbreviatedBook}.json`);
+      		return book.json()
 		}
 	} catch (error) {
 		return undefined;

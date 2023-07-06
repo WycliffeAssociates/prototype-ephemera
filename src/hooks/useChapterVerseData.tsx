@@ -4,7 +4,7 @@ import getChapterVerses from "../api";
 import mapVerses from "../applicationLogic/mapping/mapULB";
 
 function useChapterVerseData(
-	book: string,
+	book: string | undefined,
 	chapter: number
 ) {
 	const [verses, setVerses] = useState(
@@ -13,12 +13,13 @@ function useChapterVerseData(
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const data = await getChapterVerses(book, chapter);
+			if(book) {
+				const data = await getChapterVerses(book, chapter);
+				setVerses(mapVerses(data));
+			}
 
 			// console.log("test case expected results (mapVerses(data))");
 			// console.log(JSON.stringify(mapVerses(data)))
-
-			setVerses(mapVerses(data));
 		};
 
 		fetchData();
