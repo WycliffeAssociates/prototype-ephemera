@@ -26,9 +26,9 @@ function storeValidBookChapterParams(
 	chapter: string
 ) {
 	if (validateBookChapter(book, chapter)) {
-
 		let storedBookChapter = localStorage.getItem("lastBookChapter");
-		if(storedBookChapter) {
+		if(storedBookChapter) 
+		{
 			let previousBookChapter = JSON.parse(
 				storedBookChapter
 			);
@@ -39,6 +39,11 @@ function storeValidBookChapterParams(
 					JSON.stringify({ book: book, chapter: chapter })
 				);
 			}
+		} else {
+			localStorage.setItem(
+				"lastBookChapter",
+				JSON.stringify({ book: book, chapter: chapter })
+			);
 		}
 	}
 }
@@ -97,69 +102,109 @@ export function useBookChapterParams() {
 		}
 		
 		
-		
 		//let urlParams = new URLSearchParams(searchParams);
 		let bookParam = searchParams.get("book");
 		let chapterParam = searchParams.get("chapter")
 	
 		if (lastBookChapter && (!bookParam && !chapterParam)) {
+			let newBookChapter = {
+				book: lastBookChapter.book,
+				chapter: lastBookChapter.chapter
+			}
 			setValidBookChapterParams(
-				lastBookChapter.book,
-				lastBookChapter.chapter
+				newBookChapter,
+				false
 			);
 		} else {
 			if(bookParam && chapterParam) {
+				let newBookChapter = {
+					book: bookParam,
+					chapter: chapterParam
+				}
 				setValidBookChapterParams(
-					bookParam,
-					chapterParam,
-					undefined,
-					undefined,
-					undefined,
+					newBookChapter,
 					true
 				);
 			} else {
-				setValidBookChapterParams("Matthew", "1");
+				let newBookChapter = {
+					book: "Matthew",
+					chapter: "1"
+				}
+				setValidBookChapterParams(newBookChapter, false);
 			}
 		}
 	}
 
+	type BookChapterParams = {
+		book: string,
+		chapter: string,
+	}
+
+	type VerseReferenceParams = {
+		bookReference: string,
+		chapterReference: string,
+		verseReference: string,
+		word: string
+	}
+
 	function setValidBookChapterParams(
-		newBook?: string,
-		newChapter?: string,
-		newVerse?: string,
-		referenceWord?: string,
-		isReference?: boolean,
-		keepParams?: boolean
-	) {
-		// NOTE: this is a hardcoded fix for a content issue found when
-		// examining Philemon's 1:24 "Demas". The entry for that word in the gwt repo
-		// has a verse reference going to "Colossian", however, the en_ulb names the book "Colossians"
-		if (newBook === "Colossian") {
-			newBook = "Colossians";
-		}
+		bookChapterParams : BookChapterParams, 
+		keepParams : boolean
+		) {
+		
+		let urlParams = new URLSearchParams(searchParams);
 
-		if (newBook && newChapter && validateBookChapter(newBook, newChapter)) {
-			let urlParams = new URLSearchParams(searchParams);
+		if(bookChapterParams) {
+			let {
+				book,
+				chapter
+			} = bookChapterParams;
 
-			if(isReference && newVerse && referenceWord) {
-				urlParams.set("refBook", newBook);
-				urlParams.set("refChapter", newChapter);
-				urlParams.set("refVerse", newVerse);
-				urlParams.set("refWord", referenceWord)
+			// NOTE: this is a hardcoded fix for a content issue found when
+			// examining Philemon's 1:24 "Demas". The entry for that word in the gwt repo
+			// has a verse reference going to "Colossian", however, the en_ulb names the book "Colossians"
+			
+			if (book === "Colossian") {
+				book = "Colossians";
+			}
 
-			} else {
-				urlParams.set("book", newBook);
-				urlParams.set("chapter", newChapter);
+			let isValidBookChapter = validateBookChapter(book, chapter);
+			
+			if(isValidBookChapter) {
+				urlParams.set("book", book);
+				urlParams.set("chapter", chapter);
 
 				if(keepParams !== true) {
 					trimNonBookChapterURLParams(urlParams);
 					trimReferenceURLParams(urlParams);
 				} 
-				
 			}
-			setSearchParams(urlParams);
 		}
+		setSearchParams(urlParams);
 	}
+
+	function setValidVerseReferenceParams(
+		verseReferenceParams : VerseReferenceParams,
+		) 
+	{
+		let urlParams = new URLSearchParams(searchParams);
+
+		if(verseReferenceParams) {
+			const {
+				bookReference,
+				chapterReference,
+				verseReference,
+				word
+			} = verseReferenceParams;
+
+			urlParams.set("refBook", bookReference);
+			urlParams.set("refChapter", chapterReference);
+			urlParams.set("refVerse", verseReference);
+			urlParams.set("refWord", word)
+		}
+		setSearchParams(urlParams);
+	}
+
 
 	// removes all query parameters excepts ones related to book/chapter
 	function trimNonBookChapterURLParams(params: URLSearchParams) {
@@ -230,6 +275,7 @@ export function useBookChapterParams() {
 
 	return {
 		setValidBookChapterParams: setValidBookChapterParams,
+		setValidVerseReferenceParams: setValidVerseReferenceParams,
 		getBookChaptersParams: getBookChaptersParams,
 		removeReferenceParams: removeReferenceParams,
 		navigateToMostRecentBookChapter: navigateToMostRecentBookChapter

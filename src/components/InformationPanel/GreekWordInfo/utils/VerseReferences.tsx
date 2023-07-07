@@ -20,7 +20,7 @@ export function VerseReferences({
 	] = useState<string[]>([]);
 	const { greekWordverseNumber } = useGreekWordsParams();
 	const {
-		setValidBookChapterParams,
+		setValidVerseReferenceParams,
 		getBookChaptersParams,
 	} = useBookChapterParams();
 	const { GWTSettings } = useSettings();
@@ -91,12 +91,14 @@ export function VerseReferences({
 		let verseReferenceChapter = verReferenceInfo.chapter;
 		let verseReferenceVerse = verReferenceInfo.verse;
 
-		setValidBookChapterParams(
-			verseReferenceBook,
-			verseReferenceChapter,
-			verseReferenceVerse,
-			referenceWord,
-			true
+		let newVerseRerence = {
+			bookReference: verseReferenceBook,
+			chapterReference: verseReferenceChapter,
+			verseReference: verseReferenceVerse,
+			word: referenceWord
+		}
+		setValidVerseReferenceParams(
+			newVerseRerence
 		);
 	}
 

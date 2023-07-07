@@ -87,11 +87,13 @@ function Chapters({ selectedBook }: ChaptersProps) {
 			book:
 				selectedBook !== ""
 					? selectedBook
-					: currentBookChapter.book,
+					: currentBookChapter.book + "",
 			chapter: chapterNum + "",
 		};
 
-		setValidBookChapterParams(params.book, params.chapter);
+		if(params.book) {
+			setValidBookChapterParams(params, false);
+		}
 	}
 
 	if (numChapters !== undefined) {

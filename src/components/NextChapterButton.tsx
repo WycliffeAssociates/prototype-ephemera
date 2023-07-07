@@ -27,10 +27,16 @@ function NextChapterButton() {
 
 	const onClick = () => {
 		let newChapter = parseInt(bookChapter.chapter) + 1;
-		setValidBookChapterParams(
-			bookChapter.book,
-			newChapter + ""
-		);
+		if(bookChapter.book) {
+			let newBookChapter = {
+				book: bookChapter.book,
+				chapter: newChapter + ""
+			}
+			setValidBookChapterParams(
+				newBookChapter,
+				false
+			);
+		}
 	};
 	return (
 		<>
