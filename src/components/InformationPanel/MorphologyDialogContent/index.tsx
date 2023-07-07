@@ -89,7 +89,7 @@ export default function MorphologyDialogContent({
 										{
 											extractMorphologyFromMarkdown(
 												morphologyWordMarkdown
-											)[1]
+											)
 										}
 									</h3>
 								</>
