@@ -48,7 +48,7 @@ export function SettingsProvider({ children }: any) {
 				| boolean
 				| undefined
 		) {
-			setLeftPanelFontSizeValue(newValue as number);
+			setLeftPanelFontSizeValue(parseInt(newValue + ""));
 		},
 		inputType: "increment",
 		unit: "px",
@@ -68,7 +68,7 @@ export function SettingsProvider({ children }: any) {
 				| boolean
 				| undefined
 		) {
-			setLeftPanelLineHeightValue(newValue as number);
+			setLeftPanelLineHeightValue(parseInt(newValue + ""));
 		},
 		inputType: "increment",
 		unit: "%",
@@ -88,7 +88,7 @@ export function SettingsProvider({ children }: any) {
 				| boolean
 				| undefined
 		) {
-			setInformationPanelFontSizeValue(newValue as number);
+			setInformationPanelFontSizeValue(parseInt(newValue + ""));
 		},
 		inputType: "increment",
 		unit: "px",
@@ -109,7 +109,7 @@ export function SettingsProvider({ children }: any) {
 					| undefined
 			) {
 				setInformationPanelLineHeightValue(
-					newValue as number
+					parseInt(newValue + "")
 				);
 			},
 			inputType: "increment",
@@ -124,11 +124,11 @@ export function SettingsProvider({ children }: any) {
 				ULBSettings: [
 					leftPanelTextFontSetting,
 					leftPanelLineHeightSetting,
-				] as ULBSettingsOption[],
+				],
 				GWTSettings: [
 					informationPanelTextFontSetting,
 					informationPanelLineHeightSetting,
-				] as SettingsOption[],
+				],
 			}}
 		>
 			{children}

@@ -7,8 +7,8 @@ function useChapterVerseData(
 	book: string | undefined,
 	chapter: number
 ) {
-	const [verses, setVerses] = useState(
-		[] as NewFormattedVerse[]
+	const [verses, setVerses] = useState<NewFormattedVerse[]>(
+		[]
 	);
 
 	useEffect(() => {

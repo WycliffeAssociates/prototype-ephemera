@@ -34,9 +34,11 @@ export function VerseReferenceText({
 		subWords: SubWord[] | undefined
 	) {
 		return subWords
-			?.map((foo) => {
-				foo.word = foo.word as NewFormattedGreekWord;
-				return foo.word.strongs;
+			?.map((subWord) => {
+				subWord.word = subWord.word;
+				if(typeof(subWord.word) !== "string") {
+					return subWord.word.strongs;
+				}
 			})
 			.includes(refWord);
 	}
@@ -145,12 +147,17 @@ export function VerseReferenceText({
 
 	useEffect(() => {
 		if (verseRef != null && verseRef.current != null) {
-			let scrollableParent = verseRef.current.parentNode
-				?.parentNode as HTMLElement;
-			scrollableParent.scrollTo(
-				0,
-				verseRef.current.offsetTop - 40
-			);
+			
+			let scrollableParent: HTMLElement | null = null;
+			let potentialScrollableParent = verseRef.current.parentNode;
+			if (verseRef.current && potentialScrollableParent && 
+				potentialScrollableParent.parentNode instanceof HTMLElement) {
+				scrollableParent = potentialScrollableParent.parentNode;
+				scrollableParent.scrollTo(
+					0,
+					verseRef.current.offsetTop - 40
+				);
+			}
 		}
 	}, [verseOutput]);
 

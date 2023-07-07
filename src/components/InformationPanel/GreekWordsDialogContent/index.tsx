@@ -25,8 +25,8 @@ function GreekWordsDialogContent({
 			containerRef !== null &&
 			containerRef !== undefined
 		) {
-			let el =
-				containerRef.current as unknown as HTMLElement;
+			let el : HTMLElement | null =
+				containerRef.current;
 			if (el !== null) {
 				el.scrollTo(0, 0);
 			}

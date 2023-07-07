@@ -1,5 +1,4 @@
 import { GWTInformation } from "../../types";
-import { books as newTestamentBooks } from "../data/newTestamentMetadata";
 
 // TODO: fix this blob using regex
 // header: # *\S*
@@ -11,7 +10,7 @@ import { books as newTestamentBooks } from "../data/newTestamentMetadata";
 
 function mapGWTMarkdown(greekWordMarkDown: string) {
 	let greekWordMarkDownArray: string[] =
-		greekWordMarkDown.split(/\n/) as string[];
+		greekWordMarkDown.split(/\n/);
 
 	let startingIndex;
 	for (
@@ -121,7 +120,7 @@ function mapGWTMarkdown(greekWordMarkDown: string) {
 			gwtInformation.descriptions.push({
 				mainDescription: greekWordMarkDownArray[
 					i
-				] as string,
+				],
 				subDescriptions: [],
 			});
 		} else if (

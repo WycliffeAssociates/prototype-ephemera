@@ -48,7 +48,7 @@ function Book({
 interface BooksProps {
 	onChange?: () => any;
 	handleClick: (params: any) => any;
-	currentBook: string;
+	currentBook?: string;
 }
 
 function Books({

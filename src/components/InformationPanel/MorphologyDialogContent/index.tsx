@@ -31,7 +31,11 @@ export default function MorphologyDialogContent({
 	let { greekWords } = useGreekWordsParams();
 
 	function extractMorphologyFromMarkdown(markdown: string) {
-		return markdown.match(/#\W([a-zA-Z]+)/) as any[];
+		let morphologyWord = markdown.match(/#\W([a-zA-Z]+)/);
+		if(morphologyWord && morphologyWord[1]) {
+			return morphologyWord[1];
+		} 
+		return "Not Found";
 	}
 
 	useEffect(() => {
@@ -84,7 +88,7 @@ export default function MorphologyDialogContent({
 									>
 										{
 											extractMorphologyFromMarkdown(
-												morphologyWordMarkdown as string
+												morphologyWordMarkdown
 											)[1]
 										}
 									</h3>

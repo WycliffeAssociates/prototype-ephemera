@@ -25,9 +25,10 @@ export function useMorphologyParams() {
 
 	useEffect(() => {
 		if (searchParams !== undefined) {
-			if (searchParams.get("morphologyWord")) {
+			let morphologyWordParamValue = searchParams.get("morphologyWord");
+			if (morphologyWordParamValue) {
 				setMorphologyWord(
-					searchParams.get("morphologyWord") as string
+					morphologyWordParamValue
 				);
 			} else {
 				setMorphologyWord(undefined);

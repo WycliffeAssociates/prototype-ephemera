@@ -45,7 +45,7 @@ export function WordContent({
 			containerRef?.current !== null &&
 			containerRef?.current !== undefined
 		) {
-			let el = containerRef.current as HTMLElement;
+			let el : HTMLElement = containerRef.current;
 
 			if (el !== null && el !== undefined) {
 				if (el.clientHeight >= el.scrollHeight) {

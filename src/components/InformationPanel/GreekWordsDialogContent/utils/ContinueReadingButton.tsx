@@ -52,7 +52,7 @@ export function ContinueReadingButton({
 
 	useEffect(() => {
 		if (containerRef?.current) {
-			const element = containerRef.current as HTMLElement;
+			const element = containerRef.current;
 			element.addEventListener("scroll", onScroll);
 			return () => {
 				element.removeEventListener("scroll", onScroll);
@@ -62,7 +62,7 @@ export function ContinueReadingButton({
 
 	function onScroll() {
 		if (containerRef?.current) {
-			const container = containerRef.current as HTMLElement;
+			const container = containerRef.current;
 			const { scrollTop, scrollHeight, clientHeight } =
 				container;
 			if (scrollTop + clientHeight >= scrollHeight - 5) {

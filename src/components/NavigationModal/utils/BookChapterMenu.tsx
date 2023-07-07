@@ -68,9 +68,15 @@ function BookChapterMenu({
 	}, [bookChapter, clickedBookElement]);
 
 	function onBookClick(newBook: null | HTMLDivElement) {
-		let newBookName: string =
-			newBook?.id.charAt(0).toUpperCase() +
-			(newBook?.id.slice(1) as string);
+
+		let restOfString = newBook?.id.slice(1);
+		let firstLetterCapitalized = newBook?.id.charAt(0).toUpperCase();
+		let newBookName: string = "";
+		
+		if(firstLetterCapitalized && restOfString) {
+			newBookName = firstLetterCapitalized + restOfString;
+		}
+
 		if (newBookName !== bookChapter.book) {
 			setValue("Chapters");
 		}

@@ -26,14 +26,19 @@ function storeValidBookChapterParams(
 	chapter: string
 ) {
 	if (validateBookChapter(book, chapter)) {
-		let previousBookChapter = JSON.parse(
-			localStorage.getItem("lastBookChapter") as string
-		);
-		if (previousBookChapter?.chapter !== chapter) {
-			localStorage.setItem(
-				"lastBookChapter",
-				JSON.stringify({ book: book, chapter: chapter })
+
+		let storedBookChapter = localStorage.getItem("lastBookChapter");
+		if(storedBookChapter) {
+			let previousBookChapter = JSON.parse(
+				storedBookChapter
 			);
+		
+			if (previousBookChapter?.chapter !== chapter) {
+				localStorage.setItem(
+					"lastBookChapter",
+					JSON.stringify({ book: book, chapter: chapter })
+				);
+			}
 		}
 	}
 }
@@ -84,9 +89,13 @@ export function useBookChapterParams() {
 		let lastBookChapter:
 			| { book: string; chapter: string }
 			| undefined;
-		lastBookChapter = JSON.parse(
-			localStorage.getItem("lastBookChapter") as string
-		);
+		let storedBookChapter = localStorage.getItem("lastBookChapter");
+		if(storedBookChapter) {
+			lastBookChapter = JSON.parse(
+				storedBookChapter
+			);
+		}
+		
 		
 		
 		//let urlParams = new URLSearchParams(searchParams);

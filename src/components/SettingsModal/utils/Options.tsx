@@ -29,7 +29,7 @@ function PanelSettingsOptions({
 	return (
 		<Grid container direction="row">
 			{settings.map((setting, idx: number) => {
-				if (setting.inputType === "switch") {
+				if (setting.inputType === "switch" && typeof(setting.value) === "boolean") {
 					return (
 						<Grid
 							key={`setting ${idx}`}
@@ -38,7 +38,7 @@ function PanelSettingsOptions({
 						>
 							<Switch
 								size="medium"
-								checked={setting.value as boolean}
+								checked={setting.value}
 								onChange={() =>
 									setting.modifier(!setting.value)
 								}
@@ -58,7 +58,7 @@ function PanelSettingsOptions({
 								style={SettingsModal__decreaseButton}
 								onClick={() => {
 									setting.modifier(
-										(setting.value as number) - 1
+										(parseInt(setting.value + "")) - 1
 									);
 								}}
 							>
@@ -77,7 +77,7 @@ function PanelSettingsOptions({
 								}}
 								onClick={() => {
 									setting.modifier(
-										(setting.value as number) + 1
+										(parseInt(setting.value + "")) + 1
 									);
 								}}
 							>
@@ -96,7 +96,7 @@ function PanelSettingsOptions({
 								variant="outlined"
 								onClick={() => {
 									setting.modifier(
-										(setting.value as number) - 1
+										(parseInt(setting.value + "")) - 1
 									);
 								}}
 							>

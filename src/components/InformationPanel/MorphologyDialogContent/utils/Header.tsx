@@ -44,9 +44,9 @@ export function Header({
 						...overwriteStyle,
 					}}
 				>
-					{fullScreen === false
+					{fullScreen === false && morphologyWord
 						? capitalizeFirstLetter(
-								morphologyWord?.trim() as string
+								morphologyWord.trim()
 						  )
 						: "Learn More"}
 				</h3>
