@@ -111,7 +111,11 @@ export function useBookChapterParams() {
 			if(bookParam && chapterParam) {
 				setValidBookChapterParams(
 					bookParam,
-					chapterParam
+					chapterParam,
+					undefined,
+					undefined,
+					undefined,
+					true
 				);
 			} else {
 				setValidBookChapterParams("Matthew", "1");
@@ -124,7 +128,8 @@ export function useBookChapterParams() {
 		newChapter?: string,
 		newVerse?: string,
 		referenceWord?: string,
-		isReference?: boolean
+		isReference?: boolean,
+		keepParams?: boolean
 	) {
 		// NOTE: this is a hardcoded fix for a content issue found when
 		// examining Philemon's 1:24 "Demas". The entry for that word in the gwt repo
@@ -145,14 +150,19 @@ export function useBookChapterParams() {
 			} else {
 				urlParams.set("book", newBook);
 				urlParams.set("chapter", newChapter);
-				trimURLParams(urlParams);
+
+				if(keepParams !== true) {
+					trimNonBookChapterURLParams(urlParams);
+					trimReferenceURLParams(urlParams);
+				} 
+				
 			}
 			setSearchParams(urlParams);
 		}
 	}
 
 	// removes all query parameters excepts ones related to book/chapter
-	function trimURLParams(params: URLSearchParams) {
+	function trimNonBookChapterURLParams(params: URLSearchParams) {
 		const paramsArray = Array.from(params.entries());
 
 		paramsArray.forEach((param) => {
@@ -161,6 +171,13 @@ export function useBookChapterParams() {
 				params.delete(paramName);
 			}
 		})
+	}
+
+	function trimReferenceURLParams(params: URLSearchParams) {
+		params.delete("refBook");
+		params.delete("refChapter");
+		params.delete("refVerse");
+		params.delete("refWord");
 	}
 
 	function removeReferenceParams() {
