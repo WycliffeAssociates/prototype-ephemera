@@ -188,9 +188,9 @@ function mapConsecutivePhraseWords(
 	flags: WordMapFlags,
 	buffers: WordMapBuffers
 ) {
-	if (flags.consumedPhraseWord == true) {
+	if (flags.consumedPhraseWord === true) {
 		if (
-			currentGreekWord.phraseWords !=
+			currentGreekWord.phraseWords !==
 			buffers.phraseWords[buffers.phraseWords.length - 1]
 				.phraseWords
 		) {
@@ -266,7 +266,7 @@ function mapPhraseWord(
 				buffers.subWords
 			);
 		}
-		if (flags.processingSubsequentPhraseWord == false) {
+		if (flags.processingSubsequentPhraseWord === false) {
 			nonInjectedsubWords = processConsumedSubWords(
 				word,
 				buffers.subWords
@@ -455,7 +455,7 @@ function processNestedSubWords(subWordBuffer: SubWord[]) {
 				nestedSubWords.forEach((nestedSubWord) => {
 					let subWordToInject = subWordBuffer.find(
 						(subWord) =>
-							subWord.subIdx == `[${nestedSubWord}]`
+							subWord.subIdx === `[${nestedSubWord}]`
 					);
 					injectSubWord(
 						subWordToInject,
@@ -477,7 +477,7 @@ function injectSubWord(
 
 	if (
 		typeof subWordToInject?.word !== "string" &&
-		subWordToInject?.word.text != undefined
+		subWordToInject?.word.text !== undefined
 	) {
 		textToInject = subWordToInject?.word.text;
 	} else {
