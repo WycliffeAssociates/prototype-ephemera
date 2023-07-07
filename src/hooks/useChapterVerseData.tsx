@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NewFormattedVerse } from "../types";
 import getChapterVerses from "../api";
-import mapVerses from "../applicationLogic/mapping/mapULB";
+import mapVerses from "../applicationLogic/mapping/mapTagsToFormattedVerse";
 
 function useChapterVerseData(
 	book: string | undefined,

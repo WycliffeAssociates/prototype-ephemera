@@ -1,5 +1,5 @@
 import getChapterVerses from "../../api";
-import mapVerses from "./mapULB";
+import mapVerses from "./mapTagsToFormattedVerse";
 import * as Matthew from "../../../public/taggedOSIS/41-MAT.json";
 import * as Mark from "../../../public/taggedOSIS/42-MRK.json";
 import * as First_timothy from "../../../public/taggedOSIS/55-1TI.json";
