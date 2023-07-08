@@ -4,6 +4,8 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import useBookChapterParams from "../hooks/useBookChapterParams";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import { books } from "../applicationLogic/data/newTestamentMetadata";
+import { useEffect, useState } from "react";
 
 const DesktopNextChapterButton = styled(Button)({
 	height: 48,
@@ -19,11 +21,25 @@ const DesktopNextChapterButton = styled(Button)({
 });
 
 function NextChapterButton() {
+	const [show, setShow] = useState(true);
 	const {
 		getBookChaptersParams,
 		setValidBookChapterParams,
 	} = useBookChapterParams();
 	let bookChapter = getBookChaptersParams();
+
+	useEffect(() => {
+		if(bookChapter.book) {
+			let currentChapter = parseInt(bookChapter.chapter);
+			let chapterMax = books[bookChapter.book].numChapters;
+			
+			if(currentChapter === chapterMax) {
+				setShow(false)
+			} else if(!show) {
+				setShow(true);
+			}
+		}
+	}, [bookChapter.book, bookChapter.chapter])
 
 	const onClick = () => {
 		let newChapter = parseInt(bookChapter.chapter) + 1;
@@ -38,6 +54,10 @@ function NextChapterButton() {
 			);
 		}
 	};
+
+	if(!show) {
+		return <></>
+	}
 	return (
 		<>
 			<Box
