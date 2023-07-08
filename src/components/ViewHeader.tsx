@@ -26,14 +26,14 @@ export function ViewHeader({
 
 	return (
 		<>
-			<Grid item xs={8}>
+			<Grid item xs={7} sm={8}>
 				<h3 className="BannerHeader">Greek Lexicon</h3>
 			</Grid>
 
 			<Grid
 				item
 				xs={2}
-				style={{ margin: "auto" }}
+				style={{ margin: "auto", paddingRight:"15px" }}
 			>
 				<Button
 					onClick={() => toggleSettingsModalOpen()}
@@ -53,7 +53,8 @@ export function ViewHeader({
 
 			<Grid
 				item
-				xs={2}
+				xs={3}
+				sm={2}
 				style={{ margin: "auto" }}
 			>
 				<Button
