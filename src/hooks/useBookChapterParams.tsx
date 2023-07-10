@@ -2,7 +2,7 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import {
 	useSearchParams,
 } from "react-router-dom";
-import { books as newTestamentMetadata } from "../applicationLogic/data/newTestamentMetadata";
+import { books, books as newTestamentMetadata } from "../applicationLogic/data/newTestamentMetadata";
 
 
 function validateBookChapter(
@@ -56,20 +56,35 @@ export function useBookChapterParams() {
 	const [refWord, setRefWord] = useState<string>();
 	const [refChapter, setRefChapter] = useState<string>();
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [invalidParams, setInvalidParams] = useState<string[]>([]);
 
 	let bookChapterQueryParameters: {
 		[key: string]: {
 		  stateSetter: Dispatch<SetStateAction<string | undefined>>
-		  stateGetter: () => string | number | undefined
+		  stateGetter: () => string | number | undefined,
+		  validator?: (input : string | number, context?: any) => boolean,
+		  defaultValue?: string
 		}
 	  } =  {
 		"book": { 
 			stateSetter: setBook,
-			stateGetter: () => {return book}
+			stateGetter: () => {return book},
+			validator: (input : string | number) => {return books[input] ? true : false},
+			defaultValue: "Matthew"
 		}, 
 		"chapter": { 
 			stateSetter: setChapter,
-			stateGetter: () => {return chapter}
+			stateGetter: () => {return chapter},
+			validator: (input: string | number, context : string) => {
+				let urlParams = new URLSearchParams(searchParams);
+				let isValidChapter=false;
+				let currentBookParamValue = urlParams.get("book")
+				let currentBook = currentBookParamValue ? currentBookParamValue : "";
+				let newChapter = typeof(input) === "string" ? parseInt(input) : input;
+				isValidChapter = newChapter <= books[currentBook]?.numChapters && newChapter >= 1;
+				return isValidChapter;
+			},
+			defaultValue: "1"
 		},
 		"refBook": {
 			stateSetter: setRefBook,
@@ -251,21 +266,69 @@ export function useBookChapterParams() {
 		};
 	}
 
-	useEffect(() => {
-
+	function resetInvalidQueryParameters() {
 		let urlParams = new URLSearchParams(searchParams);
 
-		// Iterates through book/chapter query parameters and sets
-		// the state variable for that corresponding query parameter
-		for (const key in bookChapterQueryParameters) {
-			let bookChapterParamState  = bookChapterQueryParameters[key];
-			let paramValue = urlParams.get(key);
-			if(paramValue && paramValue !== " " && parseInt(paramValue) !== bookChapterParamState.stateGetter()) {
-				bookChapterParamState.stateSetter(paramValue);
+		for(let i = 0; i < invalidParams.length; i++) {
+			let paramKey = invalidParams[i];
+			let bookChapterParamState  = bookChapterQueryParameters[paramKey];
+			let defaultParamValue = bookChapterParamState.defaultValue;
+			if(defaultParamValue) {
+				urlParams.set(paramKey, defaultParamValue);
 			}
 		}
 
-	}, [searchParams.get("book"), searchParams.get("chapter"), searchParams.get("refBook")]);
+		setSearchParams(urlParams)
+	}
+
+
+	function setStatesToQueryParams() {
+		let urlParams = new URLSearchParams(searchParams);
+		// Iterates through book/chapter query parameters and sets
+		// the state variable for that corresponding query parameter
+		let hasValidSearchParams = true;
+		let foundInvalidParams : string[] = [];
+
+		for (const key in bookChapterQueryParameters) {
+			let bookChapterParamState  = bookChapterQueryParameters[key];
+			let paramValue = urlParams.get(key);
+
+			if(paramValue && paramValue !== " ") {
+
+				let newValue: string = paramValue;
+
+				if(bookChapterParamState.validator && bookChapterParamState.defaultValue) {
+					let isNewValueValid = bookChapterParamState.validator(paramValue);
+					newValue = isNewValueValid ? paramValue : bookChapterParamState.defaultValue;
+					
+					if(!isNewValueValid) {
+						hasValidSearchParams = false;
+						foundInvalidParams.push(key);
+					}
+
+				}
+
+				if(newValue !== bookChapterParamState.stateGetter()) {
+					bookChapterParamState.stateSetter(newValue);
+				}
+			}
+		}
+
+		
+		if(!hasValidSearchParams) {
+			setInvalidParams([...foundInvalidParams])
+		}
+	}
+
+	useEffect(() => { 
+		setStatesToQueryParams();
+	}, [searchParams, searchParams.get("book"), searchParams.get("chapter"), searchParams.get("refBook")]);
+
+
+	useEffect(() => {
+		resetInvalidQueryParameters();
+	}, [invalidParams])
+
 
 	useEffect(() => {
 		if(book && chapter) {
