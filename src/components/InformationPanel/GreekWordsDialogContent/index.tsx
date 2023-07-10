@@ -3,7 +3,6 @@ import { FormattedGreekWord } from "../../../types";
 import TipsDialogContent from "../TipsDialogContent";
 import GreekWordInfo from "../GreekWordInfo";
 import Divider from "@mui/material/Divider";
-import { ContinueReadingButton } from "./utils/ContinueReadingButton";
 import { useEffect, useRef, useState } from "react";
 
 interface GreekWordsDialogProps {
@@ -64,10 +63,6 @@ function GreekWordsDialogContent({
 						))}
 					</div>
 
-					<ContinueReadingButton
-						containerRef={containerRef}
-						rightPosition="20.17%"
-					/>
 				</>
 			) : (
 				<TipsDialogContent open={true} onClose={onClose} />

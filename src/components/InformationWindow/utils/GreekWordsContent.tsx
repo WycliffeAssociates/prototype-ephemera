@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import TipsDialogContent from "../../InformationPanel/TipsDialogContent";
 import { BannerMessage } from "./BannerMessage";
-import { ContinueReadingButton } from "../../InformationPanel/GreekWordsDialogContent/utils/ContinueReadingButton";
 import useWindowSize from "../../../hooks/useWindowSize";
 import { FormattedGreekWord } from "../../../types";
 import GreekWordInfo from "../../InformationPanel/GreekWordInfo";
@@ -56,9 +55,6 @@ export function GreekWordsContent({
 						</div>
 					))}
 
-					<ContinueReadingButton
-						containerRef={containerRef}
-					/>
 				</div>
 			) : (
 				<TipsDialogContent open={true} onClose={onClose} />
