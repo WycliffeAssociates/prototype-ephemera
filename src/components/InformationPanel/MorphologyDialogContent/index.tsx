@@ -102,7 +102,7 @@ export default function MorphologyDialogContent({
 									markdown={morphologyWordMarkdown}
 								/>
 							) : (
-								<></>
+								<h3>ERROR: could not find information for "{morphologyWord}"</h3>
 							)}
 						</Grid>
 					</Grid>

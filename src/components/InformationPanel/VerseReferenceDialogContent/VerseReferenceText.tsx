@@ -164,7 +164,7 @@ export function VerseReferenceText({
 	return (
 		<>
 			{verses.length === 0 ? (
-				"Please enter a valid book / chapter"
+				<h3>ERROR: could not find verse reference for {`${refBook} ${refChapter}:${refVerse}`}</h3>
 			) : (
 				<>{verseOutput}</>
 			)}
