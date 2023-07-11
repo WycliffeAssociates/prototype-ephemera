@@ -66,12 +66,12 @@ function UnprocessedMarkdown({
 							</p>
 						),
 						em: ({ node, ...props }) => (
-							<p
+							<span
 								className="GreekWordInfoSubCategoryValue"
 								style={{ ...overwriteStyle }}
 							>
 								{props.children}
-							</p>
+							</span>
 						),
 					}}
 				/>
