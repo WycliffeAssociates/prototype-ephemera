@@ -1,219 +1,454 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans");
+
+p {
+	cursor: default;
+}
+
+span {
+	cursor: default;
+}
+
+body {
+	font-family: "Noto Sans";
+}
+
 .App {
-  text-align: center;
-  height: 100vh;
-  overflow: hidden;
+	text-align: center;
+	height: 100vh;
+	overflow: hidden;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+	height: 40vmin;
+	pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+	.App-logo {
+		animation: App-logo-spin infinite 20s linear;
+	}
 }
 
 .App-header {
-  background-color: white;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: black;
+	background-color: white;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: black;
 }
 
 .App-link {
-  color: #61dafb;
+	color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* TODO delete*/
-.GreekPhrase {
-  text-decoration: underline;
-}
-
-/* TODO delete*/
-.Verse {
-  text-align: left;
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 48px;
-  color: #001533CC;
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 .GreekWord {
-  text-align: left;
-  margin-bottom: 2px;
-  /* height: 36px; */
-  margin-top: 2px;
-  font-family: Lato;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 150%;
-  color:#001432;
+	text-align: left;
+	margin-bottom: 2px;
+	/* height: 36px; */
+	margin-top: 2px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 150%;
+	color: #001432;
 }
 
 .EnglishWord {
-  text-align:left; 
-  margin-top: 0px;
-  margin-bottom:0px;
-  height: 24px;
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 150%;
-  color:#001432;
+	text-align: left;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 24px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 150%;
+	color: #001432;
 }
-
 
 .UnprocessedMarkdown {
-  text-align:left; 
-  margin-bottom:12px;
-  height: 18px;
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 100%;
+	text-align: left;
+	margin-bottom: 12px;
+	height: 18px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 100%;
+	margin-top: 4px;
 }
 
-
 .GreekWordInfoSubCategory {
-  text-align:left; 
-  margin-bottom:4px;
-  height: 18px;
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 150%;
-  text-transform: uppercase;
-  color:#00193c;
+	text-align: left;
+	height: 18px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 150%;
+	color: #00193c;
+	font-weight: bold;
 }
 
 .GreekWordInfoSubCategoryValue {
-  text-align:left;
-  width:100%; 
-  margin-top:0px; 
-  margin-bottom:2px; 
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 150%;
+	text-align: left;
+	width: 100%;
+	margin-top: 0px;
+	margin-bottom: 2px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 150%;
+}
+
+.GreekWordInfo__bulletPoint {
+	margin-top: 0px;
+	padding-inline-start: 25px;
+}
+
+.GreekWordContainer {
+	padding-left: 15px;
+}
+
+.WordContent__ReadMoreButton {
+	float: right;
+	border: 1px solid #e5e8eb;
+	border-radius: 16px;
+	color: #33445c;
+	text-transform: none;
+	margin-right: 15px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.MorphlolgyDialogContent__header {
+	color: #015ad9;
+	margin-bottom: 0px;
 }
 
 .BannerContainer {
-  background-color:#001533;
-  width:100%
+	background-color: #001533;
+	width: 100%;
 }
 
 .BannerContainer .BannerContainer__elem {
-  background-color: inherit;
-  padding-right:0px; 
-  margin-right:0px;
+	background-color: inherit;
+	padding-right: 0px;
+	margin-right: 0px;
 }
 
 .MainViewContainer {
-  width:100%;
-  margin:0px;
-  height: 100%;
+	width: 100%;
+	margin: 0px;
+	height: 100%;
 }
 
 .TextViewContainer {
-  width: 100%; 
-  margin: 0px; 
-  margin-top: 0px;
-  height: 100%;
+	width: 100%;
+	margin: 0px;
+	margin-top: 0px;
+	height: 100%;
 }
 
 .TextViewContainer__arrowIcon {
-  color: black;
-  background-color: #f2f2f2
+	color: black;
+	background-color: #f2f2f2;
 }
 
 .App__PreviousChapterButton {
-  width: 50px;
-  height: 50px;
-  background-color:white;
-  color:black;
-  position: fixed;
-  top: 85%;
-  left: 5%;
+	width: 50px;
+	height: 50px;
+	background-color: white;
+	color: black;
+	position: fixed;
+	top: 85%;
+	left: 5%;
 }
 
 .App__NextChapterButton {
-  width: 50px;
-  height: 50px;
-  background-color:white;
-  color:black;
-  position: fixed;
-  top: 85%;
-  right: 5%;
+	width: 50px;
+	height: 50px;
+	background-color: white;
+	color: black;
+	position: fixed;
+	top: 85%;
+	right: 5%;
 }
 
 .TextContainer {
-  max-height: 70vh;
-  overflow: auto;
+	max-height: fit-content;
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	margin-right: 9px;
+	padding-left: 25px;
+	max-height: 70vh; /* 74vh works OK*/
+	padding: 20px 40px 0px;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
 }
 
 .TextContainer__GreekPhrase {
-  text-decoration: underline;
+	cursor: pointer;
+}
+
+.TextContainer__GreekPhrase:hover {
+	text-decoration: underline !important;
 }
 
 .TextContainer__Verse {
-  text-align: left;
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 48px;
-  color: #001533CC;
+	text-align: left;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 48px;
+	color: #001533cc;
 }
 
-
-.GreekWordModal__Box {
-  position:  absolute  as  absolute ;
-  top:  60%  ;
-  left:  50%  ;
-  transform:  translate(-50%, -50%)  ;
-  width:  90%  ;
-  height:  70%  ;
-  background:  #FFFFFF  ;
-  border-radius:  8px  ;
-  box-shadow: 24 ;
-  padding: 1 ;
-  padding-top:  0px  ;
-  padding-left: 0px  ;
-  outline:  none 
+.InformationWindow__Box {
+	position: absolute as absolute;
+	top: 60%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 90%;
+	height: 70%;
+	background: #ffffff;
+	border-radius: 8px;
+	box-shadow: 24;
+	padding: 1;
+	padding-top: 0px;
+	padding-left: 0px;
+	outline: none;
 }
-
 
 .ChapterNavigationBar__Span {
-  width:100%; 
-  color: #001533CC;
-  font-weight: 400;
-  text-transform:none;
-  font-size: 16px;
+	width: 100%;
+	color: #001533cc;
+	font-weight: 400;
+	text-transform: none;
+	font-size: 20px;
 }
 
 .ChapterNavigationBar__BookName {
-  text-align:left;
+	text-align: left;
 }
 
+.NavigationModal__MeanuHeader p {
+	width: 56px;
+	height: 32px;
+	margin-top: 0px;
+	margin-bottom: 15px;
+	margin-left: 15px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 32px;
+}
+
+.StationaryChapterNavButton {
+	max-width: 40px;
+	max-height: 104px;
+	min-width: 40px;
+	min-height: 104px;
+	top: 40%;
+	background-color: #f2f2f2;
+	border: 0.5px solid;
+	border-color: #d9d9d9;
+}
+
+.BookChapterMenu__Chapters {
+	width: 100%;
+	overflow-y: scroll;
+	height: calc(100% - 88px);
+}
+.BookChapterMenu__Chapters p {
+	text-align: center;
+	cursor: pointer;
+}
+.BookChapterMenu__Tabs {
+	width: 100%;
+}
+.BookChapterMenu__Tabs__Tab {
+	width: 45%;
+}
+.NavigationModal__Books__newTestamentHeader {
+	color: #66768b;
+	float: left;
+	padding-left: 5%;
+}
+.BannerHeader {
+	float: left;
+	padding-left: 2%;
+}
+
+.BookChapterMenu__Books {
+	width: 100%;
+	height: calc(100% - 88px);
+}
+
+.BookChapterMenu__Books__Book {
+	border-bottom: 1px solid grey;
+	color: #001533cc;
+	cursor: pointer;
+}
+
+.BookChapterMenu__Books__Book {
+	width: 100%;
+}
+
+.BookChapterMenu__Books__Book p {
+	padding-left: 5%;
+	height: 24px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 100%;
+	float: left;
+}
+
+.BookChapterMenu__CloseButton {
+	position: fixed;
+	bottom: 5%;
+	left: 15%;
+	border: 1px solid #e5e8eb;
+	box-shadow: 0px 10px 20px rgba(0, 21, 51, 0.19),
+		0px 6px 6px rgba(0, 21, 51, 0.23);
+	border-radius: 16px;
+	color: #33445c;
+	background: white;
+	width: 115px;
+}
+
+.Book__subcategory p {
+	text-align: left;
+	margin-bottom: 4px;
+	height: 18px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 150%;
+	text-transform: uppercase;
+	color: #00193c;
+	margin-left: 15px;
+}
+
+.Book__subcategory {
+	border-bottom: 1px solid grey;
+}
+
+.BookSearchBar {
+	margin-left: 0px;
+	margin-bottom: 0px;
+	height: 100%;
+}
+
+.BookSearchBar__ButtonGroup {
+	width: 100%;
+	height: 48px;
+	background-color: #f2f2f2;
+	border-radius: 60px 60px 60px 60px;
+}
+
+.NavigationModal {
+	overflow-x: hidden;
+}
+
+.NavigationModal__navigation {
+	height: 32px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 32px;
+	margin-bottom: 8px;
+	margin-left: 8px;
+}
+
+.SettingsModal__settingsOption {
+	height: 36px;
+	margin: 0px;
+	margin-left: 6px;
+	/* margin-right:50%; */
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 100%;
+	/* display: inline; */
+	display: flex;
+
+	align-items: center;
+	color: #001533;
+}
+
+.SettingsModal__settingsHeader {
+	height: 36px;
+	margin: 0px;
+	margin-left: 6px;
+	font-family: "Noto Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 100%;
+	display: flex;
+	align-items: center;
+	color: #001533;
+}
+
+.SettingsModal__settingButton {
+	height: 30px;
+	width: 30px;
+	max-height: 30px;
+	max-width: 30px;
+	min-width: 30px;
+}
+
+.SettingsModal__settingsValue {
+	margin: 0px;
+	text-align: center;
+	line-height: 30px;
+	width: calc(100% - 70px);
+	display: inline-block;
+}
+
+.SettingsModal__Options__title {
+	color: #66768b;
+	float: left;
+	font-weight: bold;
+}

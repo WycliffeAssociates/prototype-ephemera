@@ -1,73 +1,67 @@
-import { FormattedGreekWord} from '../../../types';
-import { useRef } from 'react';
-
+import {
+	NewFormattedWord,
+	FormattedGreekWord,
+} from "../../../types";
+import { EnglishWord } from "./EnglishWord";
+import { GreekWord } from "./GreekWord";
+import { SubWordContainer } from "./SubWordContainer";
+import { PhraseWordContainer } from "./PhraseWordContainer";
+import { useGreekWordsParams } from "../../../hooks/useGreekWordsParams";
 
 interface WordProps {
-    onPhraseClick: (greekWords : FormattedGreekWord[]) => void;
-    englishWords : string,
-    isPhrase? : boolean,
-    containsSubWords? : boolean,
-    greekWords? : FormattedGreekWord[],
-    handleClick: (params: any) => any,
-  }
-  
-  
-  function Word({onPhraseClick, greekWords, englishWords, isPhrase, containsSubWords, handleClick} : WordProps) {
-  
-    const wordRef = useRef(null);
-  
-  
-    if(!greekWords)
-    {
-      return(
-        <>
-          <span>
-            {englishWords}
-          </span>
-          <span> </span>
-        </>
-      )
-    }
-    else if(isPhrase)
-    {
-      return(
-        <>
-          <span ref={wordRef} 
-                className="TextContainer__GreekPhrase"  
-                onClick={() => {onPhraseClick(greekWords); handleClick(wordRef)}}>
-            {englishWords}
-          </span>
-          <span> </span>
-        </>
-      )
-    }
-    else if(containsSubWords)
-    {
-      return(
-        <>
-          <span ref={wordRef} 
-                className="TextContainer__GreekPhrase" 
-                onClick={() => {onPhraseClick(greekWords); handleClick(wordRef)}}>
-            {englishWords}
-          </span>
-          <span> </span>
-        </>
-      )
-    }
-    else
-    {
-      return(
-        <>
-          <span ref={wordRef} 
-                className="TextContainer__GreekPhrase" 
-                onClick={() => {onPhraseClick(greekWords); handleClick(wordRef)}}>
-            {englishWords}
-          </span>
-          <span> </span>
-        </>
-      )
-    }
-  
-  }
+	handleClick: (params: any) => any;
+	verseNumber: number;
+	versePhrase: NewFormattedWord;
+}
 
-  export default Word;
+function Word({
+	verseNumber,
+	versePhrase,
+	handleClick,
+}: WordProps) {
+
+	const {
+		setGreekWordsParams, 
+	} = useGreekWordsParams();
+
+	function handlePhraseClick(
+		newGreekWords: FormattedGreekWord[]
+	) {
+		let newParams = {
+			greekWords: newGreekWords,
+			show: true,
+			verseNumber: verseNumber
+		}
+		setGreekWordsParams(newParams);
+	}
+
+	if (versePhrase.phraseWords !== undefined) {
+		return (
+			<PhraseWordContainer
+				handleClick={handleClick}
+				onPhraseClick={handlePhraseClick}
+				versePhrase={versePhrase}
+			/>
+		);
+	} else if (versePhrase.subWords !== undefined) {
+		return (
+			<SubWordContainer
+				handleClick={handleClick}
+				onPhraseClick={handlePhraseClick}
+				versePhrase={versePhrase}
+			/>
+		);
+	} else if (versePhrase.greekWords) {
+		return (
+			<GreekWord
+				handleClick={handleClick}
+				onPhraseClick={handlePhraseClick}
+				versePhrase={versePhrase}
+			/>
+		);
+	} else {
+		return <EnglishWord versePhrase={versePhrase} />;
+	}
+}
+
+export default Word;

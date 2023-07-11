@@ -1,37 +1,69 @@
-import Grid from '@mui/material/Grid';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Button from '@mui/material/Button';
-import SettingsIcon from '@material-ui/icons/Settings';
+import Grid from "@mui/material/Grid";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
+import useBookChapterParams from "../hooks/useBookChapterParams";
 
-
-
-function ChapterNavigationBar()
-{
-  return (
-
-    <Grid container direction="row" justifyContent={{lg: "center", md: "center", sm:"flex-start"}} alignItems="flex-start" style={{marginLeft:"0px", marginBottom:"0px", height:"100%"}}>
-      <Grid item lg={6} md={6} sm={10} xs={10}>
-        <ButtonGroup variant="outlined" aria-label="outlined button group" style={{width:"100%", height:"48px", backgroundColor:"#f2f2f2", borderRadius:"25px 25px 25px 25px"}} >
-          <Button onClick={() => {console.log("onClickHere")}} style={{width:"85%", borderColor:"#d9d9d9", borderRadius:"25px 0px 0px 25px"}}> 
-            <span className="ChapterNavigationBar__Span ChapterNavigationBar__BookName">
-                Philemon
-              </span>
-          </Button>
-          <Button onClick={() => {console.log("onClickHere")}} style={{width:"15%", borderColor:"#d9d9d9", borderRadius:"0px 25px 25px 0px"}}>
-            <span className="ChapterNavigationBar__Span">
-              1
-            </span>
-          </Button>
-        </ButtonGroup>
-      </Grid>
-
-      <Grid item lg={1} md={1} sm={2} xs={2}>
-      <Button onClick={() => {console.log("onClickHere")}} style={{height:"50px"}}><SettingsIcon style={{color:"#001A3D99"}}/></Button>
-         
-      </Grid>
-    </Grid>
-  )
+interface ChapterNavigationBarProps {
+	onClick: (params: "Books" | "Chapters") => any;
 }
 
+function ChapterNavigationBar({
+	onClick,
+}: ChapterNavigationBarProps) {
+	let bookChapter =
+		useBookChapterParams().getBookChaptersParams();
+
+	return (
+		<Grid
+			container
+			justifyContent="center"
+			alignItems="center"
+			style={{
+				padding: "20px 40px 20px 40px",
+				borderWidth: "0px 2px 2px 0px",
+				borderColor: "rgb(229, 232, 235)",
+				borderStyle: "solid",
+			}}
+		>
+			<Grid item xs={10}>
+				<ButtonGroup
+					variant="outlined"
+					aria-label="outlined button group"
+					style={{
+						width: "100%",
+						height: "48px",
+						backgroundColor: "#f2f2f2",
+						borderRadius: "25px 25px 25px 25px",
+					}}
+				>
+					<Button
+						onClick={() => onClick("Books")}
+						style={{
+							width: "85%",
+							borderColor: "#d9d9d9",
+							borderRadius: "25px 0px 0px 25px",
+						}}
+					>
+						<span className="ChapterNavigationBar__Span ChapterNavigationBar__BookName">
+							{bookChapter.book}
+						</span>
+					</Button>
+					<Button
+						onClick={() => onClick("Chapters")}
+						style={{
+							width: "15%",
+							borderColor: "#d9d9d9",
+							borderRadius: "0px 25px 25px 0px",
+						}}
+					>
+						<span className="ChapterNavigationBar__Span">
+							{bookChapter.chapter}
+						</span>
+					</Button>
+				</ButtonGroup>
+			</Grid>
+		</Grid>
+	);
+}
 
 export default ChapterNavigationBar;

@@ -1,98 +1,118 @@
-import { useState, useEffect } from 'react';
-import getChapter from '../../api';
+import { useState, useEffect } from "react";
 import "../../App.css";
-import { FormattedGreekWord, FormattedVerse} from '../../types';
-import mapVerses from '../Text/utils/generateVerses'
-import Word from './utils/Word'
+import Word from "./utils/Word";
+import useBookChapterParams from "../../hooks/useBookChapterParams";
+import useChapterVerseData from "../../hooks/useChapterVerseData";
+import { useSettings } from "../../hooks/SettingsContext";
+import { mapValidULBSettings } from "./utils/mapValidULBSettings";
+import { useGreekWordsParams } from "../../hooks/useGreekWordsParams";
 
+function Text() {
+	const bookChapter =
+		useBookChapterParams().getBookChaptersParams();
+	const verses = useChapterVerseData(
+		bookChapter.book,
+		parseInt(bookChapter.chapter)
+	);
+	const [childClicked, setChildClicked] = useState<any>({});
+	const { ULBSettings } = useSettings();
+	const { showGreekWords } = useGreekWordsParams();
 
+	const defaultTextColor = "#001533CC";
+	const highlightColor = "blue";
 
-interface TextProps {
-    onPhraseClick: (greekWords : FormattedGreekWord[]) => any;
-}
+	useEffect(() => {
+		resetTextData();
+	}, [verses]);
 
-function Text({onPhraseClick}: TextProps)
-{
-  const [verses, setVerses] = useState([] as FormattedVerse[]);
-  const [childClicked, setChildClicked] = useState<any>({});
-  const [windowSize, setWindowSize] = useState(getWindowSize());
+	// color back to default.
+	useEffect(() => {
+		if (!showGreekWords) {
+			if (
+				childClicked?.current?.style?.color !== undefined
+			) {
+				childClicked.current.style.color = defaultTextColor;
+				childClicked.current.style.textDecoration = "none";
+			}
+		}
+	}, [showGreekWords]);
 
-  function getWindowSize() {
-    const {innerWidth, innerHeight} = window;
-    return {innerWidth, innerHeight};
-  }
+	function resetTextData() {
+		// Makes sure that all text is default color after navigating to another chapter.
+		if (childClicked?.current?.style?.color !== undefined) {
+			childClicked.current.style.color = defaultTextColor;
+			childClicked.current.style.textDecoration = "none";
+		}
+		// Makes sure that the next chapter is starting from verse 1.
+		document.getElementById("TextContainer")?.scroll(0, 0);
+		setChildClicked({});
+	}
 
-  function handleChildClicked(newChildClicked: any) {
+	function highlightSelectedPhrase(newChildClicked: any) {
+		if (childClicked?.current?.style?.color !== undefined) {
+			childClicked.current.style.color = defaultTextColor;
+			childClicked.current.style.textDecoration = "none";
+		}
+		if (
+			newChildClicked?.current?.style?.color !== undefined
+		) {
+			newChildClicked.current.style.color = highlightColor;
+			newChildClicked.current.style.textDecoration =
+				"underline";
+		}
+	}
 
-    if(childClicked?.current?.style?.color !== undefined) 
-    {
-      childClicked.current.style.color = "#001533CC";
-    } 
+	function handleChildClicked(newChildClicked: any) {
+		highlightSelectedPhrase(newChildClicked);
+		setChildClicked(newChildClicked);
+	}
 
-    if(newChildClicked?.current?.style?.color !== undefined)
-    {
-      newChildClicked.current.style.color = "blue";
-    }
+	let overwriteStyle: any =
+		mapValidULBSettings(ULBSettings).verseStyles;
+	let verseOutput: any[] = [];
 
-    setChildClicked(newChildClicked);
-  }
+	verses.forEach((verse, idx) => {
+		let verseWordOutput: any[] = [];
+		let extraMarginTop: string = "20px";
+		if (idx == 0) {
+			extraMarginTop = "0px";
+		}
+		verse.verseWords.forEach((verseWord, idx) => {
+			verseWordOutput.push(
+				<Word
+					key={`v${verse.verseNum} w${idx}`}
+					handleClick={handleChildClicked}
+					versePhrase={{ ...verseWord }}
+					verseNumber={verse.verseNum}
+				/>
+			);
+		});
 
-  useEffect(() => {
-    let data = getChapter();
+		const tempVerse = (
+			<p
+				key={`verse + ${verse.verseNum}`}
+				className="TextContainer__Verse"
+				style={{
+					...overwriteStyle,
+					marginTop: extraMarginTop,
+				}}
+			>
+				<sup>{verse.verseNum}</sup> {verseWordOutput}
+			</p>
+		);
+		verseOutput.push(tempVerse);
+	});
 
-    setVerses(mapVerses(data));
-
-    function handleWindowResize() {
-      setWindowSize(getWindowSize());
-    }
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  }, []);
-
-
-  useEffect(() => {
-      // NOTE: 900px is the current breakpoint for mobile devices. 
-      // Scroll to top when possible, else scroll to the bottom
-      // TODO: add case where phrase is already at the top or at the bottom
-      if(childClicked?.current !== undefined && windowSize.innerWidth < 900)
-      {
-        let startBottom = childClicked.current.getBoundingClientRect().bottom;
-        childClicked?.current.scrollIntoView({block: "start"})
-        let endBottom = childClicked.current.getBoundingClientRect().bottom;
-
-        if(startBottom == endBottom)
-        {
-          childClicked?.current.scrollIntoView({block: "end"})
-        }
-      }
-  }, [childClicked, windowSize.innerWidth])
-
-
-  let verseOutput : any[] = [];
-
-  verses.forEach((verse, verseIdx) => {
-    let verseWordOutput : any[] = [];
-
-    verse.verseWords.forEach((verseWord, wordIdx) => {
-      
-      verseWordOutput.push(<Word handleClick={handleChildClicked} onPhraseClick={onPhraseClick} {...verseWord}/>)
-    })
-
-    const tempVerse = (
-      <p className="TextContainer__Verse"><sup>{verseIdx + 1}</sup> {verseWordOutput}</p>
-    )
-    verseOutput.push(tempVerse);
-  })
-  
-  return (
-    <>
-      {verseOutput}
-    </>
-  )
+	return (
+		<div
+			id="TextContainerContent"
+			style={{ paddingBottom: "100px" }}
+		>
+			{verses.length === 0
+				? "Please enter a valid book / chapter"
+				: verseOutput}
+		</div>
+	);
 }
 
 export default Text;

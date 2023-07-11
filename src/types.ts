@@ -1,92 +1,172 @@
 type NoteTag = {
-  ATTR: any,
-  _text: any,
-}
+	ATTR: any;
+	_text: any;
+};
 
 type WordTag = {
-  ATTR: any,
-  note?: NoteTag[],
-  _text: string,
-}
+	ATTR: any;
+	note?: NoteTag[];
+	_text: string;
+};
 
 // NOTE: the attribute w represents the w tag used by OSIS
 type VerseTag = {
-  ATTR: any,
-  note?: [],
-  w: WordTag[]
-}
+	ATTR: any;
+	note?: [];
+	w: WordTag[];
+};
 
 type GreekWordNotes = {
-  OGNTSort : string,
-  strongs : string,
-  text? : string,
-  sub? : string,
-  phraseWords? : string,
-}
+	OGNTSort: string;
+	strongs: string;
+	text?: string;
+	sub?: string;
+	phraseWords?: string;
+	subPhraseWords?: string;
+};
 
-type ValidGreekWordNoteKeys = "OGNTsort" | "text" | "sub" | "phraseWords" | "strongs";
+type ValidGreekWordNoteKeys =
+	| "OGNTsort"
+	| "text"
+	| "sub"
+	| "phraseWords"
+	| "strongs"
+	| "subPhraseWords";
 
 type ValidGreekWordAttributeKeys = "lemma" | "morph";
 
 type GreekWordAttributes = {
-  [key in ValidGreekWordAttributeKeys] : string;
-}
+	[key in ValidGreekWordAttributeKeys]: string;
+};
 
 type GreekWord = {
-  notes : GreekWordNotes;
-  attributes : GreekWordAttributes;
-  text : string;
-}
+	notes: GreekWordNotes;
+	attributes: GreekWordAttributes;
+	text: string;
+};
 
 type GreekPhraseWord = {
-    greekWords: string,
-    englishWords: string,
-    morphology: string,
-    descriptions: string[],
+	greekWords: string;
+	englishWords: string;
+	morphology: string;
+	descriptions: string[];
 };
 
 type FormattedGreekWord = {
-  lemma : string,
-  morph : string,
-  OGNTSort : string,
-  text : string,
-  strongs : string
-  sub? : string,
-  phraseWords? : string,
-  morphology?: string,
-  descriptions?: Description[],
-  gwtGreekWord?: string,
-}
+	lemma: string;
+	morph: string;
+	OGNTSort: string;
+	text: string;
+	strongs: string;
+	sub?: string;
+	phraseWords?: string;
+	subPhraseWords?: string;
+	morphology?: string;
+	descriptions?: Description[];
+	gwtGreekWord?: string;
+	adviceForTranslators?: string;
+	verseReferences?: string[];
+	unprocessedData?: string;
+};
 
 type Description = {
-  mainDescription: string,
-  subDescriptions?: string[]
-}
+	mainDescription: string;
+	subDescriptions?: string[];
+};
 
 type FormattedWord = {
-  englishWords : string,
-  isPhrase? : boolean,
-  containsSubWords? : boolean,
-  greekWords? : FormattedGreekWord[]
-}
+	englishWords: string;
+	isPhrase?: boolean;
+	containsSubWords?: boolean;
+	greekWords?: FormattedGreekWord[];
+};
+
+type NewFormattedGreekWord = {
+	lemma: string;
+	morph: string;
+	OGNTSort: string;
+	text: string;
+	strongs: string;
+	morphology?: string;
+	descriptions?: Description[];
+	gwtGreekWord?: string;
+	subPhraseWords?: string;
+	phraseWords?: string;
+};
+
+type PhraseWord = NewFormattedGreekWord & {
+	phraseWords: string;
+};
+
+type SubWord = {
+	subIdx?: string;
+	word: NewFormattedGreekWord | string;
+	subPhraseWords?: PhraseWord[];
+};
+
+type NewFormattedWord = {
+	englishWords: string;
+	greekWords?: NewFormattedGreekWord[];
+	subWords?: SubWord[];
+	phraseWords?: PhraseWord[];
+	subPhraseWords?: SubWord & PhraseWord[];
+};
+
+type NewFormattedVerse = {
+	verseWords: NewFormattedWord[];
+	verseNum: number;
+};
 
 type FormattedVerse = {
-  verseWords : FormattedWord[];
-}
+	verseWords: FormattedWord[];
+};
 
+type GWTInformation = {
+	gwtGreekWord: string;
+	descriptions: Description[];
+	morphology: string;
+	verseReferences?: string[];
+	adviceForTranslators?: string;
+	unprocessed?: string;
+};
+
+type SettingsOption = {
+	name: string;
+	value: string | number | boolean | undefined;
+	modifier: (
+		newValue: string | number | boolean | undefined
+	) => any;
+	inputType: "switch" | "increment" | "button";
+	unit?: string;
+	styleOverrideKey?: string;
+	styleOverrideValue?: string;
+	defaultValue?: string | number | boolean;
+};
+
+type ULBSettingsOption = SettingsOption & {
+	level: "verse" | "word" | "all";
+};
 
 export type {
-    GreekWord, 
-    GreekWordNotes, 
-    GreekWordAttributes,
-    GreekPhraseWord,
-    ValidGreekWordAttributeKeys, 
-    ValidGreekWordNoteKeys,
-    NoteTag,
-    WordTag,
-    VerseTag,
-    FormattedGreekWord,
-    FormattedWord,
-    FormattedVerse,
-    Description
+	GWTInformation,
+	GreekWord,
+	GreekWordNotes,
+	GreekWordAttributes,
+	GreekPhraseWord,
+	ValidGreekWordAttributeKeys,
+	ValidGreekWordNoteKeys,
+	NoteTag,
+	WordTag,
+	VerseTag,
+	FormattedGreekWord,
+	FormattedWord,
+	FormattedVerse,
+	Description,
+	NewFormattedGreekWord,
+	SubWord,
+	PhraseWord,
+	NewFormattedWord,
+	NewFormattedVerse,
+	SettingsOption,
+	ULBSettingsOption,
 };
