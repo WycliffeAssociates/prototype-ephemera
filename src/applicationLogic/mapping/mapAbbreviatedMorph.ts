@@ -1,9 +1,10 @@
-import {data} from "../data/OpenGNT_morphology_English_data";
+import { data } from "../data/OpenGNT_morphology_English_data";
 
-function getMorphDescription(abbreviatedMorphology : string) {
-    let indexedData = data as any;
-    return indexedData[abbreviatedMorphology];
+function getMorphDescription(
+	abbreviatedMorphology: string
+) {
+	let indexedData : Record<string, string> = data;
+	return indexedData[abbreviatedMorphology];
 }
 
-export {getMorphDescription};
-
+export { getMorphDescription };

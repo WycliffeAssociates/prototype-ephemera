@@ -1,157 +1,348 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import {useNavigate, createSearchParams } from "react-router-dom";
-import { books as newTestamentMetadata } from "../applicationLogic/data/newTestamentMetadata";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import {
+	useSearchParams,
+} from "react-router-dom";
+import { books, books as newTestamentMetadata } from "../applicationLogic/data/newTestamentMetadata";
 
 
-function validateBookChapter(book: string, chapter: string) : boolean {
-  if(newTestamentMetadata[book] !== undefined) {
-    let chapterNumber = parseInt(chapter)
-    if(chapterNumber > 0 && chapter <= newTestamentMetadata[book].numChapters) {
-      return true;
-    }
-  }
-  return false;
+function validateBookChapter(
+	book: string,
+	chapter: string
+): boolean {
+	if (newTestamentMetadata[book] !== undefined) {
+		let chapterNumber = parseInt(chapter);
+		if (
+			chapterNumber > 0 &&
+			chapter <= newTestamentMetadata[book].numChapters
+		) {
+			return true;
+		}
+	}
+	return false;
 }
 
-function storeValidBookChapterParams(book: string, chapter: string) {
-  if(validateBookChapter(book, chapter)) {
-
-    let previousBookChapter = JSON.parse(localStorage.getItem("lastBookChapter") as string);
-    if(previousBookChapter?.chapter !== chapter) {
-      localStorage.setItem("lastBookChapter", JSON.stringify({"book": book, "chapter": chapter}));
-    }
-  }
+function storeValidBookChapterParams(
+	book: string,
+	chapter: string
+) {
+	if (validateBookChapter(book, chapter)) {
+		let storedBookChapter = localStorage.getItem("lastBookChapter");
+		if(storedBookChapter) 
+		{
+			let previousBookChapter = JSON.parse(
+				storedBookChapter
+			);
+		
+			if (previousBookChapter?.chapter !== chapter) {
+				localStorage.setItem(
+					"lastBookChapter",
+					JSON.stringify({ book: book, chapter: chapter })
+				);
+			}
+		} else {
+			localStorage.setItem(
+				"lastBookChapter",
+				JSON.stringify({ book: book, chapter: chapter })
+			);
+		}
+	}
 }
 
 export function useBookChapterParams() {
-    const { search } = useLocation();
-    const [book, setBook] = useState("");
-    const [chapter, setChapter] = useState(1);
-    const [refBook, setRefBook] = useState<string>();
-    const [refVerse, setRefVerse] = useState<string>();
-    const [refWord, setRefWord] = useState<string>();
-    const [refChapter, setRefChapter] = useState<number>();
-    const navigate = useNavigate()
+	const [book, setBook] = useState<string | undefined>("");
+	const [chapter, setChapter] = useState<string>();
+	const [refBook, setRefBook] = useState<string>();
+	const [refVerse, setRefVerse] = useState<string>();
+	const [refWord, setRefWord] = useState<string>();
+	const [refChapter, setRefChapter] = useState<string>();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [invalidParams, setInvalidParams] = useState<string[]>([]);
 
-    function setValidBookChapterParams(newBook: string, newChapter: string, newVerse?: string, referenceWord?: string, isReference?: boolean) {
+	let bookChapterQueryParameters: {
+		[key: string]: {
+		  stateSetter: Dispatch<SetStateAction<string | undefined>>
+		  stateGetter: () => string | number | undefined,
+		  validator?: (input : string | number, context?: any) => boolean,
+		  defaultValue?: string
+		}
+	  } =  {
+		"book": { 
+			stateSetter: setBook,
+			stateGetter: () => {return book},
+			validator: (input : string | number) => {return books[input] ? true : false},
+			defaultValue: "Matthew"
+		}, 
+		"chapter": { 
+			stateSetter: setChapter,
+			stateGetter: () => {return chapter},
+			validator: (input: string | number, context : string) => {
+				let urlParams = new URLSearchParams(searchParams);
+				let isValidChapter=false;
+				let currentBookParamValue = urlParams.get("book")
+				let currentBook = currentBookParamValue ? currentBookParamValue : "";
+				let newChapter = typeof(input) === "string" ? parseInt(input) : input;
+				isValidChapter = newChapter <= books[currentBook]?.numChapters && newChapter >= 1;
+				return isValidChapter;
+			},
+			defaultValue: "1"
+		},
+		"refBook": {
+			stateSetter: setRefBook,
+			stateGetter: () => {return refBook}
+		},
+		"refChapter": { 
+			stateSetter: setRefChapter,
+			stateGetter: () => {return refChapter}
+		},
+		"refVerse": {
+			stateSetter: setRefVerse,
+			stateGetter: () => {return refVerse}
+		},
+		"refWord": { 
+			stateSetter: setRefWord,
+			stateGetter: () => {return refWord}
+		},
+		
+	}
 
-      // NOTE: this is a hardcoded fix for a content issue found when 
-      // examining Philemon's 1:24 "Demas". The entry for that word in the gwt repo
-      // has a verse reference going to "Colossian", however, the en_ulb names the book "Colossians"
-      if(newBook === "Colossian") {
-        newBook = "Colossians";
-      }
-      
-      if(validateBookChapter(newBook, newChapter)) {
-        let params : any;
+	function navigateToMostRecentBookChapter() {
+		let lastBookChapter:
+			| { book: string; chapter: string }
+			| undefined;
+		let storedBookChapter = localStorage.getItem("lastBookChapter");
+		if(storedBookChapter) {
+			lastBookChapter = JSON.parse(
+				storedBookChapter
+			);
+		}
+		
+		
+		//let urlParams = new URLSearchParams(searchParams);
+		let bookParam = searchParams.get("book");
+		let chapterParam = searchParams.get("chapter")
+	
+		if (lastBookChapter && (!bookParam && !chapterParam)) {
+			let newBookChapter = {
+				book: lastBookChapter.book,
+				chapter: lastBookChapter.chapter
+			}
+			setValidBookChapterParams(
+				newBookChapter,
+				false
+			);
+		} else {
+			if(bookParam && chapterParam) {
+				let newBookChapter = {
+					book: bookParam,
+					chapter: chapterParam
+				}
+				setValidBookChapterParams(
+					newBookChapter,
+					true
+				);
+			} else {
+				let newBookChapter = {
+					book: "Matthew",
+					chapter: "1"
+				}
+				setValidBookChapterParams(newBookChapter, false);
+			}
+		}
+	}
 
-        if(!isReference) {
-          params = {
-            book: newBook,
-            chapter: newChapter,
-          };
-        } else {
-          let oldParams = getBookChaptersParams();
+	type BookChapterParams = {
+		book: string,
+		chapter: string,
+	}
 
-          params = {
-            book: oldParams.book,
-            chapter: oldParams.chapter,
-            refbook: newBook,
-            refchapter: newChapter,
-            refverse: newVerse,
-            refword: referenceWord,
-          }
-        }
-      
-        const options = {
-            pathname: '/',
-            search: `?${createSearchParams(params)}`,
-        }
-      
-        navigate(options, { replace: true });
-      }
-    }
+	type VerseReferenceParams = {
+		bookReference: string,
+		chapterReference: string,
+		verseReference: string,
+		word: string
+	}
+
+	function setValidBookChapterParams(
+		bookChapterParams : BookChapterParams, 
+		keepParams : boolean
+		) {
+		
+		let urlParams = new URLSearchParams(searchParams);
+
+		if(bookChapterParams) {
+			let {
+				book,
+				chapter
+			} = bookChapterParams;
+
+			// NOTE: this is a hardcoded fix for a content issue found when
+			// examining Philemon's 1:24 "Demas". The entry for that word in the gwt repo
+			// has a verse reference going to "Colossian", however, the en_ulb names the book "Colossians"
+			
+			if (book === "Colossian") {
+				book = "Colossians";
+			}
+
+			let isValidBookChapter = validateBookChapter(book, chapter);
+			
+			if(isValidBookChapter) {
+				urlParams.set("book", book);
+				urlParams.set("chapter", chapter);
+
+				if(keepParams !== true) {
+					trimNonBookChapterURLParams(urlParams);
+					trimReferenceURLParams(urlParams);
+				} 
+			}
+		}
+		setSearchParams(urlParams);
+	}
+
+	function setValidVerseReferenceParams(
+		verseReferenceParams : VerseReferenceParams,
+		) 
+	{
+		let urlParams = new URLSearchParams(searchParams);
+
+		if(verseReferenceParams) {
+			const {
+				bookReference,
+				chapterReference,
+				verseReference,
+				word
+			} = verseReferenceParams;
+
+			urlParams.set("refBook", bookReference);
+			urlParams.set("refChapter", chapterReference);
+			urlParams.set("refVerse", verseReference);
+			urlParams.set("refWord", word)
+		}
+		setSearchParams(urlParams);
+	}
 
 
-    function removeReferenceParams() {
-      let params : any;
+	// removes all query parameters excepts ones related to book/chapter
+	function trimNonBookChapterURLParams(params: URLSearchParams) {
+		const paramsArray = Array.from(params.entries());
 
-      let oldParams = getBookChaptersParams();
-      params = {
-        book: oldParams.book,
-        chapter: oldParams.chapter,
-      }
-      
-      const options = {
-          pathname: '/',
-          search: `?${createSearchParams(params)}`,
-      }
-    
-      navigate(options, { replace: true });
+		paramsArray.forEach((param) => {
+			let paramName = param[0];
+			if(bookChapterQueryParameters[paramName] === undefined) {
+				params.delete(paramName);
+			}
+		})
+	}
 
-      setRefBook(undefined);
-      setRefChapter(undefined);
-      setRefVerse(undefined);
-      setRefWord(undefined);
+	function trimReferenceURLParams(params: URLSearchParams) {
+		params.delete("refBook");
+		params.delete("refChapter");
+		params.delete("refVerse");
+		params.delete("refWord");
+	}
 
-    }
+	function removeReferenceParams() {
+
+		let urlParams = new URLSearchParams(searchParams);
+		urlParams.delete("refBook");
+		urlParams.delete("refChapter");
+		urlParams.delete("refVerse");
+		urlParams.delete("refWord");
+		setSearchParams(urlParams);
+
+		setRefBook(undefined);
+		setRefChapter(undefined);
+		setRefVerse(undefined);
+		setRefWord(undefined);
+	}
+
+	function getBookChaptersParams() {
+		return {
+			book: book,
+			chapter: chapter + "",
+			refBook: refBook,
+			refChapter: refChapter + "",
+			refVerse: refVerse,
+			refWord: refWord,
+		};
+	}
+
+	function resetInvalidQueryParameters() {
+		let urlParams = new URLSearchParams(searchParams);
+
+		for(let i = 0; i < invalidParams.length; i++) {
+			let paramKey = invalidParams[i];
+			let bookChapterParamState  = bookChapterQueryParameters[paramKey];
+			let defaultParamValue = bookChapterParamState.defaultValue;
+			if(defaultParamValue) {
+				urlParams.set(paramKey, defaultParamValue);
+			}
+		}
+
+		setSearchParams(urlParams)
+	}
 
 
-    function getBookChaptersParams() {
-        return {book: book, chapter: chapter + "", refBook: refBook, refChapter: refChapter + "", refVerse: refVerse, refWord:  refWord};
-    }
+	function setStatesToQueryParams() {
+		let urlParams = new URLSearchParams(searchParams);
+		// Iterates through book/chapter query parameters and sets
+		// the state variable for that corresponding query parameter
+		let hasValidSearchParams = true;
+		let foundInvalidParams : string[] = [];
+
+		for (const key in bookChapterQueryParameters) {
+			let bookChapterParamState  = bookChapterQueryParameters[key];
+			let paramValue = urlParams.get(key);
+
+			if(paramValue && paramValue !== " ") {
+
+				let newValue: string = paramValue;
+
+				if(bookChapterParamState.validator && bookChapterParamState.defaultValue) {
+					let isNewValueValid = bookChapterParamState.validator(paramValue);
+					newValue = isNewValueValid ? paramValue : bookChapterParamState.defaultValue;
+					
+					if(!isNewValueValid) {
+						hasValidSearchParams = false;
+						foundInvalidParams.push(key);
+					}
+
+				}
+
+				if(newValue !== bookChapterParamState.stateGetter()) {
+					bookChapterParamState.stateSetter(newValue);
+				}
+			}
+		}
+
+		
+		if(!hasValidSearchParams) {
+			setInvalidParams([...foundInvalidParams])
+		}
+	}
+
+	useEffect(() => { 
+		setStatesToQueryParams();
+	}, [searchParams, searchParams.get("book"), searchParams.get("chapter"), searchParams.get("refBook")]);
 
 
-    useEffect(() => {
-      if(search.length !== 0 && search !== undefined) {
+	useEffect(() => {
+		resetInvalidQueryParameters();
+	}, [invalidParams])
 
-        let queryString = search.split("?");
-        queryString = queryString[1].split("&");
-    
-        queryString.forEach((param) => {
-          let paramArr = param.split("=");
-          let paramName = paramArr[0];
-          let paramValue = paramArr[1];
-    
-          if(paramName === "book") {
-            let book = paramValue.replace("%20", " ");
-            book = paramValue.replace("+", " ")
-            setBook(book);
-          }
-    
-          if(paramName === "chapter") {
-            setChapter(parseInt(paramValue));
-          }
 
-          if(paramName === "refbook") {
-            let book = paramValue.replace("%20", " ");
-            book = paramValue.replace("+", " ")
-            setRefBook(book);
-          }
-    
-          if(paramName === "refchapter") {
-            setRefChapter(parseInt(paramValue));
-          }
+	useEffect(() => {
+		if(book && chapter) {
+			storeValidBookChapterParams(book, chapter + "");
+		}
+	}, [book, chapter]);
 
-          if(paramName === "refverse") {
-            setRefVerse(paramValue);
-          }
-
-          if(paramName === "refword") {
-            setRefWord(paramValue);
-          }
-        });
-      }
-
-    }, [search]);
-
-    useEffect(() => {
-      storeValidBookChapterParams(book, chapter + "");
-    }, [book, chapter]);
-
-    return {"setValidBookChapterParams": setValidBookChapterParams, "getBookChaptersParams": getBookChaptersParams, "removeReferenceParams": removeReferenceParams};
+	return {
+		setValidBookChapterParams: setValidBookChapterParams,
+		setValidVerseReferenceParams: setValidVerseReferenceParams,
+		getBookChaptersParams: getBookChaptersParams,
+		removeReferenceParams: removeReferenceParams,
+		navigateToMostRecentBookChapter: navigateToMostRecentBookChapter
+	};
 }
-
 
 export default useBookChapterParams;

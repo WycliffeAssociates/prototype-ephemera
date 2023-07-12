@@ -1,29 +1,31 @@
 import { useState, useEffect } from "react";
-import {  NewFormattedVerse } from '../types';
-import getChapterVerses from '../api';
-import mapVerses from '../applicationLogic/mapping/mapULB';
+import { NewFormattedVerse } from "../types";
+import getChapterVerses from "../api";
+import mapVerses from "../applicationLogic/mapping/mapTagsToFormattedVerse";
 
-function useChapterVerseData( book: string, chapter: number)
-{
-    const [verses, setVerses] = useState([] as NewFormattedVerse[]);
+function useChapterVerseData(
+	book: string | undefined,
+	chapter: number
+) {
+	const [verses, setVerses] = useState<NewFormattedVerse[]>(
+		[]
+	);
 
-    useEffect(() => {
+	useEffect(() => {
+		const fetchData = async () => {
+			if(book) {
+				const data = await getChapterVerses(book, chapter);
+				setVerses(mapVerses(data));
+			}
 
-        const fetchData = async () => {
-            const data = await getChapterVerses(book, chapter);
+			// console.log("test case expected results (mapVerses(data))");
+			// console.log(JSON.stringify(mapVerses(data)))
+		};
 
-            // console.log("test case expected results (mapVerses(data))");
-            // console.log(JSON.stringify(mapVerses(data)))
+		fetchData();
+	}, [book, chapter]);
 
-            setVerses(mapVerses(data));
-        }
-
-        fetchData();
-    
-    }, [book, chapter]);
-
-      return verses;
-
+	return verses;
 }
 
 export default useChapterVerseData;

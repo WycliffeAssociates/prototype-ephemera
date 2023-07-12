@@ -1,14 +1,14 @@
 import { Grid } from "@mui/material";
-import { useSettings } from "../../../../hooks/SettingsContext";
-import { FormattedGreekWord } from "../../../../types";
-import { mapValidGWTSettings } from "../../GreekWordInfo/utils/mapValidGWTSettings";
+import { useSettings } from "../../../hooks/SettingsContext";
+import { FormattedGreekWord } from "../../../types";
+import { mapValidGWTSettings } from "../../InformationPanel/GreekWordInfo/utils/mapValidGWTSettings";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 
 interface GreekWordsBannerProps {
 	greekWords: FormattedGreekWord[];
 }
 
-export default function BannerMessage({
+export function BannerMessage({
 	greekWords,
 }: GreekWordsBannerProps) {
 	const { GWTSettings } = useSettings();
