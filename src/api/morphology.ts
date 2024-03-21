@@ -50,12 +50,17 @@ export async function fetchMorphologyWord(greekWords?: FormattedGreekWord[], mor
                 fileName = fullMorphToFileName[fileName];
             }
 
-            let response = await axios.get(
-                `https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${fileName}.md`
-            );
+            var morphology = await fetch(`en_gwt/02_morphology_files/${fileName}.md`)
+            if (!morphology.ok) {
+                throw new Error('Failed to fetch morphology file');
+            }
 
-            returnVal = response.data;
+            const contentType = morphology.headers.get('content-type');
+            if (contentType && contentType.includes('text/html')) {
+              throw new Error('Received HTML instead of Markdown')
+            }
 
+            returnVal = morphology.text();
         } catch (error) {
             if (greekWords) {
                 let greekWord = greekWords[

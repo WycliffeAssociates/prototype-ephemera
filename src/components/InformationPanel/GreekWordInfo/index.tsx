@@ -36,7 +36,7 @@ function GreekWordInfo({
 
 			if (greekWordMarkDown !== undefined) {
 				let gwtWords = await mapGWTMarkdown(
-					greekWordMarkDown.data
+					greekWordMarkDown
 				);
 				gwtWords.forEach((gwtWord) => {
 					wordsInfo.push({
