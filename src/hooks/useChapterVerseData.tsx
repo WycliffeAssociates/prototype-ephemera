@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
-import { NewFormattedVerse } from "../types";
-import getChapterVerses from "../api";
-import mapVerses from "../applicationLogic/mapping/mapTagsToFormattedVerse";
+import { AlignedVerse } from "../types";
+import { OsisEnUlbAccessor } from "src/api/SourceTextAccessor";
+
+const accessor = new OsisEnUlbAccessor()
+
 
 function useChapterVerseData(
 	book: string | undefined,
 	chapter: number
 ) {
-	const [verses, setVerses] = useState<NewFormattedVerse[]>(
+	const [verses, setVerses] = useState<AlignedVerse[]>(
 		[]
 	);
 
 	useEffect(() => {
 		const fetchData = async () => {
+
 			if(book) {
-				const data = await getChapterVerses(book, chapter);
-				setVerses(mapVerses(data));
+				let alignedSourceText = await accessor.getSourceText(book, chapter);
+				setVerses(alignedSourceText);
 			}
 
 			// console.log("test case expected results (mapVerses(data))");

@@ -35,7 +35,7 @@ function Text() {
 				childClicked.current.style.textDecoration = "none";
 			}
 		}
-	}, [showGreekWords]);
+	}, [childClicked, showGreekWords]);
 
 	function resetTextData() {
 		// Makes sure that all text is default color after navigating to another chapter.
@@ -74,19 +74,21 @@ function Text() {
 	verses.forEach((verse, idx) => {
 		let verseWordOutput: any[] = [];
 		let extraMarginTop: string = "20px";
-		if (idx == 0) {
+		if (idx === 0) {
 			extraMarginTop = "0px";
 		}
-		verse.verseWords.forEach((verseWord, idx) => {
+
+		verse.alignedVerseText.forEach((alignedVerseWord, idx) => {
 			verseWordOutput.push(
 				<Word
 					key={`v${verse.verseNum} w${idx}`}
 					handleClick={handleChildClicked}
-					versePhrase={{ ...verseWord }}
+					versePhrase={{ ...alignedVerseWord }}
 					verseNumber={verse.verseNum}
 				/>
 			);
 		});
+
 
 		const tempVerse = (
 			<p

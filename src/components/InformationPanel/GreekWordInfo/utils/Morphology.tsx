@@ -78,7 +78,7 @@ function Morphology({
 
 					<div style={{ float: "left" }}>
 						{morphologyLinks.map((link, idx) => {
-							if (idx != morphologyLinks.length - 1) {
+							if (idx !== morphologyLinks.length - 1) {
 								return (
 									<>
 										<span

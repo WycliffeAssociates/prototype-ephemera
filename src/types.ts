@@ -147,7 +147,26 @@ type ULBSettingsOption = SettingsOption & {
 	level: "verse" | "word" | "all";
 };
 
+
+type AlignedGreekWord = {
+	strong: string;
+	morph: string;
+}
+
+type AlignedText = {
+	text: string;
+	strongs?: string[] // TODO: replace this with alignedGreekWords: alignedGreekWord[]
+}
+
+
+type AlignedVerse = {
+	verseNum: number;
+	alignedVerseText: AlignedText[];
+}
+
 export type {
+	AlignedVerse,
+	AlignedText,
 	GWTInformation,
 	GreekWord,
 	GreekWordNotes,

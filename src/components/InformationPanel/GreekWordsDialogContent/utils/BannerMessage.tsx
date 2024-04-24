@@ -1,21 +1,21 @@
 import { Grid } from "@mui/material";
 import { useSettings } from "../../../../hooks/SettingsContext";
-import { FormattedGreekWord } from "../../../../types";
+import { AlignedText } from "../../../../types";
 import { mapValidGWTSettings } from "../../GreekWordInfo/utils/mapValidGWTSettings";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 
 interface GreekWordsBannerProps {
-	greekWords: FormattedGreekWord[];
+	alignedText: AlignedText;
 }
 
 export default function BannerMessage({
-	greekWords,
+	alignedText,
 }: GreekWordsBannerProps) {
 	const { GWTSettings } = useSettings();
 	let overwriteStyle: any =
 		mapValidGWTSettings(GWTSettings);
 
-	if (greekWords && greekWords?.length >= 4) {
+	if (alignedText && alignedText?.strongs && alignedText?.strongs.length >= 4) {
 		return (
 			<Grid
 				item
@@ -56,7 +56,7 @@ export default function BannerMessage({
 								...overwriteStyle,
 							}}
 						>
-							There are {greekWords.length} Greek word
+							There are {alignedText?.strongs.length} Greek word
 							translations
 						</span>
 					</Grid>

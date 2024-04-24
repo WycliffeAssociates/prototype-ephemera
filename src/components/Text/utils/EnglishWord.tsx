@@ -1,9 +1,9 @@
-import { NewFormattedWord } from "../../../types";
+import { AlignedText } from "../../../types";
 import { useSettings } from "../../../hooks/SettingsContext";
 import { mapValidULBSettings } from "../utils/mapValidULBSettings";
 
 interface EnglishWordProps {
-	versePhrase: NewFormattedWord;
+	versePhrase: AlignedText;
 }
 
 export function EnglishWord({
@@ -22,7 +22,7 @@ export function EnglishWord({
 					fontSize: overwriteStyles.fontSize,
 				}}
 			>
-				{versePhrase.englishWords}
+				{versePhrase.text}
 			</span>
 			<span> </span>
 		</>

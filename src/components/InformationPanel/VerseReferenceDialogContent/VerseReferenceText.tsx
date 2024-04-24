@@ -2,10 +2,7 @@ import useChapterVerseData from "../../../hooks/useChapterVerseData";
 import { useSettings } from "../../../hooks/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import {
-	NewFormattedGreekWord,
-	NewFormattedWord,
-	PhraseWord,
-	SubWord,
+	AlignedText
 } from "../../../types";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
 
@@ -30,40 +27,16 @@ export function VerseReferenceText({
 	let overwriteStyle: any =
 		mapValidGWTSettings(GWTSettings);
 
-	function checkSubWordsForReference(
-		subWords: SubWord[] | undefined
-	) {
-		return subWords
-			?.map((subWord) => {
-				subWord.word = subWord.word;
-				if(typeof(subWord.word) !== "string") {
-					return subWord.word.strongs;
-				}
-			})
-			.includes(refWord);
-	}
-
 	function checkGreekWordsForReference(
-		greekWords: NewFormattedGreekWord[] | undefined
+		greekWords: string[]
 	) {
 		return greekWords
-			?.map((foo) => foo.strongs)
-			.includes(refWord);
+			?.includes(refWord);
 	}
 
-	function checkPhraseWordsForReference(
-		phraseWords: PhraseWord[] | undefined
-	) {
-		return phraseWords
-			?.map((foo) => foo.strongs)
-			.includes(refWord);
-	}
-
-	function checkForReferences(verseWord: NewFormattedWord) {
+	function checkForReferences(verseWord: AlignedText) {
 		return (
-			checkSubWordsForReference(verseWord.subWords) ||
-			checkGreekWordsForReference(verseWord.greekWords) ||
-			checkPhraseWordsForReference(verseWord.phraseWords)
+			checkGreekWordsForReference(verseWord.strongs!!) 
 		);
 	}
 
@@ -73,10 +46,10 @@ export function VerseReferenceText({
 		verses.forEach((verse, verseIdx) => {
 			let verseWordOutput: any[] = [];
 
-			verse.verseWords.forEach((verseWord, wordIdx) => {
+			verse.alignedVerseText.forEach((alignedVerseText, wordIdx) => {
 				if (
 					verseIdx + 1 === parseInt(refVerse) &&
-					checkForReferences(verseWord)
+					checkForReferences(alignedVerseText)
 				) {
 					verseWordOutput.push(
 						<>
@@ -89,12 +62,12 @@ export function VerseReferenceText({
 									...overwriteStyle,
 								}}
 							>
-								<b>{verseWord.englishWords}</b>
+								<b>{alignedVerseText.text}</b>
 							</span>
 							<span> </span>
 						</>
 					);
-				} else if (checkForReferences(verseWord)) {
+				} else if (checkForReferences(alignedVerseText)) {
 					verseWordOutput.push(
 						<>
 							<span
@@ -105,7 +78,7 @@ export function VerseReferenceText({
 									...overwriteStyle,
 								}}
 							>
-								<b>{verseWord.englishWords}</b>
+								<b>{alignedVerseText.text}</b>
 							</span>
 							<span> </span>
 						</>
@@ -121,7 +94,7 @@ export function VerseReferenceText({
 									...overwriteStyle,
 								}}
 							>
-								{verseWord.englishWords}
+								{alignedVerseText.text}
 							</span>
 							<span> </span>
 						</>

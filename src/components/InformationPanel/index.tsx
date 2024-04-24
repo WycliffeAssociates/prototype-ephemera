@@ -1,6 +1,5 @@
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { FormattedGreekWord } from "../../types";
 import TipsDialogContent from "./TipsDialogContent";
 import MorphologyDialogContent from "./MorphologyDialogContent";
 import VerseReferenceDialogContent from "./VerseReferenceDialogContent";
@@ -10,17 +9,18 @@ import useMorphologyParams from "../../hooks/useMorphologyParams";
 import BannerMessage from "./GreekWordsDialogContent/utils/BannerMessage";
 import GreekWordsDialogContent from "./GreekWordsDialogContent";
 import { useInformationLayout } from "../../hooks/useInformationLayout";
+import { AlignedText } from "src/types";
 
 interface GreekWordsDialogProps {
 	open: Boolean;
 	onClose?: () => void;
-	greekWords: FormattedGreekWord[];
+	alignedText: AlignedText;
 }
 
 function InformationPanel({
 	open,
 	onClose,
-	greekWords,
+	alignedText,
 }: GreekWordsDialogProps) {
 	
 	const { 
@@ -62,7 +62,7 @@ function InformationPanel({
 		<>
 			{openGreekWordsDialog ? (
 				<Grid item xs={12}>
-					<BannerMessage greekWords={greekWords} />
+					<BannerMessage alignedText={alignedText} />
 				</Grid>
 			) : (
 				""
@@ -99,7 +99,7 @@ function InformationPanel({
 							<GreekWordsDialogContent
 								open={true}
 								onClose={onClose}
-								greekWords={greekWords}
+								alignedText={alignedText}
 							/>
 						: <></>}
 

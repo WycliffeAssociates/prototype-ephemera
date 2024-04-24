@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { FormattedGreekWord } from "src/types";
+import { AlignedText } from "src/types";
 
 export function useGreekWordsParams() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [greekWords, setGreekWords] =
-		useState<FormattedGreekWord[]>([]);
+		useState<AlignedText>();
+
 	const [showGreekWords, setShowGreekWords] = useState(false);
 	const [greekWordverseNumber, setGreekWordVerseNumber] = useState<number>();
 
@@ -35,7 +36,7 @@ export function useGreekWordsParams() {
 	}
 
 	type greekWordParams = {
-		greekWords?: FormattedGreekWord[],
+		alignedText?: AlignedText,
 		show?: boolean,
 		verseNumber?: number
 	}
@@ -48,8 +49,8 @@ export function useGreekWordsParams() {
 		urlParams.delete("refVerse");
 		urlParams.delete("refWord");
 
-		if(newParamValues.greekWords) {
-			let encodedGreekWords = encodeURIComponent(JSON.stringify(newParamValues.greekWords));
+		if(newParamValues.alignedText) {
+			let encodedGreekWords = encodeURIComponent(JSON.stringify(newParamValues.alignedText));
 			urlParams.set("greekWords", encodedGreekWords);
 		}
 
@@ -98,11 +99,11 @@ export function useGreekWordsParams() {
 				const parsedGreekWords = JSON.parse(jsonString);
 				setGreekWords(parsedGreekWords);
 			} else {
-				setGreekWords([]);
+				setGreekWords(undefined);
 			}
 
 			if (showGreekWordsParamValue) {
-				setShowGreekWords(showGreekWordsParamValue == "true");
+				setShowGreekWords(showGreekWordsParamValue === "true");
 			} else {
 				setShowGreekWords(false);
 			}

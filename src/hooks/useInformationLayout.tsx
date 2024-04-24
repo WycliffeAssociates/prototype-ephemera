@@ -71,10 +71,6 @@ export function useInformationLayout() {
         }
     }, [getMorphologyParams().morphologyWord]);
 
-    // useEffect(() => {
-
-    // })
-
 
     function onMorphologyDialogClose() {
         setOpenMorphologyDialog(false);

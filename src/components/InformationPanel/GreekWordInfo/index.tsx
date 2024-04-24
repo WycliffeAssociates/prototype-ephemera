@@ -11,7 +11,7 @@ import mapGWTMarkdown from "../../../applicationLogic/mapping/mapGWTMarkdown";
 import { WordContent } from "./utils/WordContent";
 
 interface GreekWordInfoProps {
-	currentGreekWord: FormattedGreekWord;
+	currentGreekWord: string;
 	showMoreOptions?: boolean;
 	containerRef: MutableRefObject<HTMLDivElement | null>;
 }
@@ -24,15 +24,16 @@ function GreekWordInfo({
 	const [greekWordsState, setGreekWordsState] = useState<
 		FormattedGreekWord[]
 	>([]);
+
 	const [greekWordsContent, setGreekWordsContent] =
 		useState<any[]>([]);
 
 	useEffect(() => {
 		(async () => {
 			let greekWordMarkDown = await getGreekWord(
-				currentGreekWord.strongs
+				currentGreekWord
 			);
-			let wordsInfo: FormattedGreekWord[] = [];
+			let wordsInfo: any[] = [];
 
 			if (greekWordMarkDown !== undefined) {
 				let gwtWords = await mapGWTMarkdown(
@@ -40,7 +41,7 @@ function GreekWordInfo({
 				);
 				gwtWords.forEach((gwtWord) => {
 					wordsInfo.push({
-						...currentGreekWord,
+						strongs: currentGreekWord,
 						...gwtWord,
 					});
 				});
@@ -78,8 +79,8 @@ function GreekWordInfo({
 					style={{ padding: "0px" }}
 				>
 					<span style={{ paddingTop: "50%" }}>
-						Requested word "{currentGreekWord.text}" (with
-						Strong number {currentGreekWord.strongs}) cannot
+						Requested word with
+						Strong number {currentGreekWord} cannot
 						be found.
 					</span>
 				</Grid>

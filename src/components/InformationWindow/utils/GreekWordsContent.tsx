@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import TipsDialogContent from "../../InformationPanel/TipsDialogContent";
 import { BannerMessage } from "./BannerMessage";
 import useWindowSize from "../../../hooks/useWindowSize";
-import { FormattedGreekWord } from "../../../types";
+import { AlignedText, FormattedGreekWord } from "../../../types";
 import GreekWordInfo from "../../InformationPanel/GreekWordInfo";
 
 interface GreekWordsContentProps {
-	greekWords: FormattedGreekWord[];
+	alignedText: AlignedText;
 	onClose: () => any;
 }
 
 export function GreekWordsContent({
-	greekWords,
+	alignedText,
 	onClose,
 }: GreekWordsContentProps) {
 	const [modalHeight, setModalHeight] = useState("");
@@ -25,9 +25,9 @@ export function GreekWordsContent({
 
 	return (
 		<>
-			<BannerMessage greekWords={greekWords} />
+			<BannerMessage alignedText={alignedText} />
 
-			{greekWords !== undefined && greekWords.length > 0 ? (
+			{alignedText !== undefined && alignedText.strongs && alignedText.strongs.length > 0 ? (
 				<div
 					ref={containerRef}
 					style={{
@@ -38,7 +38,7 @@ export function GreekWordsContent({
 						scrollPadding: "50px",
 					}}
 				>
-					{greekWords.map((data, idx) => (
+					{alignedText.strongs.map((strong, idx) => (
 						<div
 							style={{
 								borderBottom: "solid",
@@ -48,7 +48,7 @@ export function GreekWordsContent({
 						>
 							<GreekWordInfo
 								key={idx}
-								currentGreekWord={data}
+								currentGreekWord={strong}
 								showMoreOptions={true}
 								containerRef={containerRef}
 							/>

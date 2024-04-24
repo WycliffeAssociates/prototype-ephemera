@@ -20,7 +20,7 @@ export function View() {
 	const [textViewSize, setTextViewSize] =
 		useState(10);
 	const windowSize = useWindowSize([]);
-	const { greekWords, showGreekWords, removeAllParams, setShowGreekWordsParams } =
+	const { greekWords, showGreekWords, removeAllParams } =
 		useGreekWordsParams();
 	const [informationPanelOpen, setInformationPanelOpen] =
 		useState(false);
@@ -235,7 +235,7 @@ export function View() {
 				>
 					<InformationPanel
 						open={informationPanelOpen}
-						greekWords={greekWords ? greekWords : []}
+						alignedText={greekWords!!}
 					/>
 				</Grid>
 			</Grid>
@@ -243,7 +243,7 @@ export function View() {
 			<InformationWindow
 				open={informationWindowOpen && showGreekWords}
 				onClose={() => onInformationWindowClose()}
-				greekWords={greekWords ? greekWords : []}
+				alignedText={greekWords!!}
 			/>
 		</>
 	);

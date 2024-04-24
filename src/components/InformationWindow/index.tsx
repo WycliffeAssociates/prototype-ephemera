@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Dialog from "@mui/material/Dialog";
-import { FormattedGreekWord } from "../../types";
+import { AlignedText } from "../../types";
 import { useBookChapterParams } from "../../hooks/useBookChapterParams";
 import MorphologyDialogContent from "../InformationPanel/MorphologyDialogContent";
 import VerseReferenceDialogContent from "../InformationPanel/VerseReferenceDialogContent";
@@ -14,13 +14,13 @@ import useGreekWordsParams from "src/hooks/useGreekWordsParams";
 
 
 interface InformationWindowProps {
-	greekWords: FormattedGreekWord[];
+	alignedText: AlignedText;
 	open: boolean;
 	onClose: () => any;
 }
 
 function InformationWindow({
-	greekWords,
+	alignedText,
 	open,
 	onClose,
 }: InformationWindowProps) {
@@ -86,7 +86,7 @@ function InformationWindow({
 					>
 						{openGreekWordsDialog ?
 							<GreekWordsContent
-								greekWords={greekWords}
+								alignedText={alignedText}
 								onClose={onClose}
 							/>
 						: <></>}

@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import axios from "axios";
 import { Header } from "./utils/Header";
 import UnprocessedMarkdown from ".//utils/UnprocessedMarkdown";
 import { useSettings } from "../../../hooks/SettingsContext";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
 import { useGreekWordsParams } from "../../../hooks/useGreekWordsParams";
-import { fetchMorphologyWord } from "../../../api/morphology"
 
 interface MorphologyDialogContentProps {
 	open: Boolean;
@@ -40,10 +38,10 @@ export default function MorphologyDialogContent({
 
 	useEffect(() => {
 		(async () => {
-			let res = await fetchMorphologyWord(greekWords, morphologyWord);
-			if(res) {
-				setMorphologyWordMarkdown(res)
-			}
+			// let res = await fetchMorphologyWord(greekWords, morphologyWord);
+			// if(res) {
+			// 	setMorphologyWordMarkdown(res)
+			// }
 		})();
 	}, []);
 

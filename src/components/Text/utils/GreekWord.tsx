@@ -1,17 +1,12 @@
 import { useRef } from "react";
-import {
-	NewFormattedGreekWord,
-	NewFormattedWord,
-	PhraseWord,
-	SubWord,
-} from "../../../types";
+import { AlignedText } from "../../../types";
 import { useSettings } from "../../../hooks/SettingsContext";
 import { mapValidULBSettings } from "../utils/mapValidULBSettings";
 
 interface GreekWordProps {
-	onPhraseClick: (words: NewFormattedGreekWord[]) => void;
+	onPhraseClick: (words: AlignedText) => void;
 	handleClick: (params: any) => any;
-	versePhrase: NewFormattedWord;
+	versePhrase: AlignedText;
 }
 
 export function GreekWord({
@@ -31,16 +26,12 @@ export function GreekWord({
 				className="TextContainer__GreekPhrase"
 				style={{ ...overwriteStyles }}
 				onClick={() => {
-					onPhraseClick(
-						versePhrase.greekWords
-							? versePhrase.greekWords
-							: []
-					);
+					onPhraseClick(versePhrase);
 					handleClick(wordRef);
-					console.log(versePhrase.greekWords);
+					console.log(versePhrase);
 				}}
 			>
-				{versePhrase.englishWords}
+				{versePhrase.text}
 			</span>
 			<span> </span>
 		</>

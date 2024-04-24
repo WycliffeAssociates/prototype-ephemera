@@ -1,20 +1,20 @@
 import Grid from "@mui/material/Grid";
-import { FormattedGreekWord } from "../../../types";
 import TipsDialogContent from "../TipsDialogContent";
 import GreekWordInfo from "../GreekWordInfo";
 import Divider from "@mui/material/Divider";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { AlignedText } from "src/types";
 
 interface GreekWordsDialogProps {
 	open: Boolean;
 	onClose?: () => void;
-	greekWords: FormattedGreekWord[];
+	alignedText: AlignedText;
 }
 
 function GreekWordsDialogContent({
 	open,
 	onClose,
-	greekWords,
+	alignedText,
 }: GreekWordsDialogProps) {
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -30,13 +30,13 @@ function GreekWordsDialogContent({
 				el.scrollTo(0, 0);
 			}
 		}
-	}, [greekWords]);
+	}, [alignedText]);
 
 	if (open === false) return <></>;
 
 	return (
 		<>
-			{greekWords !== undefined && greekWords.length > 0 ? (
+			{alignedText !== undefined && alignedText.strongs && alignedText?.strongs.length > 0 ? (
 				<>
 					<div
 						ref={containerRef}
@@ -46,11 +46,11 @@ function GreekWordsDialogContent({
 							paddingRight: "40px",
 						}}
 					>
-						{greekWords.map((data, idx) => (
+						{alignedText.strongs.map((strong, idx) => (
 							<>
 								<GreekWordInfo
 									key={idx}
-									currentGreekWord={data}
+									currentGreekWord={strong}
 									containerRef={containerRef}
 								/>
 								<Grid
