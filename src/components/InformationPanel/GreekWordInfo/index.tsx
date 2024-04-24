@@ -66,7 +66,7 @@ function GreekWordInfo({
 		);
 
 		setGreekWordsContent([...greekWords]);
-	}, [greekWordsState]);
+	}, [containerRef, greekWordsState, showMoreOptions]);
 
 	if (greekWordsContent.length === 0) {
 		return (
