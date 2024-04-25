@@ -2,7 +2,8 @@ import useChapterVerseData from "../../../hooks/useChapterVerseData";
 import { useSettings } from "../../../hooks/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import {
-	AlignedText
+	AlignedText,
+	GreekAlignmentData
 } from "../../../types";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
 
@@ -28,15 +29,16 @@ export function VerseReferenceText({
 		mapValidGWTSettings(GWTSettings);
 
 	function checkGreekWordsForReference(
-		greekWords: string[]
+		greekWords: GreekAlignmentData[]
 	) {
-		return greekWords
-			?.includes(refWord);
+		return greekWords?.some((greekWordAlignmentData) =>
+			 greekWordAlignmentData.strong === refWord
+		)
 	}
 
 	function checkForReferences(verseWord: AlignedText) {
 		return (
-			checkGreekWordsForReference(verseWord.strongs!!) 
+			checkGreekWordsForReference(verseWord.greekAlignmentData!!) 
 		);
 	}
 
