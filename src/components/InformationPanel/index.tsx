@@ -4,7 +4,6 @@ import TipsDialogContent from "./TipsDialogContent";
 import MorphologyDialogContent from "./MorphologyDialogContent";
 import VerseReferenceDialogContent from "./VerseReferenceDialogContent";
 import { useBookChapterParams } from "../../hooks/useBookChapterParams";
-import { useState, useEffect } from "react";
 import useMorphologyParams from "../../hooks/useMorphologyParams";
 import BannerMessage from "./GreekWordsDialogContent/utils/BannerMessage";
 import GreekWordsDialogContent from "./GreekWordsDialogContent";
@@ -33,29 +32,9 @@ function InformationPanel({
 	} = useInformationLayout();
 
 	const { refBook, refChapter, refVerse, refWord } = useBookChapterParams().getBookChaptersParams();
-	const [refBookChapter, setRefBookChapter] = useState<any>(
-		{}
-	);
 	
 	const { getMorphologyParams } =
 		useMorphologyParams();
-
-
-	useEffect(() => {
-		if (
-			refBook !== undefined &&
-			refChapter !== undefined
-		) {
-			let newRefBookChapter = {
-				refBook: refBook,
-				refChapter: refChapter,
-				refVerse: refVerse,
-				refWord: refWord
-			}
-			setRefBookChapter({ ...newRefBookChapter });
-		}
-
-	}, [refBook, refChapter, refVerse, refWord]);
 
 
 	return (
@@ -90,7 +69,10 @@ function InformationPanel({
 									openVerseReferenceDialog
 								}
 								onClose={onVerseReferenceClose}
-								refBookChapterVerse={refBookChapter}
+								refBook={refBook}
+								refChapter={refChapter}
+								refVerse={refVerse}
+								refWord={refWord}
 								fullScreen={false}
 							/>
 						: <></>}

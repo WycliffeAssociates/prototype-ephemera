@@ -8,10 +8,10 @@ import {
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
 
 interface VerseReferenceTextProps {
-	refBook: string;
-	refChapter: number;
-	refVerse: string;
-	refWord: string;
+	refBook?: string;
+	refChapter?: string;
+	refVerse?: string;
+	refWord?: string;
 }
 
 export function VerseReferenceText({
@@ -50,7 +50,7 @@ export function VerseReferenceText({
 
 			verse.alignedVerseText.forEach((alignedVerseText, wordIdx) => {
 				if (
-					verseIdx + 1 === parseInt(refVerse) &&
+					verseIdx + 1 === parseInt(refVerse as string) &&
 					checkForReferences(alignedVerseText)
 				) {
 					verseWordOutput.push(

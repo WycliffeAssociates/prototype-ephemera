@@ -9,19 +9,22 @@ import { Divider } from "@mui/material";
 interface VerseReferenceDialogContentProps {
 	open: Boolean;
 	onClose?: () => void;
-	refBookChapterVerse: {
-		refBook: string;
-		refChapter: string;
-		refVerse: string;
-		refWord: string;
-	};
+
+		refBook?: string;
+		refChapter?: string;
+		refVerse?: string;
+		refWord?: string;
+
 	fullScreen?: boolean;
 }
 
 export default function VerseReferenceDialogContent({
 	open,
 	onClose,
-	refBookChapterVerse,
+	refBook,
+	refChapter,
+	refVerse,
+	refWord,
 	fullScreen,
 }: VerseReferenceDialogContentProps) {
 	const { GWTSettings } = useSettings();
@@ -51,8 +54,8 @@ export default function VerseReferenceDialogContent({
 									...overwriteStyle,
 								}}
 							>
-								{refBookChapterVerse.refBook}{" "}
-								{refBookChapterVerse.refChapter}
+								{refBook}{" "}
+								{refChapter}
 							</h3>
 						</Grid>
 
@@ -101,12 +104,10 @@ export default function VerseReferenceDialogContent({
 							}}
 						>
 							<VerseReferenceText
-								refBook={refBookChapterVerse.refBook}
-								refChapter={parseInt(
-									refBookChapterVerse.refChapter
-								)}
-								refVerse={refBookChapterVerse.refVerse}
-								refWord={refBookChapterVerse.refWord}
+								refBook={refBook}
+								refChapter={refChapter}
+								refVerse={refVerse}
+								refWord={refWord}
 							/>
 						</Grid>
 					</Grid>

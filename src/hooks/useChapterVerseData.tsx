@@ -7,7 +7,7 @@ const accessor = new OsisEnUlbAccessor()
 
 function useChapterVerseData(
 	book: string | undefined,
-	chapter: number
+	chapter: number | string | undefined
 ) {
 	const [verses, setVerses] = useState<AlignedVerse[]>(
 		[]
@@ -16,7 +16,7 @@ function useChapterVerseData(
 	useEffect(() => {
 		const fetchData = async () => {
 
-			if(book) {
+			if(book && chapter) {
 				let alignedSourceText = await accessor.getSourceText(book, chapter);
 				setVerses(alignedSourceText);
 			}

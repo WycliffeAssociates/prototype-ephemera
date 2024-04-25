@@ -140,10 +140,15 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
         return alignedVerses    
     }
 
-    async getSourceText(bookName: string, chapter: number): Promise<any[]> {
+    async getSourceText(bookName: string, chapter: number | string): Promise<AlignedVerse[]> {
         let result: any
         var sourceText = await this.fetchSourceText(bookName);
-        result = this.parseSourceText(sourceText, chapter)
+
+        if(typeof(chapter) === "string") {
+            result = this.parseSourceText(sourceText, parseInt(chapter))
+        } else {
+            result = this.parseSourceText(sourceText, chapter)
+        }
         return result
     }
 
