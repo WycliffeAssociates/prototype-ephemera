@@ -27,7 +27,8 @@ export function GreekWordsContent({
 		<>
 			<BannerMessage alignedText={alignedText} />
 
-			{alignedText !== undefined && alignedText.strongs && alignedText.strongs.length > 0 ? (
+			{alignedText !== undefined && 
+			alignedText.greekAlignmentData && alignedText.greekAlignmentData.length > 0 ? (
 				<div
 					ref={containerRef}
 					style={{
@@ -38,7 +39,7 @@ export function GreekWordsContent({
 						scrollPadding: "50px",
 					}}
 				>
-					{alignedText.strongs.map((strong, idx) => (
+					{alignedText.greekAlignmentData.map((greekAlignmentData, idx) => (
 						<div
 							style={{
 								borderBottom: "solid",
@@ -48,7 +49,7 @@ export function GreekWordsContent({
 						>
 							<GreekWordInfo
 								key={idx}
-								currentGreekWord={strong}
+								currentGreekWord={greekAlignmentData}
 								showMoreOptions={true}
 								containerRef={containerRef}
 							/>
