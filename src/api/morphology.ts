@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FormattedGreekWord } from "src/types";
+import { AlignedText } from "src/types";
 import { fullMorphToFileName } from "../applicationLogic/mapping/mapFullMorph";
 
 interface missingReport {
@@ -39,7 +39,7 @@ async function reportMissingMorphology(
 }
 
 
-export async function fetchMorphologyWord(greekWords?: FormattedGreekWord[], morphologyWord?: string,) {
+export async function fetchMorphologyWord(alignedText?: AlignedText, morphologyWord?: string,) {
     let returnVal = undefined;
 
     if (morphologyWord !== undefined) {
@@ -57,17 +57,18 @@ export async function fetchMorphologyWord(greekWords?: FormattedGreekWord[], mor
             returnVal = response.data;
 
         } catch (error) {
-            if (greekWords) {
-                let greekWord = greekWords[
-                    greekWords?.length - 1
+            if (alignedText?.greekAlignmentData) {
+
+                let greekWord = alignedText.greekAlignmentData[
+                    alignedText.greekAlignmentData.length - 1
                 ] as any;
+
                 let requestBody = {
-                    word: greekWords[greekWords?.length - 1].text,
-                    abbreviated:
-                        greekWords[greekWords?.length - 1].morph,
+
+                    word: alignedText.text,
+                    abbreviated: greekWord.morph,
                     full: morphologyWord,
-                    strongs:
-                        greekWords[greekWords?.length - 1].strongs,
+                    strongs: greekWord.strongs,
                     ogntSort:
                         (greekWord.OGNTsort
                             ? greekWord.OGNTsort

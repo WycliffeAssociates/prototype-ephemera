@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import "../../../App.css";
-import { FormattedGreekWord } from "../../../types";
+import { FormattedGreekWord, GreekAlignmentData } from "../../../types";
 import {
 	MutableRefObject,
 	useEffect,
@@ -11,7 +11,7 @@ import mapGWTMarkdown from "../../../applicationLogic/mapping/mapGWTMarkdown";
 import { WordContent } from "./utils/WordContent";
 
 interface GreekWordInfoProps {
-	currentGreekWord: string;
+	currentGreekWord: GreekAlignmentData;
 	showMoreOptions?: boolean;
 	containerRef: MutableRefObject<HTMLDivElement | null>;
 }
@@ -31,7 +31,7 @@ function GreekWordInfo({
 	useEffect(() => {
 		(async () => {
 			let greekWordMarkDown = await getGreekWord(
-				currentGreekWord
+				currentGreekWord.strong
 			);
 			let wordsInfo: any[] = [];
 
@@ -41,7 +41,8 @@ function GreekWordInfo({
 				);
 				gwtWords.forEach((gwtWord) => {
 					wordsInfo.push({
-						strongs: currentGreekWord,
+						strongs: currentGreekWord.strong,
+						morph: currentGreekWord.morph,
 						...gwtWord,
 					});
 				});
@@ -80,7 +81,7 @@ function GreekWordInfo({
 				>
 					<span style={{ paddingTop: "50%" }}>
 						Requested word with
-						Strong number {currentGreekWord} cannot
+						Strong number {currentGreekWord.strong} cannot
 						be found.
 					</span>
 				</Grid>

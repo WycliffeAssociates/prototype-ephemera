@@ -36,7 +36,7 @@ function GreekWordsDialogContent({
 
 	return (
 		<>
-			{alignedText !== undefined && alignedText.strongs && alignedText?.strongs.length > 0 ? (
+			{alignedText !== undefined && alignedText.greekAlignmentData && alignedText.greekAlignmentData.length > 0 ? (
 				<>
 					<div
 						ref={containerRef}
@@ -46,11 +46,11 @@ function GreekWordsDialogContent({
 							paddingRight: "40px",
 						}}
 					>
-						{alignedText.strongs.map((strong, idx) => (
+						{alignedText.greekAlignmentData.map((greekAlignmentData, idx) => (
 							<>
 								<GreekWordInfo
 									key={idx}
-									currentGreekWord={strong}
+									currentGreekWord={greekAlignmentData}
 									containerRef={containerRef}
 								/>
 								<Grid

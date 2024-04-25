@@ -1,5 +1,5 @@
 import mapVerses from "src/applicationLogic/mapping/mapTagsToFormattedVerse";
-import { AlignedText, AlignedVerse } from "src/types"
+import { AlignedText, AlignedVerse, GreekAlignmentData } from "src/types"
 const axios = require("axios");
 const {
 	books,
@@ -52,37 +52,81 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
             if(verseWords) {
                 verseWords.forEach((verseWord: any) => {
                     let text = verseWord.englishWords;
-                    let strongs: string[] = [];
+                    let greekAlignmentData: GreekAlignmentData[] = []
                     
                     if(verseWord.greekWords) {
                         verseWord.greekWords.forEach((greekWord: any) => {
+
+                            let strongs: string | undefined
+                            let morph: string | undefined;
+
+                            let greekWordData: GreekAlignmentData;
+
                             if(greekWord?.strongs) {
-                                strongs.push(greekWord.strongs);
+                                strongs = greekWord.strongs
                             }
+
+                            if(greekWord.morph) {
+                                morph = greekWord.morph
+                            }
+
+                            if(strongs) {
+                                greekWordData = {strong: strongs, morph: morph}
+                                greekAlignmentData.push(greekWordData)
+                            }
+
                         });
                     }
 
                     if(verseWord.subWords) {
                         verseWord.subWords.forEach((subWord: any) => {
+                            let strongs: string | undefined
+                            let morph: string | undefined;
+
+                            let greekWordData: GreekAlignmentData;
+
                             if(subWord?.word?.strongs) {
-                                strongs.push(subWord.word.strongs);
+                                strongs = subWord?.word?.strongs
+                            }
+
+                            if(subWord?.word?.morph) {
+                                morph = subWord.word.morph
+                            }
+
+                            if(strongs) {
+                                greekWordData = {strong: strongs, morph: morph}
+                                greekAlignmentData.push(greekWordData)
                             }
                         });
                     }
 
                     if(verseWord.phraseWords) {
                         verseWord.phraseWords.forEach((phraseWord: any) => {
+                            let strongs: string | undefined
+                            let morph: string | undefined;
+
+                            let greekWordData: GreekAlignmentData;
+
                             if(phraseWord?.word?.strongs) {
-                                strongs.push(phraseWord.word.strongs);
+                                strongs = phraseWord.word.strongs
+                            }
+
+                            if(phraseWord?.word?.morph) {
+                                morph = phraseWord.word.morph
+                            }
+
+                            if(strongs) {
+                                greekWordData = {strong: strongs, morph: morph}
+                                greekAlignmentData.push(greekWordData)
                             }
                         });
                     }
 
                     let alignedText: AlignedText
-                    if(strongs.length === 0) {
+                    if(greekAlignmentData.length === 0) {
                         alignedText = {text: text}
                     } else {
-                        alignedText = {text: text, strongs: strongs}
+                        alignedText = {text: text, greekAlignmentData: greekAlignmentData}
                     }
                      
                     alignedVerseWords.push(alignedText);

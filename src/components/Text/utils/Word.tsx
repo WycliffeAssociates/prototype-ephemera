@@ -30,7 +30,7 @@ function Word({
 		setGreekWordsParams(newParams);
 	}
 
-	if(versePhrase.strongs) {
+	if(versePhrase.greekAlignmentData) {
 		return (
 			<GreekWord
 				handleClick={handleClick}

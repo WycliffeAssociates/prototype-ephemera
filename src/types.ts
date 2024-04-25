@@ -148,14 +148,14 @@ type ULBSettingsOption = SettingsOption & {
 };
 
 
-type AlignedGreekWord = {
+type GreekAlignmentData = {
 	strong: string;
-	morph: string;
+	morph?: string;
 }
 
 type AlignedText = {
 	text: string;
-	strongs?: string[] // TODO: replace this with alignedGreekWords: alignedGreekWord[]
+	greekAlignmentData?: GreekAlignmentData[]
 }
 
 
@@ -165,6 +165,7 @@ type AlignedVerse = {
 }
 
 export type {
+	GreekAlignmentData,
 	AlignedVerse,
 	AlignedText,
 	GWTInformation,
