@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { AlignedVerse } from "../types";
 import { OsisEnUlbAccessor } from "src/api/SourceTextAccessor";
 
-const accessor = new OsisEnUlbAccessor()
+const accessor = new OsisEnUlbAccessor("ulb", "en");
+// const usfmAccessor = new Door43USFMAccessor("ust", "ru");
+// const usfmAccessor = new Door43USFMAccessor("glt", "hi");
+
 
 
 function useChapterVerseData(
@@ -18,6 +21,8 @@ function useChapterVerseData(
 
 			if(book && chapter) {
 				let alignedSourceText = await accessor.getSourceText(book, chapter);
+
+				// let usfmAllignedSourceText = await usfmAccessor.getSourceText(book, chapter)
 				setVerses(alignedSourceText);
 			}
 
