@@ -1,5 +1,6 @@
 import mapVerses from "src/applicationLogic/mapping/mapTagsToFormattedVerse";
-import { AlignedText, AlignedVerse, GreekAlignmentData } from "src/types"
+import { AlignedText, AlignedVerse, GreekAlignmentData } from "src/types";
+import { Proskomma } from "proskomma"
 // const { Proskomma } = require('proskomma');
 // const fse = require('fs-extra');
 // const path = require('path');
@@ -192,82 +193,82 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
 
 
 
-// export class Door43USFMAccessor implements SourceTextAccessor {
-//     resourceBaseURL = `https://git.door43.org/Door43-Catalog/ru_ust/raw/branch/master/`;
-//     resourceType: string;
-//     resourceLanguage: string;
+export class Door43USFMAccessor implements SourceTextAccessor {
+    resourceBaseURL = `https://git.door43.org/Door43-Catalog/ru_ust/raw/branch/master/`;
+    resourceType: string;
+    resourceLanguage: string;
 
-//     // TODO: get all verses for the chapter instead of just one verse. 
-//     dataQuery = 
-//         `{
-//             documents {
-//                 id
-//                 cv(chapter: "1", verses: ["1"]) {
-//                     items {
-//                         subType
-//                         payload
-//                     }
-//                 }
-//             }
-//         }`;
+    // TODO: get all verses for the chapter instead of just one verse. 
+    dataQuery = 
+        `{
+            documents {
+                id
+                cv(chapter: "1", verses: ["1"]) {
+                    items {
+                        subType
+                        payload
+                    }
+                }
+            }
+        }`;
 
-//     pk = new Proskomma();
+    pk = new Proskomma();
 
-//     constructor(resourceType: string, resourceLanguage: string) {
-//         this.resourceType = resourceType.toLowerCase();
-//         this.resourceLanguage = resourceLanguage.toLowerCase();
-//         this.resourceBaseURL = `https://git.door43.org/Door43-Catalog/${this.resourceLanguage}_${this.resourceType}/raw/branch/master/`;
-//     }
+    constructor(resourceType: string, resourceLanguage: string) {
+        this.resourceType = resourceType.toLowerCase();
+        this.resourceLanguage = resourceLanguage.toLowerCase();
+        this.resourceBaseURL = `https://git.door43.org/Door43-Catalog/${this.resourceLanguage}_${this.resourceType}/raw/branch/master/`;
+    }
 
-//     parseSourceText(sourceText: string, chapter: number): AlignedVerse[] {
-//         throw new Error("Method not implemented.");
-//     }
+    parseSourceText(sourceText: string, chapter: number): AlignedVerse[] {
+        throw new Error("Method not implemented.");
+    }
     
-//     async getSourceText(bookName: string, chapter: number | string): Promise<AlignedVerse[]> {
+    async getSourceText(bookName: string, chapter: number | string): Promise<AlignedVerse[]> {
 
-//         let sourceText = await this.fetchSourceText(bookName)
+        let sourceText = await this.fetchSourceText(bookName)
 
-//         console.log("USFM accessor text")
-//         console.log(sourceText);
+        console.log("USFM accessor text")
+        console.log(sourceText);
 
-//         if(sourceText) {
-//             this.setUpProskomma(sourceText);
-//             this.getUSFMData();
-//             // TODO: get / parse data here
-//         }
+        if(sourceText) {
+            this.setUpProskomma(sourceText);
+            this.getUSFMData();
+            // TODO: get / parse data here
+        }
 
-//         return []
-//     }
+        return []
+    }
 
-//     private async fetchSourceText(bookName: string) : Promise<string | undefined> {
-//         try {
-//             let book;
-//             // TODO: handle cases where book is not available/not found
-//             // TODO: Probably not here, but I also need to handle cases where no greek alignment data is found. 
-//             book = await fetch(`${this.resourceBaseURL}${books[bookName].abbreviatedBook}.usfm`);
-//             return book.text()
+    private async fetchSourceText(bookName: string) : Promise<string | undefined> {
+        try {
+            let book;
+            // TODO: handle cases where book is not available/not found
+            // TODO: Probably not here, but I also need to handle cases where no greek alignment data is found. 
+            book = await fetch(`${this.resourceBaseURL}${books[bookName].abbreviatedBook}.usfm`);
+            return book.text()
 
-//         } catch (error) {
-//             return undefined;
-//         }
-//     }
+        } catch (error) {
+            return undefined;
+        }
+    }
 
-//     private async setUpProskomma(bookContent: string) {
-//         const mutation = `mutation { addDocument(` +
-//         `selectors: [{key: "lang", value: "eng"}, {key: "abbr", value: "${this.resourceType}"}], ` +
-//         `contentType: "usfm", ` +
-//         `content: """${bookContent}""") }`;
+    private async setUpProskomma(bookContent: string) {
+        const mutation = `mutation { addDocument(` +
+        `selectors: [{key: "lang", value: "eng"}, {key: "abbr", value: "${this.resourceType}"}], ` +
+        `contentType: "usfm", ` +
+        `content: """${bookContent}""") }`;
     
-//         const result = await this.pk.gqlQuery(mutation);
-//         console.log(JSON.stringify(result, null, 2));
-//     }
+        const result = await this.pk.gqlQuery(mutation);
+        console.log(JSON.stringify(result, null, 2));
+    }
 
-//     private async getUSFMData() {
-//         const result = await this.pk.gqlQuery(this.dataQuery);
-//         let cvData = result.data.documents[0].cv[0].items.filter((item: any) => 
-//             item.payload === "milestone/zaln" || item.subType === "wordLike" || item.payload.includes("x-strong") 
-//         )
-//         console.log(JSON.stringify(cvData, null, 2));
-//     }
-// }
+    private async getUSFMData() {
+        const result = await this.pk.gqlQuery(this.dataQuery);
+        let cvData = result.data.documents[0].cv[0].items.filter((item: any) => 
+            item.payload === "milestone/zaln" || item.subType === "wordLike" || item.payload.includes("x-strong") 
+        )
+        console.log(JSON.stringify(cvData, null, 2));
+    }
+}
 
