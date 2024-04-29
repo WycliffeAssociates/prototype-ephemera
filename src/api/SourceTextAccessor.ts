@@ -3,10 +3,8 @@ import { AlignedText, AlignedVerse, GreekAlignmentData } from "src/types"
 // const { Proskomma } = require('proskomma');
 // const fse = require('fs-extra');
 // const path = require('path');
-const axios = require("axios");
-const {
-	books,
-} = require("../applicationLogic/data/newTestamentMetadata");
+import { books } from "../applicationLogic/data/newTestamentMetadata";
+const VITE_APP_GET_BOOKS_FROM_REPO = import.meta.env.VITE_APP_GET_BOOKS_FROM_REPO
 
 
 export interface SourceTextAccessor {
@@ -122,14 +120,15 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
 
                             let greekWordData: GreekAlignmentData;
 
-                            if(phraseWord?.word?.strongs) {
-                                strongs = phraseWord.word.strongs
+                            if(phraseWord?.strongs) {
+                                strongs = phraseWord.strongs
                             }
 
-                            if(phraseWord?.word?.morph) {
-                                morph = phraseWord.word.morph
+                            if(phraseWord?.morph) {
+                                morph = phraseWord.morph
                             }
 
+                            console.log(strongs + " " + morph)
                             if(strongs) {
                                 greekWordData = {strong: strongs, morph: morph}
                                 greekAlignmentData.push(greekWordData)
@@ -173,16 +172,19 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
     private async fetchSourceText(bookName: string) : Promise<string | undefined> {
         try {
             let book;
-            if (process.env.REACT_APP_GET_BOOKS_FROM_REPO === "true") {
-                book = await axios.get(
+            if (VITE_APP_GET_BOOKS_FROM_REPO === "true") {
+                book = await fetch(
                     `http://localhost:8080/?book=${books[bookName].abbreviatedBook}&chapter=1`
-                );
-                return JSON.parse(book.data);
+                )
+                return book.text()
             } else {
                 book = await fetch(`${this.resourceBaseURL}${books[bookName].abbreviatedBook}.json`);
+                console.log("book");
+                console.log(book)
                 return book.text()
             }
         } catch (error) {
+            console.log(error)
             return undefined;
         }
     }
