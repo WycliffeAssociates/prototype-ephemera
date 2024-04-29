@@ -34,30 +34,11 @@ function InformationWindow({
 	} = useInformationLayout();
 
 	const { refBook, refChapter, refVerse, refWord } = useBookChapterParams().getBookChaptersParams();
-	const [refBookChapter, setRefBookChapter] = useState<any>(
-		{}
-	);
 
 	const { getMorphologyParams } =
 	useMorphologyParams();
 
 	const { showGreekWords } = useGreekWordsParams();
-
-	useEffect(() => {
-		if (
-			refBook !== undefined &&
-			refChapter !== undefined
-		) {
-			let newRefBookChapter = {
-				refBook: refBook,
-				refChapter: refChapter,
-				refVerse: refVerse,
-				refWord: refWord
-			}
-			setRefBookChapter({ ...newRefBookChapter });
-		}
-
-	}, [refBook, refChapter, refVerse, refWord]);
 
 
 	return (
@@ -95,7 +76,10 @@ function InformationWindow({
 							<VerseReferenceDialogContent
 								open={openVerseReferenceDialog}
 								onClose={onVerseReferenceClose}
-								refBookChapterVerse={refBookChapter}
+								refBook={refBook}
+								refChapter={refChapter}
+								refVerse={refVerse}
+								refWord={refWord}
 								fullScreen={true}
 							/>
 						: <></>}
