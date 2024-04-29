@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+import { Close as CloseIcon} from "@mui/icons-material";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import BookChapterMenu from "./utils/BookChapterMenu";

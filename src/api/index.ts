@@ -1,13 +1,12 @@
-const axios = require("axios");
-const {
-	books,
-} = require("../applicationLogic/data/newTestamentMetadata");
+import axios from "axios";
+import { books } from "../applicationLogic/data/newTestamentMetadata";
+const VITE_APP_GET_BOOKS_FROM_REPO = import.meta.env.VITE_APP_GET_BOOKS_FROM_REPO
 
 async function getBook(bookTitle: string) {
 	try {
 		let book;
 		if (
-			process.env.REACT_APP_GET_BOOKS_FROM_REPO === "true"
+			VITE_APP_GET_BOOKS_FROM_REPO === "true"
 		) {
 			book = await axios.get(
 				`http://localhost:8080/?book=${books[bookTitle].abbreviatedBook}&chapter=1`

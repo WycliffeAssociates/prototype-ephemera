@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import SettingsIcon from "@material-ui/icons/Settings";
-import LanguageIcon from "@material-ui/icons/Language";
+import { Settings as SettingsIcon } from "@mui/icons-material";
+import { Language as LanguageIcon} from "@mui/icons-material";
 import SettingsModal from "./SettingsModal";
 import { BIEL_LINK } from "../constants";
 

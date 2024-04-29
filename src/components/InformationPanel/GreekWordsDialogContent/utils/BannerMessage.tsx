@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { useSettings } from "../../../../hooks/SettingsContext";
 import { AlignedText } from "../../../../types";
 import { mapValidGWTSettings } from "../../GreekWordInfo/utils/mapValidGWTSettings";
-import InfoIcon from "@material-ui/icons/InfoOutlined";
+import { InfoOutlined as InfoIcon } from "@mui/icons-material";
 
 interface GreekWordsBannerProps {
 	alignedText: AlignedText;
