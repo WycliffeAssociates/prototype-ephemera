@@ -15,7 +15,7 @@ export function BannerMessage({
 	let overwriteStyle: any =
 		mapValidGWTSettings(GWTSettings);
 
-	if (alignedText && alignedText.strongs && alignedText.strongs.length >= 4) {
+	if (alignedText && alignedText.greekAlignmentData && alignedText.greekAlignmentData.length >= 4) {
 		return (
 			<Grid
 				item
@@ -56,7 +56,7 @@ export function BannerMessage({
 								...overwriteStyle,
 							}}
 						>
-							There are {alignedText.strongs.length} Greek word
+							There are {alignedText.greekAlignmentData.length} Greek word
 							translations
 						</span>
 					</Grid>
