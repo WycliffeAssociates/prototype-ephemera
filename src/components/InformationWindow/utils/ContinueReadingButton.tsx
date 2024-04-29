@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import { ArrowDownward as ArrowDownwardIcon } from "@mui/icons-material";
 
 export function ContinueReadingButton() {
 	return (
