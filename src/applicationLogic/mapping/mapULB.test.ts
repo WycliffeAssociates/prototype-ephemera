@@ -6,7 +6,6 @@ import * as First_timothy from "../../../public/taggedOSIS/55-1TI.json";
 import * as Philemon from "../../../public/taggedOSIS/58-PHM.json";
 import * as Acts from "../../../public/taggedOSIS/45-ACT.json";
 import { VerseTag } from "../../types";
-import _ from "lodash";
 
 // book = await axios.get(`taggedOSIS/${books[bookTitle].abbreviatedBook}.json`);
 
@@ -27,7 +26,8 @@ describe("Mark 9:1", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[1], expectedResults[0][0])
+			JSON.stringify(verses[1]) ===
+				JSON.stringify(expectedResults[0][0])
 		).toBe(true);
 	});
 });
@@ -49,7 +49,8 @@ describe("1 Timothy 6:1 (starts with multiple sub words and ends with one sub wo
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[0], expectedResults[2][0])
+			JSON.stringify(verses[0]) ===
+				JSON.stringify(expectedResults[2][0])
 		).toBe(true);
 	});
 });
@@ -71,7 +72,8 @@ describe("Matthew 10:42", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[41], expectedResults[3][0])
+			JSON.stringify(verses[41]) ===
+				JSON.stringify(expectedResults[3][0])
 		).toBe(true);
 	});
 });
@@ -89,9 +91,10 @@ describe("Philemon 1", function () {
 
 		// TODO: add method here to specify which differences to ignore.
 
-		expect(_.isEqual(verses, expectedResults[4])).toBe(
-			true
-		);
+		expect(
+			JSON.stringify(verses) ===
+				JSON.stringify(expectedResults[4])
+		).toBe(true);
 	});
 });
 
@@ -112,7 +115,8 @@ describe("1 Timothy 6:7", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[6], expectedResults[5][0])
+			JSON.stringify(verses[6]) ===
+				JSON.stringify(expectedResults[5][0])
 		).toBe(true);
 	});
 });
@@ -134,7 +138,8 @@ describe("1 Timothy 1:18", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[17], expectedResults[6][0])
+			JSON.stringify(verses[17]) ===
+				JSON.stringify(expectedResults[6][0])
 		).toBe(true);
 	});
 });
@@ -156,7 +161,8 @@ describe("Matthew 6:9", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[8], expectedResults[7][0])
+			JSON.stringify(verses[8]) ===
+				JSON.stringify(expectedResults[7][0])
 		).toBe(true);
 	});
 });
@@ -178,7 +184,8 @@ describe("Matthew 16:22", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[21], expectedResults[8][0])
+			JSON.stringify(verses[21]) ===
+				JSON.stringify(expectedResults[8][0])
 		).toBe(true);
 	});
 });
@@ -196,9 +203,10 @@ describe("Act 1", function () {
 
 		// TODO: add method here to specify which differences to ignore.
 
-		expect(_.isEqual(verses, expectedResults[9])).toBe(
-			true
-		);
+		expect(
+			JSON.stringify(verses) ===
+				JSON.stringify(expectedResults[9])
+		).toBe(true);
 	});
 });
 
@@ -224,10 +232,10 @@ describe("Phrase words that need sub words injected into them", function () {
 			// TODO: add method here to specify which differences to ignore.
 
 			expect(
-				_.isEqual(
-					bookVerses[verses[i] - 1],
-					subAndPhraseWordsExpectedResults[i][0]
-				)
+				JSON.stringify(bookVerses[verses[i] - 1]) ===
+					JSON.stringify(
+						subAndPhraseWordsExpectedResults[i][0]
+					)
 			).toBe(true);
 		});
 	}
@@ -248,7 +256,8 @@ describe("Phrase words that need sub words injected into them", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(bookVerses[11], expectedResults[10][0])
+			JSON.stringify(bookVerses[11]) ===
+				JSON.stringify(expectedResults[10][0])
 		).toBe(true);
 	});
 });
@@ -270,7 +279,8 @@ describe("Matthew 13:54", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[53], expectedResults[11][0])
+			JSON.stringify(verses[53]) ===
+				JSON.stringify(expectedResults[11][0])
 		).toBe(true);
 	});
 });
@@ -292,7 +302,8 @@ describe("Mark 6:16", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[15], expectedResults[12][0])
+			JSON.stringify(verses[15]) ===
+				JSON.stringify(expectedResults[12][0])
 		).toBe(true);
 	});
 });
@@ -314,31 +325,48 @@ describe("Matthew 12:40", function () {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			_.isEqual(verses[39], expectedResults[13][0])
+			JSON.stringify(verses[39]) ===
+				JSON.stringify(expectedResults[13][0])
 		).toBe(true);
 	});
 });
 
 export {};
 
-function difference(origObj: any, newObj: any) {
-	function changes(newObj: any, origObj: any) {
+function difference(
+	origObj: Record<any, any>,
+	newObj: Record<any, any>
+) {
+	function changes(
+		newObj: Record<any, any>,
+		origObj: Record<any, any>
+	) {
 		let arrayIndexCounter = 0;
-		return _.transform(
-			newObj,
-			function (result: any, value: any, key: any) {
-				if (!_.isEqual(value, origObj[key])) {
-					let resultKey = _.isArray(origObj)
+		return Object.entries(newObj).reduce(
+			(result: Record<any, any>, [key, value]) => {
+				if (!isEqual(value, origObj[key])) {
+					let resultKey = Array.isArray(origObj)
 						? arrayIndexCounter++
 						: key;
 					result[resultKey] =
-						_.isObject(value) && _.isObject(origObj[key])
+						isObject(value) && isObject(origObj[key])
 							? changes(value, origObj[key])
 							: value;
 				}
-			}
+				return result;
+			},
+			{}
 		);
 	}
+
+	function isEqual(a: any, b: any) {
+		return JSON.stringify(a) === JSON.stringify(b);
+	}
+
+	function isObject(obj: any) {
+		return typeof obj === "object" && obj !== null;
+	}
+
 	return changes(newObj, origObj);
 }
 
