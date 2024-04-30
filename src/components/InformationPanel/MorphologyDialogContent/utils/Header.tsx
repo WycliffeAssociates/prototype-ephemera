@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { ArrowBack as ArrowBackIcon } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import { mapValidGWTSettings } from "../../GreekWordInfo/utils/mapValidGWTSettings";
 import { useSettings } from "../../../../hooks/SettingsContext";

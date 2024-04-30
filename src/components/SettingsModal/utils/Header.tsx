@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import CloseIcon from "@material-ui/icons/Close";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 interface HeaderProps {
 	onClose?: () => void;

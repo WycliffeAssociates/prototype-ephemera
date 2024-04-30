@@ -1,8 +1,8 @@
 import Grid from "@mui/material/Grid";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
-import SearchIcon from "@material-ui/icons/Search";
 import { useState } from "react";
+import { Search as SearchIcon} from "@mui/icons-material";
 import Input from "@mui/material/Input";
 
 interface BookSearchBarProps {

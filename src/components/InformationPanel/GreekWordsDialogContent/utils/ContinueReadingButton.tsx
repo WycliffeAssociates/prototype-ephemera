@@ -4,7 +4,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import { ArrowDownward as ArrowDownwardIcon } from "@mui/icons-material";
 
 interface ContinueReadingButtonProps {
 	containerRef: MutableRefObject<HTMLDivElement | null>;

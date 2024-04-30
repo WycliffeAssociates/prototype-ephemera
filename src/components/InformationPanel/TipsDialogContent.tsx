@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import InfoIcon from "@material-ui/icons/InfoOutlined";
+import { InfoOutlined as InfoIcon } from "@mui/icons-material";
 import { useSettings } from "../../hooks/SettingsContext";
 import { mapValidGWTSettings } from "./GreekWordInfo/utils/mapValidGWTSettings";
 

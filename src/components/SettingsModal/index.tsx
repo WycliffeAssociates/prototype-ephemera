@@ -2,7 +2,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import ClickAwayListener from "@mui/base/ClickAwayListener";
+import { ClickAwayListener } from "@mui/material";
 import Options from "./utils/Options";
 import { useSettings } from "../../hooks/SettingsContext";
 import useWindowSize from "../../hooks/useWindowSize";

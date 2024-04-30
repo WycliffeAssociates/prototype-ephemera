@@ -1,6 +1,6 @@
 import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import { ChevronLeft as ChevronLeftIcon } from "@mui/icons-material";
 import useBookChapterParams from "../hooks/useBookChapterParams";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";

@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 
 // utility function to insert a string into another string
 function stringInsert(str, index, value, replace) {

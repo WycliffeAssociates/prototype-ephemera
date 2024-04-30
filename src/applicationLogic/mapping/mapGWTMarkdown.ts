@@ -37,15 +37,15 @@ function mapGWTMarkdown(greekWordMarkDown: string) {
 		i++
 	) {
 		if (
-			greekWordMarkDownArray[i] == "\n" ||
+			greekWordMarkDownArray[i] === "\n" ||
 			greekWordMarkDownArray[i] === ""
 		) {
 			continue;
 		}
 
 		if (
-			greekWordMarkDownArray[i].charAt(0) == "*" &&
-			greekWordMarkDownArray[i].charAt(1) == "*"
+			greekWordMarkDownArray[i].charAt(0) === "*" &&
+			greekWordMarkDownArray[i].charAt(1) === "*"
 		) {
 			processedDescriptions = true;
 			gwtInformation.adviceForTranslators =
@@ -118,9 +118,7 @@ function mapGWTMarkdown(greekWordMarkDown: string) {
 			].replace("*", "");
 			foundDescription = true;
 			gwtInformation.descriptions.push({
-				mainDescription: greekWordMarkDownArray[
-					i
-				],
+				mainDescription: greekWordMarkDownArray[i],
 				subDescriptions: [],
 			});
 		} else if (
