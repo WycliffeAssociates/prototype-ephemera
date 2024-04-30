@@ -1,9 +1,6 @@
 import mapVerses from "src/applicationLogic/mapping/mapTagsToFormattedVerse";
 import { AlignedText, AlignedVerse, GreekAlignmentData } from "src/types";
 import { Proskomma } from "proskomma"
-// const { Proskomma } = require('proskomma');
-// const fse = require('fs-extra');
-// const path = require('path');
 import { books } from "../applicationLogic/data/newTestamentMetadata";
 const VITE_APP_GET_BOOKS_FROM_REPO = import.meta.env.VITE_APP_GET_BOOKS_FROM_REPO
 
@@ -14,7 +11,6 @@ export interface SourceTextAccessor {
     resourceLanguage: string;
 
     parseSourceText(sourceText: string, chapter: number) : AlignedVerse[]
-
     getSourceText(bookName: string, chapter: number): Promise<any>
 }
 
@@ -31,6 +27,41 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
         this.resourceType = resourceType;
         this.resourceLanguage = resourceLanguage;
     }
+
+
+    async getSourceText(bookName: string, chapter: number | string): Promise<AlignedVerse[]> {
+        let result: AlignedVerse[]
+        var sourceText = await this.fetchSourceText(bookName);
+
+        if(!sourceText) return []; 
+
+        if(typeof(chapter) === "string") {
+            result = this.parseSourceText(sourceText, parseInt(chapter))
+        } else {
+            result = this.parseSourceText(sourceText, chapter)
+        }
+        return result
+    }
+
+
+    private async fetchSourceText(bookName: string) : Promise<string | undefined> {
+        try {
+            let book;
+            if (VITE_APP_GET_BOOKS_FROM_REPO === "true") {
+                book = await fetch(
+                    `http://localhost:8080/?book=${books[bookName].abbreviatedBook}&chapter=1`
+                )
+                return book.text()
+            } else {
+                book = await fetch(`${this.resourceBaseURL}${books[bookName].abbreviatedBook}.json`);
+                return book.text()
+            }
+        } catch (error) {
+            console.log(error)
+            return undefined;
+        }
+    }
+
 
     parseSourceText(sourceText: string, chapter: number): AlignedVerse[] {
         let result: any
@@ -129,7 +160,6 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
                                 morph = phraseWord.morph
                             }
 
-                            console.log(strongs + " " + morph)
                             if(strongs) {
                                 greekWordData = {strong: strongs, morph: morph}
                                 greekAlignmentData.push(greekWordData)
@@ -154,41 +184,6 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
 
         return alignedVerses    
     }
-
-    async getSourceText(bookName: string, chapter: number | string): Promise<AlignedVerse[]> {
-        let result: AlignedVerse[]
-        var sourceText = await this.fetchSourceText(bookName);
-
-        if(!sourceText) return []; 
-
-        if(typeof(chapter) === "string") {
-            result = this.parseSourceText(sourceText, parseInt(chapter))
-        } else {
-            result = this.parseSourceText(sourceText, chapter)
-        }
-        return result
-    }
-
-
-    private async fetchSourceText(bookName: string) : Promise<string | undefined> {
-        try {
-            let book;
-            if (VITE_APP_GET_BOOKS_FROM_REPO === "true") {
-                book = await fetch(
-                    `http://localhost:8080/?book=${books[bookName].abbreviatedBook}&chapter=1`
-                )
-                return book.text()
-            } else {
-                book = await fetch(`${this.resourceBaseURL}${books[bookName].abbreviatedBook}.json`);
-                console.log("book");
-                console.log(book)
-                return book.text()
-            }
-        } catch (error) {
-            console.log(error)
-            return undefined;
-        }
-    }
 }
 
 
@@ -198,20 +193,6 @@ export class Door43USFMAccessor implements SourceTextAccessor {
     resourceType: string;
     resourceLanguage: string;
 
-    // TODO: get all verses for the chapter instead of just one verse. 
-    dataQuery = 
-        `{
-            documents {
-                id
-                cv(chapter: "1", verses: ["1"]) {
-                    items {
-                        subType
-                        payload
-                    }
-                }
-            }
-        }`;
-
     pk = new Proskomma();
 
     constructor(resourceType: string, resourceLanguage: string) {
@@ -220,25 +201,23 @@ export class Door43USFMAccessor implements SourceTextAccessor {
         this.resourceBaseURL = `https://git.door43.org/Door43-Catalog/${this.resourceLanguage}_${this.resourceType}/raw/branch/master/`;
     }
 
-    parseSourceText(sourceText: string, chapter: number): AlignedVerse[] {
-        throw new Error("Method not implemented.");
-    }
-    
+
     async getSourceText(bookName: string, chapter: number | string): Promise<AlignedVerse[]> {
 
         let sourceText = await this.fetchSourceText(bookName)
+        let chapterNum = typeof(chapter) === "number" ? chapter : parseInt(chapter);
 
-        console.log("USFM accessor text")
-        console.log(sourceText);
-
+        let alignedVerses : AlignedVerse[]= []
         if(sourceText) {
             this.setUpProskomma(sourceText);
-            this.getUSFMData();
-            // TODO: get / parse data here
+            let dataQuery = this.getDataQuery(chapter);
+            let usfmData = JSON.stringify(await this.getUSFMData(dataQuery));
+            alignedVerses = this.parseSourceText(usfmData, chapterNum);
         }
 
-        return []
+        return alignedVerses;
     }
+
 
     private async fetchSourceText(bookName: string) : Promise<string | undefined> {
         try {
@@ -253,22 +232,103 @@ export class Door43USFMAccessor implements SourceTextAccessor {
         }
     }
 
+
     private async setUpProskomma(bookContent: string) {
         const mutation = `mutation { addDocument(` +
         `selectors: [{key: "lang", value: "eng"}, {key: "abbr", value: "${this.resourceType}"}], ` +
         `contentType: "usfm", ` +
         `content: """${bookContent}""") }`;
     
-        const result = await this.pk.gqlQuery(mutation);
-        console.log(JSON.stringify(result, null, 2));
+        await this.pk.gqlQuery(mutation);
     }
 
-    private async getUSFMData() {
-        const result = await this.pk.gqlQuery(this.dataQuery);
-        let cvData = result.data.documents[0].cv[0].items.filter((item: any) => 
-            item.payload === "milestone/zaln" || item.subType === "wordLike" || item.payload.includes("x-strong") 
+
+    private getDataQuery(chapter: string | number) {
+        return `{
+            documents {
+                id
+                cv(chapter: "${chapter}") {
+                    items {
+                        subType
+                        payload
+                    }
+                }
+            }
+        }`
+    }
+
+
+    private async getUSFMData(dataQuery: string) {
+        const result = await this.pk.gqlQuery(dataQuery);
+        let cvData = result?.data?.documents[0]?.cv[0]?.items.filter((item: any) => 
+            item.payload === "milestone/zaln" || item.subType === "wordLike" 
+            || (item.payload.includes("x-strong") && item.subType === "start")
+            || item.payload.includes("verse/")
         )
-        console.log(JSON.stringify(cvData, null, 2));
+        return cvData; 
+    }
+
+
+    parseSourceText(sourceText: string, chapter: number): AlignedVerse[] {
+        let alignedVerses : AlignedVerse[] = [];
+        let alignedText : AlignedText[] = [];
+        let alignStartCount = 0; 
+        let text = "";
+        let greekAlignmentData : GreekAlignmentData[] = []
+        let verseNum = 1;
+
+        let cvData = JSON.parse(sourceText);
+    
+        for(let i = 0; i < cvData.length; i++) {
+            let attribute = cvData[i];
+    
+            if(attribute.subType === "start" && attribute.payload === "milestone/zaln") {
+                alignStartCount++; 
+            } else if(attribute.subType === "end" && attribute.payload === "milestone/zaln") {
+                alignStartCount--; 
+            } else if(attribute.subType === "wordLike") {
+                let startingChar = text ===   "" ? "" : " "
+                text += startingChar + attribute.payload;
+            } else if(attribute.subType === "start" && attribute.payload.includes("x-strong")) {
+                let strong = this.getStrongs(attribute.payload);
+                if(strong) {
+                    greekAlignmentData.push({strong: strong});
+                }
+            } else if(attribute.subType === "end" && attribute.payload.includes("verse/")) {
+                alignedVerses.push({verseNum: verseNum, alignedVerseText: alignedText})
+                verseNum++;
+                alignedText = []
+            }
+    
+            if(alignStartCount === 0 && text !== "") {
+                // Push alignment text
+                if(greekAlignmentData.length > 0) {
+                    alignedText.push({text: text, greekAlignmentData: greekAlignmentData});
+                } else {
+                    alignedText.push({text: text});
+                }
+    
+                // reset buffers
+                text = "";
+                greekAlignmentData = [];
+            }
+        }
+        return alignedVerses;
+    }
+    
+
+    private getStrongs(str: string) {
+        const regex = /\b[Gg]\d+\b/;
+        const match = str.match(regex);
+        
+        if (match) {
+          const extracted = match[0];
+          if(extracted.length > 4 && extracted.charAt(extracted.length - 1) === "0") {
+            return extracted.substring(0, extracted.length - 1)
+          } else {
+            return undefined;
+          }
+        }
     }
 }
 
