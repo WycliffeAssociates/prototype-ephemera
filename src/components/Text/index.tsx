@@ -6,13 +6,19 @@ import useChapterVerseData from "../../hooks/useChapterVerseData";
 import { useSettings } from "../../hooks/SettingsContext";
 import { mapValidULBSettings } from "./utils/mapValidULBSettings";
 import { useGreekWordsParams } from "../../hooks/useGreekWordsParams";
+import useSourceTextResourceParams from "src/hooks/useSourceTextResourceParams";
 
 function Text() {
 	const bookChapter =
 		useBookChapterParams().getBookChaptersParams();
+
+	const { sourceTextResourceLanguage, sourceTextResourceType } = useSourceTextResourceParams()
+
 	const verses = useChapterVerseData(
 		bookChapter.book,
-		parseInt(bookChapter.chapter)
+		parseInt(bookChapter.chapter),
+		sourceTextResourceType,
+		sourceTextResourceLanguage,
 	);
 	const [childClicked, setChildClicked] = useState<any>({});
 	const { ULBSettings } = useSettings();
