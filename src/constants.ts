@@ -8,6 +8,8 @@ const MORPHOLOGY_FILE_PATH = "https://content.bibletranslationtools.org/Wycliffe
 const FEEDBACK_HANDLER_URL = "https://wagwtfeedbackhandler.azurewebsites.net/api/MissingHandler";
 const FEEDBACK_HANDLER_KEY = "LFRaycifocGWKg-97QV13FFYNxMpXop847cwTlxdgXb2AzFuQXNxbg==";
 const BOOKCHAPTERMENU_OFFSET = "88px";
+const DEFAULT_RESOURCE_LANGUAGE = "en";
+const DEFAULT_RESOURCE_TYPE = "ulb";
 
 export { 
     BIEL_LINK,
@@ -19,5 +21,7 @@ export {
     MORPHOLOGY_FILE_PATH,
     FEEDBACK_HANDLER_URL,
     FEEDBACK_HANDLER_KEY,
-    BOOKCHAPTERMENU_OFFSET
+    BOOKCHAPTERMENU_OFFSET,
+    DEFAULT_RESOURCE_LANGUAGE,
+    DEFAULT_RESOURCE_TYPE,
 };
