@@ -5,29 +5,47 @@ import { books } from "../applicationLogic/data/newTestamentMetadata";
 const VITE_APP_GET_BOOKS_FROM_REPO = import.meta.env.VITE_APP_GET_BOOKS_FROM_REPO
 
 
-export interface SourceTextAccessor {
+type SourceTextResource = {
     resourceBaseURL: string;
     resourceType: string;
     resourceLanguage: string;
+}
 
-    parseSourceText(sourceText: string, chapter: number) : AlignedVerse[]
-    getSourceText(bookName: string, chapter: number): Promise<any>
+export interface SourceTextAccessor {
+    setSourceTextResource(resourceType: string, resourceLanguage: string): void
+    getSourceText(bookName: string, chapter: number | string): Promise<AlignedVerse[]>;
+}
+
+interface SourceTextFetcher {
+    sourceTextResource: SourceTextResource; 
+
+    fetchSourceText(bookName: string) : Promise<string | undefined>
+    parseSourceText(sourceText: string, chapter: number) : AlignedVerse[];
 }
 
 
-export class OsisEnUlbAccessor implements SourceTextAccessor {
-    resourceBaseURL = "taggedOSIS/";
-    resourceType: string;
-    resourceLanguage: string;
+class OsisEnUlbAccessor implements SourceTextAccessor, SourceTextFetcher {
+    sourceTextResource: SourceTextResource;
 
     constructor(resourceType: string, resourceLanguage: string) {
         if(resourceType.toLowerCase() !== "ulb" || resourceLanguage.toLowerCase() !== "en") {
             throw new Error(`Resource type ${resourceType} and language ${resourceLanguage} is not available in OSIS`);
         }
-        this.resourceType = resourceType;
-        this.resourceLanguage = resourceLanguage;
+
+        this.sourceTextResource = {
+            resourceType: "ulb",
+            resourceLanguage: "en",
+            resourceBaseURL: "taggedOSIS/",
+        };
     }
 
+    setSourceTextResource(resourceType: string, resourceLanguage: string): void {
+        this.sourceTextResource = {
+            resourceLanguage: resourceLanguage,
+            resourceType: resourceType,
+            resourceBaseURL: "taggedOSIS/",
+        }
+    }
 
     async getSourceText(bookName: string, chapter: number | string): Promise<AlignedVerse[]> {
         let result: AlignedVerse[]
@@ -44,7 +62,7 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
     }
 
 
-    private async fetchSourceText(bookName: string) : Promise<string | undefined> {
+    async fetchSourceText(bookName: string) : Promise<string | undefined> {
         try {
             let book;
             if (VITE_APP_GET_BOOKS_FROM_REPO === "true") {
@@ -53,7 +71,7 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
                 )
                 return book.text()
             } else {
-                book = await fetch(`${this.resourceBaseURL}${books[bookName].abbreviatedBook}.json`);
+                book = await fetch(`${this.sourceTextResource.resourceBaseURL}${books[bookName].abbreviatedBook}.json`);
                 return book.text()
             }
         } catch (error) {
@@ -188,17 +206,29 @@ export class OsisEnUlbAccessor implements SourceTextAccessor {
 
 
 
-export class Door43USFMAccessor implements SourceTextAccessor {
-    resourceBaseURL = `https://git.door43.org/Door43-Catalog/ru_ust/raw/branch/master/`;
-    resourceType: string;
-    resourceLanguage: string;
-
+class Door43USFMAccessor implements SourceTextAccessor, SourceTextFetcher {
+    sourceTextResource: SourceTextResource;
     pk = new Proskomma();
 
-    constructor(resourceType: string, resourceLanguage: string) {
-        this.resourceType = resourceType.toLowerCase();
-        this.resourceLanguage = resourceLanguage.toLowerCase();
-        this.resourceBaseURL = `https://git.door43.org/Door43-Catalog/${this.resourceLanguage}_${this.resourceType}/raw/branch/master/`;
+    constructor(resourceType: string, resourceLanguage: string) {    
+        this.sourceTextResource = {
+            resourceType: resourceType.toLowerCase(),
+            resourceLanguage: resourceLanguage.toLowerCase(),
+            resourceBaseURL: 
+                `https://git.door43.org/Door43-Catalog/${resourceLanguage}_${resourceType}/raw/branch/master/`,
+        };
+    }
+
+
+    setSourceTextResource(resourceType: string, resourceLanguage: string): void {
+        console.log("Setting resource values");
+        console.log(resourceLanguage + " " + resourceType)
+        this.sourceTextResource = {
+            resourceLanguage: resourceType,
+            resourceType: resourceLanguage,
+            resourceBaseURL: 
+                `https://git.door43.org/Door43-Catalog/${resourceLanguage}_${resourceType}/raw/branch/master/`,
+        }
     }
 
 
@@ -219,12 +249,12 @@ export class Door43USFMAccessor implements SourceTextAccessor {
     }
 
 
-    private async fetchSourceText(bookName: string) : Promise<string | undefined> {
+    async fetchSourceText(bookName: string) : Promise<string | undefined> {
         try {
             let book;
             // TODO: handle cases where book is not available/not found
             // TODO: Probably not here, but I also need to handle cases where no greek alignment data is found. 
-            book = await fetch(`${this.resourceBaseURL}${books[bookName].abbreviatedBook}.usfm`);
+            book = await fetch(`${this.sourceTextResource.resourceBaseURL}${books[bookName].abbreviatedBook}.usfm`);
             return book.text()
 
         } catch (error) {
@@ -235,7 +265,7 @@ export class Door43USFMAccessor implements SourceTextAccessor {
 
     private async setUpProskomma(bookContent: string) {
         const mutation = `mutation { addDocument(` +
-        `selectors: [{key: "lang", value: "eng"}, {key: "abbr", value: "${this.resourceType}"}], ` +
+        `selectors: [{key: "lang", value: "eng"}, {key: "abbr", value: "${this.sourceTextResource.resourceType}"}], ` +
         `contentType: "usfm", ` +
         `content: """${bookContent}""") }`;
     
@@ -332,3 +362,17 @@ export class Door43USFMAccessor implements SourceTextAccessor {
     }
 }
 
+
+export class SourceTextAccessorFactory {
+    private osisAccessor = new OsisEnUlbAccessor("ulb", "en");
+    private door43Accessor = new Door43USFMAccessor("", "");
+
+    getSourceTextAccessor(resourceType: string, resourceLanguage: string) : SourceTextAccessor {
+        if(resourceType.toLocaleLowerCase() == "ulb") {
+            return this.osisAccessor; 
+        }
+
+        this.door43Accessor.setSourceTextResource(resourceType, resourceLanguage)
+        return this.door43Accessor;
+    }
+}
