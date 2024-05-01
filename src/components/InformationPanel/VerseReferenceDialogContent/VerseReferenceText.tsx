@@ -6,21 +6,15 @@ import {
 	GreekAlignmentData
 } from "../../../types";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
+import useSourceTextResourceParams from "src/hooks/useSourceTextResourceParams";
+import useBookChapterParams from "src/hooks/useBookChapterParams";
 
-interface VerseReferenceTextProps {
-	refBook?: string;
-	refChapter?: string;
-	refVerse?: string;
-	refWord?: string;
-}
 
-export function VerseReferenceText({
-	refBook,
-	refChapter,
-	refVerse,
-	refWord,
-}: VerseReferenceTextProps) {
-	const verses = useChapterVerseData(refBook, refChapter);
+export function VerseReferenceText() {
+	const { sourceTextResourceLanguage, sourceTextResourceType } = useSourceTextResourceParams()
+	const { refBook, refChapter, refVerse, refWord } = useBookChapterParams().getBookChaptersParams();
+
+	const verses = useChapterVerseData(refBook, refChapter, sourceTextResourceType, sourceTextResourceLanguage);
 	const [verseOutput, setVerseOutput] = useState<any[]>([]);
 	const verseRef = useRef<HTMLSpanElement>(null);
 

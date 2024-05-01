@@ -1,16 +1,12 @@
-import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Dialog from "@mui/material/Dialog";
 import { AlignedText } from "../../types";
-import { useBookChapterParams } from "../../hooks/useBookChapterParams";
 import MorphologyDialogContent from "../InformationPanel/MorphologyDialogContent";
 import VerseReferenceDialogContent from "../InformationPanel/VerseReferenceDialogContent";
-import { useEffect } from "react";
 import useMorphologyParams from "../../hooks/useMorphologyParams";
 import { Header } from "./utils/Header";
 import { GreekWordsContent } from "./utils/GreekWordsContent";
 import { useInformationLayout } from "src/hooks/useInformationLayout";
-import useGreekWordsParams from "src/hooks/useGreekWordsParams";
 
 
 interface InformationWindowProps {
@@ -33,12 +29,8 @@ function InformationWindow({
 		onMorphologyDialogClose  
 	} = useInformationLayout();
 
-	const { refBook, refChapter, refVerse, refWord } = useBookChapterParams().getBookChaptersParams();
-
 	const { getMorphologyParams } =
 	useMorphologyParams();
-
-	const { showGreekWords } = useGreekWordsParams();
 
 
 	return (
@@ -76,10 +68,6 @@ function InformationWindow({
 							<VerseReferenceDialogContent
 								open={openVerseReferenceDialog}
 								onClose={onVerseReferenceClose}
-								refBook={refBook}
-								refChapter={refChapter}
-								refVerse={refVerse}
-								refWord={refWord}
 								fullScreen={true}
 							/>
 						: <></>}

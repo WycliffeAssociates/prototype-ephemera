@@ -5,29 +5,21 @@ import { VerseReferenceText } from "./VerseReferenceText";
 import { useSettings } from "../../../hooks/SettingsContext";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
 import { Divider } from "@mui/material";
+import useBookChapterParams from "src/hooks/useBookChapterParams";
 
 interface VerseReferenceDialogContentProps {
 	open: Boolean;
 	onClose?: () => void;
-
-		refBook?: string;
-		refChapter?: string;
-		refVerse?: string;
-		refWord?: string;
-
 	fullScreen?: boolean;
 }
 
 export default function VerseReferenceDialogContent({
 	open,
 	onClose,
-	refBook,
-	refChapter,
-	refVerse,
-	refWord,
 	fullScreen,
 }: VerseReferenceDialogContentProps) {
 	const { GWTSettings } = useSettings();
+	const { refBook, refChapter } = useBookChapterParams().getBookChaptersParams();
 	let overwriteStyle: any =
 		mapValidGWTSettings(GWTSettings);
 
@@ -103,12 +95,7 @@ export default function VerseReferenceDialogContent({
 								padding: "0px 40px 0px 0px",
 							}}
 						>
-							<VerseReferenceText
-								refBook={refBook}
-								refChapter={refChapter}
-								refVerse={refVerse}
-								refWord={refWord}
-							/>
+							<VerseReferenceText/>
 						</Grid>
 					</Grid>
 				</Grid>

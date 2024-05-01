@@ -69,10 +69,6 @@ function InformationPanel({
 									openVerseReferenceDialog
 								}
 								onClose={onVerseReferenceClose}
-								refBook={refBook}
-								refChapter={refChapter}
-								refVerse={refVerse}
-								refWord={refWord}
 								fullScreen={false}
 							/>
 						: <></>}
