@@ -1,30 +1,22 @@
 import { useState, useEffect } from "react";
 import { AlignedVerse } from "../types";
-import { Door43USFMAccessor, OsisEnUlbAccessor } from "src/api/SourceTextAccessor";
-
-const accessor = new OsisEnUlbAccessor("ulb", "en");
-// const usfmAccessor = new Door43USFMAccessor("ust", "ru");
-const usfmAccessor = new Door43USFMAccessor("glt", "hi");
-
-
+import { SourceTextAccessorFactory } from "src/api/SourceTextAccessor";
 
 function useChapterVerseData(
 	book: string | undefined,
-	chapter: number | string | undefined
+	chapter: number | string | undefined,
+	resourceType: string | undefined,
+	resourceLanguage: string | undefined
 ) {
-	const [verses, setVerses] = useState<AlignedVerse[]>(
-		[]
-	);
+	const [verses, setVerses] = useState<AlignedVerse[]>([]);
+	const sourceTextAccessorFactory = new SourceTextAccessorFactory()
 
 	useEffect(() => {
 		const fetchData = async () => {
-
-			if(book && chapter) {
-				let alignedSourceText = await accessor.getSourceText(book, chapter);
-
-				let usfmAllignedSourceText = await usfmAccessor.getSourceText(book, chapter);
-				console.log(usfmAllignedSourceText);
-				setVerses(alignedSourceText);
+			if(book && chapter && resourceType && resourceLanguage) {
+				let accessor = sourceTextAccessorFactory.getSourceTextAccessor(resourceType, resourceLanguage);
+				let alignedText = await accessor.getSourceText(book, chapter)
+				setVerses(alignedText);
 			}
 
 			// console.log("test case expected results (mapVerses(data))");
@@ -32,7 +24,7 @@ function useChapterVerseData(
 		};
 
 		fetchData();
-	}, [book, chapter]);
+	}, [book, chapter, resourceType, resourceLanguage]);
 
 	return verses;
 }

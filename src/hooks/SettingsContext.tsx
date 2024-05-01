@@ -7,12 +7,15 @@ import {
 	DEFAULT_INFORMATIONPANEL_FONT_SIZE, 
 	DEFAULT_INFORMATIONPANEL_LINE_HEIGHT,
 	DEFAULT_ULB_FONT_SIZE,
-	DEFAULT_ULB_LINE_HEIGHT
+	DEFAULT_ULB_LINE_HEIGHT,
+	DEFAULT_RESOURCE_LANGUAGE,
+	DEFAULT_RESOURCE_TYPE,
 } from "../constants";
 
 const SettingsContext = React.createContext({
 	ULBSettings: [] as ULBSettingsOption[],
 	GWTSettings: [] as SettingsOption[],
+	SourceTextSettings: [] as SettingsOption[],
 });
 
 export function useSettings() {
@@ -36,6 +39,9 @@ export function SettingsProvider({ children }: any) {
 		informationPanelFontSizeValue,
 		setInformationPanelFontSizeValue,
 	] = useState(DEFAULT_INFORMATIONPANEL_FONT_SIZE);
+
+	const [resourceLanguageValue, setResourceLanguageValue] = useState(DEFAULT_RESOURCE_LANGUAGE);
+	const [resourceTypeValue, setResourceTypeValue] = useState(DEFAULT_RESOURCE_TYPE)
 
 	const leftPanelTextFontSetting: ULBSettingsOption = {
 		name: "Font Size",
@@ -80,6 +86,24 @@ export function SettingsProvider({ children }: any) {
 		level: "verse",
 		defaultValue: DEFAULT_ULB_LINE_HEIGHT,
 	};
+
+	const resourceLanguageSetting: SettingsOption = {
+		name: "Language",
+		value: resourceLanguageValue,
+		modifier: function (newValue: string | number | boolean | undefined) {
+			setResourceLanguageValue(newValue + "");
+		},
+		inputType: "dropdown"
+	}
+
+	const resourceTypeSetting: SettingsOption = {
+		name: "Type",
+		value: resourceTypeValue,
+		modifier: function (newValue: string | number | boolean | undefined) {
+			setResourceTypeValue(newValue + "");
+		},
+		inputType: "dropdown"
+	}
 
 	const informationPanelTextFontSetting: SettingsOption = {
 		name: "Font Size",
@@ -206,6 +230,10 @@ export function SettingsProvider({ children }: any) {
 				GWTSettings: [
 					informationPanelTextFontSetting,
 					informationPanelLineHeightSetting,
+				],
+				SourceTextSettings: [
+					resourceLanguageSetting,
+					resourceTypeSetting
 				],
 			}}
 		>

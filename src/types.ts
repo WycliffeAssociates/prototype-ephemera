@@ -136,7 +136,7 @@ type SettingsOption = {
 	modifier: (
 		newValue: string | number | boolean | undefined
 	) => any;
-	inputType: "switch" | "increment" | "button";
+	inputType: "switch" | "increment" | "button" | "dropdown";
 	unit?: string;
 	styleOverrideKey?: string;
 	styleOverrideValue?: string;
