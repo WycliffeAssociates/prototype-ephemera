@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { AlignedVerse } from "../types";
-import { SourceTextAccessorFactory } from "src/api/SourceTextAccessor";
+import { SourceTextAccessorFactory } from "src/api/SourceTextAccessor/index";
 
 function useChapterVerseData(
 	book: string | undefined,
@@ -13,9 +13,9 @@ function useChapterVerseData(
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if(book && chapter && resourceType && resourceLanguage) {
+			if(book && chapter && resourceType && resourceLanguage) {			
 				let accessor = sourceTextAccessorFactory.getSourceTextAccessor(resourceType, resourceLanguage);
-				let alignedText = await accessor.getSourceText(book, chapter)
+				let alignedText = await accessor.getSourceText(book, chapter);
 				setVerses(alignedText);
 			}
 

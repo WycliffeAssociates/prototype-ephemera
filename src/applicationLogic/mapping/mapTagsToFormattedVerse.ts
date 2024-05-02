@@ -10,7 +10,13 @@ import {
 	PhraseWord,
 } from "../../types";
 
-function mapVerses(verses: VerseTag[]) {
+
+export enum VerseTagContentType {
+	OSIS = 'OSIS',
+	XML = 'XML',
+}
+
+function mapVerses(verses: VerseTag[], verseTagContentType: VerseTagContentType) {
 	const verseOutput: any[] = [];
 
 	if (verses === undefined) {
@@ -35,7 +41,7 @@ function mapVerses(verses: VerseTag[]) {
 
 		// populates the verseWordOutput with verse words
 		verse.w.forEach((word: WordTag | string) => {
-			mapVerseWord(word, flags, buffers);
+			mapVerseWord(word, flags, buffers, verseTagContentType);
 		});
 
 		// Ensures that phrase words at the end of a verse are processed
@@ -104,7 +110,8 @@ type WordMapBuffers = {
 function mapVerseWord(
 	word: WordTag | string,
 	flags: WordMapFlags,
-	buffers: WordMapBuffers
+	buffers: WordMapBuffers,
+	verseTagContentType: VerseTagContentType,
 ) {
 	// word is just a string, but we still need to check buffer.
 	if (typeof word === "string") {
@@ -117,22 +124,37 @@ function mapVerseWord(
 		return;
 	}
 
-	let currentGreekWordNotes: GreekWordNotes = mapNotes(
-		word.note
-	);
-	let currentGreekWordAttributes: GreekWordAttributes =
+
+	let currentGreekWord: NewFormattedGreekWord;
+	let sub: any;
+	if(verseTagContentType === VerseTagContentType.OSIS) {
+		let currentGreekWordNotes: GreekWordNotes = mapNotes(
+			word.note
+		);
+		let currentGreekWordAttributes: GreekWordAttributes =
+			word.ATTR;
+		sub = currentGreekWordNotes.sub;
+	
+		delete currentGreekWordNotes.sub;
+	
+		currentGreekWord = {
+			...currentGreekWordNotes,
+			...currentGreekWordAttributes,
+			text: word._text,
+		};
+	} else {
+		let currentGreekWordAttributes: any =
 		word.ATTR;
-	let sub = currentGreekWordNotes.sub;
+		sub = currentGreekWordAttributes?.sub;
 
-	delete currentGreekWordNotes.sub;
+		currentGreekWord = {
+			...currentGreekWordAttributes,
+			text: word._text,
+		};
+	}
 
-	let currentGreekWord: NewFormattedGreekWord = {
-		...currentGreekWordNotes,
-		...currentGreekWordAttributes,
-		text: word._text,
-	};
 
-	if (currentGreekWordNotes.phraseWords !== undefined) {
+	if (currentGreekWord.phraseWords !== undefined) {
 		mapConsecutivePhraseWords(
 			currentGreekWord,
 			flags,
@@ -141,7 +163,7 @@ function mapVerseWord(
 		flags.consumedPhraseWord = true;
 		buffers.phraseWords.push({
 			...currentGreekWord,
-			phraseWords: currentGreekWordNotes.phraseWords,
+			phraseWords: currentGreekWord.phraseWords,
 		});
 	} else if (sub !== undefined) {
 		flags.consumedSubWord = true;
@@ -153,7 +175,7 @@ function mapVerseWord(
 		};
 		buffers.subWords.push(subWord);
 	} else if (
-		currentGreekWordNotes.subPhraseWords !== undefined
+		currentGreekWord.subPhraseWords !== undefined
 	) {
 		flags.consumedSubPhraseWord = true;
 		buffers.subPhraseWords.push(currentGreekWord);
