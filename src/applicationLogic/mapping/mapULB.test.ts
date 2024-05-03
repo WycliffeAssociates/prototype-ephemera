@@ -1,5 +1,5 @@
 import getChapterVerses from "../../api";
-import mapVerses from "./mapTagsToFormattedVerse";
+import mapVerses, { VerseTagContentType } from "./mapTagsToFormattedVerse";
 import * as Matthew from "../../../public/taggedOSIS/41-MAT.json";
 import * as Mark from "../../../public/taggedOSIS/42-MRK.json";
 import * as First_timothy from "../../../public/taggedOSIS/55-1TI.json";
@@ -12,7 +12,8 @@ import { VerseTag } from "../../types";
 describe("Mark 9:1", function () {
 	it("Should match with verse 1", async function () {
 		let verses = mapVerses(
-			Mark.xml.book.chapter[8].verse as VerseTag[]
+			Mark.xml.book.chapter[8].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[1],
@@ -35,7 +36,8 @@ describe("Mark 9:1", function () {
 describe("1 Timothy 6:1 (starts with multiple sub words and ends with one sub word)", function () {
 	it("Should match with verse 1", async function () {
 		let verses = mapVerses(
-			First_timothy.xml.book.chapter[5].verse as VerseTag[]
+			First_timothy.xml.book.chapter[5].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[0],
@@ -58,7 +60,8 @@ describe("1 Timothy 6:1 (starts with multiple sub words and ends with one sub wo
 describe("Matthew 10:42", function () {
 	it("Starts with phrase word, directly followed by unbroken series of sub words, contains a sub word that is also a phrase word", async function () {
 		let verses = mapVerses(
-			Matthew.xml.book.chapter[9].verse as VerseTag[]
+			Matthew.xml.book.chapter[9].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[41],
@@ -81,7 +84,8 @@ describe("Matthew 10:42", function () {
 describe("Philemon 1", function () {
 	it("Should match full chapter", async function () {
 		let verses = mapVerses(
-			Philemon.xml.book.chapter.verse as VerseTag[]
+			Philemon.xml.book.chapter.verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(verses, expectedResults[4]);
 
@@ -101,7 +105,8 @@ describe("Philemon 1", function () {
 describe("1 Timothy 6:7", function () {
 	it("Checks subphrase word", async function () {
 		let verses = mapVerses(
-			First_timothy.xml.book.chapter[5].verse as VerseTag[]
+			First_timothy.xml.book.chapter[5].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[6],
@@ -124,7 +129,8 @@ describe("1 Timothy 6:7", function () {
 describe("1 Timothy 1:18", function () {
 	it("Checks subphrase word interrupted by root", async function () {
 		let verses = mapVerses(
-			First_timothy.xml.book.chapter[0].verse as VerseTag[]
+			First_timothy.xml.book.chapter[0].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[17],
@@ -147,7 +153,8 @@ describe("1 Timothy 1:18", function () {
 describe("Matthew 6:9", function () {
 	it("Checks subword interupted by a root word", async function () {
 		let verses = mapVerses(
-			Matthew.xml.book.chapter[5].verse as VerseTag[]
+			Matthew.xml.book.chapter[5].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[8],
@@ -170,7 +177,8 @@ describe("Matthew 6:9", function () {
 describe("Matthew 16:22", function () {
 	it("Phraseword, followed by a subphrase word, subphrase word is immediately substituted", async function () {
 		let verses = mapVerses(
-			Matthew.xml.book.chapter[15].verse as VerseTag[]
+			Matthew.xml.book.chapter[15].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[21],
@@ -193,7 +201,8 @@ describe("Matthew 16:22", function () {
 describe("Act 1", function () {
 	it("Checks full chapter", async function () {
 		let verses = mapVerses(
-			Acts.xml.book.chapter[0].verse as VerseTag[]
+			Acts.xml.book.chapter[0].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(verses, expectedResults[9]);
 
@@ -218,7 +227,8 @@ describe("Phrase words that need sub words injected into them", function () {
 		it(`Checks multiple cases found in Mark ${chapters[i]}:${verses[i]}`, async function () {
 			let bookVerses = mapVerses(
 				Mark.xml.book.chapter[chapters[i] - 1]
-					.verse as VerseTag[]
+					.verse as VerseTag[],
+					VerseTagContentType.OSIS
 			);
 			const diff = difference(
 				bookVerses[verses[i] - 1],
@@ -242,7 +252,8 @@ describe("Phrase words that need sub words injected into them", function () {
 
 	it(`Checks case where ends in phrase word needing injected sub words Acts 2:12`, async function () {
 		let bookVerses = mapVerses(
-			Acts.xml.book.chapter[1].verse as VerseTag[]
+			Acts.xml.book.chapter[1].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			bookVerses[11],
@@ -265,7 +276,8 @@ describe("Phrase words that need sub words injected into them", function () {
 describe("Matthew 13:54", function () {
 	it("Nested sub words", async function () {
 		let verses = mapVerses(
-			Matthew.xml.book.chapter[12].verse as VerseTag[]
+			Matthew.xml.book.chapter[12].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[53],
@@ -288,7 +300,8 @@ describe("Matthew 13:54", function () {
 describe("Mark 6:16", function () {
 	it("Sub word interrupted by Greek word", async function () {
 		let verses = mapVerses(
-			Mark.xml.book.chapter[5].verse as VerseTag[]
+			Mark.xml.book.chapter[5].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[15],
@@ -311,7 +324,8 @@ describe("Mark 6:16", function () {
 describe("Matthew 12:40", function () {
 	it("Injected sub word is a checkmark", async function () {
 		let verses = mapVerses(
-			Matthew.xml.book.chapter[11].verse as VerseTag[]
+			Matthew.xml.book.chapter[11].verse as VerseTag[],
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(
 			verses[39],
