@@ -34,7 +34,7 @@ function SettingsModal({
 	open,
 	onClose,
 }: SettingsModalProps) {
-	const { ULBSettings, GWTSettings, SourceTextSettings } = useSettings();
+	const { ULBSettings, GWTSettings } = useSettings();
 	const windowSize = useWindowSize([]);
 
 	function setAllSettingsToDefault() {
@@ -45,10 +45,6 @@ function SettingsModal({
 		GWTSettings.forEach((setting) => {
 			setting.modifier(setting.defaultValue);
 		});
-
-		SourceTextSettings.forEach((setting) => {
-			setting.modifier(setting.defaultValue);
-		})
 	}
 
 	return (
@@ -117,23 +113,6 @@ function SettingsModal({
 								<Options
 									panelSettings={GWTSettings}
 									title="RIGHT PANEL"
-								/>
-							</Grid>
-
-							<Grid
-								item
-								md={12}
-								xs={12}
-								style={{
-									padding:
-										windowSize.innerWidth >= DESKTOP_BREAKPOINT
-											? "0px 20px 0px 20px"
-											: "20px 20px 0px 20px",
-								}}
-							>
-								<Options
-									panelSettings={SourceTextSettings}
-									title="SOURCE TEXT"
 								/>
 							</Grid>
 

@@ -2,8 +2,6 @@ import Grid from "@mui/material/Grid";
 import { SettingsOption } from "../../../types";
 import Switch from "@mui/material/Switch";
 import Button from "@mui/material/Button";
-import { MenuItem, NativeSelect, Select, SelectChangeEvent } from "@mui/material";
-import useSourceTextResourceParams from "src/hooks/useSourceTextResourceParams";
 
 const SettingsModal__decreaseButton = {
 	height: "30px",
@@ -28,9 +26,6 @@ interface PannelSettingsOptionsProps {
 function PanelSettingsOptions({
 	settings,
 }: PannelSettingsOptionsProps) {
-
-	const { setSourceTextResourceLanguageParam, setSourceTextResourceTypeParam } = useSourceTextResourceParams()
-
 	return (
 		<Grid container direction="row">
 			{settings.map((setting, idx: number) => {
@@ -109,57 +104,7 @@ function PanelSettingsOptions({
 							</Button>
 						</Grid>
 					);
-				} else if(setting.inputType === "dropdown") {
-
-					if(setting.name === "Language") {
-
-						return (
-							<Grid
-								key={`setting ${idx}`}
-								item
-								xs={12}
-							>
-								<NativeSelect defaultValue={"en"} onChange={(event) => {
-									setting.modifier(event.target.value)
-									setSourceTextResourceLanguageParam(event.target.value);
-								}}>	
-									<option value={"en"}>en</option>
-									<option value={"hi"}>hi</option>
-									<option value={"ru"}>ru</option>
-									<option value={"bn"}>bn</option>
-									<option value={"mr"}>mr</option>
-									<option value={"ne"}>ne</option>
-									<option value={"or"}>or</option>
-									<option value={"gu"}>gu</option>
-									<option value={"kn"}>kn</option>
-									<option value={"te"}>te</option>
-
-								</NativeSelect>
-							</Grid>
-						)
-					} else if(setting.name === "Type") {
-
-						return (
-							<Grid
-								key={`setting ${idx}`}
-								item
-								xs={12}
-							>
-								<NativeSelect defaultValue={"ulb"} onChange={(event) => {
-									setting.modifier(event.target.value)
-									setSourceTextResourceTypeParam(event.target.value);
-								}}>
-									<option value={"ulb"}>ULB</option>
-									<option value={"glt"}>GLT</option>
-									<option value={"ust"}>UST</option>
-								</NativeSelect>
-							</Grid>
-						)
-					}
-
-				}
-				
-				else {
+				} else {
 					return <></>;
 				}
 			})}

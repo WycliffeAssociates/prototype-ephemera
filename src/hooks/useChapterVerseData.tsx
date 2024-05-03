@@ -2,14 +2,15 @@ import { useState, useEffect } from "react";
 import { AlignedVerse } from "../types";
 import { SourceTextAccessorFactory } from "src/api/SourceTextAccessor/index";
 
+const sourceTextAccessorFactory = new SourceTextAccessorFactory()
+
 function useChapterVerseData(
 	book: string | undefined,
 	chapter: number | string | undefined,
 	resourceType: string | undefined,
-	resourceLanguage: string | undefined
+	resourceLanguage: string | undefined,
 ) {
 	const [verses, setVerses] = useState<AlignedVerse[]>([]);
-	const sourceTextAccessorFactory = new SourceTextAccessorFactory()
 
 	useEffect(() => {
 		const fetchData = async () => {
