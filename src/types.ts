@@ -9,7 +9,6 @@ type WordTag = {
 	_text: string;
 };
 
-// NOTE: the attribute w represents the w tag used by OSIS
 type VerseTag = {
 	ATTR: any;
 	note?: [];
@@ -39,18 +38,6 @@ type GreekWordAttributes = {
 	[key in ValidGreekWordAttributeKeys]: string;
 };
 
-type GreekWord = {
-	notes: GreekWordNotes;
-	attributes: GreekWordAttributes;
-	text: string;
-};
-
-type GreekPhraseWord = {
-	greekWords: string;
-	englishWords: string;
-	morphology: string;
-	descriptions: string[];
-};
 
 type FormattedGreekWord = {
 	lemma: string;
@@ -74,12 +61,6 @@ type Description = {
 	subDescriptions?: string[];
 };
 
-type FormattedWord = {
-	englishWords: string;
-	isPhrase?: boolean;
-	containsSubWords?: boolean;
-	greekWords?: FormattedGreekWord[];
-};
 
 type NewFormattedGreekWord = {
 	lemma: string;
@@ -104,22 +85,6 @@ type SubWord = {
 	subPhraseWords?: PhraseWord[];
 };
 
-type NewFormattedWord = {
-	englishWords: string;
-	greekWords?: NewFormattedGreekWord[];
-	subWords?: SubWord[];
-	phraseWords?: PhraseWord[];
-	subPhraseWords?: SubWord & PhraseWord[];
-};
-
-type NewFormattedVerse = {
-	verseWords: NewFormattedWord[];
-	verseNum: number;
-};
-
-type FormattedVerse = {
-	verseWords: FormattedWord[];
-};
 
 type GWTInformation = {
 	gwtGreekWord: string;
@@ -169,24 +134,18 @@ export type {
 	AlignedVerse,
 	AlignedText,
 	GWTInformation,
-	GreekWord,
 	GreekWordNotes,
 	GreekWordAttributes,
-	GreekPhraseWord,
 	ValidGreekWordAttributeKeys,
 	ValidGreekWordNoteKeys,
 	NoteTag,
 	WordTag,
 	VerseTag,
 	FormattedGreekWord,
-	FormattedWord,
-	FormattedVerse,
 	Description,
 	NewFormattedGreekWord,
 	SubWord,
 	PhraseWord,
-	NewFormattedWord,
-	NewFormattedVerse,
 	SettingsOption,
 	ULBSettingsOption,
 };
