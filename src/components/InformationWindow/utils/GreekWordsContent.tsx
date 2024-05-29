@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import TipsDialogContent from "../../InformationPanel/TipsDialogContent";
 import { BannerMessage } from "./BannerMessage";
 import useWindowSize from "../../../hooks/useWindowSize";
-import { AlignedText, FormattedGreekWord } from "../../../types";
+import { AlignedText } from "../../../types";
 import GreekWordInfo from "../../InformationPanel/GreekWordInfo";
 
 interface GreekWordsContentProps {
