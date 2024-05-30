@@ -1,7 +1,7 @@
-import { useGreekWordsParams } from "../../../hooks/useGreekWordsParams";
-import type { AlignedText } from "../../../types";
+import { AlignedText } from "../../../types";
 import { EnglishWord } from "./EnglishWord";
 import { GreekWord } from "./GreekWord";
+import { useGreekWordsParams } from "../../../hooks/useGreekWordsParams";
 
 interface WordProps {
 	handleClick: (params: any) => any;
@@ -9,19 +9,28 @@ interface WordProps {
 	versePhrase: AlignedText;
 }
 
-function Word({ verseNumber, versePhrase, handleClick }: WordProps) {
-	const { setGreekWordsParams } = useGreekWordsParams();
+function Word({
+	verseNumber,
+	versePhrase,
+	handleClick,
+}: WordProps) {
 
-	function handlePhraseClick(newGreekWords: AlignedText) {
-		const newParams = {
+	const {
+		setGreekWordsParams, 
+	} = useGreekWordsParams();
+
+	function handlePhraseClick(
+		newGreekWords: AlignedText
+	) {
+		let newParams = {
 			alignedText: newGreekWords,
 			show: true,
-			verseNumber: verseNumber,
-		};
+			verseNumber: verseNumber
+		}
 		setGreekWordsParams(newParams);
 	}
 
-	if (versePhrase.greekAlignmentData) {
+	if(versePhrase.greekAlignmentData) {
 		return (
 			<GreekWord
 				handleClick={handleClick}

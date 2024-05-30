@@ -1,16 +1,16 @@
-import { ClickAwayListener } from "@mui/material";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
 import Modal from "@mui/material/Modal";
-import { DESKTOP_BREAKPOINT } from "../../constants";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import { ClickAwayListener } from "@mui/material";
+import Options from "./utils/Options";
 import { useSettings } from "../../hooks/SettingsContext";
 import useWindowSize from "../../hooks/useWindowSize";
 import { Header } from "./utils/Header";
-import Options from "./utils/Options";
+import { DESKTOP_BREAKPOINT } from "../../constants";
 
 const style = {
-	position: "absolute" as const,
+	position: "absolute" as "absolute",
 	top: "48%",
 	left: "50%",
 	transform: "translate(-50%, -50%)",
@@ -30,7 +30,10 @@ interface SettingsModalProps {
 	onClose: () => any;
 }
 
-function SettingsModal({ open, onClose }: SettingsModalProps) {
+function SettingsModal({
+	open,
+	onClose,
+}: SettingsModalProps) {
 	const { ULBSettings, GWTSettings } = useSettings();
 	const windowSize = useWindowSize([]);
 
@@ -64,7 +67,11 @@ function SettingsModal({ open, onClose }: SettingsModalProps) {
 							maxHeight: "250px",
 						}}
 					>
-						<Grid container direction="row" justifyContent="center">
+						<Grid
+							container
+							direction="row"
+							justifyContent="center"
+						>
 							<Header onClose={onClose} />
 
 							<Grid
@@ -86,7 +93,10 @@ function SettingsModal({ open, onClose }: SettingsModalProps) {
 											: "0px 20px 20px 20px",
 								}}
 							>
-								<Options panelSettings={ULBSettings} title="LEFT PANEL" />
+								<Options
+									panelSettings={ULBSettings}
+									title="LEFT PANEL"
+								/>
 							</Grid>
 
 							<Grid
@@ -100,7 +110,10 @@ function SettingsModal({ open, onClose }: SettingsModalProps) {
 											: "20px 20px 0px 20px",
 								}}
 							>
-								<Options panelSettings={GWTSettings} title="RIGHT PANEL" />
+								<Options
+									panelSettings={GWTSettings}
+									title="RIGHT PANEL"
+								/>
 							</Grid>
 
 							<Grid

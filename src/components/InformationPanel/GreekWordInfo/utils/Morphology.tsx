@@ -1,9 +1,9 @@
-import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
-import { getMorphDescription } from "../../../../applicationLogic/mapping/mapAbbreviatedMorph";
+import Grid from "@mui/material/Grid";
 import { useSettings } from "../../../../hooks/SettingsContext";
-import useMorphologyParams from "../../../../hooks/useMorphologyParams";
 import { mapValidGWTSettings } from "./mapValidGWTSettings";
+import { getMorphDescription } from "../../../../applicationLogic/mapping/mapAbbreviatedMorph";
+import useMorphologyParams from "../../../../hooks/useMorphologyParams";
 
 interface morphologyProps {
 	morphology?: string;
@@ -17,19 +17,26 @@ function Morphology({
 	showMore,
 }: morphologyProps) {
 	const { GWTSettings } = useSettings();
-	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
-	const [morphologyLinks, setMorphologyLinks] = useState<string[]>([]);
+	let overwriteStyle: any =
+		mapValidGWTSettings(GWTSettings);
+	const [morphologyLinks, setMorphologyLinks] = useState<
+		string[]
+	>([]);
 	const { setMorphologyParams } = useMorphologyParams();
 
 	useEffect(() => {
 		if (abbreviatedMorphology)
 			setMorphologyLinks([
-				...getMorphDescription(abbreviatedMorphology).split(","),
+				...getMorphDescription(abbreviatedMorphology).split(
+					","
+				),
 			]);
 		else setMorphologyLinks([]);
 	}, [abbreviatedMorphology]);
 
-	function capitalizeFirstLetter(str: string | undefined): string {
+	function capitalizeFirstLetter(
+		str: string | undefined
+	): string {
 		if (str === undefined) {
 			return "";
 		}
@@ -84,7 +91,9 @@ function Morphology({
 												...overwriteStyle,
 											}}
 											onClick={() =>
-												setMorphologyParams(link.trim().toLowerCase())
+												setMorphologyParams(
+													link.trim().toLowerCase()
+												)
 											}
 										>
 											{capitalizeFirstLetter(link.trim())}
@@ -104,7 +113,9 @@ function Morphology({
 											...overwriteStyle,
 										}}
 										onClick={() =>
-											setMorphologyParams(link.trim().toLowerCase())
+											setMorphologyParams(
+												link.trim().toLowerCase()
+											)
 										}
 									>
 										{capitalizeFirstLetter(link.trim())}
@@ -116,8 +127,9 @@ function Morphology({
 				</Grid>
 			</>
 		);
+	} else {
+		return <></>;
 	}
-	return <></>;
 }
 
 export default Morphology;

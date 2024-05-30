@@ -1,12 +1,13 @@
-import Dialog from "@mui/material/Dialog";
 import Grid from "@mui/material/Grid";
-import { useInformationLayout } from "src/hooks/useInformationLayout";
-import useMorphologyParams from "../../hooks/useMorphologyParams";
-import type { AlignedText } from "../../types";
+import Dialog from "@mui/material/Dialog";
+import { AlignedText } from "../../types";
 import MorphologyDialogContent from "../InformationPanel/MorphologyDialogContent";
 import VerseReferenceDialogContent from "../InformationPanel/VerseReferenceDialogContent";
-import { GreekWordsContent } from "./utils/GreekWordsContent";
+import useMorphologyParams from "../../hooks/useMorphologyParams";
 import { Header } from "./utils/Header";
+import { GreekWordsContent } from "./utils/GreekWordsContent";
+import { useInformationLayout } from "src/hooks/useInformationLayout";
+
 
 interface InformationWindowProps {
 	alignedText: AlignedText;
@@ -19,15 +20,18 @@ function InformationWindow({
 	open,
 	onClose,
 }: InformationWindowProps) {
-	const {
-		openMorphologyDialog,
-		openGreekWordsDialog,
-		openVerseReferenceDialog,
-		onVerseReferenceClose,
-		onMorphologyDialogClose,
+
+	const { 
+		openMorphologyDialog, 
+		openGreekWordsDialog, 
+		openVerseReferenceDialog, 
+		onVerseReferenceClose, 
+		onMorphologyDialogClose  
 	} = useInformationLayout();
 
-	const { getMorphologyParams } = useMorphologyParams();
+	const { getMorphologyParams } =
+	useMorphologyParams();
+
 
 	return (
 		<>
@@ -41,7 +45,10 @@ function InformationWindow({
 				>
 					<Header
 						onClose={onClose}
-						show={!openVerseReferenceDialog && !openMorphologyDialog}
+						show={
+							!openVerseReferenceDialog &&
+							!openMorphologyDialog
+						}
 					/>
 
 					<Grid
@@ -50,32 +57,31 @@ function InformationWindow({
 						id="InformationWindow"
 						style={{ padding: "0px 0px 40px 0px" }}
 					>
-						{openGreekWordsDialog ? (
-							<GreekWordsContent alignedText={alignedText} onClose={onClose} />
-						) : (
-							<></>
-						)}
+						{openGreekWordsDialog ?
+							<GreekWordsContent
+								alignedText={alignedText}
+								onClose={onClose}
+							/>
+						: <></>}
 
-						{openVerseReferenceDialog ? (
+						{openVerseReferenceDialog ? 
 							<VerseReferenceDialogContent
 								open={openVerseReferenceDialog}
 								onClose={onVerseReferenceClose}
 								fullScreen={true}
 							/>
-						) : (
-							<></>
-						)}
+						: <></>}
 
-						{openMorphologyDialog ? (
+						{openMorphologyDialog ? 
 							<MorphologyDialogContent
 								open={openMorphologyDialog}
 								onClose={onMorphologyDialogClose}
 								fullScreen={true}
-								morphologyWord={getMorphologyParams().morphologyWord}
+								morphologyWord={
+									getMorphologyParams().morphologyWord
+								}
 							/>
-						) : (
-							<></>
-						)}
+						:<></>}
 					</Grid>
 				</Grid>
 			</Dialog>

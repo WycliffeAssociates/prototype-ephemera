@@ -1,24 +1,22 @@
-import type {
-	GreekWordAttributes,
-	GreekWordNotes,
-	NewFormattedGreekWord,
-	NoteTag,
-	PhraseWord,
-	SubWord,
-	ValidGreekWordNoteKeys,
-	VerseTag,
+import {
 	WordTag,
+	VerseTag,
+	NoteTag,
+	ValidGreekWordNoteKeys,
+	GreekWordNotes,
+	GreekWordAttributes,
+	NewFormattedGreekWord,
+	SubWord,
+	PhraseWord,
 } from "../../types";
 
+
 export enum VerseTagContentType {
-	OSIS = "OSIS",
-	XML = "XML",
+	OSIS = 'OSIS',
+	XML = 'XML',
 }
 
-function mapVerses(
-	verses: VerseTag[],
-	verseTagContentType: VerseTagContentType,
-) {
+function mapVerses(verses: VerseTag[], verseTagContentType: VerseTagContentType) {
 	const verseOutput: any[] = [];
 
 	if (verses === undefined) {
@@ -27,14 +25,14 @@ function mapVerses(
 
 	// populates verseOutput with verse
 	verses.forEach((verse: VerseTag) => {
-		const flags = {
+		let flags = {
 			consumedPhraseWord: false,
 			consumedSubWord: false,
 			consumedSubPhraseWord: false,
 			processingSubsequentPhraseWord: false,
 			skipFlagReset: false,
 		};
-		const buffers = {
+		let buffers = {
 			verseWords: [] as any[],
 			subWords: [] as SubWord[],
 			phraseWords: [] as PhraseWord[],
@@ -48,27 +46,34 @@ function mapVerses(
 
 		// Ensures that phrase words at the end of a verse are processed
 		if (flags.consumedPhraseWord) {
-			const phraseWordsBackup = [...buffers.phraseWords];
-			const tempWord = processConsumedPhraseWords(buffers.phraseWords);
+			let phraseWordsBackup = [...buffers.phraseWords];
+			let tempWord = processConsumedPhraseWords(
+				buffers.phraseWords
+			);
 			let injectedSubWords;
 
 			if (flags.consumedSubWord) {
 				// Checks if the phraseWords attribute needs to have sub words injected into it
-				if (needsSubWords(phraseWordsBackup[0]?.phraseWords)) {
+				if (
+					needsSubWords(phraseWordsBackup[0]?.phraseWords)
+				) {
 					injectedSubWords = processConsumedSubWords(
 						phraseWordsBackup[0],
-						buffers.subWords,
+						buffers.subWords
 					);
-					tempWord.englishWords = injectedSubWords.englishWords;
+					tempWord.englishWords =
+						injectedSubWords.englishWords;
 					tempWord.subWords = injectedSubWords.subWords;
 				}
 			}
 			buffers.verseWords.push(tempWord);
 		}
 
-		const tempVerse = {
-			verseNum: Number.parseInt(
-				verse.ATTR.name.slice(verse.ATTR.name.indexOf(":") + 1),
+		let tempVerse = {
+			verseNum: parseInt(
+				verse.ATTR.name.slice(
+					verse.ATTR.name.indexOf(":") + 1
+				)
 			),
 			verseWords: buffers.verseWords,
 		};
@@ -119,22 +124,27 @@ function mapVerseWord(
 		return;
 	}
 
+
 	let currentGreekWord: NewFormattedGreekWord;
 	let sub: any;
-	if (verseTagContentType === VerseTagContentType.OSIS) {
-		const currentGreekWordNotes: GreekWordNotes = mapNotes(word.note);
-		const currentGreekWordAttributes: GreekWordAttributes = word.ATTR;
+	if(verseTagContentType === VerseTagContentType.OSIS) {
+		let currentGreekWordNotes: GreekWordNotes = mapNotes(
+			word.note
+		);
+		let currentGreekWordAttributes: GreekWordAttributes =
+			word.ATTR;
 		sub = currentGreekWordNotes.sub;
-
+	
 		delete currentGreekWordNotes.sub;
-
+	
 		currentGreekWord = {
 			...currentGreekWordNotes,
 			...currentGreekWordAttributes,
 			text: word._text,
 		};
 	} else {
-		const currentGreekWordAttributes: any = word.ATTR;
+		let currentGreekWordAttributes: any =
+		word.ATTR;
 		sub = currentGreekWordAttributes?.sub;
 
 		currentGreekWord = {
@@ -143,8 +153,13 @@ function mapVerseWord(
 		};
 	}
 
+
 	if (currentGreekWord.phraseWords !== undefined) {
-		mapConsecutivePhraseWords(currentGreekWord, flags, buffers);
+		mapConsecutivePhraseWords(
+			currentGreekWord,
+			flags,
+			buffers
+		);
 		flags.consumedPhraseWord = true;
 		buffers.phraseWords.push({
 			...currentGreekWord,
@@ -152,14 +167,16 @@ function mapVerseWord(
 		});
 	} else if (sub !== undefined) {
 		flags.consumedSubWord = true;
-		const subWord: SubWord = {
+		let subWord: SubWord = {
 			subIdx: sub as string,
 			word: {
 				...currentGreekWord,
 			} as NewFormattedGreekWord,
 		};
 		buffers.subWords.push(subWord);
-	} else if (currentGreekWord.subPhraseWords !== undefined) {
+	} else if (
+		currentGreekWord.subPhraseWords !== undefined
+	) {
 		flags.consumedSubPhraseWord = true;
 		buffers.subPhraseWords.push(currentGreekWord);
 	} else {
@@ -176,11 +193,14 @@ function mapNotes(notes: NoteTag[] | undefined) {
 		}
 
 		notes.forEach((e) => {
-			const greekWordNoteKey: ValidGreekWordNoteKeys = e.ATTR.type;
-			const greekWordNoteValue: string = e._text;
-			tempGreekWordNotes[greekWordNoteKey.slice(2)] = greekWordNoteValue;
+			let greekWordNoteKey: ValidGreekWordNoteKeys =
+				e.ATTR.type;
+			let greekWordNoteValue: string = e._text;
+			tempGreekWordNotes[greekWordNoteKey.slice(2)] =
+				greekWordNoteValue;
 		});
-		tempGreekWordNotes = tempGreekWordNotes as GreekWordNotes;
+		tempGreekWordNotes =
+			tempGreekWordNotes as GreekWordNotes;
 	}
 	return tempGreekWordNotes;
 }
@@ -188,12 +208,13 @@ function mapNotes(notes: NoteTag[] | undefined) {
 function mapConsecutivePhraseWords(
 	currentGreekWord: NewFormattedGreekWord,
 	flags: WordMapFlags,
-	buffers: WordMapBuffers,
+	buffers: WordMapBuffers
 ) {
 	if (flags.consumedPhraseWord === true) {
 		if (
 			currentGreekWord.phraseWords !==
-			buffers.phraseWords[buffers.phraseWords.length - 1].phraseWords
+			buffers.phraseWords[buffers.phraseWords.length - 1]
+				.phraseWords
 		) {
 			flags.processingSubsequentPhraseWord = true;
 			// calls map words with processingSubsequentPhraseWord = true.
@@ -207,7 +228,7 @@ function mapConsecutivePhraseWords(
 function mapWord(
 	word: NewFormattedGreekWord | string,
 	flags: WordMapFlags,
-	buffers: WordMapBuffers,
+	buffers: WordMapBuffers
 ) {
 	if (
 		typeof word !== "string" &&
@@ -253,25 +274,31 @@ type ProcessedSubWords = {
 function mapPhraseWord(
 	word: NewFormattedGreekWord | string,
 	flags: WordMapFlags,
-	buffers: WordMapBuffers,
+	buffers: WordMapBuffers
 ) {
 	let nonInjectedsubWords: ProcessedSubWords | undefined;
-	let injectedSubWords: ProcessedSubWords | undefined = undefined;
+	let injectedSubWords: ProcessedSubWords | undefined =
+		undefined;
 
 	if (flags.consumedSubWord) {
 		// Checks if the phraseWords attribute needs to have sub words injected into it
 		if (needsSubWords(buffers.phraseWords[0].phraseWords)) {
 			injectedSubWords = processConsumedSubWords(
 				buffers.phraseWords[0],
-				buffers.subWords,
+				buffers.subWords
 			);
 		}
 		if (flags.processingSubsequentPhraseWord === false) {
-			nonInjectedsubWords = processConsumedSubWords(word, buffers.subWords);
+			nonInjectedsubWords = processConsumedSubWords(
+				word,
+				buffers.subWords
+			);
 		}
 	}
 
-	const tempWord = processConsumedPhraseWords(buffers.phraseWords);
+	let tempWord = processConsumedPhraseWords(
+		buffers.phraseWords
+	);
 
 	// Injects the sub words into the pharse word if necessary
 	if (injectedSubWords !== undefined) {
@@ -296,20 +323,20 @@ function mapPhraseWord(
 function mapGenericWord(
 	word: NewFormattedGreekWord | string,
 	buffers: WordMapBuffers,
-	nonInjectedsubWords: ProcessedSubWords | undefined,
+	nonInjectedsubWords: ProcessedSubWords | undefined
 ) {
 	if (typeof word !== "string") {
 		if (nonInjectedsubWords && word.text !== "√") {
 			buffers.verseWords.push(nonInjectedsubWords);
 		} else if (word.text !== "√") {
-			const tempWord = {
+			let tempWord = {
 				englishWords: word.text,
 				greekWords: [word],
 			};
 			buffers.verseWords.push(tempWord);
 		}
 	} else {
-		const tempWord = {
+		let tempWord = {
 			englishWords: word,
 		};
 		buffers.verseWords.push(tempWord);
@@ -319,22 +346,31 @@ function mapGenericWord(
 function mapSubWords(
 	word: NewFormattedGreekWord | string,
 	flags: WordMapFlags,
-	buffers: WordMapBuffers,
+	buffers: WordMapBuffers
 ) {
-	const leftOverPhraseWords = processConsumedPhraseWords(buffers.phraseWords);
+	let leftOverPhraseWords = processConsumedPhraseWords(
+		buffers.phraseWords
+	);
 
 	if (leftOverPhraseWords.phraseWords.length > 0) {
 		buffers.verseWords.push(leftOverPhraseWords);
 	}
 
-	const tempWord = processConsumedSubWords(word, buffers.subWords);
+	let tempWord = processConsumedSubWords(
+		word,
+		buffers.subWords
+	);
 
 	buffers.verseWords.push(tempWord);
 }
 
-function processConsumedPhraseWords(greekWordBuffer: PhraseWord[]) {
-	const pharseWords = greekWordBuffer.filter((word) => word.text === "√");
-	const tempWord = {
+function processConsumedPhraseWords(
+	greekWordBuffer: PhraseWord[]
+) {
+	let pharseWords = greekWordBuffer.filter(
+		(word) => word.text === "√"
+	);
+	let tempWord = {
 		englishWords: pharseWords[0]?.subPhraseWords
 			? pharseWords[0]?.subPhraseWords
 			: pharseWords[0]?.phraseWords,
@@ -349,15 +385,18 @@ function processConsumedPhraseWords(greekWordBuffer: PhraseWord[]) {
 
 function processConsumedSubWords(
 	currentWord: NewFormattedGreekWord | string,
-	subWordBuffer: SubWord[],
+	subWordBuffer: SubWord[]
 ) {
-	const returnWords: any[] = [...subWordBuffer];
+	let returnWords: any[] = [...subWordBuffer];
 	let currentEnglishWord = "";
 
-	let source = "";
+	let source: string = "";
 	if (typeof currentWord === "string") {
 		source = currentWord;
-	} else if (currentWord.text === "√" && currentWord.phraseWords) {
+	} else if (
+		currentWord.text === "√" &&
+		currentWord.phraseWords
+	) {
 		source = currentWord.phraseWords;
 	} else {
 		source = currentWord.text;
@@ -366,47 +405,59 @@ function processConsumedSubWords(
 	processNestedSubWords(subWordBuffer);
 
 	for (let i = 0; i < subWordBuffer.length; i++) {
-		const currentSubWord = subWordBuffer[i].word;
+		let currentSubWord = subWordBuffer[i].word;
 		if (typeof currentSubWord !== "string") {
 			if (currentSubWord.subPhraseWords) {
-				const injectedString =
+				let injectedString =
 					currentSubWord.subPhraseWords === "√"
 						? ""
 						: currentSubWord.subPhraseWords;
 				source = source.replace(
 					subWordBuffer[i].subIdx as string,
-					injectedString,
+					injectedString
 				);
 			} else if (currentSubWord.phraseWords) {
-				const injectedString =
-					currentSubWord.text === "√" ? "" : currentSubWord.text;
-				currentSubWord.phraseWords = currentSubWord.phraseWords.replace(
-					subWordBuffer[i].subIdx as string,
-					injectedString,
-				);
+				let injectedString =
+					currentSubWord.text === "√"
+						? ""
+						: currentSubWord.text;
+				currentSubWord.phraseWords =
+					currentSubWord.phraseWords.replace(
+						subWordBuffer[i].subIdx as string,
+						injectedString
+					);
 
 				// TODO: see if I can bring this out of the for loop to decrease run time
-				if (typeof currentWord !== "string" && currentWord.phraseWords) {
-					currentWord.phraseWords = currentSubWord.phraseWords;
+				if (
+					typeof currentWord !== "string" &&
+					currentWord.phraseWords
+				) {
+					currentWord.phraseWords =
+						currentSubWord.phraseWords;
 				}
 			} else {
-				const injectedString =
-					currentSubWord.text === "√" ? "" : currentSubWord.text;
+				let injectedString =
+					currentSubWord.text === "√"
+						? ""
+						: currentSubWord.text;
 				source = source.replace(
 					subWordBuffer[i].subIdx as string,
-					injectedString,
+					injectedString
 				);
 			}
 		}
 	}
 
 	currentEnglishWord = source;
-	if (typeof currentWord !== "string" && !currentWord.phraseWords) {
+	if (
+		typeof currentWord !== "string" &&
+		!currentWord.phraseWords
+	) {
 		currentWord.text = source;
 		returnWords.push({ word: currentWord });
 	}
 
-	const tempWord = {
+	let tempWord = {
 		englishWords: currentEnglishWord,
 		subWords: returnWords,
 	};
@@ -419,15 +470,21 @@ function processConsumedSubWords(
 function processNestedSubWords(subWordBuffer: SubWord[]) {
 	subWordBuffer.forEach((subword, curIdx) => {
 		if (typeof subword.word !== "string") {
-			const nestedSubWords = subword.word.text.match(/[\d+]/g);
+			let nestedSubWords =
+				subword.word.text.match(/[\d+]/g);
 
 			if (nestedSubWords != null) {
-				for (const nestedSubWord of nestedSubWords) {
-					const subWordToInject = subWordBuffer.find(
-						(subWord) => subWord.subIdx === `[${nestedSubWord}]`,
+				nestedSubWords.forEach((nestedSubWord) => {
+					let subWordToInject = subWordBuffer.find(
+						(subWord) =>
+							subWord.subIdx === `[${nestedSubWord}]`
 					);
-					injectSubWord(subWordToInject, subword, nestedSubWord);
-				}
+					injectSubWord(
+						subWordToInject,
+						subword,
+						nestedSubWord
+					);
+				});
 			}
 		}
 	});
@@ -436,7 +493,7 @@ function processNestedSubWords(subWordBuffer: SubWord[]) {
 function injectSubWord(
 	subWordToInject: SubWord | undefined,
 	word: SubWord,
-	subIndex: string,
+	subIndex: string
 ) {
 	let textToInject = "";
 
@@ -455,9 +512,15 @@ function injectSubWord(
 	}
 
 	if (typeof word.word !== "string") {
-		word.word.text = word.word.text.replace(`[${subIndex}]`, textToInject);
+		word.word.text = word.word.text.replace(
+			`[${subIndex}]`,
+			textToInject
+		);
 	} else {
-		word.word = word.word.replace(`[${subIndex}]`, textToInject);
+		word.word = word.word.replace(
+			`[${subIndex}]`,
+			textToInject
+		);
 	}
 }
 

@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
+import { Description as DescriptionType } from "../../../../types";
 import { useSettings } from "../../../../hooks/SettingsContext";
-import type { Description as DescriptionType } from "../../../../types";
 import { mapValidGWTSettings } from "./mapValidGWTSettings";
 
 interface descriptionProps {
@@ -8,11 +8,18 @@ interface descriptionProps {
 	showMore?: boolean;
 }
 
-function Description({ descriptions, showMore }: descriptionProps) {
+function Description({
+	descriptions,
+	showMore,
+}: descriptionProps) {
 	const { GWTSettings } = useSettings();
-	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
+	let overwriteStyle: any =
+		mapValidGWTSettings(GWTSettings);
 
-	if (descriptions !== undefined && descriptions.length > 0) {
+	if (
+		descriptions !== undefined &&
+		descriptions.length > 0
+	) {
 		return (
 			<>
 				<Grid item xs={12}>
@@ -30,42 +37,50 @@ function Description({ descriptions, showMore }: descriptionProps) {
 
 				<Grid item xs={12}>
 					<ul className="GreekWordInfo__bulletPoint">
-						{descriptions.map((description, idx: number) => {
-							return (
-								<li key={`description ${idx}`}>
-									<p
-										className="GreekWordInfoSubCategoryValue"
-										style={{ ...overwriteStyle }}
-									>
-										{description.mainDescription}
-										{description?.subDescriptions?.map(
-											(subDescriptions, subDescriptionIdx: number) => {
-												return (
-													<ul key={`sub description ${subDescriptionIdx}`}>
-														<li>
-															<p
-																className="GreekWordInfoSubCategoryValue"
-																style={{
-																	...overwriteStyle,
-																}}
-															>
-																{subDescriptions}
-															</p>
-														</li>
-													</ul>
-												);
-											},
-										)}
-									</p>
-								</li>
-							);
-						})}
+						{descriptions.map(
+							(description, idx: number) => {
+								return (
+									<li key={`description ${idx}`}>
+										<p
+											className="GreekWordInfoSubCategoryValue"
+											style={{ ...overwriteStyle }}
+										>
+											{description.mainDescription}
+											{description?.subDescriptions?.map(
+												(
+													subDescriptions,
+													subDescriptionIdx: number
+												) => {
+													return (
+														<ul
+															key={`sub description ${subDescriptionIdx}`}
+														>
+															<li>
+																<p
+																	className="GreekWordInfoSubCategoryValue"
+																	style={{
+																		...overwriteStyle,
+																	}}
+																>
+																	{subDescriptions}
+																</p>
+															</li>
+														</ul>
+													);
+												}
+											)}
+										</p>
+									</li>
+								);
+							}
+						)}
 					</ul>
 				</Grid>
 			</>
 		);
+	} else {
+		return <></>;
 	}
-	return <></>;
 }
 
 export default Description;

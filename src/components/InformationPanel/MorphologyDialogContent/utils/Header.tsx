@@ -1,9 +1,9 @@
-import { ArrowBack as ArrowBackIcon } from "@mui/icons-material";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
-import { useSettings } from "../../../../hooks/SettingsContext";
+import Button from "@mui/material/Button";
+import { ArrowBack as ArrowBackIcon } from "@mui/icons-material";
+import Divider from "@mui/material/Divider";
 import { mapValidGWTSettings } from "../../GreekWordInfo/utils/mapValidGWTSettings";
+import { useSettings } from "../../../../hooks/SettingsContext";
 
 interface HeaderProps {
 	onClose?: () => void;
@@ -11,11 +11,18 @@ interface HeaderProps {
 	morphologyWord?: string;
 }
 
-export function Header({ onClose, fullScreen, morphologyWord }: HeaderProps) {
+export function Header({
+	onClose,
+	fullScreen,
+	morphologyWord,
+}: HeaderProps) {
 	const { GWTSettings } = useSettings();
-	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
+	let overwriteStyle: any =
+		mapValidGWTSettings(GWTSettings);
 
-	function capitalizeFirstLetter(str: string | undefined): string {
+	function capitalizeFirstLetter(
+		str: string | undefined
+	): string {
 		if (str === undefined) {
 			return "";
 		}
@@ -38,12 +45,18 @@ export function Header({ onClose, fullScreen, morphologyWord }: HeaderProps) {
 					}}
 				>
 					{fullScreen === false && morphologyWord
-						? capitalizeFirstLetter(morphologyWord.trim())
+						? capitalizeFirstLetter(
+								morphologyWord.trim()
+						  )
 						: "Learn More"}
 				</h3>
 			</Grid>
 
-			<Grid item xs={2} style={{ margin: "auto" }}>
+			<Grid
+				item
+				xs={2}
+				style={{ margin: "auto" }}
+			>
 				<Button
 					onClick={onClose}
 					variant="outlined"
@@ -53,10 +66,12 @@ export function Header({ onClose, fullScreen, morphologyWord }: HeaderProps) {
 						borderRadius: "16px",
 						color: "#33445C",
 						textTransform: "none",
-						minWidth: fullScreen === false ? "115px" : "65px",
+						minWidth:
+							fullScreen === false ? "115px" : "65px",
 					}}
 				>
-					<ArrowBackIcon /> {fullScreen !== true ? "Go Back" : ""}
+					<ArrowBackIcon />{" "}
+					{fullScreen !== true ? "Go Back" : ""}
 				</Button>
 			</Grid>
 

@@ -1,4 +1,4 @@
-const oldTestamentBooks: any = {
+let oldTestamentBooks: any = {
 	Genesis: { numChapters: 50 },
 	Exodus: { numChapters: 40 },
 	Leviticus: { numChapters: 27 },

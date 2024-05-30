@@ -1,6 +1,6 @@
 import { useRef } from "react";
+import { AlignedText } from "../../../types";
 import { useSettings } from "../../../hooks/SettingsContext";
-import type { AlignedText } from "../../../types";
 import { mapValidULBSettings } from "../utils/mapValidULBSettings";
 
 interface GreekWordProps {
@@ -16,7 +16,8 @@ export function GreekWord({
 }: GreekWordProps) {
 	const wordRef = useRef(null);
 	const { ULBSettings } = useSettings();
-	const overwriteStyles: any = mapValidULBSettings(ULBSettings).wordStyles;
+	let overwriteStyles: any =
+		mapValidULBSettings(ULBSettings).wordStyles;
 
 	return (
 		<>

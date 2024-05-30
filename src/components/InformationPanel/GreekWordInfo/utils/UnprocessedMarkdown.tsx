@@ -6,9 +6,12 @@ interface unprocessedMarkdownProps {
 	markdown: string;
 }
 
-function UnprocessedMarkdown({ markdown }: unprocessedMarkdownProps) {
+function UnprocessedMarkdown({
+	markdown,
+}: unprocessedMarkdownProps) {
 	const { GWTSettings } = useSettings();
-	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
+	let overwriteStyle: any =
+		mapValidGWTSettings(GWTSettings);
 
 	if (markdown !== undefined) {
 		return (
@@ -22,7 +25,9 @@ function UnprocessedMarkdown({ markdown }: unprocessedMarkdownProps) {
 					children={markdown}
 					components={{
 						ul: ({ node, ...props }) => (
-							<ul className="GreekWordInfo__bulletPoint">{props.children}</ul>
+							<ul className="GreekWordInfo__bulletPoint">
+								{props.children}
+							</ul>
 						),
 						li: ({ node, ...props }) => (
 							<li>

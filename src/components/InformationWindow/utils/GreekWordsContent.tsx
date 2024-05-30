@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import useWindowSize from "../../../hooks/useWindowSize";
-import type { AlignedText } from "../../../types";
-import GreekWordInfo from "../../InformationPanel/GreekWordInfo";
 import TipsDialogContent from "../../InformationPanel/TipsDialogContent";
 import { BannerMessage } from "./BannerMessage";
+import useWindowSize from "../../../hooks/useWindowSize";
+import { AlignedText } from "../../../types";
+import GreekWordInfo from "../../InformationPanel/GreekWordInfo";
 
 interface GreekWordsContentProps {
 	alignedText: AlignedText;
@@ -19,16 +19,16 @@ export function GreekWordsContent({
 	const containerRef = useRef(null);
 
 	useEffect(() => {
-		const height = windowSize.innerHeight / 7.5; // Ratio for window height to scrollable area
-		setModalHeight(`${height} vh`);
+		let height = windowSize.innerHeight / 7.5; // Ratio for window height to scrollable area
+		setModalHeight(height + "vh");
 	}, [windowSize.innerHeight]);
 
 	return (
 		<>
 			<BannerMessage alignedText={alignedText} />
 
-			{alignedText?.greekAlignmentData &&
-			alignedText.greekAlignmentData.length > 0 ? (
+			{alignedText !== undefined && 
+			alignedText.greekAlignmentData && alignedText.greekAlignmentData.length > 0 ? (
 				<div
 					ref={containerRef}
 					style={{
@@ -55,6 +55,7 @@ export function GreekWordsContent({
 							/>
 						</div>
 					))}
+
 				</div>
 			) : (
 				<TipsDialogContent open={true} onClose={onClose} />

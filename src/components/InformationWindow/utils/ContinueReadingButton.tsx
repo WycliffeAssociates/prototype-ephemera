@@ -1,5 +1,5 @@
-import { ArrowDownward as ArrowDownwardIcon } from "@mui/icons-material";
 import { Button, Grid } from "@mui/material";
+import { ArrowDownward as ArrowDownwardIcon } from "@mui/icons-material";
 
 export function ContinueReadingButton() {
 	return (
@@ -12,7 +12,11 @@ export function ContinueReadingButton() {
 		>
 			<Grid item>
 				<Button
-					onClick={() => console.log("Figure out what Aby wants to do here")}
+					onClick={() =>
+						console.log(
+							"Figure out what Aby wants to do here"
+						)
+					}
 					variant="text"
 					style={{
 						border: "1px solid #E5E8EB",
@@ -24,7 +28,8 @@ export function ContinueReadingButton() {
 						width: "210px",
 					}}
 				>
-					<ArrowDownwardIcon /> Continue Reading <ArrowDownwardIcon />
+					<ArrowDownwardIcon /> Continue Reading{" "}
+					<ArrowDownwardIcon />
 				</Button>
 			</Grid>
 		</Grid>

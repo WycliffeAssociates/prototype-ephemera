@@ -1,10 +1,10 @@
-import { InfoOutlined as InfoIcon } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
+import { InfoOutlined as InfoIcon } from "@mui/icons-material";
 import { useSettings } from "../../hooks/SettingsContext";
 import { mapValidGWTSettings } from "./GreekWordInfo/utils/mapValidGWTSettings";
 
 interface TipsDialogContentProps {
-	open: boolean;
+	open: Boolean;
 	onClose?: () => void;
 }
 
@@ -13,7 +13,8 @@ export default function TipsDialogContent({
 	onClose,
 }: TipsDialogContentProps) {
 	const { GWTSettings } = useSettings();
-	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
+	let overwriteStyle: any =
+		mapValidGWTSettings(GWTSettings);
 
 	if (open) {
 		return (
@@ -53,24 +54,29 @@ export default function TipsDialogContent({
 					</Grid>
 
 					<h4>Get Started</h4>
-					<p>To learn about a word or phrase, click on it.</p>
 					<p>
-						Once a word is selected it will be underlined in blue. The
-						information about that word will appear in the right-hand panel
+						To learn about a word or phrase, click on it.
+					</p>
+					<p>
+						Once a word is selected it will be underlined in
+						blue. The information about that word will
+						appear in the right-hand panel
 					</p>
 					<h4>Navigation</h4>
 					<p>
-						To change a book or chapter click the book name or chapter number
-						located on the left panel above the Scripture text.
+						To change a book or chapter click the book name
+						or chapter number located on the left panel
+						above the Scripture text.
 					</p>
 					<h4>Settings</h4>
 					<p>
-						To change the font size and line height, click the settings button
-						at the top of the page.
+						To change the font size and line height, click
+						the settings button at the top of the page.
 					</p>
 				</Grid>
 			</Grid>
 		);
+	} else {
+		return <></>;
 	}
-	return <></>;
 }

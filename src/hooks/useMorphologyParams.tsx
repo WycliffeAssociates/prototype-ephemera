@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export function useMorphologyParams() {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const [morphologyWord, setMorphologyWord] = useState<string>();
+	const [morphologyWord, setMorphologyWord] =
+		useState<string>();
 
 	function setMorphologyParams(morphologyWord: string) {
-		const urlParams = new URLSearchParams(searchParams);
+		let urlParams = new URLSearchParams(searchParams);
 		urlParams.set("morphologyWord", morphologyWord);
 		setSearchParams(urlParams);
 	}
 
 	function removeMorphologyParams() {
-		const urlParams = new URLSearchParams(searchParams);
+		let urlParams = new URLSearchParams(searchParams);
 		urlParams.delete("morphologyWord");
 		setSearchParams(urlParams);
 		setMorphologyWord(undefined);
@@ -24,14 +25,16 @@ export function useMorphologyParams() {
 
 	useEffect(() => {
 		if (searchParams !== undefined) {
-			const morphologyWordParamValue = searchParams.get("morphologyWord");
+			let morphologyWordParamValue = searchParams.get("morphologyWord");
 			if (morphologyWordParamValue) {
-				setMorphologyWord(morphologyWordParamValue);
+				setMorphologyWord(
+					morphologyWordParamValue
+				);
 			} else {
 				setMorphologyWord(undefined);
 			}
 		}
-	}, [searchParams, searchParams.get]);
+	}, [searchParams.get("morphologyWord")]);
 
 	return {
 		setMorphologyParams: setMorphologyParams,

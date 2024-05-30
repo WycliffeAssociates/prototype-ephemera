@@ -1,7 +1,7 @@
-import { Close as CloseIcon } from "@mui/icons-material";
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 interface HeaderProps {
 	onClose?: () => void;
@@ -11,7 +11,12 @@ interface HeaderProps {
 export function Header({ onClose }: HeaderProps) {
 	return (
 		<>
-			<Grid item md={10} xs={8} style={{ padding: "0px 0px 0px 20px" }}>
+			<Grid
+				item
+				md={10}
+				xs={8}
+				style={{ padding: "0px 0px 0px 20px" }}
+			>
 				<h3
 					className="BannerHeader"
 					style={{
@@ -47,7 +52,11 @@ export function Header({ onClose }: HeaderProps) {
 				</Button>
 			</Grid>
 
-			<Grid item xs={12} style={{ padding: "0px 0px 20px 0px" }}>
+			<Grid
+				item
+				xs={12}
+				style={{ padding: "0px 0px 20px 0px" }}
+			>
 				<Divider />
 			</Grid>
 		</>

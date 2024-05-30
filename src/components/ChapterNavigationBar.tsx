@@ -1,14 +1,17 @@
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Grid from "@mui/material/Grid";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
 import useBookChapterParams from "../hooks/useBookChapterParams";
 
 interface ChapterNavigationBarProps {
 	onClick: (params: "Books" | "Chapters") => any;
 }
 
-function ChapterNavigationBar({ onClick }: ChapterNavigationBarProps) {
-	const bookChapter = useBookChapterParams().getBookChaptersParams();
+function ChapterNavigationBar({
+	onClick,
+}: ChapterNavigationBarProps) {
+	let bookChapter =
+		useBookChapterParams().getBookChaptersParams();
 
 	return (
 		<Grid

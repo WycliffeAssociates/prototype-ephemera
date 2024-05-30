@@ -14,7 +14,7 @@
     ) Prep
 */
 
-const partOfSpeech = {
+let partOfSpeech = {
 	V: "Verb",
 	N: "Noun",
 	Adv: "Adverb",
@@ -34,14 +34,14 @@ const partOfSpeech = {
 	Aram: "Aramaic Word",
 };
 
-const voice = {
+let voice = {
 	A: "Active",
 	M: "Middle",
 	P: "Passive",
 	"M/P": "Middle or Passive",
 };
 
-const caseWords = {
+let caseWords = {
 	N: "Nominative",
 	V: "Vocative",
 	A: "Accusative",
@@ -49,29 +49,29 @@ const caseWords = {
 	D: "Dative",
 };
 
-const numberWords = {
+let numberWords = {
 	S: "Singular",
 	P: "Plural",
 };
 
-const Gender = {
+let Gender = {
 	M: "Masculine",
 	F: "Feminine",
 	N: "Neuter",
 };
 
-const comparison = {
+let comparison = {
 	C: "Comparative",
 	S: "Superlative",
 };
 
-const person = {
+let person = {
 	1: "1st Person",
 	2: "2nd Person",
 	3: "3rd Person",
 };
 
-const tense = {
+let tense = {
 	P: "Present",
 	I: "Imperfect",
 	F: "Future",
@@ -80,7 +80,7 @@ const tense = {
 	L: "Pluperfect",
 };
 
-const mood = {
+let mood = {
 	I: "Indicative",
 	M: "Imperative",
 	S: "Subjunctive",

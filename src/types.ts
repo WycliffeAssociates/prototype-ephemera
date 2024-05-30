@@ -38,6 +38,7 @@ type GreekWordAttributes = {
 	[key in ValidGreekWordAttributeKeys]: string;
 };
 
+
 type FormattedGreekWord = {
 	lemma: string;
 	morph: string;
@@ -59,6 +60,7 @@ type Description = {
 	mainDescription: string;
 	subDescriptions?: string[];
 };
+
 
 type NewFormattedGreekWord = {
 	lemma: string;
@@ -83,6 +85,7 @@ type SubWord = {
 	subPhraseWords?: PhraseWord[];
 };
 
+
 type GWTInformation = {
 	gwtGreekWord: string;
 	descriptions: Description[];
@@ -95,7 +98,9 @@ type GWTInformation = {
 type SettingsOption = {
 	name: string;
 	value: string | number | boolean | undefined;
-	modifier: (newValue: string | number | boolean | undefined) => any;
+	modifier: (
+		newValue: string | number | boolean | undefined
+	) => any;
 	inputType: "switch" | "increment" | "button";
 	unit?: string;
 	styleOverrideKey?: string;
@@ -107,20 +112,22 @@ type ULBSettingsOption = SettingsOption & {
 	level: "verse" | "word" | "all";
 };
 
+
 type GreekAlignmentData = {
 	strong: string;
 	morph?: string;
-};
+}
 
 type AlignedText = {
 	text: string;
-	greekAlignmentData?: GreekAlignmentData[];
-};
+	greekAlignmentData?: GreekAlignmentData[]
+}
+
 
 type AlignedVerse = {
 	verseNum: number;
 	alignedVerseText: AlignedText[];
-};
+}
 
 export type {
 	GreekAlignmentData,

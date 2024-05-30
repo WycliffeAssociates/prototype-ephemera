@@ -1,22 +1,21 @@
-import { InfoOutlined as InfoIcon } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import { useSettings } from "../../../hooks/SettingsContext";
-import type { AlignedText } from "../../../types";
+import { AlignedText } from "../../../types";
 import { mapValidGWTSettings } from "../../InformationPanel/GreekWordInfo/utils/mapValidGWTSettings";
+import {InfoOutlined as InfoIcon } from "@mui/icons-material";
 
 interface GreekWordsBannerProps {
 	alignedText: AlignedText;
 }
 
-export function BannerMessage({ alignedText }: GreekWordsBannerProps) {
+export function BannerMessage({
+	alignedText,
+}: GreekWordsBannerProps) {
 	const { GWTSettings } = useSettings();
-	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
+	let overwriteStyle: any =
+		mapValidGWTSettings(GWTSettings);
 
-	if (
-		alignedText &&
-		alignedText.greekAlignmentData &&
-		alignedText.greekAlignmentData.length >= 4
-	) {
+	if (alignedText && alignedText.greekAlignmentData && alignedText.greekAlignmentData.length >= 4) {
 		return (
 			<Grid
 				item
@@ -38,7 +37,11 @@ export function BannerMessage({ alignedText }: GreekWordsBannerProps) {
 					justifyContent={"flex-start"}
 					alignItems={"center"}
 				>
-					<Grid item style={{ paddingLeft: "3%" }} xs={12}>
+					<Grid
+						item
+						style={{ paddingLeft: "3%" }}
+						xs={12}
+					>
 						<InfoIcon
 							style={{
 								verticalAlign: "middle",
@@ -60,6 +63,7 @@ export function BannerMessage({ alignedText }: GreekWordsBannerProps) {
 				</Grid>
 			</Grid>
 		);
+	} else {
+		return <></>;
 	}
-	return <></>;
 }

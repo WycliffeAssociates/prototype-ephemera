@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { AlignedText } from "src/types";
+import { AlignedText } from "src/types";
 import { fullMorphToFileName } from "../applicationLogic/mapping/mapFullMorph";
 
 interface missingReport {
@@ -10,11 +10,13 @@ interface missingReport {
 	ogntSort: string;
 }
 
-async function reportMissingMorphology(data: missingReport) {
+async function reportMissingMorphology(
+	data: missingReport
+) {
 	try {
-		const config = {
+		let config = {
 			method: "post",
-			maxBodyLength: Number.POSITIVE_INFINITY,
+			maxBodyLength: Infinity,
 			url: "https://wagwtfeedbackhandler.azurewebsites.net/api/MissingHandler",
 			headers: {
 				Accept: "*/*",
@@ -26,52 +28,57 @@ async function reportMissingMorphology(data: missingReport) {
 			data: data,
 		};
 
-		const res = await axios.request(config);
-		console.log(`report status = ${JSON.stringify(res.status)}`);
+		let res = await axios.request(config);
+
+		console.log(
+			"report status = " + JSON.stringify(res.status)
+		);
 	} catch (error) {
 		console.log(error);
 	}
 }
 
-export async function fetchMorphologyWord(
-	alignedText?: AlignedText,
-	morphologyWord?: string,
-) {
-	let returnVal = undefined;
 
-	if (morphologyWord !== undefined) {
-		try {
-			let fileName: string = morphologyWord;
+export async function fetchMorphologyWord(alignedText?: AlignedText, morphologyWord?: string,) {
+    let returnVal = undefined;
 
-			if (fullMorphToFileName[fileName] !== undefined) {
-				fileName = fullMorphToFileName[fileName];
-			}
+    if (morphologyWord !== undefined) {
+        try {
+            let fileName: string = morphologyWord;
 
-			const response = await axios.get(
-				`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${fileName}.md`,
-			);
+            if (fullMorphToFileName[fileName] !== undefined) {
+                fileName = fullMorphToFileName[fileName];
+            }
 
-			returnVal = response.data;
-		} catch (error) {
-			if (alignedText?.greekAlignmentData) {
-				const greekWord = alignedText.greekAlignmentData[
-					alignedText.greekAlignmentData.length - 1
-				] as any;
+            let response = await axios.get(
+                `https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${fileName}.md`
+            );
 
-				const requestBody = {
-					word: alignedText.text,
-					abbreviated: greekWord.morph,
-					full: morphologyWord,
-					strongs: greekWord.strongs,
-					ogntSort: (greekWord.OGNTsort
-						? greekWord.OGNTsort
-						: greekWord.OGNTSort
-					).toString(),
-				};
+            returnVal = response.data;
 
-				reportMissingMorphology(requestBody);
-			}
-		}
-	}
-	return returnVal;
+        } catch (error) {
+            if (alignedText?.greekAlignmentData) {
+
+                let greekWord = alignedText.greekAlignmentData[
+                    alignedText.greekAlignmentData.length - 1
+                ] as any;
+
+                let requestBody = {
+
+                    word: alignedText.text,
+                    abbreviated: greekWord.morph,
+                    full: morphologyWord,
+                    strongs: greekWord.strongs,
+                    ogntSort:
+                        (greekWord.OGNTsort
+                            ? greekWord.OGNTsort
+                            : greekWord.OGNTSort) + "",
+                };
+
+                reportMissingMorphology(requestBody);
+            }
+        }
+    }
+    return returnVal;
 }
+

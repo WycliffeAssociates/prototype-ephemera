@@ -1,21 +1,24 @@
+import getChapterVerses from "../../api";
+import mapVerses, { VerseTagContentType } from "./mapTagsToFormattedVerse";
 import * as Matthew from "../../../public/taggedOSIS/41-MAT.json";
 import * as Mark from "../../../public/taggedOSIS/42-MRK.json";
-import * as Acts from "../../../public/taggedOSIS/45-ACT.json";
 import * as First_timothy from "../../../public/taggedOSIS/55-1TI.json";
 import * as Philemon from "../../../public/taggedOSIS/58-PHM.json";
-import getChapterVerses from "../../api";
-import type { VerseTag } from "../../types";
-import mapVerses, { VerseTagContentType } from "./mapTagsToFormattedVerse";
+import * as Acts from "../../../public/taggedOSIS/45-ACT.json";
+import { VerseTag } from "../../types";
 
 // book = await axios.get(`taggedOSIS/${books[bookTitle].abbreviatedBook}.json`);
 
-describe("Mark 9:1", () => {
-	it("Should match with verse 1", async () => {
-		const verses = mapVerses(
+describe("Mark 9:1", function () {
+	it("Should match with verse 1", async function () {
+		let verses = mapVerses(
 			Mark.xml.book.chapter[8].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[1], expectedResults[0][0]);
+		const diff = difference(
+			verses[1],
+			expectedResults[0][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -24,18 +27,22 @@ describe("Mark 9:1", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[1]) === JSON.stringify(expectedResults[0][0]),
+			JSON.stringify(verses[1]) ===
+				JSON.stringify(expectedResults[0][0])
 		).toBe(true);
 	});
 });
 
-describe("1 Timothy 6:1 (starts with multiple sub words and ends with one sub word)", () => {
-	it("Should match with verse 1", async () => {
-		const verses = mapVerses(
+describe("1 Timothy 6:1 (starts with multiple sub words and ends with one sub word)", function () {
+	it("Should match with verse 1", async function () {
+		let verses = mapVerses(
 			First_timothy.xml.book.chapter[5].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[0], expectedResults[2][0]);
+		const diff = difference(
+			verses[0],
+			expectedResults[2][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -44,18 +51,22 @@ describe("1 Timothy 6:1 (starts with multiple sub words and ends with one sub wo
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[0]) === JSON.stringify(expectedResults[2][0]),
+			JSON.stringify(verses[0]) ===
+				JSON.stringify(expectedResults[2][0])
 		).toBe(true);
 	});
 });
 
-describe("Matthew 10:42", () => {
-	it("Starts with phrase word, directly followed by unbroken series of sub words, contains a sub word that is also a phrase word", async () => {
-		const verses = mapVerses(
+describe("Matthew 10:42", function () {
+	it("Starts with phrase word, directly followed by unbroken series of sub words, contains a sub word that is also a phrase word", async function () {
+		let verses = mapVerses(
 			Matthew.xml.book.chapter[9].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[41], expectedResults[3][0]);
+		const diff = difference(
+			verses[41],
+			expectedResults[3][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -64,16 +75,17 @@ describe("Matthew 10:42", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[41]) === JSON.stringify(expectedResults[3][0]),
+			JSON.stringify(verses[41]) ===
+				JSON.stringify(expectedResults[3][0])
 		).toBe(true);
 	});
 });
 
-describe("Philemon 1", () => {
-	it("Should match full chapter", async () => {
-		const verses = mapVerses(
+describe("Philemon 1", function () {
+	it("Should match full chapter", async function () {
+		let verses = mapVerses(
 			Philemon.xml.book.chapter.verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(verses, expectedResults[4]);
 
@@ -83,19 +95,23 @@ describe("Philemon 1", () => {
 
 		// TODO: add method here to specify which differences to ignore.
 
-		expect(JSON.stringify(verses) === JSON.stringify(expectedResults[4])).toBe(
-			true,
-		);
+		expect(
+			JSON.stringify(verses) ===
+				JSON.stringify(expectedResults[4])
+		).toBe(true);
 	});
 });
 
-describe("1 Timothy 6:7", () => {
-	it("Checks subphrase word", async () => {
-		const verses = mapVerses(
+describe("1 Timothy 6:7", function () {
+	it("Checks subphrase word", async function () {
+		let verses = mapVerses(
 			First_timothy.xml.book.chapter[5].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[6], expectedResults[5][0]);
+		const diff = difference(
+			verses[6],
+			expectedResults[5][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -104,18 +120,22 @@ describe("1 Timothy 6:7", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[6]) === JSON.stringify(expectedResults[5][0]),
+			JSON.stringify(verses[6]) ===
+				JSON.stringify(expectedResults[5][0])
 		).toBe(true);
 	});
 });
 
-describe("1 Timothy 1:18", () => {
-	it("Checks subphrase word interrupted by root", async () => {
-		const verses = mapVerses(
+describe("1 Timothy 1:18", function () {
+	it("Checks subphrase word interrupted by root", async function () {
+		let verses = mapVerses(
 			First_timothy.xml.book.chapter[0].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[17], expectedResults[6][0]);
+		const diff = difference(
+			verses[17],
+			expectedResults[6][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -124,18 +144,22 @@ describe("1 Timothy 1:18", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[17]) === JSON.stringify(expectedResults[6][0]),
+			JSON.stringify(verses[17]) ===
+				JSON.stringify(expectedResults[6][0])
 		).toBe(true);
 	});
 });
 
-describe("Matthew 6:9", () => {
-	it("Checks subword interupted by a root word", async () => {
-		const verses = mapVerses(
+describe("Matthew 6:9", function () {
+	it("Checks subword interupted by a root word", async function () {
+		let verses = mapVerses(
 			Matthew.xml.book.chapter[5].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[8], expectedResults[7][0]);
+		const diff = difference(
+			verses[8],
+			expectedResults[7][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -144,18 +168,22 @@ describe("Matthew 6:9", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[8]) === JSON.stringify(expectedResults[7][0]),
+			JSON.stringify(verses[8]) ===
+				JSON.stringify(expectedResults[7][0])
 		).toBe(true);
 	});
 });
 
-describe("Matthew 16:22", () => {
-	it("Phraseword, followed by a subphrase word, subphrase word is immediately substituted", async () => {
-		const verses = mapVerses(
+describe("Matthew 16:22", function () {
+	it("Phraseword, followed by a subphrase word, subphrase word is immediately substituted", async function () {
+		let verses = mapVerses(
 			Matthew.xml.book.chapter[15].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[21], expectedResults[8][0]);
+		const diff = difference(
+			verses[21],
+			expectedResults[8][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -164,16 +192,17 @@ describe("Matthew 16:22", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[21]) === JSON.stringify(expectedResults[8][0]),
+			JSON.stringify(verses[21]) ===
+				JSON.stringify(expectedResults[8][0])
 		).toBe(true);
 	});
 });
 
-describe("Act 1", () => {
-	it("Checks full chapter", async () => {
-		const verses = mapVerses(
+describe("Act 1", function () {
+	it("Checks full chapter", async function () {
+		let verses = mapVerses(
 			Acts.xml.book.chapter[0].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
 		const diff = difference(verses, expectedResults[9]);
 
@@ -183,25 +212,27 @@ describe("Act 1", () => {
 
 		// TODO: add method here to specify which differences to ignore.
 
-		expect(JSON.stringify(verses) === JSON.stringify(expectedResults[9])).toBe(
-			true,
-		);
+		expect(
+			JSON.stringify(verses) ===
+				JSON.stringify(expectedResults[9])
+		).toBe(true);
 	});
 });
 
-describe("Phrase words that need sub words injected into them", () => {
-	const chapters = [13, 12, 2, 3, 4, 5, 6, 13];
-	const verses = [15, 14, 17, 9, 38, 4, 17, 16];
+describe("Phrase words that need sub words injected into them", function () {
+	let chapters = [13, 12, 2, 3, 4, 5, 6, 13];
+	let verses = [15, 14, 17, 9, 38, 4, 17, 16];
 
 	for (let i = 0; i < chapters.length; i++) {
-		it(`Checks multiple cases found in Mark ${chapters[i]}:${verses[i]}`, async () => {
-			const bookVerses = mapVerses(
-				Mark.xml.book.chapter[chapters[i] - 1].verse as VerseTag[],
-				VerseTagContentType.OSIS,
+		it(`Checks multiple cases found in Mark ${chapters[i]}:${verses[i]}`, async function () {
+			let bookVerses = mapVerses(
+				Mark.xml.book.chapter[chapters[i] - 1]
+					.verse as VerseTag[],
+					VerseTagContentType.OSIS
 			);
 			const diff = difference(
 				bookVerses[verses[i] - 1],
-				subAndPhraseWordsExpectedResults[i][0],
+				subAndPhraseWordsExpectedResults[i][0]
 			);
 
 			if (diff.length > 0) {
@@ -212,17 +243,22 @@ describe("Phrase words that need sub words injected into them", () => {
 
 			expect(
 				JSON.stringify(bookVerses[verses[i] - 1]) ===
-					JSON.stringify(subAndPhraseWordsExpectedResults[i][0]),
+					JSON.stringify(
+						subAndPhraseWordsExpectedResults[i][0]
+					)
 			).toBe(true);
 		});
 	}
 
-	it(`Checks case where ends in phrase word needing injected sub words Acts 2:12`, async () => {
-		const bookVerses = mapVerses(
+	it(`Checks case where ends in phrase word needing injected sub words Acts 2:12`, async function () {
+		let bookVerses = mapVerses(
 			Acts.xml.book.chapter[1].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(bookVerses[11], expectedResults[10][0]);
+		const diff = difference(
+			bookVerses[11],
+			expectedResults[10][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -231,18 +267,22 @@ describe("Phrase words that need sub words injected into them", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(bookVerses[11]) === JSON.stringify(expectedResults[10][0]),
+			JSON.stringify(bookVerses[11]) ===
+				JSON.stringify(expectedResults[10][0])
 		).toBe(true);
 	});
 });
 
-describe("Matthew 13:54", () => {
-	it("Nested sub words", async () => {
-		const verses = mapVerses(
+describe("Matthew 13:54", function () {
+	it("Nested sub words", async function () {
+		let verses = mapVerses(
 			Matthew.xml.book.chapter[12].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[53], expectedResults[11][0]);
+		const diff = difference(
+			verses[53],
+			expectedResults[11][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -251,18 +291,22 @@ describe("Matthew 13:54", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[53]) === JSON.stringify(expectedResults[11][0]),
+			JSON.stringify(verses[53]) ===
+				JSON.stringify(expectedResults[11][0])
 		).toBe(true);
 	});
 });
 
-describe("Mark 6:16", () => {
-	it("Sub word interrupted by Greek word", async () => {
-		const verses = mapVerses(
+describe("Mark 6:16", function () {
+	it("Sub word interrupted by Greek word", async function () {
+		let verses = mapVerses(
 			Mark.xml.book.chapter[5].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[15], expectedResults[12][0]);
+		const diff = difference(
+			verses[15],
+			expectedResults[12][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -271,18 +315,22 @@ describe("Mark 6:16", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[15]) === JSON.stringify(expectedResults[12][0]),
+			JSON.stringify(verses[15]) ===
+				JSON.stringify(expectedResults[12][0])
 		).toBe(true);
 	});
 });
 
-describe("Matthew 12:40", () => {
-	it("Injected sub word is a checkmark", async () => {
-		const verses = mapVerses(
+describe("Matthew 12:40", function () {
+	it("Injected sub word is a checkmark", async function () {
+		let verses = mapVerses(
 			Matthew.xml.book.chapter[11].verse as VerseTag[],
-			VerseTagContentType.OSIS,
+			VerseTagContentType.OSIS
 		);
-		const diff = difference(verses[39], expectedResults[13][0]);
+		const diff = difference(
+			verses[39],
+			expectedResults[13][0]
+		);
 
 		if (diff.length > 0) {
 			console.error(diff);
@@ -291,18 +339,29 @@ describe("Matthew 12:40", () => {
 		// TODO: add method here to specify which differences to ignore.
 
 		expect(
-			JSON.stringify(verses[39]) === JSON.stringify(expectedResults[13][0]),
+			JSON.stringify(verses[39]) ===
+				JSON.stringify(expectedResults[13][0])
 		).toBe(true);
 	});
 });
 
-function difference(origObj: Record<any, any>, newObj: Record<any, any>) {
-	function changes(newObj: Record<any, any>, origObj: Record<any, any>) {
+export {};
+
+function difference(
+	origObj: Record<any, any>,
+	newObj: Record<any, any>
+) {
+	function changes(
+		newObj: Record<any, any>,
+		origObj: Record<any, any>
+	) {
 		let arrayIndexCounter = 0;
 		return Object.entries(newObj).reduce(
 			(result: Record<any, any>, [key, value]) => {
 				if (!isEqual(value, origObj[key])) {
-					const resultKey = Array.isArray(origObj) ? arrayIndexCounter++ : key;
+					let resultKey = Array.isArray(origObj)
+						? arrayIndexCounter++
+						: key;
 					result[resultKey] =
 						isObject(value) && isObject(origObj[key])
 							? changes(value, origObj[key])
@@ -310,7 +369,7 @@ function difference(origObj: Record<any, any>, newObj: Record<any, any>) {
 				}
 				return result;
 			},
-			{},
+			{}
 		);
 	}
 
@@ -331,13 +390,15 @@ const subAndPhraseWordsExpectedResults = [
 			verseNum: 15,
 			verseWords: [
 				{
-					englishWords: "let him who is on the housetop not go down",
+					englishWords:
+						"let him who is on the housetop not go down",
 					phraseWords: [
 						{
 							text: "√",
 							strongs: "G2597",
 							OGNTsort: 27098,
-							phraseWords: "let [1] [2] [3] [4] [5] go down",
+							phraseWords:
+								"let [1] [2] [3] [4] [5] go down",
 							morph: "V-2AAM-3S",
 							lemma: "καταβαίνω",
 						},
@@ -538,13 +599,15 @@ const subAndPhraseWordsExpectedResults = [
 					],
 				},
 				{
-					englishWords: "what people think is not a concern",
+					englishWords:
+						"what people think is not a concern",
 					phraseWords: [
 						{
 							text: "√",
 							strongs: "G3199",
 							OGNTsort: 26252,
-							phraseWords: "what people think is [1] a concern",
+							phraseWords:
+								"what people think is [1] a concern",
 							morph: "V-PAI-3S",
 							lemma: "μέλω",
 						},
@@ -552,7 +615,8 @@ const subAndPhraseWordsExpectedResults = [
 							text: "√",
 							strongs: "G3762",
 							OGNTsort: 26255,
-							phraseWords: "what people think is [1] a concern",
+							phraseWords:
+								"what people think is [1] a concern",
 							morph: "A-GSM",
 							lemma: "οὐδείς",
 						},
@@ -609,13 +673,15 @@ const subAndPhraseWordsExpectedResults = [
 					],
 				},
 				{
-					englishWords: "you do not show partiality to anyone.",
+					englishWords:
+						"you do not show partiality to anyone.",
 					phraseWords: [
 						{
 							text: "√",
 							strongs: "G991",
 							OGNTsort: 26258,
-							phraseWords: "you do [2] show partiality to anyone.",
+							phraseWords:
+								"you do [2] show partiality to anyone.",
 							morph: "V-PAI-2S",
 							lemma: "βλέπω",
 						},
@@ -623,7 +689,8 @@ const subAndPhraseWordsExpectedResults = [
 							text: "√",
 							strongs: "G1519",
 							OGNTsort: 26259,
-							phraseWords: "you do [2] show partiality to anyone.",
+							phraseWords:
+								"you do [2] show partiality to anyone.",
 							morph: "PREP",
 							lemma: "εἰς",
 						},
@@ -631,7 +698,8 @@ const subAndPhraseWordsExpectedResults = [
 							text: "√",
 							strongs: "G4383",
 							OGNTsort: 26260,
-							phraseWords: "you do [2] show partiality to anyone.",
+							phraseWords:
+								"you do [2] show partiality to anyone.",
 							morph: "N-ASN",
 							lemma: "πρόσωπον",
 						},
@@ -639,7 +707,8 @@ const subAndPhraseWordsExpectedResults = [
 							text: "√",
 							strongs: "G444",
 							OGNTsort: 26261,
-							phraseWords: "you do [2] show partiality to anyone.",
+							phraseWords:
+								"you do [2] show partiality to anyone.",
 							morph: "N-GPM",
 							lemma: "ἄνθρωπος",
 						},
@@ -1921,7 +1990,8 @@ const subAndPhraseWordsExpectedResults = [
 					],
 				},
 				{
-					englishWords: "let him who is in the field not return",
+					englishWords:
+						"let him who is in the field not return",
 					phraseWords: [
 						{
 							text: "√",
@@ -2100,7 +2170,8 @@ const expectedResults = [
 					],
 				},
 				{
-					englishWords: "took Peter and James and John with him",
+					englishWords:
+						"took Peter and James and John with him",
 					subWords: [
 						{
 							subIdx: "[1]",
@@ -2623,7 +2694,8 @@ const expectedResults = [
 					],
 				},
 				{
-					englishWords: "took Peter and James and John with him",
+					englishWords:
+						"took Peter and James and John with him",
 					subWords: [
 						{
 							subIdx: "[1]",
@@ -4051,7 +4123,8 @@ const expectedResults = [
 					],
 				},
 				{
-					englishWords: "they kept the matter to themselves,",
+					englishWords:
+						"they kept the matter to themselves,",
 					subWords: [
 						{
 							subIdx: "[1]",
@@ -5793,7 +5866,8 @@ const expectedResults = [
 				},
 				{ englishWords: "Jesus," },
 				{
-					englishWords: "it immediately threw him into a convulsion.",
+					englishWords:
+						"it immediately threw him into a convulsion.",
 					subWords: [
 						{
 							subIdx: "[3]",
@@ -11235,7 +11309,8 @@ const expectedResults = [
 			verseNum: 1,
 			verseWords: [
 				{
-					englishWords: "Let all who are under the yoke as slaves regard",
+					englishWords:
+						"Let all who are under the yoke as slaves regard",
 					subWords: [
 						{
 							subIdx: "[1]",
@@ -17070,7 +17145,8 @@ const expectedResults = [
 							text: "√",
 							strongs: "G3588",
 							OGNTsort: 64855,
-							phraseWords: "When they were assembled together",
+							phraseWords:
+								"When they were assembled together",
 							morph: "T-NPM",
 							lemma: "ὁ",
 						},
@@ -17078,7 +17154,8 @@ const expectedResults = [
 							text: "√",
 							strongs: "G4905",
 							OGNTsort: 64858,
-							phraseWords: "When they were assembled together",
+							phraseWords:
+								"When they were assembled together",
 							morph: "V-2AAP-NPM",
 							lemma: "συνέρχομαι",
 						},

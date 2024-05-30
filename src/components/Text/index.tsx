@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import "../../App.css";
-import useSourceTextResourceParams from "src/hooks/useSourceTextResourceParams";
-import { useSettings } from "../../hooks/SettingsContext";
+import Word from "./utils/Word";
 import useBookChapterParams from "../../hooks/useBookChapterParams";
 import useChapterVerseData from "../../hooks/useChapterVerseData";
-import { useGreekWordsParams } from "../../hooks/useGreekWordsParams";
-import Word from "./utils/Word";
+import { useSettings } from "../../hooks/SettingsContext";
 import { mapValidULBSettings } from "./utils/mapValidULBSettings";
+import { useGreekWordsParams } from "../../hooks/useGreekWordsParams";
+import useSourceTextResourceParams from "src/hooks/useSourceTextResourceParams";
 
 function Text() {
-	const bookChapter = useBookChapterParams().getBookChaptersParams();
+	const bookChapter =
+		useBookChapterParams().getBookChaptersParams();
 
-	const { sourceTextResourceLanguage, sourceTextResourceType } =
-		useSourceTextResourceParams();
+	const { sourceTextResourceLanguage, sourceTextResourceType } = useSourceTextResourceParams()
 
 	const verses = useChapterVerseData(
 		bookChapter.book,
-		Number.parseInt(bookChapter.chapter),
+		parseInt(bookChapter.chapter),
 		sourceTextResourceType,
 		sourceTextResourceLanguage,
 	);
@@ -34,7 +34,9 @@ function Text() {
 	// color back to default.
 	useEffect(() => {
 		if (!showGreekWords) {
-			if (childClicked?.current?.style?.color !== undefined) {
+			if (
+				childClicked?.current?.style?.color !== undefined
+			) {
 				childClicked.current.style.color = defaultTextColor;
 				childClicked.current.style.textDecoration = "none";
 			}
@@ -57,9 +59,12 @@ function Text() {
 			childClicked.current.style.color = defaultTextColor;
 			childClicked.current.style.textDecoration = "none";
 		}
-		if (newChildClicked?.current?.style?.color !== undefined) {
+		if (
+			newChildClicked?.current?.style?.color !== undefined
+		) {
 			newChildClicked.current.style.color = highlightColor;
-			newChildClicked.current.style.textDecoration = "underline";
+			newChildClicked.current.style.textDecoration =
+				"underline";
 		}
 	}
 
@@ -68,12 +73,13 @@ function Text() {
 		setChildClicked(newChildClicked);
 	}
 
-	const overwriteStyle: any = mapValidULBSettings(ULBSettings).verseStyles;
-	const verseOutput: any[] = [];
+	let overwriteStyle: any =
+		mapValidULBSettings(ULBSettings).verseStyles;
+	let verseOutput: any[] = [];
 
 	verses.forEach((verse, idx) => {
-		const verseWordOutput: any[] = [];
-		let extraMarginTop = "20px";
+		let verseWordOutput: any[] = [];
+		let extraMarginTop: string = "20px";
 		if (idx === 0) {
 			extraMarginTop = "0px";
 		}
@@ -85,9 +91,10 @@ function Text() {
 					handleClick={handleChildClicked}
 					versePhrase={{ ...alignedVerseWord }}
 					verseNumber={verse.verseNum}
-				/>,
+				/>
 			);
 		});
+
 
 		const tempVerse = (
 			<p
@@ -105,7 +112,10 @@ function Text() {
 	});
 
 	return (
-		<div id="TextContainerContent" style={{ paddingBottom: "100px" }}>
+		<div
+			id="TextContainerContent"
+			style={{ paddingBottom: "100px" }}
+		>
 			{verses.length === 0
 				? "Please enter a valid book / chapter"
 				: verseOutput}

@@ -1,15 +1,21 @@
-import type { SettingsOption } from "../../../../types";
+import { SettingsOption } from "../../../../types";
 
-export function mapValidGWTSettings(GWTSettings: SettingsOption[]) {
-	const overwriteStyle: any = {};
+export function mapValidGWTSettings(
+	GWTSettings: SettingsOption[]
+) {
+	let overwriteStyle: any = {};
 
 	GWTSettings.forEach((setting: any) => {
-		if (setting?.styleOverrideKey && setting.value !== undefined) {
-			const styleValue = setting?.styleOverrideValue
+		if (
+			setting?.styleOverrideKey &&
+			setting.value !== undefined
+		) {
+			let styleValue = setting?.styleOverrideValue
 				? setting?.styleOverrideValue
 				: setting.value;
-			const styleUnit = setting.unit ? setting.unit : "";
-			overwriteStyle[setting.styleOverrideKey] = "" + styleValue + styleUnit;
+			let styleUnit = setting.unit ? setting.unit : "";
+			overwriteStyle[setting.styleOverrideKey] =
+				"" + styleValue + styleUnit;
 		}
 	});
 
