@@ -58,14 +58,14 @@ function Chapters({ selectedBook }: ChaptersProps) {
 		} else {
 			setNumChapters(0);
 		}
-	}, [selectedBook]);
+	}, [selectedBook, currentBookChapter.book]);
 
 	const chapters: any[] = [];
 
 	function onChapterClick(chapterNum: number) {
 		const params = {
-			book: selectedBook !== "" ? selectedBook : currentBookChapter.book + "",
-			chapter: chapterNum + "",
+			book: selectedBook !== "" ? selectedBook : `${currentBookChapter.book}`,
+			chapter: `${chapterNum}`,
 		};
 
 		if (params.book) {
@@ -82,7 +82,7 @@ function Chapters({ selectedBook }: ChaptersProps) {
 					onClick={onChapterClick}
 					isActiveChapter={
 						selectedBook === currentBookChapter.book &&
-						i + 1 === Number.parseInt(currentBookChapter.chapter)
+						i + 1 === Number.parseInt(`${currentBookChapter.chapter}`)
 					}
 				/>
 			);

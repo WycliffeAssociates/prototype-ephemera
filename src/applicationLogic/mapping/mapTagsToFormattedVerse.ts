@@ -26,7 +26,8 @@ function mapVerses(
 	}
 
 	// populates verseOutput with verse
-	verses.forEach((verse: VerseTag) => {
+
+	for (const verse of verses) {
 		const flags = {
 			consumedPhraseWord: false,
 			consumedSubWord: false,
@@ -42,15 +43,15 @@ function mapVerses(
 		};
 
 		// populates the verseWordOutput with verse words
-		verse.w.forEach((word: WordTag | string) => {
+		for (const word of verse.w) {
 			mapVerseWord(word, flags, buffers, verseTagContentType);
-		});
+		}
 
 		// Ensures that phrase words at the end of a verse are processed
 		if (flags.consumedPhraseWord) {
 			const phraseWordsBackup = [...buffers.phraseWords];
 			const tempWord = processConsumedPhraseWords(buffers.phraseWords);
-			let injectedSubWords;
+			let injectedSubWords: any;
 
 			if (flags.consumedSubWord) {
 				// Checks if the phraseWords attribute needs to have sub words injected into it
@@ -73,7 +74,7 @@ function mapVerses(
 			verseWords: buffers.verseWords,
 		};
 		verseOutput.push(tempVerse);
-	});
+	}
 	return verseOutput;
 }
 
@@ -83,9 +84,8 @@ function needsSubWords(word: string | undefined) {
 	}
 	if (word.match(/[\d+]/) != null) {
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 type WordMapFlags = {
@@ -126,7 +126,7 @@ function mapVerseWord(
 		const currentGreekWordAttributes: GreekWordAttributes = word.ATTR;
 		sub = currentGreekWordNotes.sub;
 
-		delete currentGreekWordNotes.sub;
+		currentGreekWordNotes.sub = undefined;
 
 		currentGreekWord = {
 			...currentGreekWordNotes,
@@ -171,15 +171,16 @@ function mapVerseWord(
 function mapNotes(notes: NoteTag[] | undefined) {
 	let tempGreekWordNotes: any = {};
 	if (notes !== undefined) {
+		let notesArray: any[] = [];
 		if (!Array.isArray(notes)) {
-			notes = [notes];
+			notesArray = [notes];
 		}
 
-		notes.forEach((e) => {
+		for (const e of notesArray) {
 			const greekWordNoteKey: ValidGreekWordNoteKeys = e.ATTR.type;
 			const greekWordNoteValue: string = e._text;
 			tempGreekWordNotes[greekWordNoteKey.slice(2)] = greekWordNoteValue;
-		});
+		}
 		tempGreekWordNotes = tempGreekWordNotes as GreekWordNotes;
 	}
 	return tempGreekWordNotes;

@@ -32,6 +32,7 @@ export function View() {
 	useEffect(() => {
 		// Reduces the size of the TextView to make room for GreekWordsDialog
 		if (
+			greekWords &&
 			showGreekWords &&
 			windowSize.innerWidth >= DESKTOP_BREAKPOINT &&
 			textViewSize === desktopTextWidthMax
@@ -43,7 +44,7 @@ export function View() {
 		if (showGreekWords && windowSize.innerWidth < DESKTOP_BREAKPOINT) {
 			setInformationWindowOpen(true);
 		}
-	}, [greekWords, showGreekWords, windowSize.innerWidth]);
+	}, [greekWords, showGreekWords, windowSize.innerWidth, textViewSize]);
 
 	useEffect(() => {
 		// default right dialog to open for desktop breakpoint
@@ -51,7 +52,7 @@ export function View() {
 			setTextViewSize(5);
 			setInformationPanelOpen(true);
 		}
-	}, []);
+	}, [windowSize.innerWidth]);
 
 	useEffect(() => {
 		if (windowSize.innerWidth < DESKTOP_BREAKPOINT) {
@@ -76,7 +77,9 @@ export function View() {
 	};
 
 	useEffect(() => {
-		setNavigationModalOpen(false);
+		if (search) {
+			setNavigationModalOpen(false);
+		}
 	}, [search]);
 
 	const onNavigationModalClose = (event: any) => {
@@ -193,30 +196,38 @@ export function View() {
 					</>
 				)}
 
-				<Grid
-					item
-					md={textViewSize !== desktopTextWidthMax ? 7 : 0}
-					xs={0}
-					style={{
-						height: "100%",
-						padding: "0px",
-						backgroundColor: navigationModalOpen
-							? "rgba(0, 0, 0, 0.2)"
-							: "white",
-					}}
-				>
-					<InformationPanel
-						open={informationPanelOpen}
-						alignedText={greekWords!}
-					/>
-				</Grid>
+				{greekWords ? (
+					<Grid
+						item
+						md={textViewSize !== desktopTextWidthMax ? 7 : 0}
+						xs={0}
+						style={{
+							height: "100%",
+							padding: "0px",
+							backgroundColor: navigationModalOpen
+								? "rgba(0, 0, 0, 0.2)"
+								: "white",
+						}}
+					>
+						<InformationPanel
+							open={informationPanelOpen}
+							alignedText={greekWords}
+						/>
+					</Grid>
+				) : (
+					<></>
+				)}
 			</Grid>
 
-			<InformationWindow
-				open={informationWindowOpen && showGreekWords}
-				onClose={() => onInformationWindowClose()}
-				alignedText={greekWords!}
-			/>
+			{greekWords ? (
+				<InformationWindow
+					open={informationWindowOpen && showGreekWords}
+					onClose={() => onInformationWindowClose()}
+					alignedText={greekWords}
+				/>
+			) : (
+				<></>
+			)}
 		</>
 	);
 }

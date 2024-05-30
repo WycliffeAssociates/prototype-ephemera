@@ -70,8 +70,7 @@ export class WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
 
 	async fetchSourceText(bookName: string): Promise<string | undefined> {
 		try {
-			let book: any;
-			book = await fetch(
+			const book = await fetch(
 				`${this.sourceTextResource.resourceBaseURL}${books[bookName].abbreviatedBook}.xml`,
 			);
 			return book.text();
@@ -160,7 +159,8 @@ export class WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
 
 	private mapGreekWords(greekWords: any[]): GreekAlignmentData[] {
 		const greekAlignmentData: GreekAlignmentData[] = [];
-		greekWords.forEach((gw: any) => {
+
+		for (const gw of greekWords) {
 			let strongs: string | undefined;
 			let morph: string | undefined;
 
@@ -186,7 +186,7 @@ export class WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
 				greekWordData = { strong: strongs, morph: morph };
 				greekAlignmentData.push(greekWordData);
 			}
-		});
+		}
 		return greekAlignmentData;
 	}
 
@@ -258,17 +258,17 @@ export class WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
 						if (curVerseWord.phrase[l].w) {
 							const curVerseWordAttributes = curVerseWord[":@"];
 
-							if (curVerseWordAttributes && curVerseWordAttributes.sub) {
+							if (curVerseWordAttributes?.sub) {
 								const tempW = curVerseWord.phrase[l];
 								const tempWAttributes = tempW[":@"];
 
-								tempWAttributes["subPhraseWords"] = phrase;
-								tempWAttributes["sub"] = curVerseWordAttributes.sub;
+								tempWAttributes.subPhraseWords = phrase;
+								tempWAttributes.sub = curVerseWordAttributes.sub;
 								wordBuffer.push(tempW);
 							} else {
 								const tempW = curVerseWord.phrase[l];
 								const tempWAttributes = tempW[":@"];
-								tempWAttributes["phraseWords"] = phrase;
+								tempWAttributes.phraseWords = phrase;
 								wordBuffer.push(tempW);
 							}
 						}
@@ -280,7 +280,6 @@ export class WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
 						curChapterVerse.verse.splice(k + h, 0, wordBuffer[h]);
 					}
 					k--;
-					continue;
 				}
 			}
 		}

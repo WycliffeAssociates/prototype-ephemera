@@ -29,9 +29,8 @@ function Word({ verseNumber, versePhrase, handleClick }: WordProps) {
 				versePhrase={versePhrase}
 			/>
 		);
-	} else {
-		return <EnglishWord versePhrase={versePhrase} />;
 	}
+	return <EnglishWord versePhrase={versePhrase} />;
 }
 
 export default Word;

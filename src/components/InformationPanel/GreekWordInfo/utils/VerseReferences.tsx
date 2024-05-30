@@ -28,7 +28,7 @@ export function VerseReferences({
 		const currentChapter = getBookChaptersParams().chapter;
 		const tempVerseReferences: string[] = [];
 
-		references.forEach((reference) => {
+		for (const reference of references) {
 			const referenceInformation = parseVerseReferenceInformation(reference);
 			const referenceBook = referenceInformation.book;
 			const referenceChapter = referenceInformation.chapter;
@@ -41,10 +41,15 @@ export function VerseReferences({
 			) {
 				tempVerseReferences.push(reference);
 			}
-		});
+		}
 
 		setFilteredVerseReferences([...tempVerseReferences]);
-	}, [greekWordverseNumber, references, getBookChaptersParams().book]);
+	}, [
+		greekWordverseNumber,
+		references,
+		getBookChaptersParams,
+		getBookChaptersParams().book,
+	]);
 
 	function parseVerseReferenceInformation(verseReference: string) {
 		const referenceMatch = verseReference.match(

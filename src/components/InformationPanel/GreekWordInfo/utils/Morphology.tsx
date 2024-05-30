@@ -36,9 +36,8 @@ function Morphology({
 
 		if (/^[a-zA-Z]/.test(str)) {
 			return str.charAt(0).toUpperCase() + str.slice(1);
-		} else {
-			return str;
 		}
+		return str;
 	}
 
 	if (morphology !== undefined) {
@@ -92,25 +91,23 @@ function Morphology({
 										<span> | </span>
 									</>
 								);
-							} else {
-								return (
-									<span
-										className="GreekWordInfoSubCategoryValue"
-										style={{
-											textDecoration: "underline",
-											cursor: "pointer",
-											color: "blue",
-											width: "100%",
-											...overwriteStyle,
-										}}
-										onClick={() =>
-											setMorphologyParams(link.trim().toLowerCase())
-										}
-									>
-										{capitalizeFirstLetter(link.trim())}
-									</span>
-								);
 							}
+							return (
+								<span
+									key={`GreekWordInfoSubCategoryValue ${idx}`}
+									className="GreekWordInfoSubCategoryValue"
+									style={{
+										textDecoration: "underline",
+										cursor: "pointer",
+										color: "blue",
+										width: "100%",
+										...overwriteStyle,
+									}}
+									onClick={() => setMorphologyParams(link.trim().toLowerCase())}
+								>
+									{capitalizeFirstLetter(link.trim())}
+								</span>
+							);
 						})}
 					</div>
 				</Grid>

@@ -28,7 +28,7 @@ function NextChapterButton() {
 
 	useEffect(() => {
 		if (bookChapter.book) {
-			const currentChapter = Number.parseInt(bookChapter.chapter);
+			const currentChapter = Number.parseInt(`${bookChapter.chapter}`);
 			const chapterMax = books[bookChapter.book].numChapters;
 
 			if (currentChapter === chapterMax) {
@@ -37,14 +37,14 @@ function NextChapterButton() {
 				setShow(true);
 			}
 		}
-	}, [bookChapter.book, bookChapter.chapter]);
+	}, [bookChapter.book, bookChapter.chapter, show]);
 
 	const onClick = () => {
-		const newChapter = Number.parseInt(bookChapter.chapter) + 1;
+		const newChapter = Number.parseInt(`${bookChapter.chapter}`) + 1;
 		if (bookChapter.book) {
 			const newBookChapter = {
 				book: bookChapter.book,
-				chapter: newChapter + "",
+				chapter: newChapter.toString(),
 			};
 			setValidBookChapterParams(newBookChapter, false);
 		}

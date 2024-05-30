@@ -30,13 +30,16 @@ function GreekWordInfo({
 
 			if (greekWordMarkDown !== undefined) {
 				const gwtWords = await mapGWTMarkdown(greekWordMarkDown.data);
-				gwtWords.forEach((gwtWord) => {
+				if (gwtWords === undefined) {
+					return;
+				}
+				for (const gwtWord of gwtWords) {
 					wordsInfo.push({
 						strongs: currentGreekWord.strong,
 						morph: currentGreekWord.morph,
 						...gwtWord,
 					});
-				});
+				}
 			}
 			setGreekWordsState(wordsInfo);
 		})();
@@ -70,9 +73,8 @@ function GreekWordInfo({
 				</Grid>
 			</>
 		);
-	} else {
-		return <>{greekWordsContent}</>;
 	}
+	return <>{greekWordsContent}</>;
 }
 
 export default GreekWordInfo;

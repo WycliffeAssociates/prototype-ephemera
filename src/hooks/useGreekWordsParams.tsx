@@ -11,7 +11,7 @@ export function useGreekWordsParams() {
 
 	function setShowGreekWordsParams(show: boolean) {
 		const urlParams = new URLSearchParams(searchParams);
-		urlParams.set("showGreekWords", show + "");
+		urlParams.set("showGreekWords", show.toString());
 		setSearchParams(urlParams);
 	}
 
@@ -23,7 +23,7 @@ export function useGreekWordsParams() {
 
 	function setGreekWordsVerseNumberParams(verseNumber: number) {
 		const urlParams = new URLSearchParams(searchParams);
-		urlParams.set("greekWordsVerseNumber", verseNumber + "");
+		urlParams.set("greekWordsVerseNumber", verseNumber.toString());
 		setSearchParams(urlParams);
 	}
 
@@ -55,11 +55,11 @@ export function useGreekWordsParams() {
 		}
 
 		if (newParamValues.show) {
-			urlParams.set("showGreekWords", newParamValues.show + "");
+			urlParams.set("showGreekWords", `${newParamValues.show}`);
 		}
 
 		if (newParamValues.verseNumber) {
-			urlParams.set("greekWordsVerseNumber", newParamValues.verseNumber + "");
+			urlParams.set("greekWordsVerseNumber", `${newParamValues.verseNumber}`);
 		}
 
 		setSearchParams(urlParams);

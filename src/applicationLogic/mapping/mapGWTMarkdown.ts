@@ -7,6 +7,7 @@ import type { GWTInformation } from "../../types";
 // verse references: [A-Za-z]+ \d+:\d+
 // Advice for translators: [A|a]dvice for [T|t]ranslators +[\w| |[[:punct:]]+
 // Everything that is not a description, verse reference, or advice for translators: ^(?!#)^(?!\*)^(?!\n)^(?![S | s]ee)^(?![A|a]dvice for [T|t]ranslators)[\S* | |[[:punct:]]*
+export default mapGWTMarkdown;
 
 function mapGWTMarkdown(greekWordMarkDown: string) {
 	const greekWordMarkDownArray: string[] = greekWordMarkDown.split(/\n/);
@@ -50,11 +51,11 @@ function mapGWTMarkdown(greekWordMarkDown: string) {
 				// see if any verse references are present
 				const validVerseReferences: string[] = [];
 				const references: any[] | null = greekWordMarkDownArray[i].split(";");
-				let previousBook: string;
+				let previousBook = "";
 				if (references != null) {
 					references[0] = references[0].replace(/See:\W*/g, "");
 
-					references.forEach((reference) => {
+					for (const reference of references) {
 						let book = reference.match(/((\d +){0,1}[A-Za-z]+)/);
 						let chapterVerses = reference.match(/(\d+:\d+(,\W*\d+)*)/);
 
@@ -71,11 +72,11 @@ function mapGWTMarkdown(greekWordMarkDown: string) {
 							const chapter = chapterVerses[0];
 							const verses = chapterVerses[1].split(";");
 
-							verses.forEach((verse: string) => {
+							for (const verse of verses) {
 								validVerseReferences.push(`${book} ${chapter}:${verse}`);
-							});
+							}
 						}
-					});
+					}
 				}
 				gwtInformation.verseReferences = validVerseReferences;
 			}
@@ -98,7 +99,7 @@ function mapGWTMarkdown(greekWordMarkDown: string) {
 				gwtInformation.descriptions.length - 1
 			].subDescriptions?.push(greekWordMarkDownArray[i]);
 		} else if (!foundDescription) {
-			gwtInformation.morphology = `gwtInformation.morphology \n greekWordMarkDownArray[i]`;
+			gwtInformation.morphology = `${gwtInformation.morphology} \n ${greekWordMarkDownArray[i]}`;
 		} else if (greekWordMarkDownArray[i].charAt(0) === "#") {
 			gwtWords.push(gwtInformation);
 			gwtInformation = {
@@ -112,13 +113,10 @@ function mapGWTMarkdown(greekWordMarkDown: string) {
 		} else {
 			if (foundDescription) {
 				processedDescriptions = true;
-				gwtInformation.unprocessed =
-					gwtInformation.unprocessed + "\n" + greekWordMarkDownArray[i];
+				gwtInformation.unprocessed = `${gwtInformation.unprocessed}\n${greekWordMarkDownArray[i]}`;
 			}
 		}
 	}
 	gwtWords.push(gwtInformation);
 	return gwtWords;
 }
-
-export default mapGWTMarkdown;

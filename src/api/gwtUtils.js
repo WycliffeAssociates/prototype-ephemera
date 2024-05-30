@@ -15,13 +15,14 @@ function stringInsert(str, index, value, replace) {
 
 // Adds padding zeros (to the second character's posision) until it's length is 5
 function makeFourDigitStrongs(strongs) {
-	if (strongs.length < 5 && strongs.length >= 2) {
-		for (let i = strongs.length; i < 5; i++) {
-			strongs = stringInsert(strongs, 1, "0", false);
+	let result = strongs;
+	if (result.length < 5 && result.length >= 2) {
+		for (let i = result.length; i < 5; i++) {
+			result = stringInsert(result, 1, "0", false);
 		}
 	}
 
-	return strongs;
+	return result;
 }
 
 // Takes the target strongs number and calculates its parent folder in the en_gwt repo
@@ -66,14 +67,15 @@ function getStrongsRange(strongs) {
 }
 
 async function getGreekWord(strongs) {
-	strongs = await makeFourDigitStrongs(strongs).toLocaleLowerCase();
-	const folder = await getStrongsRange(strongs);
+	const fourDigitstrongs =
+		await makeFourDigitStrongs(strongs).toLocaleLowerCase();
+	const folder = await getStrongsRange(fourDigitstrongs);
 
 	let greekWordInfo;
 
 	try {
 		greekWordInfo = await axios.get(
-			`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/${folder}/${strongs}.md`,
+			`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/${folder}/${fourDigitstrongs}.md`,
 		);
 		return greekWordInfo;
 	} catch (error) {

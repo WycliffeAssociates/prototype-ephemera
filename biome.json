@@ -10,7 +10,14 @@
 		"enabled": true,
 		"rules": {
 			"suspicious": {
-				"noExplicitAny": "off"
+				"noExplicitAny": "off",
+				"noArrayIndexKey": "off"
+			},
+			"correctness": {
+				"noChildrenProp": "off"
+			},
+			"a11y": {
+				"useKeyWithClickEvents": "off"
 			},
 			"recommended": true
 		}

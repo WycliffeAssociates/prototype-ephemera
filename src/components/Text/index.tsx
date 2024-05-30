@@ -16,7 +16,7 @@ function Text() {
 
 	const verses = useChapterVerseData(
 		bookChapter.book,
-		Number.parseInt(bookChapter.chapter),
+		Number.parseInt(`${bookChapter.chapter}`),
 		sourceTextResourceType,
 		sourceTextResourceLanguage,
 	);
@@ -28,7 +28,9 @@ function Text() {
 	const highlightColor = "blue";
 
 	useEffect(() => {
-		resetTextData();
+		if (verses) {
+			resetTextData();
+		}
 	}, [verses]);
 
 	// color back to default.

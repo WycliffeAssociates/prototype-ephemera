@@ -26,20 +26,20 @@ function PreviousChapterButton() {
 	const bookChapter = getBookChaptersParams();
 
 	useEffect(() => {
-		const currentChapter = Number.parseInt(bookChapter.chapter);
+		const currentChapter = Number.parseInt(`${bookChapter.chapter}`);
 		if (currentChapter === 1) {
 			setShow(false);
 		} else if (!show) {
 			setShow(true);
 		}
-	}, [bookChapter.book, bookChapter.chapter]);
+	}, [bookChapter.chapter, show]);
 
 	const onClick = () => {
-		const newChapter = Number.parseInt(bookChapter.chapter) - 1;
+		const newChapter = Number.parseInt(`${bookChapter.chapter}`) - 1;
 		if (bookChapter.book) {
 			const newBookChapter = {
 				book: bookChapter.book,
-				chapter: newChapter + "",
+				chapter: newChapter.toString(),
 			};
 			setValidBookChapterParams(newBookChapter, false);
 		}

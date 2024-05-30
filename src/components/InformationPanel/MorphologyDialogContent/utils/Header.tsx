@@ -22,9 +22,8 @@ export function Header({ onClose, fullScreen, morphologyWord }: HeaderProps) {
 
 		if (/^[a-zA-Z]/.test(str)) {
 			return str.charAt(0).toUpperCase() + str.slice(1);
-		} else {
-			return str;
 		}
+		return str;
 	}
 
 	return (
