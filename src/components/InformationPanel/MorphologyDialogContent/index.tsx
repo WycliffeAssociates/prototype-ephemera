@@ -28,7 +28,7 @@ export default function MorphologyDialogContent({
 
 	function extractMorphologyFromMarkdown(markdown: string) {
 		const morphologyWord = markdown.match(/#\W([a-zA-Z]+)/);
-		if (morphologyWord?.[1]) {
+		if (morphologyWord && morphologyWord[1]) {
 			return morphologyWord[1];
 		}
 		return "Not Found";

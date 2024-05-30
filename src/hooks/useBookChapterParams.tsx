@@ -63,7 +63,7 @@ export function useBookChapterParams() {
 				return book;
 			},
 			validator: (input: string | number) => {
-				return !!books[input];
+				return books[input] ? true : false;
 			},
 			defaultValue: "Matthew",
 		},
@@ -210,12 +210,12 @@ export function useBookChapterParams() {
 	function trimNonBookChapterURLParams(params: URLSearchParams) {
 		const paramsArray = Array.from(params.entries());
 
-		for (const param of paramsArray) {
+		paramsArray.forEach((param) => {
 			const paramName = param[0];
 			if (bookChapterQueryParameters[paramName] === undefined) {
 				params.delete(paramName);
 			}
-		}
+		});
 	}
 
 	function trimReferenceURLParams(params: URLSearchParams) {
@@ -242,9 +242,9 @@ export function useBookChapterParams() {
 	function getBookChaptersParams() {
 		return {
 			book: book,
-			chapter: chapter?.toString(),
+			chapter: chapter + "",
 			refBook: refBook,
-			refChapter: refChapter?.toString(),
+			refChapter: refChapter + "",
 			refVerse: refVerse,
 			refWord: refWord,
 		};
@@ -265,7 +265,7 @@ export function useBookChapterParams() {
 		setSearchParams(urlParams);
 	}
 
-	function setStatesToQueryParams(searchParams: URLSearchParams) {
+	function setStatesToQueryParams() {
 		const urlParams = new URLSearchParams(searchParams);
 		// Iterates through book/chapter query parameters and sets
 		// the state variable for that corresponding query parameter
@@ -306,9 +306,8 @@ export function useBookChapterParams() {
 	}
 
 	useEffect(() => {
-		setStatesToQueryParams(searchParams);
+		setStatesToQueryParams();
 	}, [
-		setStatesToQueryParams,
 		searchParams,
 		searchParams.get("book"),
 		searchParams.get("chapter"),
@@ -319,11 +318,11 @@ export function useBookChapterParams() {
 		if (invalidParams.length > 0) {
 			resetInvalidQueryParameters();
 		}
-	}, [invalidParams, resetInvalidQueryParameters]);
+	}, [invalidParams]);
 
 	useEffect(() => {
 		if (book && chapter) {
-			storeValidBookChapterParams(book, `${chapter}`);
+			storeValidBookChapterParams(book, chapter + "");
 		}
 	}, [book, chapter]);
 

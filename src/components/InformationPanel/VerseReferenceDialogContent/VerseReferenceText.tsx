@@ -31,9 +31,7 @@ export function VerseReferenceText() {
 	}
 
 	function checkForReferences(verseWord: AlignedText) {
-		if (verseWord.greekAlignmentData) {
-			return checkGreekWordsForReference(verseWord.greekAlignmentData);
-		}
+		return checkGreekWordsForReference(verseWord.greekAlignmentData!);
 	}
 
 	useEffect(() => {
@@ -112,10 +110,10 @@ export function VerseReferenceText() {
 		});
 
 		setVerseOutput([...tempVerseOutput]);
-	}, [verses, refVerse, overwriteStyle, checkForReferences]);
+	}, [verses, refVerse]);
 
 	useEffect(() => {
-		if (verseRef?.current && verseOutput) {
+		if (verseRef != null && verseRef.current != null) {
 			let scrollableParent: HTMLElement | null = null;
 			const potentialScrollableParent = verseRef.current.parentNode;
 			if (

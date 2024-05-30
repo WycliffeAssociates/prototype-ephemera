@@ -16,10 +16,10 @@ function Book({ bookData, handleClick, isCurrentBook }: BookProps) {
 	const bookRef = useRef<null | HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (isCurrentBook === true) {
+		if (isCurrentBook == true) {
 			handleClick(bookRef);
 		}
-	}, [isCurrentBook, handleClick]);
+	}, [isCurrentBook]);
 
 	function onClick() {
 		handleClick(bookRef);
@@ -69,21 +69,21 @@ function Books({ handleClick, currentBook, onChange }: BooksProps) {
 	}
 
 	function bookSearchValidation(book: string) {
-		let bookLowerCase = book.toLowerCase();
-		bookLowerCase =
-			bookLowerCase.charAt(0).toUpperCase() + bookLowerCase.slice(1);
-		if (oldTestamentBooks[bookLowerCase] !== undefined) {
+		book = book.toLowerCase();
+		book = book.charAt(0).toUpperCase() + book.slice(1);
+		if (oldTestamentBooks[book] !== undefined) {
 			setErrorMessage(
 				"The Greek Lexicon Prototype only contains New Testament Books",
 			);
 			return false;
-		}
-		if (newTestamentMetadata[bookLowerCase] !== undefined) {
+		} else {
+			if (newTestamentMetadata[book] !== undefined) {
+				setErrorMessage("");
+				return true;
+			}
 			setErrorMessage("");
-			return true;
+			return false;
 		}
-		setErrorMessage("");
-		return false;
 	}
 
 	function handleSearchInputClick(userInput: string) {

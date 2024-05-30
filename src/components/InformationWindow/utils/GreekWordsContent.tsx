@@ -41,7 +41,6 @@ export function GreekWordsContent({
 				>
 					{alignedText.greekAlignmentData.map((greekAlignmentData, idx) => (
 						<div
-							key={`div__GreekWordInfoContainer ${idx}`}
 							style={{
 								borderBottom: "solid",
 								borderColor: "#d9d9d9",

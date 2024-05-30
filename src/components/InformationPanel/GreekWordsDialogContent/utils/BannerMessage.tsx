@@ -13,6 +13,7 @@ export default function BannerMessage({ alignedText }: GreekWordsBannerProps) {
 	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
 	if (
+		alignedText &&
 		alignedText?.greekAlignmentData &&
 		alignedText?.greekAlignmentData.length >= 4
 	) {

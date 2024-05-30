@@ -56,7 +56,7 @@ export class OsisEnUlbAccessor
 		chapter: number | string,
 	): Promise<AlignedVerse[]> {
 		let result: AlignedVerse[];
-		const sourceText = await this.fetchSourceText(bookName);
+		var sourceText = await this.fetchSourceText(bookName);
 
 		if (!sourceText) return [];
 

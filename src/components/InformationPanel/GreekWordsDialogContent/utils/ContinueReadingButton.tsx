@@ -39,7 +39,7 @@ export function ContinueReadingButton({
 			}
 			resizeObserver.disconnect();
 		};
-	}, [containerRef.current]);
+	}, []);
 
 	useEffect(() => {
 		if (containerRef?.current) {
@@ -103,32 +103,33 @@ export function ContinueReadingButton({
 				)}
 			</div>
 		);
+	} else {
+		return (
+			<div id="continueReadingBtn">
+				{showContinueReadingButton ? (
+					<Button
+						onClick={() => console.log("Figure out what Aby wants to do here")}
+						variant="text"
+						style={{
+							position: "fixed",
+							bottom: "8%",
+							right: rightPosition ? rightPosition : "",
+							left: leftPosition ? leftPosition : "",
+							border: "1px solid #E5E8EB",
+							boxShadow:
+								"0px 10px 20px rgba(0, 21, 51, 0.19), 0px 6px 6px rgba(0, 21, 51, 0.23)",
+							borderRadius: "16px",
+							color: "#33445C",
+							background: "white",
+							width: "250px",
+						}}
+					>
+						<ArrowDownwardIcon /> Continue Reading <ArrowDownwardIcon />
+					</Button>
+				) : (
+					<></>
+				)}
+			</div>
+		);
 	}
-	return (
-		<div id="continueReadingBtn">
-			{showContinueReadingButton ? (
-				<Button
-					onClick={() => console.log("Figure out what Aby wants to do here")}
-					variant="text"
-					style={{
-						position: "fixed",
-						bottom: "8%",
-						right: rightPosition ? rightPosition : "",
-						left: leftPosition ? leftPosition : "",
-						border: "1px solid #E5E8EB",
-						boxShadow:
-							"0px 10px 20px rgba(0, 21, 51, 0.19), 0px 6px 6px rgba(0, 21, 51, 0.23)",
-						borderRadius: "16px",
-						color: "#33445C",
-						background: "white",
-						width: "250px",
-					}}
-				>
-					<ArrowDownwardIcon /> Continue Reading <ArrowDownwardIcon />
-				</Button>
-			) : (
-				<></>
-			)}
-		</div>
-	);
 }

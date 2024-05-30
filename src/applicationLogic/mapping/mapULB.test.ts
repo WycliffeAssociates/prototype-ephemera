@@ -217,7 +217,7 @@ describe("Phrase words that need sub words injected into them", () => {
 		});
 	}
 
-	it("Checks case where ends in phrase word needing injected sub words Acts 2:12", async () => {
+	it(`Checks case where ends in phrase word needing injected sub words Acts 2:12`, async () => {
 		const bookVerses = mapVerses(
 			Acts.xml.book.chapter[1].verse as VerseTag[],
 			VerseTagContentType.OSIS,

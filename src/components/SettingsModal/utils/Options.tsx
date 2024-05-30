@@ -1,7 +1,6 @@
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Switch from "@mui/material/Switch";
-import React from "react";
 import type { SettingsOption } from "../../../types";
 
 const SettingsModal__decreaseButton = {
@@ -41,9 +40,7 @@ function PanelSettingsOptions({ settings }: PannelSettingsOptionsProps) {
 							/>
 						</Grid>
 					);
-				}
-
-				if (setting.inputType === "increment") {
+				} else if (setting.inputType === "increment") {
 					return (
 						<Grid key={`setting ${idx}`} item xs={12}>
 							<Button
@@ -51,7 +48,7 @@ function PanelSettingsOptions({ settings }: PannelSettingsOptionsProps) {
 								sx={{ m: 0.25, p: 0.25 }}
 								style={SettingsModal__decreaseButton}
 								onClick={() => {
-									setting.modifier(Number.parseInt(`${setting.value}`) - 1);
+									setting.modifier(Number.parseInt(setting.value + "") - 1);
 								}}
 							>
 								-
@@ -68,22 +65,20 @@ function PanelSettingsOptions({ settings }: PannelSettingsOptionsProps) {
 									float: "right",
 								}}
 								onClick={() => {
-									setting.modifier(Number.parseInt(`${setting.value}`) + 1);
+									setting.modifier(Number.parseInt(setting.value + "") + 1);
 								}}
 							>
 								+
 							</Button>
 						</Grid>
 					);
-				}
-
-				if (setting.inputType === "button") {
+				} else if (setting.inputType === "button") {
 					return (
 						<Grid key={`setting ${idx}`} item xs={12}>
 							<Button
 								variant="outlined"
 								onClick={() => {
-									setting.modifier(Number.parseInt(`${setting.value}`) - 1);
+									setting.modifier(Number.parseInt(setting.value + "") - 1);
 								}}
 							>
 								Reset
@@ -92,7 +87,7 @@ function PanelSettingsOptions({ settings }: PannelSettingsOptionsProps) {
 					);
 				}
 
-				return <React.Fragment key={`empty fragment ${idx}`} />;
+				return <></>;
 			})}
 		</Grid>
 	);

@@ -13,17 +13,17 @@ function GreekWord({ greekWord }: greekWordProps) {
 	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
 	useEffect(() => {
-		if (overwriteStyle?.fontSize && GWTSettings) {
+		if (overwriteStyle?.fontSize != undefined) {
 			const nonAdjustedFontSize = Number.parseInt(
 				overwriteStyle.fontSize.match(/\d+/g),
 			);
 			const adjustedFontSize = 24 + (nonAdjustedFontSize - 20);
 
 			const tempOverwriteStyle = { ...overwriteStyle };
-			tempOverwriteStyle.fontSize = `${adjustedFontSize} px`;
-			setFontSize(`${adjustedFontSize} px`);
+			tempOverwriteStyle.fontSize = adjustedFontSize + "px";
+			setFontSize(adjustedFontSize + "px");
 		}
-	}, [GWTSettings, overwriteStyle]);
+	}, [GWTSettings]);
 
 	return (
 		<>

@@ -64,7 +64,7 @@ export function SettingsProvider({ children }: any) {
 		name: "Font Size",
 		value: informationPanelFontSizeValue,
 		modifier: (newValue: number | string | boolean | undefined) => {
-			setInformationPanelFontSizeValue(Number.parseInt(`${newValue}`));
+			setInformationPanelFontSizeValue(Number.parseInt(newValue + ""));
 			if (newValue) {
 				writeSettingsToLocalStorage("GWT", "Font Size", newValue);
 			}
@@ -142,10 +142,12 @@ export function SettingsProvider({ children }: any) {
 			const previousSettings = JSON.parse(storedSettings);
 
 			// TODO: refactor this when I get more feedback from Aby and Dian
-			setInformationPanelFontSizeValue(previousSettings.GWT["Font Size"]);
-			setInformationPanelLineHeightValue(previousSettings.GWT["Line Height"]);
-			setLeftPanelFontSizeValue(previousSettings.ULB["Font Size"]);
-			setLeftPanelLineHeightValue(previousSettings.ULB["Line Height"]);
+			setInformationPanelFontSizeValue(previousSettings["GWT"]["Font Size"]);
+			setInformationPanelLineHeightValue(
+				previousSettings["GWT"]["Line Height"],
+			);
+			setLeftPanelFontSizeValue(previousSettings["ULB"]["Font Size"]);
+			setLeftPanelLineHeightValue(previousSettings["ULB"]["Line Height"]);
 		}
 	}, [initializeStoredSettings]);
 

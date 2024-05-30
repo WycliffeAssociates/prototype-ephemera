@@ -31,7 +31,7 @@ export function WordContent({
 		if (showMoreOptions === true) {
 			setShowMore(false);
 		}
-	}, [showMoreOptions]);
+	}, [setShowMore]);
 
 	return (
 		<div key={`greekWord ${wordNumber}`} className="GreekWordContainer">

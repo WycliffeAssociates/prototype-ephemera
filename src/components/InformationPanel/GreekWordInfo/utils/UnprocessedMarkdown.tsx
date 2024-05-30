@@ -43,8 +43,9 @@ function UnprocessedMarkdown({ markdown }: unprocessedMarkdownProps) {
 				/>
 			</div>
 		);
+	} else {
+		return <></>;
 	}
-	return <></>;
 }
 
 export default UnprocessedMarkdown;

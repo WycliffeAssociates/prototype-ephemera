@@ -35,13 +35,13 @@ function SettingsModal({ open, onClose }: SettingsModalProps) {
 	const windowSize = useWindowSize([]);
 
 	function setAllSettingsToDefault() {
-		for (const setting of ULBSettings) {
+		ULBSettings.forEach((setting) => {
 			setting.modifier(setting.defaultValue);
-		}
+		});
 
-		for (const setting of GWTSettings) {
+		GWTSettings.forEach((setting) => {
 			setting.modifier(setting.defaultValue);
-		}
+		});
 	}
 
 	return (

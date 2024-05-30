@@ -39,7 +39,6 @@ export function useInformationLayout() {
 
 		setRefBookChapter({ ...newRefBookChapter });
 	}, [
-		getBookChaptersParams,
 		getBookChaptersParams().refBook,
 		getBookChaptersParams().refChapter,
 		getBookChaptersParams().refVerse,

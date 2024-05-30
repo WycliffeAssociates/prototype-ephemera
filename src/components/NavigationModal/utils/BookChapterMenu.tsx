@@ -52,7 +52,7 @@ function BookChapterMenu({
 		const scrollableParent = document.getElementById(
 			"BookChapterMenuContainer",
 		);
-		if (clickedBookElement && clickedBookElement && bookChapter) {
+		if (clickedBookElement !== null && clickedBookElement !== undefined) {
 			scrollableParent?.scrollTo(0, clickedBookElement.offsetTop - 70);
 		}
 	}, [bookChapter, clickedBookElement]);
