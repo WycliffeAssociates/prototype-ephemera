@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { useBookChapterParams } from "./hooks/useBookChapterParams";
-import { SettingsProvider } from "./hooks/SettingsContext";
 import { View } from "./components/View";
+import { SettingsProvider } from "./hooks/SettingsContext";
+import { useBookChapterParams } from "./hooks/useBookChapterParams";
 
 function App() {
-	const { navigateToMostRecentBookChapter } =
-		useBookChapterParams();
-		
+	const { navigateToMostRecentBookChapter } = useBookChapterParams();
+
 	useEffect(() => {
 		navigateToMostRecentBookChapter();
-	}, []);
+	}, [navigateToMostRecentBookChapter]);
 
 	return (
 		<div className="App">

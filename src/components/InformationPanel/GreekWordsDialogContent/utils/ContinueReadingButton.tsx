@@ -1,10 +1,6 @@
-import { Button, Grid } from "@mui/material";
-import {
-	MutableRefObject,
-	useEffect,
-	useState,
-} from "react";
 import { ArrowDownward as ArrowDownwardIcon } from "@mui/icons-material";
+import { Button, Grid } from "@mui/material";
+import { type MutableRefObject, useEffect, useState } from "react";
 
 interface ContinueReadingButtonProps {
 	containerRef: MutableRefObject<HTMLDivElement | null>;
@@ -17,10 +13,8 @@ export function ContinueReadingButton({
 	rightPosition,
 	leftPosition,
 }: ContinueReadingButtonProps) {
-	const [
-		showContinueReadingButton,
-		setShowContinueReadingButton,
-	] = useState(true);
+	const [showContinueReadingButton, setShowContinueReadingButton] =
+		useState(true);
 
 	useEffect(() => {
 		if (!containerRef.current) return;
@@ -28,10 +22,7 @@ export function ContinueReadingButton({
 		const resizeObserver = new ResizeObserver((entries) => {
 			for (const entry of entries) {
 				if (entry.target === containerRef.current) {
-					if (
-						entry.target.clientHeight >=
-						entry.target.scrollHeight
-					) {
+					if (entry.target.clientHeight >= entry.target.scrollHeight) {
 						setShowContinueReadingButton(false);
 					} else {
 						setShowContinueReadingButton(true);
@@ -63,8 +54,7 @@ export function ContinueReadingButton({
 	function onScroll() {
 		if (containerRef?.current) {
 			const container = containerRef.current;
-			const { scrollTop, scrollHeight, clientHeight } =
-				container;
+			const { scrollTop, scrollHeight, clientHeight } = container;
 			if (scrollTop + clientHeight >= scrollHeight - 5) {
 				setShowContinueReadingButton(false);
 			} else {
@@ -91,9 +81,7 @@ export function ContinueReadingButton({
 						<Grid item>
 							<Button
 								onClick={() =>
-									console.log(
-										"Figure out what Aby wants to do here"
-									)
+									console.log("Figure out what Aby wants to do here")
 								}
 								variant="text"
 								style={{
@@ -106,8 +94,7 @@ export function ContinueReadingButton({
 									width: "250px",
 								}}
 							>
-								<ArrowDownwardIcon /> Continue Reading{" "}
-								<ArrowDownwardIcon />
+								<ArrowDownwardIcon /> Continue Reading <ArrowDownwardIcon />
 							</Button>
 						</Grid>
 					</Grid>
@@ -121,11 +108,7 @@ export function ContinueReadingButton({
 			<div id="continueReadingBtn">
 				{showContinueReadingButton ? (
 					<Button
-						onClick={() =>
-							console.log(
-								"Figure out what Aby wants to do here"
-							)
-						}
+						onClick={() => console.log("Figure out what Aby wants to do here")}
 						variant="text"
 						style={{
 							position: "fixed",
@@ -141,8 +124,7 @@ export function ContinueReadingButton({
 							width: "250px",
 						}}
 					>
-						<ArrowDownwardIcon /> Continue Reading{" "}
-						<ArrowDownwardIcon />
+						<ArrowDownwardIcon /> Continue Reading <ArrowDownwardIcon />
 					</Button>
 				) : (
 					<></>

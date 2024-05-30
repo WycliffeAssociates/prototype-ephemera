@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import { useEffect, useState } from "react";
 import Books from "./Books";
 import Chapters from "./Chapters";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
 import "../../../App.css";
-import useBookChapterParams from "../../../hooks/useBookChapterParams";
-import { books as newTestamentMetadata } from "../../../applicationLogic/data/newTestamentMetadata";
-import { Button } from "@mui/material";
-import useWindowSize from "../../../hooks/useWindowSize";
 import { Close as CloseIcon } from "@mui/icons-material";
+import { Button } from "@mui/material";
+import { books as newTestamentMetadata } from "../../../applicationLogic/data/newTestamentMetadata";
 import { BOOKCHAPTERMENU_OFFSET, DESKTOP_BREAKPOINT } from "../../../constants";
+import useBookChapterParams from "../../../hooks/useBookChapterParams";
+import useWindowSize from "../../../hooks/useWindowSize";
 
 interface BookChapterMenuProps {
 	withClickableOptions: boolean;
@@ -24,15 +24,11 @@ function BookChapterMenu({
 	openTab,
 	onClose,
 }: BookChapterMenuProps) {
-	const [value, setValue] = useState(
-		openTab !== undefined ? openTab : "Books"
-	);
+	const [value, setValue] = useState(openTab !== undefined ? openTab : "Books");
 	const [displayBooks, setDisplayBooks] = useState(true);
-	const [displayChapters, setDisplayChapters] =
-		useState(true);
+	const [displayChapters, setDisplayChapters] = useState(true);
 	const [bookData, setBookData] = useState("");
-	const bookChapter =
-		useBookChapterParams().getBookChaptersParams();
+	const bookChapter = useBookChapterParams().getBookChaptersParams();
 	const windowSize = useWindowSize([]);
 	const [clickedBookElement, setClickedBookElement] =
 		useState<null | HTMLDivElement>();
@@ -53,27 +49,20 @@ function BookChapterMenu({
 	}, [withClickableOptions, value]);
 
 	useEffect(() => {
-		let scrollableParent = document.getElementById(
-			"BookChapterMenuContainer"
+		const scrollableParent = document.getElementById(
+			"BookChapterMenuContainer",
 		);
-		if (
-			clickedBookElement !== null &&
-			clickedBookElement !== undefined
-		) {
-			scrollableParent?.scrollTo(
-				0,
-				clickedBookElement.offsetTop - 70
-			);
+		if (clickedBookElement !== null && clickedBookElement !== undefined) {
+			scrollableParent?.scrollTo(0, clickedBookElement.offsetTop - 70);
 		}
 	}, [bookChapter, clickedBookElement]);
 
 	function onBookClick(newBook: null | HTMLDivElement) {
+		const restOfString = newBook?.id.slice(1);
+		const firstLetterCapitalized = newBook?.id.charAt(0).toUpperCase();
+		let newBookName = "";
 
-		let restOfString = newBook?.id.slice(1);
-		let firstLetterCapitalized = newBook?.id.charAt(0).toUpperCase();
-		let newBookName: string = "";
-		
-		if(firstLetterCapitalized && restOfString) {
+		if (firstLetterCapitalized && restOfString) {
 			newBookName = firstLetterCapitalized + restOfString;
 		}
 
@@ -93,7 +82,7 @@ function BookChapterMenu({
 
 	const handleChange = (
 		event: React.SyntheticEvent,
-		newValue: "Books" | "Chapters"
+		newValue: "Books" | "Chapters",
 	) => {
 		setValue(newValue);
 	};
@@ -118,11 +107,7 @@ function BookChapterMenu({
 					>
 						<Tab
 							className="BookChapterMenu__Tabs__Tab"
-							label={
-								bookData.length <= 2
-									? bookChapter.book
-									: bookData
-							}
+							label={bookData.length <= 2 ? bookChapter.book : bookData}
 							value={"Books"}
 						/>
 						<Tab
@@ -159,7 +144,7 @@ function BookChapterMenu({
 				xs={12}
 				style={{
 					display: displayChapters ? "block" : "none",
-					height:  `calc(100% - ${BOOKCHAPTERMENU_OFFSET})`,
+					height: `calc(100% - ${BOOKCHAPTERMENU_OFFSET})`,
 				}}
 			>
 				<Chapters selectedBook={bookData} />

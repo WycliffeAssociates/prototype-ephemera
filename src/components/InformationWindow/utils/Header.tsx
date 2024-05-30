@@ -1,5 +1,5 @@
-import { Button, Divider, Grid } from "@mui/material";
 import { ArrowBack as ArrowBackIcon } from "@mui/icons-material";
+import { Button, Divider, Grid } from "@mui/material";
 import { useSettings } from "../../../hooks/SettingsContext";
 import { mapValidGWTSettings } from "../../InformationPanel/GreekWordInfo/utils/mapValidGWTSettings";
 
@@ -10,8 +10,7 @@ interface HeaderProps {
 
 export function Header({ onClose, show }: HeaderProps) {
 	const { GWTSettings } = useSettings();
-	let overwriteStyle: any =
-		mapValidGWTSettings(GWTSettings);
+	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
 	if (show === false) {
 		return <></>;
@@ -20,19 +19,12 @@ export function Header({ onClose, show }: HeaderProps) {
 	return (
 		<>
 			<Grid item xs={8}>
-				<h3
-					style={{ ...overwriteStyle }}
-					className="BannerHeader"
-				>
+				<h3 style={{ ...overwriteStyle }} className="BannerHeader">
 					Greek Word Translation
 				</h3>
 			</Grid>
 
-			<Grid
-				item
-				xs={2}
-				style={{ margin: "auto" }}
-			>
+			<Grid item xs={2} style={{ margin: "auto" }}>
 				<Button
 					onClick={onClose}
 					variant="outlined"

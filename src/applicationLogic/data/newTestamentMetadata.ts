@@ -1,4 +1,4 @@
-let books: any = {
+const books: any = {
 	Matthew: { abbreviatedBook: "41-MAT", numChapters: 28 },
 	Mark: { abbreviatedBook: "42-MRK", numChapters: 16 },
 	Luke: { abbreviatedBook: "43-LUK", numChapters: 24 },

@@ -1,17 +1,17 @@
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import TipsDialogContent from "./TipsDialogContent";
-import MorphologyDialogContent from "./MorphologyDialogContent";
-import VerseReferenceDialogContent from "./VerseReferenceDialogContent";
+import Grid from "@mui/material/Grid";
+import type { AlignedText } from "src/types";
 import { useBookChapterParams } from "../../hooks/useBookChapterParams";
-import useMorphologyParams from "../../hooks/useMorphologyParams";
-import BannerMessage from "./GreekWordsDialogContent/utils/BannerMessage";
-import GreekWordsDialogContent from "./GreekWordsDialogContent";
 import { useInformationLayout } from "../../hooks/useInformationLayout";
-import { AlignedText } from "src/types";
+import useMorphologyParams from "../../hooks/useMorphologyParams";
+import GreekWordsDialogContent from "./GreekWordsDialogContent";
+import BannerMessage from "./GreekWordsDialogContent/utils/BannerMessage";
+import MorphologyDialogContent from "./MorphologyDialogContent";
+import TipsDialogContent from "./TipsDialogContent";
+import VerseReferenceDialogContent from "./VerseReferenceDialogContent";
 
 interface GreekWordsDialogProps {
-	open: Boolean;
+	open: boolean;
 	onClose?: () => void;
 	alignedText: AlignedText;
 }
@@ -21,21 +21,19 @@ function InformationPanel({
 	onClose,
 	alignedText,
 }: GreekWordsDialogProps) {
-	
-	const { 
-		openMorphologyDialog, 
-		openGreekWordsDialog, 
-		openTipsDialog, 
-		openVerseReferenceDialog, 
-		onVerseReferenceClose, 
-		onMorphologyDialogClose  
+	const {
+		openMorphologyDialog,
+		openGreekWordsDialog,
+		openTipsDialog,
+		openVerseReferenceDialog,
+		onVerseReferenceClose,
+		onMorphologyDialogClose,
 	} = useInformationLayout();
 
-	const { refBook, refChapter, refVerse, refWord } = useBookChapterParams().getBookChaptersParams();
-	
-	const { getMorphologyParams } =
-		useMorphologyParams();
+	const { refBook, refChapter, refVerse, refWord } =
+		useBookChapterParams().getBookChaptersParams();
 
+	const { getMorphologyParams } = useMorphologyParams();
 
 	return (
 		<>
@@ -59,40 +57,42 @@ function InformationPanel({
 			>
 				<Grid container direction="row">
 					<Grid item lg={12} xl={12} md={12}>
-						{openTipsDialog ? 
-							<TipsDialogContent open={openTipsDialog} onClose={onClose}/>
-						: <></>}
+						{openTipsDialog ? (
+							<TipsDialogContent open={openTipsDialog} onClose={onClose} />
+						) : (
+							<></>
+						)}
 
-						{openVerseReferenceDialog ? 
+						{openVerseReferenceDialog ? (
 							<VerseReferenceDialogContent
-								open={
-									openVerseReferenceDialog
-								}
+								open={openVerseReferenceDialog}
 								onClose={onVerseReferenceClose}
 								fullScreen={false}
 							/>
-						: <></>}
+						) : (
+							<></>
+						)}
 
-						{openGreekWordsDialog ? 
+						{openGreekWordsDialog ? (
 							<GreekWordsDialogContent
 								open={true}
 								onClose={onClose}
 								alignedText={alignedText}
 							/>
-						: <></>}
+						) : (
+							<></>
+						)}
 
-						{openMorphologyDialog ? 
+						{openMorphologyDialog ? (
 							<MorphologyDialogContent
-							open={
-								openMorphologyDialog
-							}
-							onClose={onMorphologyDialogClose}
-							fullScreen={false}
-							morphologyWord={
-								getMorphologyParams().morphologyWord
-							}
-						/>
-						: <></>}
+								open={openMorphologyDialog}
+								onClose={onMorphologyDialogClose}
+								fullScreen={false}
+								morphologyWord={getMorphologyParams().morphologyWord}
+							/>
+						) : (
+							<></>
+						)}
 					</Grid>
 				</Grid>
 			</Box>

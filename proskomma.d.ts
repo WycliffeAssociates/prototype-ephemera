@@ -1,1 +1,1 @@
-declare module 'proskomma';
+declare module "proskomma";

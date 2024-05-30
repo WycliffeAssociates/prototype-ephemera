@@ -1,274 +1,290 @@
-import { books } from "src/applicationLogic/data/newTestamentMetadata";
-import mapVerses, { VerseTagContentType } from "src/applicationLogic/mapping/mapTagsToFormattedVerse";
-import { AlignedText, AlignedVerse, GreekAlignmentData } from "src/types";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
-import { SourceTextAccessor, SourceTextFetcher, SourceTextResource } from ".";
+import { books } from "src/applicationLogic/data/newTestamentMetadata";
+import mapVerses, {
+	VerseTagContentType,
+} from "src/applicationLogic/mapping/mapTagsToFormattedVerse";
+import type { AlignedText, AlignedVerse, GreekAlignmentData } from "src/types";
+import type {
+	SourceTextAccessor,
+	SourceTextFetcher,
+	SourceTextResource,
+} from ".";
 
+export class WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
+	sourceTextResource: SourceTextResource;
 
-export class  WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
-    sourceTextResource: SourceTextResource;
+	constructor(resourceType: string, resourceLanguage: string) {
+		if (
+			resourceType.toLowerCase() !== "ulb" ||
+			resourceLanguage.toLowerCase() !== "en"
+		) {
+			throw new Error(
+				`Resource type ${resourceType} and language ${resourceLanguage} is not available in OSIS`,
+			);
+		}
 
-    constructor(resourceType: string, resourceLanguage: string) {   
-        if(resourceType.toLowerCase() !== "ulb" || resourceLanguage.toLowerCase() !== "en") {
-            throw new Error(`Resource type ${resourceType} and language ${resourceLanguage} is not available in OSIS`);
-        }
+		this.sourceTextResource = {
+			resourceType: resourceType.toLowerCase(),
+			resourceLanguage: resourceLanguage.toLowerCase(),
+			resourceBaseURL:
+				"https://content.bibletranslationtools.org/WycliffeAssociates/en_ulb_tagged/raw/branch/master/Checked/",
+		};
+	}
 
-        this.sourceTextResource = {
-            resourceType: resourceType.toLowerCase(),
-            resourceLanguage: resourceLanguage.toLowerCase(),
-            resourceBaseURL: 
-                `https://content.bibletranslationtools.org/WycliffeAssociates/en_ulb_tagged/raw/branch/master/Checked/`,
-        };
-    }
+	setSourceTextResource(resourceType: string, resourceLanguage: string): void {
+		if (
+			resourceType.toLowerCase() !== "ulb" ||
+			resourceLanguage.toLowerCase() !== "en"
+		) {
+			throw new Error(
+				`Resource type ${resourceType} and language ${resourceLanguage} is not available in WACS`,
+			);
+		}
 
+		this.sourceTextResource = {
+			resourceLanguage: resourceType,
+			resourceType: resourceLanguage,
+			resourceBaseURL:
+				"https://content.bibletranslationtools.org/WycliffeAssociates/en_ulb_tagged/raw/branch/master/Checked/",
+		};
+	}
 
-    setSourceTextResource(resourceType: string, resourceLanguage: string): void {
-        if(resourceType.toLowerCase() !== "ulb" || resourceLanguage.toLowerCase() !== "en") {
-            throw new Error(`Resource type ${resourceType} and language ${resourceLanguage} is not available in WACS`);
-        }
+	async getSourceText(
+		bookName: string,
+		chapter: string | number,
+	): Promise<AlignedVerse[]> {
+		const sourceText = await this.fetchSourceText(bookName);
 
-        this.sourceTextResource = {
-            resourceLanguage: resourceType,
-            resourceType: resourceLanguage,
-            resourceBaseURL: 
-                `https://content.bibletranslationtools.org/WycliffeAssociates/en_ulb_tagged/raw/branch/master/Checked/`,
-        }
-    }
+		if (sourceText) {
+			const chapterNum =
+				typeof chapter === "number" ? chapter : Number.parseInt(chapter);
 
+			const strJson = await this.mapTagsToJSON(sourceText, chapterNum);
+			if (strJson) {
+				return this.parseSourceText(strJson, chapterNum);
+			}
+		}
 
-    async getSourceText(bookName: string, chapter: string | number): Promise<AlignedVerse[]> {
-        let sourceText = await this.fetchSourceText(bookName);
+		return [];
+	}
 
-        if(sourceText) {
-            let chapterNum = typeof(chapter) === "number" ? chapter : parseInt(chapter)
+	async fetchSourceText(bookName: string): Promise<string | undefined> {
+		try {
+			let book: any;
+			book = await fetch(
+				`${this.sourceTextResource.resourceBaseURL}${books[bookName].abbreviatedBook}.xml`,
+			);
+			return book.text();
+		} catch (error) {
+			return undefined;
+		}
+	}
 
-            let strJson = await this.mapTagsToJSON(sourceText, chapterNum);
-            if(strJson) {
-                return this.parseSourceText(strJson, chapterNum);
-            }
-        }
+	parseSourceText(sourceText: string, chapter: number): AlignedVerse[] {
+		const chapterJson = this.getChapterJson(sourceText, chapter);
 
-        return [];
-    }
+		const result = mapVerses(chapterJson, VerseTagContentType.XML);
 
+		const alignedVerses: AlignedVerse[] = [];
 
-    async fetchSourceText(bookName: string) : Promise<string | undefined> {
-        try {
-            let book;
-            book = await fetch(`${this.sourceTextResource.resourceBaseURL}${books[bookName].abbreviatedBook}.xml`);
-            return book.text()
+		result.forEach((osisIshVerses: any, idx: number) => {
+			const verseWords = osisIshVerses.verseWords;
 
-        } catch (error) {
-            return undefined;
-        }
-    }
+			const alignedVerseWords: AlignedText[] = [];
+			const verseNum = idx;
 
+			if (verseWords) {
+				for (const verseWord of verseWords) {
+					const text = verseWord.englishWords;
+					const greekAlignmentData: GreekAlignmentData[] = [];
 
-    parseSourceText(sourceText: string, chapter: number): AlignedVerse[] {
-        let result: any
+					if (verseWord.greekWords) {
+						for (const gw of this.mapGreekWords(verseWord.greekWords)) {
+							greekAlignmentData.push(gw);
+						}
+					}
 
-        let chapterJson = this.getChapterJson(sourceText, chapter)
-    
-        result = mapVerses(chapterJson, VerseTagContentType.XML);
+					if (verseWord.subWords) {
+						for (const gw of this.mapGreekWords(verseWord.subWords)) {
+							greekAlignmentData.push(gw);
+						}
+					}
 
-        let alignedVerses: AlignedVerse[] = [];
+					if (verseWord.phraseWords) {
+						for (const gw of this.mapGreekWords(verseWord.phraseWords)) {
+							greekAlignmentData.push(gw);
+						}
+					}
 
-        result.forEach((osisIshVerses: any, idx: number) => {
-            let verseWords = osisIshVerses.verseWords;
-            
-            let alignedVerseWords: AlignedText[] = [];
-            let verseNum = idx;
+					let alignedText: AlignedText;
+					if (greekAlignmentData.length === 0) {
+						alignedText = { text: text };
+					} else {
+						alignedText = {
+							text: text,
+							greekAlignmentData: greekAlignmentData,
+						};
+					}
 
-            if(verseWords) {
-                verseWords.forEach((verseWord: any) => {
-                    let text = verseWord.englishWords;
-                    let greekAlignmentData: GreekAlignmentData[] = []
-                    
-                    if(verseWord.greekWords) {
-                        this.mapGreekWords(verseWord.greekWords)
-                            .forEach((gw) => greekAlignmentData.push(gw));
-                    }
+					alignedVerseWords.push(alignedText);
+				}
+			}
 
-                    if(verseWord.subWords) {
-                        this.mapGreekWords(verseWord.subWords)
-                            .forEach((gw) => greekAlignmentData.push(gw));
-                    }
+			const alignedVerse: AlignedVerse = {
+				alignedVerseText: alignedVerseWords,
+				verseNum: verseNum + 1,
+			};
+			alignedVerses.push(alignedVerse);
+		});
 
-                    if(verseWord.phraseWords) {
-                        this.mapGreekWords(verseWord.phraseWords)
-                            .forEach((gw) => greekAlignmentData.push(gw));
-                    }
+		return alignedVerses;
+	}
 
-                    let alignedText: AlignedText
-                    if(greekAlignmentData.length === 0) {
-                        alignedText = {text: text}
-                    } else {
-                        alignedText = {text: text, greekAlignmentData: greekAlignmentData}
-                    }
-                     
-                    alignedVerseWords.push(alignedText);
-                })
-            }
+	private getChapterJson(sourceText: any, chapter: number) {
+		let bookJSON = JSON.parse(sourceText);
+		if (bookJSON === undefined) {
+			return [];
+		}
 
-            let alignedVerse : AlignedVerse = {alignedVerseText: alignedVerseWords, verseNum: verseNum + 1}
-            alignedVerses.push(alignedVerse);
-        });
+		bookJSON = bookJSON.xml.book;
 
-        return alignedVerses    
-    }    
+		let targetContent: any;
+		if (bookJSON?.chapter && Array.isArray(bookJSON.chapter) === false) {
+			targetContent = bookJSON.chapter.verse;
+		} else {
+			targetContent = bookJSON.chapter[chapter - 1].verse;
+		}
 
+		return targetContent;
+	}
 
-    private getChapterJson(sourceText: any, chapter: number) {
-        let bookJSON = JSON.parse(sourceText)
-        if (bookJSON === undefined) {
-            return [];
-        }
-    
-        bookJSON = bookJSON.xml.book;
-        
-        let targetContent : any
-        if (
-            bookJSON &&
-            bookJSON.chapter &&
-            Array.isArray(bookJSON.chapter) === false
-        ) {
-            targetContent = bookJSON.chapter.verse;
-        } else {
-            targetContent = bookJSON.chapter[chapter - 1].verse;
-        }
+	private mapGreekWords(greekWords: any[]): GreekAlignmentData[] {
+		const greekAlignmentData: GreekAlignmentData[] = [];
+		greekWords.forEach((gw: any) => {
+			let strongs: string | undefined;
+			let morph: string | undefined;
 
-        return targetContent
-    }
-    
+			let greekWordData: GreekAlignmentData;
 
-    private mapGreekWords(greekWords: any[]) : GreekAlignmentData[] {
-        let greekAlignmentData: GreekAlignmentData[] = [];
-        greekWords.forEach((gw: any) => {
-            let strongs: string | undefined
-            let morph: string | undefined;
+			if (gw?.strongs) {
+				strongs = gw.strongs;
+			}
 
-            let greekWordData: GreekAlignmentData;
+			if (gw?.morph) {
+				morph = gw.morph;
+			}
 
-            if(gw?.strongs) {
-                strongs = gw.strongs
-            }
+			if (gw?.word?.strongs) {
+				strongs = gw.word?.strongs;
+			}
 
-            if(gw?.morph) {
-                morph = gw.morph
-            }
+			if (gw?.word?.morph) {
+				morph = gw.word.morph;
+			}
 
-            if(gw?.word?.strongs) {
-                strongs = gw.word?.strongs
-            }
+			if (strongs) {
+				greekWordData = { strong: strongs, morph: morph };
+				greekAlignmentData.push(greekWordData);
+			}
+		});
+		return greekAlignmentData;
+	}
 
-            if(gw?.word?.morph) {
-                morph = gw.word.morph
-            }
+	private async mapTagsToJSON(taggedULBBook: string, chapter: number) {
+		const newXML = await this.buildXmlWithFlatPhraseWords(
+			taggedULBBook,
+			chapter,
+		);
 
-            if(strongs) {
-                greekWordData = {strong: strongs, morph: morph}
-                greekAlignmentData.push(greekWordData)
-            }
-        });
-        return greekAlignmentData;
-    }
+		const orderedParserOptions = {
+			ignoreAttributes: false,
+			attributesGroupName: "ATTR",
+			attributeNamePrefix: "",
+			textNodeName: "_text",
+		};
+		const orderedParser = new XMLParser(orderedParserOptions);
 
+		// traverses through the JSON representing the ordered XML and removes the phrase tages.
+		const orderedXML = await orderedParser.parse(newXML);
 
-    private async mapTagsToJSON(taggedULBBook: string, chapter: number) {
-        let newXML = await this.buildXmlWithFlatPhraseWords(taggedULBBook, chapter);
+		let response = undefined;
 
-        const orderedParserOptions = {
-            ignoreAttributes: false,
-            attributesGroupName: "ATTR",
-            attributeNamePrefix: "",
-            textNodeName: "_text",
-        };
-        const orderedParser = new XMLParser(orderedParserOptions);
+		response = await JSON.stringify(orderedXML);
+		return response;
+	}
 
-        // traverses through the JSON representing the ordered XML and removes the phrase tages.
-        let orderedXML = await orderedParser.parse(newXML);
+	private async buildXmlWithFlatPhraseWords(xml: any, chapter: number) {
+		const orderedParserOptions = {
+			commentPropName: "#comment",
+			ignoreAttributes: false,
+			preserveOrder: true,
+			parseTagValue: false,
+			trimValues: true,
+			attributeNamePrefix: "",
+		};
+		const orderedParser = new XMLParser(orderedParserOptions);
 
-        let response = undefined;
+		// traverses through the JSON representing the ordered XML and removes the phrase tages.
+		let orderedXML = await orderedParser.parse(xml);
+		orderedXML = await this.flatMapPhraseWords(orderedXML, chapter);
 
-        response = await JSON.stringify(orderedXML);
-        return response;
-    }
+		// rebuilds the xml from the newly modified JSON object.
+		const builder = new XMLBuilder(orderedParserOptions);
+		const xmlOutput = await builder.build(orderedXML);
 
+		return xmlOutput;
+	}
 
-    private async buildXmlWithFlatPhraseWords(xml: any, chapter: number) {
-        const orderedParserOptions = {
-            commentPropName: "#comment",
-            ignoreAttributes: false,
-            preserveOrder: true,
-            parseTagValue: false,
-            trimValues: true,
-            attributeNamePrefix: "",
-        };
-        const orderedParser = new XMLParser(orderedParserOptions);
+	private async flatMapPhraseWords(orderedXML: any, chapter: number) {
+		const currentBookChapter = orderedXML[1].xml[0].book[chapter - 1].chapter;
 
-        // traverses through the JSON representing the ordered XML and removes the phrase tages.
-        let orderedXML = await orderedParser.parse(xml);
-        orderedXML = await this.flatMapPhraseWords(orderedXML, chapter);
+		for (let i = 0; i < currentBookChapter.length; i++) {
+			const curChapterVerse = currentBookChapter[i];
 
-        // rebuilds the xml from the newly modified JSON object.
-        const builder = new XMLBuilder(orderedParserOptions);
-        const xmlOutput = await builder.build(orderedXML);
+			for (let k = 0; k < curChapterVerse.verse.length; k++) {
+				const curVerseWord = curChapterVerse.verse[k];
+				const wordBuffer = [];
 
-        return xmlOutput;
-    }
+				// if the current verse child tag is a phrase, then we extract the phrase words.
+				if (curVerseWord.phrase) {
+					// Gets the actual phrase
+					const phrase =
+						curVerseWord.phrase[curVerseWord.phrase.length - 1].phraseWords[0][
+							"#text"
+						];
 
+					// gets phrase words and places them into a buffer
+					for (let l = 0; l < curVerseWord.phrase.length; l++) {
+						if (curVerseWord.phrase[l].w) {
+							const curVerseWordAttributes = curVerseWord[":@"];
 
-    private async flatMapPhraseWords(orderedXML: any, chapter: number) {
+							if (curVerseWordAttributes && curVerseWordAttributes.sub) {
+								const tempW = curVerseWord.phrase[l];
+								const tempWAttributes = tempW[":@"];
 
-        let currentBookChapter = orderedXML[1].xml[0].book[chapter - 1].chapter;
+								tempWAttributes["subPhraseWords"] = phrase;
+								tempWAttributes["sub"] = curVerseWordAttributes.sub;
+								wordBuffer.push(tempW);
+							} else {
+								const tempW = curVerseWord.phrase[l];
+								const tempWAttributes = tempW[":@"];
+								tempWAttributes["phraseWords"] = phrase;
+								wordBuffer.push(tempW);
+							}
+						}
+					}
 
-        for (let i = 0; i < currentBookChapter.length; i++) {
-            let curChapterVerse = currentBookChapter[i];
+					// takes words in buffer and inserts them outside of the phrase tag and in-line with the rest of the words.
+					curChapterVerse.verse.splice(k, 1, wordBuffer[0]);
+					for (let h = 1; h < wordBuffer.length; h++) {
+						curChapterVerse.verse.splice(k + h, 0, wordBuffer[h]);
+					}
+					k--;
+					continue;
+				}
+			}
+		}
 
-            for (let k = 0; k < curChapterVerse.verse.length; k++) {
-                let curVerseWord = curChapterVerse.verse[k];
-                let wordBuffer = [];
-
-                // if the current verse child tag is a phrase, then we extract the phrase words.
-                if (curVerseWord.phrase) {
-                    // Gets the actual phrase
-                    let phrase =
-                    curVerseWord.phrase[curVerseWord.phrase.length - 1].phraseWords[0][
-                    "#text"
-                    ];
-
-                    // gets phrase words and places them into a buffer
-                    for (let l = 0; l < curVerseWord.phrase.length; l++) {
-                        if (curVerseWord.phrase[l].w) {
-                            let curVerseWordAttributes = curVerseWord[":@"];
-
-                            if (curVerseWordAttributes && curVerseWordAttributes.sub) {
-                                let tempW = curVerseWord.phrase[l];
-                                let tempWAttributes = tempW[":@"]
-
-                                tempWAttributes["subPhraseWords"] = phrase
-                                tempWAttributes["sub"] = curVerseWordAttributes.sub
-                                wordBuffer.push(tempW);
-                            } else {
-                                let tempW = curVerseWord.phrase[l];
-                                let tempWAttributes = tempW[":@"]
-                                tempWAttributes["phraseWords"] = phrase
-                                wordBuffer.push(tempW);
-                            }
-                        }
-                    }
-
-                    // takes words in buffer and inserts them outside of the phrase tag and in-line with the rest of the words.
-                    curChapterVerse.verse.splice(k, 1, wordBuffer[0]);
-                    for (let h = 1; h < wordBuffer.length; h++) {
-                        curChapterVerse.verse.splice(k + h, 0, wordBuffer[h]);
-                    }
-                    k--;
-                    continue;
-                }
-            }
-        }
-
-        return orderedXML;
-    }
+		return orderedXML;
+	}
 }

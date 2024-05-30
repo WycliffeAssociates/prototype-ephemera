@@ -1,10 +1,10 @@
+import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import { useEffect, useRef, useState } from "react";
 import { books as newTestamentMetadata } from "../../../applicationLogic/data/newTestamentMetadata";
 import { oldTestamentBooks } from "../../../applicationLogic/data/oldTestamentMetadata";
-import { useEffect, useRef, useState } from "react";
-import BookSearchBar from "../../BookSearchBar";
-import Box from "@mui/material/Box";
 import { BOOKCHAPTERMENU_OFFSET } from "../../../constants";
+import BookSearchBar from "../../BookSearchBar";
 
 interface BookProps {
 	bookData: any[];
@@ -12,11 +12,7 @@ interface BookProps {
 	isCurrentBook: boolean;
 }
 
-function Book({
-	bookData,
-	handleClick,
-	isCurrentBook,
-}: BookProps) {
+function Book({ bookData, handleClick, isCurrentBook }: BookProps) {
 	const bookRef = useRef<null | HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -43,23 +39,16 @@ function Book({
 	);
 }
 
-
-
 interface BooksProps {
 	onChange?: () => any;
 	handleClick: (params: any) => any;
 	currentBook?: string;
 }
 
-function Books({
-	handleClick,
-	currentBook,
-	onChange,
-}: BooksProps) {
-	const [childClicked, setChildClicked] =
-		useState<any>(null);
+function Books({ handleClick, currentBook, onChange }: BooksProps) {
+	const [childClicked, setChildClicked] = useState<any>(null);
 	const [filteredBooks, setFilteredBooks] = useState(
-		Object.entries(newTestamentMetadata)
+		Object.entries(newTestamentMetadata),
 	);
 	const [errorMessage, setErrorMessage] = useState("");
 
@@ -71,12 +60,9 @@ function Books({
 			childClicked.current.style.backgroundColor = "white";
 		}
 
-		if (
-			newChildClicked?.current?.style?.color !== undefined
-		) {
+		if (newChildClicked?.current?.style?.color !== undefined) {
 			newChildClicked.current.style.color = "blue";
-			newChildClicked.current.style.backgroundColor =
-				"#015ad90d";
+			newChildClicked.current.style.backgroundColor = "#015ad90d";
 		}
 
 		setChildClicked(newChildClicked);
@@ -87,7 +73,7 @@ function Books({
 		book = book.charAt(0).toUpperCase() + book.slice(1);
 		if (oldTestamentBooks[book] !== undefined) {
 			setErrorMessage(
-				"The Greek Lexicon Prototype only contains New Testament Books"
+				"The Greek Lexicon Prototype only contains New Testament Books",
 			);
 			return false;
 		} else {
@@ -106,20 +92,15 @@ function Books({
 	}
 
 	function onBookFilter(filterKey: string) {
-		let tempArray = Object.entries(
-			newTestamentMetadata
-		).filter((book) => {
+		const tempArray = Object.entries(newTestamentMetadata).filter((book) => {
 			if (filterKey === "") {
 				return true;
 			}
 
 			if (
-				filterKey.toLowerCase().charAt(0) ===
-				book[0].toLowerCase().charAt(0)
+				filterKey.toLowerCase().charAt(0) === book[0].toLowerCase().charAt(0)
 			) {
-				return book[0]
-					.toLowerCase()
-					.includes(filterKey.toLowerCase());
+				return book[0].toLowerCase().includes(filterKey.toLowerCase());
 			}
 
 			// if the current book starts with a number
@@ -177,11 +158,7 @@ function Books({
 						alignItems="center"
 						style={{ height: "100%" }}
 					>
-						<Grid
-							item
-							xs={12}
-							style={{ borderBottom: "1px solid grey" }}
-						>
+						<Grid item xs={12} style={{ borderBottom: "1px solid grey" }}>
 							<h5 className="NavigationModal__Books__newTestamentHeader">
 								NEW TESTAMENT
 							</h5>
@@ -199,19 +176,16 @@ function Books({
 								alignItems="center"
 							>
 								{errorMessage === ""
-									? filteredBooks.map(
-											(book: any[], idx: number) => (
-												<Book
-													key={`book ${idx}`}
-													bookData={book}
-													handleClick={handleChildClicked}
-													isCurrentBook={
-														childClicked === null &&
-														book[0] === currentBook
-													}
-												/>
-											)
-									  )
+									? filteredBooks.map((book: any[], idx: number) => (
+											<Book
+												key={`book ${idx}`}
+												bookData={book}
+												handleClick={handleChildClicked}
+												isCurrentBook={
+													childClicked === null && book[0] === currentBook
+												}
+											/>
+										))
 									: errorMessage}
 							</Grid>
 						</Grid>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AlignedText } from "src/types";
+import type { AlignedText } from "src/types";
 import { fullMorphToFileName } from "../applicationLogic/mapping/mapFullMorph";
 
 interface missingReport {
@@ -10,13 +10,11 @@ interface missingReport {
 	ogntSort: string;
 }
 
-async function reportMissingMorphology(
-	data: missingReport
-) {
+async function reportMissingMorphology(data: missingReport) {
 	try {
-		let config = {
+		const config = {
 			method: "post",
-			maxBodyLength: Infinity,
+			maxBodyLength: Number.POSITIVE_INFINITY,
 			url: "https://wagwtfeedbackhandler.azurewebsites.net/api/MissingHandler",
 			headers: {
 				Accept: "*/*",
@@ -28,57 +26,52 @@ async function reportMissingMorphology(
 			data: data,
 		};
 
-		let res = await axios.request(config);
-
-		console.log(
-			"report status = " + JSON.stringify(res.status)
-		);
+		const res = await axios.request(config);
+		console.log(`report status = ${JSON.stringify(res.status)}`);
 	} catch (error) {
 		console.log(error);
 	}
 }
 
+export async function fetchMorphologyWord(
+	alignedText?: AlignedText,
+	morphologyWord?: string,
+) {
+	let returnVal = undefined;
 
-export async function fetchMorphologyWord(alignedText?: AlignedText, morphologyWord?: string,) {
-    let returnVal = undefined;
+	if (morphologyWord !== undefined) {
+		try {
+			let fileName: string = morphologyWord;
 
-    if (morphologyWord !== undefined) {
-        try {
-            let fileName: string = morphologyWord;
+			if (fullMorphToFileName[fileName] !== undefined) {
+				fileName = fullMorphToFileName[fileName];
+			}
 
-            if (fullMorphToFileName[fileName] !== undefined) {
-                fileName = fullMorphToFileName[fileName];
-            }
+			const response = await axios.get(
+				`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${fileName}.md`,
+			);
 
-            let response = await axios.get(
-                `https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${fileName}.md`
-            );
+			returnVal = response.data;
+		} catch (error) {
+			if (alignedText?.greekAlignmentData) {
+				const greekWord = alignedText.greekAlignmentData[
+					alignedText.greekAlignmentData.length - 1
+				] as any;
 
-            returnVal = response.data;
+				const requestBody = {
+					word: alignedText.text,
+					abbreviated: greekWord.morph,
+					full: morphologyWord,
+					strongs: greekWord.strongs,
+					ogntSort: (greekWord.OGNTsort
+						? greekWord.OGNTsort
+						: greekWord.OGNTSort
+					).toString(),
+				};
 
-        } catch (error) {
-            if (alignedText?.greekAlignmentData) {
-
-                let greekWord = alignedText.greekAlignmentData[
-                    alignedText.greekAlignmentData.length - 1
-                ] as any;
-
-                let requestBody = {
-
-                    word: alignedText.text,
-                    abbreviated: greekWord.morph,
-                    full: morphologyWord,
-                    strongs: greekWord.strongs,
-                    ogntSort:
-                        (greekWord.OGNTsort
-                            ? greekWord.OGNTsort
-                            : greekWord.OGNTSort) + "",
-                };
-
-                reportMissingMorphology(requestBody);
-            }
-        }
-    }
-    return returnVal;
+				reportMissingMorphology(requestBody);
+			}
+		}
+	}
+	return returnVal;
 }
-
