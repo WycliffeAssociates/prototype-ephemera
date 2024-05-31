@@ -28,7 +28,8 @@ function BookChapterMenu({
 	const [displayBooks, setDisplayBooks] = useState(true);
 	const [displayChapters, setDisplayChapters] = useState(true);
 	const [bookData, setBookData] = useState("");
-	const bookChapter = useBookChapterParams().getBookChaptersParams();
+	const { book } = useBookChapterParams();
+
 	const windowSize = useWindowSize([]);
 	const [clickedBookElement, setClickedBookElement] =
 		useState<null | HTMLDivElement>();
@@ -55,7 +56,8 @@ function BookChapterMenu({
 		if (clickedBookElement !== null && clickedBookElement !== undefined) {
 			scrollableParent?.scrollTo(0, clickedBookElement.offsetTop - 70);
 		}
-	}, [bookChapter, clickedBookElement]);
+		// TODO: have this not run every re-render
+	});
 
 	function onBookClick(newBook: null | HTMLDivElement) {
 		const restOfString = newBook?.id.slice(1);
@@ -66,7 +68,7 @@ function BookChapterMenu({
 			newBookName = firstLetterCapitalized + restOfString;
 		}
 
-		if (newBookName !== bookChapter.book) {
+		if (newBookName !== book) {
 			setValue("Chapters");
 		}
 		if (newTestamentMetadata[newBookName] !== undefined) {
@@ -107,7 +109,7 @@ function BookChapterMenu({
 					>
 						<Tab
 							className="BookChapterMenu__Tabs__Tab"
-							label={bookData.length <= 2 ? bookChapter.book : bookData}
+							label={bookData.length <= 2 ? book : bookData}
 							value={"Books"}
 						/>
 						<Tab
@@ -134,7 +136,7 @@ function BookChapterMenu({
 				<Books
 					onChange={onBookChange}
 					handleClick={onBookClick}
-					currentBook={bookChapter.book}
+					currentBook={book}
 				/>
 			</Grid>
 
