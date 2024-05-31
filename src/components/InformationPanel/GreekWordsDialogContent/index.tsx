@@ -21,7 +21,7 @@ function GreekWordsDialogContent({
 
 	// scrolls the container to the top when the greek words change
 	useEffect(() => {
-		if (containerRef !== null && containerRef !== undefined) {
+		if (containerRef !== null && containerRef !== undefined && alignedText) {
 			const el: HTMLElement | null = containerRef.current;
 			if (el !== null) {
 				el.scrollTo(0, 0);
