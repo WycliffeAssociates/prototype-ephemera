@@ -44,7 +44,7 @@ export function View() {
 		if (showGreekWords && windowSize.innerWidth < DESKTOP_BREAKPOINT) {
 			setInformationWindowOpen(true);
 		}
-	}, [greekWords, showGreekWords]);
+	}, [showGreekWords, textViewSize, windowSize.innerWidth]);
 
 	useEffect(() => {
 		// default right dialog to open for desktop breakpoint
