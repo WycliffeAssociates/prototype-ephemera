@@ -109,7 +109,7 @@ export function VerseReferenceText() {
 	}, [verses, GWTSettings, refVerse, refWord]);
 
 	useEffect(() => {
-		if (verseRef != null && verseRef.current != null) {
+		if (verseRef != null && verseRef.current != null && verseOutput) {
 			let scrollableParent: HTMLElement | null = null;
 			const potentialScrollableParent = verseRef.current.parentNode;
 			if (
