@@ -113,12 +113,7 @@ export function useGreekWordsParams() {
 				setGreekWordVerseNumber(undefined);
 			}
 		}
-	}, [
-		searchParams.get,
-		searchParams.get("greekWords"),
-		searchParams.get("showGreekWords"),
-		searchParams.get("greekWordsVerseNumber"),
-	]);
+	}, [searchParams, searchParams.get]);
 
 	return {
 		setGreekWordsParams: setGreekWordsParams,
