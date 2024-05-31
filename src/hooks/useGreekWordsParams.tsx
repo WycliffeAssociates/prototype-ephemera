@@ -114,6 +114,7 @@ export function useGreekWordsParams() {
 			}
 		}
 	}, [
+		searchParams.get,
 		searchParams.get("greekWords"),
 		searchParams.get("showGreekWords"),
 		searchParams.get("greekWordsVerseNumber"),
