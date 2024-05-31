@@ -309,6 +309,7 @@ export function useBookChapterParams() {
 	useEffect(() => {
 		setStatesToQueryParams();
 	}, [
+		setStatesToQueryParams,
 		searchParams,
 		searchParams.get("book"),
 		searchParams.get("chapter"),
