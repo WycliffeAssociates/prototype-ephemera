@@ -77,7 +77,9 @@ export function View() {
 	};
 
 	useEffect(() => {
-		setNavigationModalOpen(false);
+		if (search) {
+			setNavigationModalOpen(false);
+		}
 	}, [search]);
 
 	const onNavigationModalClose = (event: any) => {
@@ -206,10 +208,10 @@ export function View() {
 							: "white",
 					}}
 				>
-						<InformationPanel
-							open={informationPanelOpen}
-							alignedText={greekWords}
-						/> 
+					<InformationPanel
+						open={informationPanelOpen}
+						alignedText={greekWords}
+					/>
 				</Grid>
 			</Grid>
 
