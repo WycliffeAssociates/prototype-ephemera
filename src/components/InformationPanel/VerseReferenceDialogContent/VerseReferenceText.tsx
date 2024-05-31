@@ -24,10 +24,8 @@ export function VerseReferenceText() {
 	const { GWTSettings } = useSettings();
 
 	useEffect(() => {
-
 		function checkForReferences(verseWord: AlignedText) {
 			if (verseWord.greekAlignmentData) {
-
 				return verseWord.greekAlignmentData?.some(
 					(greekWordAlignmentData) => greekWordAlignmentData.strong === refWord,
 				);
@@ -108,7 +106,7 @@ export function VerseReferenceText() {
 			tempVerseOutput.push(tempVerse);
 		});
 		setVerseOutput([...tempVerseOutput]);
-	}, [verses, GWTSettings, refVerse]);
+	}, [verses, GWTSettings, refVerse, refWord]);
 
 	useEffect(() => {
 		if (verseRef != null && verseRef.current != null) {
