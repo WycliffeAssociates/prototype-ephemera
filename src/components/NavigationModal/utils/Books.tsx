@@ -19,7 +19,7 @@ function Book({ bookData, handleClick, isCurrentBook }: BookProps) {
 		if (isCurrentBook === true) {
 			handleClick(bookRef);
 		}
-	}, [isCurrentBook]);
+	}, [isCurrentBook, handleClick]);
 
 	function onClick() {
 		handleClick(bookRef);
