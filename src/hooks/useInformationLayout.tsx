@@ -30,13 +30,7 @@ export function useInformationLayout() {
 		} else {
 			setOpenVerseReferenceDialog(false);
 		}
-	}, [
-		setOpenVerseReferenceDialog,
-		setOpenVerseReferenceDialog,
-		refBook,
-		refChapter,
-		refVerse,
-	]);
+	}, [refBook, refChapter, refVerse]);
 
 	// Opens the Tips dialog whenver the user navigates to a new book / chapter
 	useEffect(() => {
