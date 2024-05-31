@@ -317,7 +317,9 @@ export function useBookChapterParams() {
 	]);
 
 	useEffect(() => {
-		resetInvalidQueryParameters();
+		if (invalidParams.length > 0) {
+			resetInvalidQueryParameters();
+		}
 	}, [invalidParams]);
 
 	useEffect(() => {
