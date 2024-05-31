@@ -22,14 +22,12 @@ const DesktopNextChapterButton = styled(Button)({
 
 function NextChapterButton() {
 	const [show, setShow] = useState(true);
-	const { getBookChaptersParams, setValidBookChapterParams } =
-		useBookChapterParams();
-	const bookChapter = getBookChaptersParams();
+	const { book, chapter, setValidBookChapterParams } = useBookChapterParams();
 
 	useEffect(() => {
-		if (bookChapter.book) {
-			const currentChapter = Number.parseInt(bookChapter.chapter);
-			const chapterMax = books[bookChapter.book].numChapters;
+		if (book) {
+			const currentChapter = Number.parseInt(`${chapter}`);
+			const chapterMax = books[book].numChapters;
 
 			if (currentChapter === chapterMax) {
 				setShow(false);
@@ -37,13 +35,13 @@ function NextChapterButton() {
 				setShow(true);
 			}
 		}
-	}, [bookChapter.book, bookChapter.chapter]);
+	}, [book, chapter, show]);
 
 	const onClick = () => {
-		const newChapter = Number.parseInt(bookChapter.chapter) + 1;
-		if (bookChapter.book) {
+		const newChapter = Number.parseInt(`${chapter}`) + 1;
+		if (book) {
 			const newBookChapter = {
-				book: bookChapter.book,
+				book: book,
 				chapter: `${newChapter}`,
 			};
 			setValidBookChapterParams(newBookChapter, false);
