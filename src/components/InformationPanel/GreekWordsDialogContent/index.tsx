@@ -1,12 +1,13 @@
-import Grid from "@mui/material/Grid";
-import TipsDialogContent from "../TipsDialogContent";
-import GreekWordInfo from "../GreekWordInfo";
 import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
 import { useEffect, useRef } from "react";
-import { AlignedText } from "src/types";
+import React from "react";
+import type { AlignedText } from "src/types";
+import GreekWordInfo from "../GreekWordInfo";
+import TipsDialogContent from "../TipsDialogContent";
 
 interface GreekWordsDialogProps {
-	open: Boolean;
+	open: boolean;
 	onClose?: () => void;
 	alignedText: AlignedText;
 }
@@ -20,12 +21,8 @@ function GreekWordsDialogContent({
 
 	// scrolls the container to the top when the greek words change
 	useEffect(() => {
-		if (
-			containerRef !== null &&
-			containerRef !== undefined
-		) {
-			let el : HTMLElement | null =
-				containerRef.current;
+		if (containerRef !== null && containerRef !== undefined) {
+			const el: HTMLElement | null = containerRef.current;
 			if (el !== null) {
 				el.scrollTo(0, 0);
 			}
@@ -36,7 +33,8 @@ function GreekWordsDialogContent({
 
 	return (
 		<>
-			{alignedText !== undefined && alignedText.greekAlignmentData && alignedText.greekAlignmentData.length > 0 ? (
+			{alignedText?.greekAlignmentData &&
+			alignedText.greekAlignmentData.length > 0 ? (
 				<>
 					<div
 						ref={containerRef}
@@ -47,22 +45,20 @@ function GreekWordsDialogContent({
 						}}
 					>
 						{alignedText.greekAlignmentData.map((greekAlignmentData, idx) => (
-							<>
+							<React.Fragment
+								key={`GreekWordsDialogContent__EmptyFragment${idx}`}
+							>
 								<GreekWordInfo
 									key={idx}
 									currentGreekWord={greekAlignmentData}
 									containerRef={containerRef}
 								/>
-								<Grid
-									item
-									xs={12}
-								>
+								<Grid item xs={12}>
 									<Divider />
 								</Grid>
-							</>
+							</React.Fragment>
 						))}
 					</div>
-
 				</>
 			) : (
 				<TipsDialogContent open={true} onClose={onClose} />

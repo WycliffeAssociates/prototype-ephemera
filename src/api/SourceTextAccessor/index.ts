@@ -1,39 +1,43 @@
-import { AlignedVerse } from "src/types";
-import { OsisEnUlbAccessor } from "./OsisEnUlbAccessor";
+import type { AlignedVerse } from "src/types";
 import { Door43UsfmAccessor } from "./Door43UsfmAccessor";
+import { OsisEnUlbAccessor } from "./OsisEnUlbAccessor";
 import { WacsXmlAccessor } from "./WacsXmlAccessor";
 
-
 export type SourceTextResource = {
-    resourceBaseURL: string;
-    resourceType: string;
-    resourceLanguage: string;
-}
+	resourceBaseURL: string;
+	resourceType: string;
+	resourceLanguage: string;
+};
 
 export interface SourceTextAccessor {
-    setSourceTextResource(resourceType: string, resourceLanguage: string): void
-    getSourceText(bookName: string, chapter: number | string): Promise<AlignedVerse[]>;
+	setSourceTextResource(resourceType: string, resourceLanguage: string): void;
+	getSourceText(
+		bookName: string,
+		chapter: number | string,
+	): Promise<AlignedVerse[]>;
 }
 
 export interface SourceTextFetcher {
-    sourceTextResource: SourceTextResource; 
+	sourceTextResource: SourceTextResource;
 
-    fetchSourceText(bookName: string) : Promise<string | undefined>
-    parseSourceText(sourceText: string, chapter: number) : AlignedVerse[];
+	fetchSourceText(bookName: string): Promise<string | undefined>;
+	parseSourceText(sourceText: string, chapter: number): AlignedVerse[];
 }
 
 export class SourceTextAccessorFactory {
-    private osisAccessor = new OsisEnUlbAccessor("ulb", "en");
-    private door43Accessor = new Door43UsfmAccessor("", "");
-    private wacsAccessor = new WacsXmlAccessor("ulb", "en");
+	private osisAccessor = new OsisEnUlbAccessor("ulb", "en");
+	private door43Accessor = new Door43UsfmAccessor("", "");
+	private wacsAccessor = new WacsXmlAccessor("ulb", "en");
 
-    getSourceTextAccessor(resourceType: string, resourceLanguage: string) : SourceTextAccessor {
-        if(resourceType.toLocaleLowerCase() == "ulb") {
-            return this.wacsAccessor; 
-        }
+	getSourceTextAccessor(
+		resourceType: string,
+		resourceLanguage: string,
+	): SourceTextAccessor {
+		if (resourceType.toLocaleLowerCase() === "ulb") {
+			return this.wacsAccessor;
+		}
 
-        this.door43Accessor.setSourceTextResource(resourceType, resourceLanguage)
-        return this.door43Accessor;
-    }
+		this.door43Accessor.setSourceTextResource(resourceType, resourceLanguage);
+		return this.door43Accessor;
+	}
 }
- 

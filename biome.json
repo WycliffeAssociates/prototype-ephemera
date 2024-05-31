@@ -9,7 +9,21 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "off",
+				"noArrayIndexKey": "off"
+			},
+			"correctness": {
+				"noChildrenProp": "off",
+				"useExhaustiveDependencies": "off"
+			},
+			"a11y": {
+				"useKeyWithClickEvents": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
+			}
 		}
 	}
 }

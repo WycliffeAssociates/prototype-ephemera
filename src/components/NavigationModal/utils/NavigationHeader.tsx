@@ -1,25 +1,19 @@
-import Grid from "@mui/material/Grid";
+import { ArrowBack as ArrowBackIcon } from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import { ArrowBack as ArrowBackIcon} from "@mui/icons-material";
+import Grid from "@mui/material/Grid";
 
 interface NavigationHeaderProps {
 	onClick?: (params?: any) => void;
 }
 
-export function NavigationHeader({
-	onClick,
-}: NavigationHeaderProps) {
+export function NavigationHeader({ onClick }: NavigationHeaderProps) {
 	return (
 		<>
 			<Grid item xs={8}>
 				<h3 className="BannerHeader">Navigation</h3>
 			</Grid>
 
-			<Grid
-				item
-				xs={2}
-				style={{ margin: "auto" }}
-			>
+			<Grid item xs={2} style={{ margin: "auto" }}>
 				<Button
 					onClick={onClick}
 					variant="outlined"

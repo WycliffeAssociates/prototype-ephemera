@@ -1,20 +1,18 @@
-import { ULBSettingsOption } from "../../../types";
+import type { ULBSettingsOption } from "../../../types";
 
-export function mapValidULBSettings(
-	ULBSettings: ULBSettingsOption[]
-): { verseStyles: any; wordStyles: any } {
-	let overwriteStyle: any = {
+export function mapValidULBSettings(ULBSettings: ULBSettingsOption[]): {
+	verseStyles: any;
+	wordStyles: any;
+} {
+	const overwriteStyle: any = {
 		verseStyles: {},
 		wordStyles: {},
 	};
 
 	ULBSettings.forEach((setting: any) => {
-		let styleValue: string = "";
-		let styleUnit: string = "";
-		if (
-			setting?.styleOverrideKey &&
-			setting.value !== undefined
-		) {
+		let styleValue = "";
+		let styleUnit = "";
+		if (setting?.styleOverrideKey && setting.value !== undefined) {
 			styleValue = setting?.styleOverrideValue
 				? setting.styleOverrideValue
 				: setting.value;
@@ -23,15 +21,15 @@ export function mapValidULBSettings(
 
 		if (setting.level === "word") {
 			overwriteStyle.wordStyles[setting.styleOverrideKey] =
-				"" + styleValue + styleUnit;
+				`${styleValue}${styleUnit}`;
 		} else if (setting.level === "verse") {
 			overwriteStyle.verseStyles[setting.styleOverrideKey] =
-				"" + styleValue + styleUnit;
+				`${styleValue}${styleUnit}`;
 		} else if (setting.level === "all") {
 			overwriteStyle.wordStyles[setting.styleOverrideKey] =
-				"" + styleValue + styleUnit;
+				`${styleValue}${styleUnit}`;
 			overwriteStyle.verseStyles[setting.styleOverrideKey] =
-				"" + styleValue + styleUnit;
+				`${styleValue}${styleUnit}`;
 		}
 	});
 
