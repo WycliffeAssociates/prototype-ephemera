@@ -34,7 +34,7 @@ export function VerseReferences({
 
 			if (
 				book !== referenceBook ||
-				chapter !== referenceChapter || 
+				chapter !== referenceChapter ||
 				referenceVerse !== greekWordverseNumber
 			) {
 				tempVerseReferences.push(reference);

@@ -4,11 +4,11 @@ import { SettingsProvider } from "./hooks/SettingsContext";
 import { useBookChapterParams } from "./hooks/useBookChapterParams";
 
 function App() {
-	const { navigateToMostRecentBookChapter, book, chapter } = useBookChapterParams();
+	const { navigateToMostRecentBookChapter, book, chapter } =
+		useBookChapterParams();
 
 	useEffect(() => {
-		if(!book || !chapter)
-		navigateToMostRecentBookChapter();
+		if (!book || !chapter) navigateToMostRecentBookChapter();
 	}, [book, chapter, navigateToMostRecentBookChapter]);
 
 	return (
