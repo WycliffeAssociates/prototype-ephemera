@@ -320,7 +320,7 @@ export function useBookChapterParams() {
 		if (invalidParams.length > 0) {
 			resetInvalidQueryParameters();
 		}
-	}, [invalidParams]);
+	}, [invalidParams, resetInvalidQueryParameters]);
 
 	useEffect(() => {
 		if (book && chapter) {
