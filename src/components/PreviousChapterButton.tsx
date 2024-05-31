@@ -23,22 +23,22 @@ function PreviousChapterButton() {
 	const [show, setShow] = useState(true);
 	const { getBookChaptersParams, setValidBookChapterParams } =
 		useBookChapterParams();
-	const bookChapter = getBookChaptersParams();
+	const { book, chapter } = getBookChaptersParams();
 
 	useEffect(() => {
-		const currentChapter = Number.parseInt(bookChapter.chapter);
-		if (currentChapter === 1) {
+		const currentChapter = Number.parseInt(chapter);
+		if (book && currentChapter === 1) {
 			setShow(false);
 		} else if (!show) {
 			setShow(true);
 		}
-	}, [bookChapter.book, bookChapter.chapter]);
+	}, [book, chapter, show]);
 
 	const onClick = () => {
-		const newChapter = Number.parseInt(bookChapter.chapter) - 1;
-		if (bookChapter.book) {
+		const newChapter = Number.parseInt(chapter) - 1;
+		if (book) {
 			const newBookChapter = {
-				book: bookChapter.book,
+				book: book,
 				chapter: `${newChapter}`,
 			};
 			setValidBookChapterParams(newBookChapter, false);
