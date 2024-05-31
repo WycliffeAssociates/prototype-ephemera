@@ -18,6 +18,7 @@ export function useMorphologyParams() {
 		setMorphologyWord(undefined);
 	}
 
+	// TODO: remove this
 	function getMorphologyParams() {
 		return { morphologyWord: morphologyWord };
 	}
@@ -37,6 +38,7 @@ export function useMorphologyParams() {
 		setMorphologyParams: setMorphologyParams,
 		getMorphologyParams: getMorphologyParams,
 		removeMorphologyParams: removeMorphologyParams,
+		morphologyWord: morphologyWord,
 	};
 }
 

@@ -12,7 +12,7 @@ export function useInformationLayout() {
 		book,
 		chapter,
 	} = useBookChapterParams();
-	const { getMorphologyParams, removeMorphologyParams } = useMorphologyParams();
+	const { morphologyWord, removeMorphologyParams } = useMorphologyParams();
 	const [searchParams] = useSearchParams();
 
 	const [openGreekWordsDialog, setOpenGreekWordsDialog] = useState(false);
@@ -41,14 +41,12 @@ export function useInformationLayout() {
 
 	// Opens the morphology content depending on if query parameters are present
 	useEffect(() => {
-		const params = getMorphologyParams();
-
-		if (params.morphologyWord !== undefined) {
+		if (morphologyWord !== undefined) {
 			setOpenMorphologyDialog(true);
 		} else {
 			setOpenMorphologyDialog(false);
 		}
-	}, [getMorphologyParams().morphologyWord]);
+	}, [morphologyWord]);
 
 	function onMorphologyDialogClose() {
 		setOpenMorphologyDialog(false);
