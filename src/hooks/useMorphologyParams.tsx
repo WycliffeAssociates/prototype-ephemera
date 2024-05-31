@@ -31,7 +31,7 @@ export function useMorphologyParams() {
 				setMorphologyWord(undefined);
 			}
 		}
-	}, [searchParams.get("morphologyWord")]);
+	}, [searchParams.get, searchParams]);
 
 	return {
 		setMorphologyParams: setMorphologyParams,
