@@ -330,6 +330,12 @@ export function useBookChapterParams() {
 		getBookChaptersParams: getBookChaptersParams,
 		removeReferenceParams: removeReferenceParams,
 		navigateToMostRecentBookChapter: navigateToMostRecentBookChapter,
+		book: book,
+		chapter: chapter,
+		refBook: refBook,
+		refVerse: refVerse,
+		refWord: refWord,
+		refChapter: refChapter,
 	};
 }
 

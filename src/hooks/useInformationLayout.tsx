@@ -4,8 +4,14 @@ import useBookChapterParams from "./useBookChapterParams";
 import useMorphologyParams from "./useMorphologyParams";
 
 export function useInformationLayout() {
-	const { getBookChaptersParams, removeReferenceParams } =
-		useBookChapterParams();
+	const {
+		removeReferenceParams,
+		refBook,
+		refChapter,
+		refVerse,
+		book,
+		chapter,
+	} = useBookChapterParams();
 	const { getMorphologyParams, removeMorphologyParams } = useMorphologyParams();
 	const [searchParams] = useSearchParams();
 
@@ -19,29 +25,25 @@ export function useInformationLayout() {
 
 	// Opens the verse reference content depending on if query parameters are present
 	useEffect(() => {
-		const params = getBookChaptersParams();
-		const newRefBookChapter = {
-			refBook: params.refBook,
-			refChapter: params.refChapter,
-			refVerse: params.refVerse,
-			refWord: params.refWord,
-		};
-
-		if (newRefBookChapter.refBook && newRefBookChapter.refChapter) {
+		if (refBook && refChapter && refVerse) {
 			setOpenVerseReferenceDialog(true);
 		} else {
 			setOpenVerseReferenceDialog(false);
 		}
 	}, [
-		getBookChaptersParams,
 		setOpenVerseReferenceDialog,
 		setOpenVerseReferenceDialog,
+		refBook,
+		refChapter,
+		refVerse,
 	]);
 
 	// Opens the Tips dialog whenver the user navigates to a new book / chapter
 	useEffect(() => {
-		setOpenTipsDialog(true);
-	}, [getBookChaptersParams().book, getBookChaptersParams().chapter]);
+		if (book && chapter) {
+			setOpenTipsDialog(true);
+		}
+	}, [book, chapter]);
 
 	// Opens the morphology content depending on if query parameters are present
 	useEffect(() => {
