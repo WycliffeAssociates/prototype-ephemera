@@ -52,7 +52,7 @@ export function View() {
 			setTextViewSize(5);
 			setInformationPanelOpen(true);
 		}
-	}, []);
+	}, [windowSize.innerWidth]);
 
 	useEffect(() => {
 		if (windowSize.innerWidth < DESKTOP_BREAKPOINT) {
