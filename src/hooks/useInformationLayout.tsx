@@ -13,7 +13,6 @@ export function useInformationLayout() {
 
 	const [openVerseReferenceDialog, setOpenVerseReferenceDialog] =
 		useState(false);
-	const [refBookChapter, setRefBookChapter] = useState<any>({});
 
 	const [openMorphologyDialog, setOpenMorphologyDialog] = useState(false);
 	const [openTipsDialog, setOpenTipsDialog] = useState(false);
@@ -28,20 +27,15 @@ export function useInformationLayout() {
 			refWord: params.refWord,
 		};
 
-		if (
-			newRefBookChapter.refBook !== undefined &&
-			newRefBookChapter.refChapter !== undefined
-		) {
+		if (newRefBookChapter.refBook && newRefBookChapter.refChapter) {
 			setOpenVerseReferenceDialog(true);
 		} else {
 			setOpenVerseReferenceDialog(false);
 		}
-
-		setRefBookChapter({ ...newRefBookChapter });
 	}, [
-		getBookChaptersParams().refBook,
-		getBookChaptersParams().refChapter,
-		getBookChaptersParams().refVerse,
+		getBookChaptersParams,
+		setOpenVerseReferenceDialog,
+		setOpenVerseReferenceDialog,
 	]);
 
 	// Opens the Tips dialog whenver the user navigates to a new book / chapter
