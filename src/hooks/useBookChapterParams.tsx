@@ -307,14 +307,10 @@ export function useBookChapterParams() {
 	}
 
 	useEffect(() => {
-		setStatesToQueryParams();
-	}, [
-		setStatesToQueryParams,
-		searchParams,
-		searchParams.get("book"),
-		searchParams.get("chapter"),
-		searchParams.get("refBook"),
-	]);
+		if (searchParams) {
+			setStatesToQueryParams();
+		}
+	}, [setStatesToQueryParams, searchParams]);
 
 	useEffect(() => {
 		if (invalidParams.length > 0) {
