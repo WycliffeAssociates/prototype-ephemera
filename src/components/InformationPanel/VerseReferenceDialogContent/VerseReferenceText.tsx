@@ -3,7 +3,7 @@ import useBookChapterParams from "src/hooks/useBookChapterParams";
 import useSourceTextResourceParams from "src/hooks/useSourceTextResourceParams";
 import { useSettings } from "../../../hooks/SettingsContext";
 import useChapterVerseData from "../../../hooks/useChapterVerseData";
-import type { AlignedText, GreekAlignmentData } from "../../../types";
+import type { AlignedText } from "../../../types";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
 
 export function VerseReferenceText() {
@@ -23,19 +23,17 @@ export function VerseReferenceText() {
 
 	const { GWTSettings } = useSettings();
 
-	function checkGreekWordsForReference(greekWords: GreekAlignmentData[]) {
-		return greekWords?.some(
-			(greekWordAlignmentData) => greekWordAlignmentData.strong === refWord,
-		);
-	}
-
-	function checkForReferences(verseWord: AlignedText) {
-		if (verseWord.greekAlignmentData) {
-			return checkGreekWordsForReference(verseWord.greekAlignmentData);
-		}
-	}
-
 	useEffect(() => {
+
+		function checkForReferences(verseWord: AlignedText) {
+			if (verseWord.greekAlignmentData) {
+
+				return verseWord.greekAlignmentData?.some(
+					(greekWordAlignmentData) => greekWordAlignmentData.strong === refWord,
+				);
+			}
+		}
+
 		const tempVerseOutput: any[] = [];
 		const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 		verses.forEach((verse, verseIdx) => {
@@ -110,7 +108,7 @@ export function VerseReferenceText() {
 			tempVerseOutput.push(tempVerse);
 		});
 		setVerseOutput([...tempVerseOutput]);
-	}, [verses, GWTSettings]);
+	}, [verses, GWTSettings, refVerse]);
 
 	useEffect(() => {
 		if (verseRef != null && verseRef.current != null) {
