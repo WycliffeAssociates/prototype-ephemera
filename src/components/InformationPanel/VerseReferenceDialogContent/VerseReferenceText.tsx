@@ -110,7 +110,7 @@ export function VerseReferenceText() {
 			tempVerseOutput.push(tempVerse);
 		});
 		setVerseOutput([...tempVerseOutput]);
-	}, [verses, GWTSettings, mapValidGWTSettings]);
+	}, [verses, GWTSettings]);
 
 	useEffect(() => {
 		if (verseRef != null && verseRef.current != null) {
