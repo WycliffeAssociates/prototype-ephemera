@@ -39,7 +39,7 @@ export function ContinueReadingButton({
 			}
 			resizeObserver.disconnect();
 		};
-	}, []);
+	}, [containerRef.current]);
 
 	useEffect(() => {
 		if (containerRef?.current) {
