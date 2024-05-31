@@ -22,7 +22,6 @@ export function VerseReferenceText() {
 	const verseRef = useRef<HTMLSpanElement>(null);
 
 	const { GWTSettings } = useSettings();
-	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
 	function checkGreekWordsForReference(greekWords: GreekAlignmentData[]) {
 		return greekWords?.some(
@@ -110,9 +109,8 @@ export function VerseReferenceText() {
 			);
 			tempVerseOutput.push(tempVerse);
 		});
-
 		setVerseOutput([...tempVerseOutput]);
-	}, [verses, GWTSettings, overwriteStyle, mapValidGWTSettings]);
+	}, [verses, GWTSettings, mapValidGWTSettings]);
 
 	useEffect(() => {
 		if (verseRef != null && verseRef.current != null) {
