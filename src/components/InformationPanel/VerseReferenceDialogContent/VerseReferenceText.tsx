@@ -38,7 +38,7 @@ export function VerseReferenceText() {
 
 	useEffect(() => {
 		const tempVerseOutput: any[] = [];
-
+		const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 		verses.forEach((verse, verseIdx) => {
 			const verseWordOutput: any[] = [];
 
@@ -112,7 +112,7 @@ export function VerseReferenceText() {
 		});
 
 		setVerseOutput([...tempVerseOutput]);
-	}, [verses, GWTSettings]);
+	}, [verses, GWTSettings, overwriteStyle, mapValidGWTSettings]);
 
 	useEffect(() => {
 		if (verseRef != null && verseRef.current != null) {
