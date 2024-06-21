@@ -21,8 +21,6 @@ function GreekWordInfo({
 		[],
 	);
 
-	const [greekWordsContent, setGreekWordsContent] = useState<any[]>([]);
-
 	useEffect(() => {
 		(async () => {
 			const greekWordMarkDown = await getGreekWord(currentGreekWord.strong);
@@ -42,24 +40,7 @@ function GreekWordInfo({
 		})();
 	}, [currentGreekWord]);
 
-	useEffect(() => {
-		const greekWords: any[] = [];
-
-		greekWordsState.forEach((greekWordState, idx: number) => {
-			greekWords.push(
-				<WordContent
-					wordNumber={idx}
-					greekWordState={greekWordState}
-					showMoreOptions={showMoreOptions}
-					containerRef={containerRef}
-				/>,
-			);
-		});
-
-		setGreekWordsContent([...greekWords]);
-	}, [containerRef, greekWordsState, showMoreOptions]);
-
-	if (greekWordsContent.length === 0) {
+	if (greekWordsState.length === 0) {
 		return (
 			<>
 				<Grid container spacing={0} direction="row" style={{ padding: "0px" }}>
@@ -71,7 +52,16 @@ function GreekWordInfo({
 			</>
 		);
 	}
-	return <>{greekWordsContent}</>;
+	return <>
+		{greekWordsState.map((greekWordState, idx: number) => {
+				return (<WordContent
+					wordNumber={idx}
+					greekWordState={greekWordState}
+					showMoreOptions={showMoreOptions}
+					containerRef={containerRef}
+				/>)
+		})}
+	</>;
 }
 
 export default GreekWordInfo;
