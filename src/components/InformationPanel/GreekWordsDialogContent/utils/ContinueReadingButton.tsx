@@ -107,8 +107,9 @@ export function ContinueReadingButton({
 	return (
 		<div id="continueReadingBtn">
 			{showContinueReadingButton ? (
+
+				// Figure out what Aby wants to do here
 				<Button
-					onClick={() => console.log("Figure out what Aby wants to do here")}
 					variant="text"
 					style={{
 						position: "fixed",

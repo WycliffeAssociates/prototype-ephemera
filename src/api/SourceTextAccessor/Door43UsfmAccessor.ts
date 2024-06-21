@@ -157,9 +157,12 @@ export class Door43UsfmAccessor
 	}
 
 	private getStrongs(str: string) {
+		// Matches on strongs numbers in the form of "gX" or "GX" where X is a number with 1 or more digits
+		// like: "g2200", "G111", and "g5" 
 		const regex = /\b[Gg]\d+\b/;
 		const match = str.match(regex);
 
+		// Removes trailing 0 if it present. 
 		if (match) {
 			const extracted = match[0];
 			if (
