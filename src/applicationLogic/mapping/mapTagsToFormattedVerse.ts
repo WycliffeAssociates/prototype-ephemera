@@ -168,21 +168,21 @@ function mapVerseWord(
 }
 
 function mapNotes(notes: NoteTag[] | undefined) {
-	let tempGreekWordNotes: any = {};
-	if (notes !== undefined) {
-		let notesArray: any[] = [];
-		if (!Array.isArray(notes)) {
-			notesArray = [notes];
+	let result: any = {};
+	let tempNotes = notes;
+	if (tempNotes !== undefined) {
+		if (!Array.isArray(tempNotes)) {
+			tempNotes = [tempNotes];
 		}
 
-		notesArray.forEach((e) => {
+		tempNotes.forEach((e) => {
 			const greekWordNoteKey: ValidGreekWordNoteKeys = e.ATTR.type;
 			const greekWordNoteValue: string = e._text;
-			tempGreekWordNotes[greekWordNoteKey.slice(2)] = greekWordNoteValue;
+			result[greekWordNoteKey.slice(2)] = greekWordNoteValue;
 		});
-		tempGreekWordNotes = tempGreekWordNotes as GreekWordNotes;
+		result = result as GreekWordNotes;
 	}
-	return tempGreekWordNotes;
+	return result;
 }
 
 function mapConsecutivePhraseWords(
