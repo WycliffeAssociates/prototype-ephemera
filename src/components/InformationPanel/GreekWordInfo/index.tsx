@@ -5,6 +5,7 @@ import getGreekWord from "../../../api/gwtUtils";
 import mapGWTMarkdown from "../../../applicationLogic/mapping/mapGWTMarkdown";
 import type { FormattedGreekWord, GreekAlignmentData } from "../../../types";
 import { WordContent } from "./utils/WordContent";
+import React from "react";
 
 interface GreekWordInfoProps {
 	currentGreekWord: GreekAlignmentData;
@@ -42,14 +43,14 @@ function GreekWordInfo({
 
 	if (greekWordsState.length === 0) {
 		return (
-			<>
+			<React.Fragment>
 				<Grid container spacing={0} direction="row" style={{ padding: "0px" }}>
 					<span style={{ paddingTop: "50%" }}>
 						Requested word with Strong number {currentGreekWord.strong} cannot
 						be found.
 					</span>
 				</Grid>
-			</>
+			</React.Fragment>
 		);
 	}
 	return <>
