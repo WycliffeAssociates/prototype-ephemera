@@ -1,11 +1,11 @@
 import Grid from "@mui/material/Grid";
 import "../../../App.css";
 import { type MutableRefObject, useEffect, useState } from "react";
+import React from "react";
 import getGreekWord from "../../../api/gwtUtils";
 import mapGWTMarkdown from "../../../applicationLogic/mapping/mapGWTMarkdown";
 import type { FormattedGreekWord, GreekAlignmentData } from "../../../types";
 import { WordContent } from "./utils/WordContent";
-import React from "react";
 
 interface GreekWordInfoProps {
 	currentGreekWord: GreekAlignmentData;
@@ -53,16 +53,21 @@ function GreekWordInfo({
 			</React.Fragment>
 		);
 	}
-	return <>
-		{greekWordsState.map((greekWordState, idx: number) => {
-				return (<WordContent
-					wordNumber={idx}
-					greekWordState={greekWordState}
-					showMoreOptions={showMoreOptions}
-					containerRef={containerRef}
-				/>)
-		})}
-	</>;
+	return (
+		<>
+			{greekWordsState.map((greekWordState, idx: number) => {
+				return (
+					<WordContent
+						key={`InformationPanel__GreekWordInfo__WordContent${idx}`}
+						wordNumber={idx}
+						greekWordState={greekWordState}
+						showMoreOptions={showMoreOptions}
+						containerRef={containerRef}
+					/>
+				);
+			})}
+		</>
+	);
 }
 
 export default GreekWordInfo;

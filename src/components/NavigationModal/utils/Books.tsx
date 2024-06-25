@@ -16,7 +16,7 @@ function Book({ bookData, handleClick, isCurrentBook }: BookProps) {
 	const bookRef = useRef<null | HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (!!isCurrentBook) {
+		if (isCurrentBook) {
 			handleClick(bookRef);
 		}
 	}, [isCurrentBook]);
