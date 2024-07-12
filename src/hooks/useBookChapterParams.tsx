@@ -239,7 +239,6 @@ export function useBookChapterParams() {
 		setRefWord(undefined);
 	}
 
-	// TODO: remove this
 	function getBookChaptersParams() {
 		return {
 			book: book,

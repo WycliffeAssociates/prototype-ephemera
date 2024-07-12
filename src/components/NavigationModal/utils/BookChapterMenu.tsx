@@ -56,7 +56,6 @@ function BookChapterMenu({
 		if (clickedBookElement !== null && clickedBookElement !== undefined) {
 			scrollableParent?.scrollTo(0, clickedBookElement.offsetTop - 70);
 		}
-		// TODO: have this not run every re-render
 	});
 
 	function onBookClick(newBook: null | HTMLDivElement) {

@@ -18,7 +18,6 @@ export function useMorphologyParams() {
 		setMorphologyWord(undefined);
 	}
 
-	// TODO: remove this
 	function getMorphologyParams() {
 		return { morphologyWord: morphologyWord };
 	}
