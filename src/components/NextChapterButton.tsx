@@ -1,11 +1,11 @@
-import Fab from "@mui/material/Fab";
-import Box from "@mui/material/Box";
 import { ChevronRight as ChevronRightIcon } from "@mui/icons-material";
-import useBookChapterParams from "../hooks/useBookChapterParams";
-import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { books } from "../applicationLogic/data/newTestamentMetadata";
+import Fab from "@mui/material/Fab";
+import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
+import { books } from "../applicationLogic/data/newTestamentMetadata";
+import useBookChapterParams from "../hooks/useBookChapterParams";
 
 const DesktopNextChapterButton = styled(Button)({
 	height: 48,
@@ -22,41 +22,36 @@ const DesktopNextChapterButton = styled(Button)({
 
 function NextChapterButton() {
 	const [show, setShow] = useState(true);
-	const {
-		getBookChaptersParams,
-		setValidBookChapterParams,
-	} = useBookChapterParams();
-	let bookChapter = getBookChaptersParams();
+	const { getBookChaptersParams, setValidBookChapterParams } =
+		useBookChapterParams();
+	const bookChapter = getBookChaptersParams();
 
 	useEffect(() => {
-		if(bookChapter.book) {
-			let currentChapter = parseInt(bookChapter.chapter);
-			let chapterMax = books[bookChapter.book].numChapters;
-			
-			if(currentChapter === chapterMax) {
-				setShow(false)
-			} else if(!show) {
+		if (bookChapter.book) {
+			const currentChapter = Number.parseInt(bookChapter.chapter);
+			const chapterMax = books[bookChapter.book].numChapters;
+
+			if (currentChapter === chapterMax) {
+				setShow(false);
+			} else if (!show) {
 				setShow(true);
 			}
 		}
-	}, [bookChapter.book, bookChapter.chapter])
+	}, [bookChapter.book, bookChapter.chapter]);
 
 	const onClick = () => {
-		let newChapter = parseInt(bookChapter.chapter) + 1;
-		if(bookChapter.book) {
-			let newBookChapter = {
+		const newChapter = Number.parseInt(bookChapter.chapter) + 1;
+		if (bookChapter.book) {
+			const newBookChapter = {
 				book: bookChapter.book,
-				chapter: newChapter + ""
-			}
-			setValidBookChapterParams(
-				newBookChapter,
-				false
-			);
+				chapter: `${newChapter}`,
+			};
+			setValidBookChapterParams(newBookChapter, false);
 		}
 	};
 
-	if(!show) {
-		return <></>
+	if (!show) {
+		return <></>;
 	}
 	return (
 		<>
@@ -83,7 +78,7 @@ function NextChapterButton() {
 					}}
 					onClick={onClick}
 				>
-					<ChevronRightIcon/>
+					<ChevronRightIcon />
 				</Fab>
 			</Box>
 

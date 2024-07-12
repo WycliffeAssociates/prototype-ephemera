@@ -1,64 +1,33 @@
-import { useState } from "react";
-import Grid from "@mui/material/Grid";
 import Dialog from "@mui/material/Dialog";
-import { FormattedGreekWord } from "../../types";
-import { useBookChapterParams } from "../../hooks/useBookChapterParams";
+import Grid from "@mui/material/Grid";
+import { useInformationLayout } from "src/hooks/useInformationLayout";
+import useMorphologyParams from "../../hooks/useMorphologyParams";
+import type { AlignedText } from "../../types";
 import MorphologyDialogContent from "../InformationPanel/MorphologyDialogContent";
 import VerseReferenceDialogContent from "../InformationPanel/VerseReferenceDialogContent";
-import { useEffect } from "react";
-import useMorphologyParams from "../../hooks/useMorphologyParams";
-import { Header } from "./utils/Header";
 import { GreekWordsContent } from "./utils/GreekWordsContent";
-import { useInformationLayout } from "src/hooks/useInformationLayout";
-import useGreekWordsParams from "src/hooks/useGreekWordsParams";
-
+import { Header } from "./utils/Header";
 
 interface InformationWindowProps {
-	greekWords: FormattedGreekWord[];
+	alignedText: AlignedText;
 	open: boolean;
 	onClose: () => any;
 }
 
 function InformationWindow({
-	greekWords,
+	alignedText,
 	open,
 	onClose,
 }: InformationWindowProps) {
-
-	const { 
-		openMorphologyDialog, 
-		openGreekWordsDialog, 
-		openVerseReferenceDialog, 
-		onVerseReferenceClose, 
-		onMorphologyDialogClose  
+	const {
+		openMorphologyDialog,
+		openGreekWordsDialog,
+		openVerseReferenceDialog,
+		onVerseReferenceClose,
+		onMorphologyDialogClose,
 	} = useInformationLayout();
 
-	const { refBook, refChapter, refVerse, refWord } = useBookChapterParams().getBookChaptersParams();
-	const [refBookChapter, setRefBookChapter] = useState<any>(
-		{}
-	);
-
-	const { getMorphologyParams } =
-	useMorphologyParams();
-
-	const { showGreekWords } = useGreekWordsParams();
-
-	useEffect(() => {
-		if (
-			refBook !== undefined &&
-			refChapter !== undefined
-		) {
-			let newRefBookChapter = {
-				refBook: refBook,
-				refChapter: refChapter,
-				refVerse: refVerse,
-				refWord: refWord
-			}
-			setRefBookChapter({ ...newRefBookChapter });
-		}
-
-	}, [refBook, refChapter, refVerse, refWord]);
-
+	const { getMorphologyParams } = useMorphologyParams();
 
 	return (
 		<>
@@ -72,10 +41,7 @@ function InformationWindow({
 				>
 					<Header
 						onClose={onClose}
-						show={
-							!openVerseReferenceDialog &&
-							!openMorphologyDialog
-						}
+						show={!openVerseReferenceDialog && !openMorphologyDialog}
 					/>
 
 					<Grid
@@ -84,32 +50,32 @@ function InformationWindow({
 						id="InformationWindow"
 						style={{ padding: "0px 0px 40px 0px" }}
 					>
-						{openGreekWordsDialog ?
-							<GreekWordsContent
-								greekWords={greekWords}
-								onClose={onClose}
-							/>
-						: <></>}
+						{openGreekWordsDialog ? (
+							<GreekWordsContent alignedText={alignedText} onClose={onClose} />
+						) : (
+							<></>
+						)}
 
-						{openVerseReferenceDialog ? 
+						{openVerseReferenceDialog ? (
 							<VerseReferenceDialogContent
 								open={openVerseReferenceDialog}
 								onClose={onVerseReferenceClose}
-								refBookChapterVerse={refBookChapter}
 								fullScreen={true}
 							/>
-						: <></>}
+						) : (
+							<></>
+						)}
 
-						{openMorphologyDialog ? 
+						{openMorphologyDialog ? (
 							<MorphologyDialogContent
 								open={openMorphologyDialog}
 								onClose={onMorphologyDialogClose}
 								fullScreen={true}
-								morphologyWord={
-									getMorphologyParams().morphologyWord
-								}
+								morphologyWord={getMorphologyParams().morphologyWord}
 							/>
-						:<></>}
+						) : (
+							<></>
+						)}
 					</Grid>
 				</Grid>
 			</Dialog>

@@ -1,68 +1,45 @@
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { FormattedGreekWord } from "../../types";
-import TipsDialogContent from "./TipsDialogContent";
-import MorphologyDialogContent from "./MorphologyDialogContent";
-import VerseReferenceDialogContent from "./VerseReferenceDialogContent";
+import Grid from "@mui/material/Grid";
+import type { AlignedText } from "src/types";
 import { useBookChapterParams } from "../../hooks/useBookChapterParams";
-import { useState, useEffect } from "react";
-import useMorphologyParams from "../../hooks/useMorphologyParams";
-import BannerMessage from "./GreekWordsDialogContent/utils/BannerMessage";
-import GreekWordsDialogContent from "./GreekWordsDialogContent";
 import { useInformationLayout } from "../../hooks/useInformationLayout";
+import useMorphologyParams from "../../hooks/useMorphologyParams";
+import GreekWordsDialogContent from "./GreekWordsDialogContent";
+import BannerMessage from "./GreekWordsDialogContent/utils/BannerMessage";
+import MorphologyDialogContent from "./MorphologyDialogContent";
+import TipsDialogContent from "./TipsDialogContent";
+import VerseReferenceDialogContent from "./VerseReferenceDialogContent";
 
 interface GreekWordsDialogProps {
-	open: Boolean;
+	open: boolean;
 	onClose?: () => void;
-	greekWords: FormattedGreekWord[];
+	alignedText?: AlignedText;
 }
 
 function InformationPanel({
 	open,
 	onClose,
-	greekWords,
+	alignedText,
 }: GreekWordsDialogProps) {
-	
-	const { 
-		openMorphologyDialog, 
-		openGreekWordsDialog, 
-		openTipsDialog, 
-		openVerseReferenceDialog, 
-		onVerseReferenceClose, 
-		onMorphologyDialogClose  
+	const {
+		openMorphologyDialog,
+		openGreekWordsDialog,
+		openTipsDialog,
+		openVerseReferenceDialog,
+		onVerseReferenceClose,
+		onMorphologyDialogClose,
 	} = useInformationLayout();
 
-	const { refBook, refChapter, refVerse, refWord } = useBookChapterParams().getBookChaptersParams();
-	const [refBookChapter, setRefBookChapter] = useState<any>(
-		{}
-	);
-	
-	const { getMorphologyParams } =
-		useMorphologyParams();
+	const { refBook, refChapter, refVerse, refWord } =
+		useBookChapterParams().getBookChaptersParams();
 
-
-	useEffect(() => {
-		if (
-			refBook !== undefined &&
-			refChapter !== undefined
-		) {
-			let newRefBookChapter = {
-				refBook: refBook,
-				refChapter: refChapter,
-				refVerse: refVerse,
-				refWord: refWord
-			}
-			setRefBookChapter({ ...newRefBookChapter });
-		}
-
-	}, [refBook, refChapter, refVerse, refWord]);
-
+	const { getMorphologyParams } = useMorphologyParams();
 
 	return (
 		<>
-			{openGreekWordsDialog ? (
+			{openGreekWordsDialog && alignedText ? (
 				<Grid item xs={12}>
-					<BannerMessage greekWords={greekWords} />
+					<BannerMessage alignedText={alignedText} />
 				</Grid>
 			) : (
 				""
@@ -80,41 +57,42 @@ function InformationPanel({
 			>
 				<Grid container direction="row">
 					<Grid item lg={12} xl={12} md={12}>
-						{openTipsDialog ? 
-							<TipsDialogContent open={openTipsDialog} onClose={onClose}/>
-						: <></>}
+						{openTipsDialog ? (
+							<TipsDialogContent open={openTipsDialog} onClose={onClose} />
+						) : (
+							<></>
+						)}
 
-						{openVerseReferenceDialog ? 
+						{openVerseReferenceDialog ? (
 							<VerseReferenceDialogContent
-								open={
-									openVerseReferenceDialog
-								}
+								open={openVerseReferenceDialog}
 								onClose={onVerseReferenceClose}
-								refBookChapterVerse={refBookChapter}
 								fullScreen={false}
 							/>
-						: <></>}
+						) : (
+							<></>
+						)}
 
-						{openGreekWordsDialog ? 
+						{openGreekWordsDialog && alignedText ? (
 							<GreekWordsDialogContent
 								open={true}
 								onClose={onClose}
-								greekWords={greekWords}
+								alignedText={alignedText}
 							/>
-						: <></>}
+						) : (
+							<></>
+						)}
 
-						{openMorphologyDialog ? 
+						{openMorphologyDialog ? (
 							<MorphologyDialogContent
-							open={
-								openMorphologyDialog
-							}
-							onClose={onMorphologyDialogClose}
-							fullScreen={false}
-							morphologyWord={
-								getMorphologyParams().morphologyWord
-							}
-						/>
-						: <></>}
+								open={openMorphologyDialog}
+								onClose={onMorphologyDialogClose}
+								fullScreen={false}
+								morphologyWord={getMorphologyParams().morphologyWord}
+							/>
+						) : (
+							<></>
+						)}
 					</Grid>
 				</Grid>
 			</Box>

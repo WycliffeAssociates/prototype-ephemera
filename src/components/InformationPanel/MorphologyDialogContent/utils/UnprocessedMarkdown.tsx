@@ -6,12 +6,9 @@ interface unprocessedMarkdownProps {
 	markdown: string;
 }
 
-function UnprocessedMarkdown({
-	markdown,
-}: unprocessedMarkdownProps) {
+function UnprocessedMarkdown({ markdown }: unprocessedMarkdownProps) {
 	const { GWTSettings } = useSettings();
-	let overwriteStyle: any =
-		mapValidGWTSettings(GWTSettings);
+	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
 	if (markdown !== undefined) {
 		return (
@@ -27,14 +24,10 @@ function UnprocessedMarkdown({
 					components={{
 						h1: ({ node, ...props }) => <></>,
 						h2: ({ node, ...props }) => (
-							<h3 style={{ ...overwriteStyle }}>
-								{props.children}
-							</h3>
+							<h3 style={{ ...overwriteStyle }}>{props.children}</h3>
 						),
 						h3: ({ node, ...props }) => (
-							<h4 style={{ ...overwriteStyle }}>
-								{props.children}
-							</h4>
+							<h4 style={{ ...overwriteStyle }}>{props.children}</h4>
 						),
 						ul: ({ node, ...props }) => (
 							<ul
@@ -77,9 +70,8 @@ function UnprocessedMarkdown({
 				/>
 			</div>
 		);
-	} else {
-		return <></>;
 	}
+	return <></>;
 }
 
 export default UnprocessedMarkdown;

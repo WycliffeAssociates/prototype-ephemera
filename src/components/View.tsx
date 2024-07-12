@@ -1,33 +1,31 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../App.css";
+import { ClickAwayListener } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import React from "react";
+import { useLocation } from "react-router-dom";
+import useGreekWordsParams from "src/hooks/useGreekWordsParams";
+import InformationPanel from "../components/InformationPanel";
+import { DESKTOP_BREAKPOINT } from "../constants";
+import useWindowSize from "../hooks/useWindowSize";
+import ChapterNavigationBar from "./ChapterNavigationBar";
+import InformationWindow from "./InformationWindow";
+import BookChapterMenu from "./NavigationModal/utils/BookChapterMenu";
+import { NavigationHeader } from "./NavigationModal/utils/NavigationHeader";
 import NextChapterButton from "./NextChapterButton";
 import PreviousChapterButton from "./PreviousChapterButton";
 import TextView from "./TextView";
-import InformationPanel from "../components/InformationPanel";
-import useWindowSize from "../hooks/useWindowSize";
 import { ViewHeader } from "./ViewHeader";
-import BookChapterMenu from "./NavigationModal/utils/BookChapterMenu";
-import ChapterNavigationBar from "./ChapterNavigationBar";
-import { useLocation } from "react-router-dom";
-import { NavigationHeader } from "./NavigationModal/utils/NavigationHeader";
-import { ClickAwayListener } from "@mui/material";
-import InformationWindow from "./InformationWindow";
-import { DESKTOP_BREAKPOINT } from "../constants";
-import useGreekWordsParams from "src/hooks/useGreekWordsParams";
 
 export function View() {
-	const [textViewSize, setTextViewSize] =
-		useState(10);
+	const [textViewSize, setTextViewSize] = useState(10);
 	const windowSize = useWindowSize([]);
-	const { greekWords, showGreekWords, removeAllParams, setShowGreekWordsParams } =
-		useGreekWordsParams();
-	const [informationPanelOpen, setInformationPanelOpen] =
-		useState(false);
-	const [informationWindowOpen, setInformationWindowOpen] =
-		useState(false);
-	const [defaultNavigationTab, setDefaultNavigationTab] =
-		useState<"Books" | "Chapters">("Books");
+	const { greekWords, showGreekWords, removeAllParams } = useGreekWordsParams();
+	const [informationPanelOpen, setInformationPanelOpen] = useState(false);
+	const [informationWindowOpen, setInformationWindowOpen] = useState(false);
+	const [defaultNavigationTab, setDefaultNavigationTab] = useState<
+		"Books" | "Chapters"
+	>("Books");
 	const { search } = useLocation();
 	const desktopTextWidthMax = 10;
 	const mobileTextWidthMax = 12;
@@ -69,12 +67,9 @@ export function View() {
 		setInformationWindowOpen(false);
 	}
 
-	const [navigationModalOpen, setNavigationModalOpen] =
-		useState(false);
+	const [navigationModalOpen, setNavigationModalOpen] = useState(false);
 
-	const onNavBarClick = (
-		defaultOpenTab?: "Books" | "Chapters"
-	) => {
+	const onNavBarClick = (defaultOpenTab?: "Books" | "Chapters") => {
 		if (defaultOpenTab !== undefined) {
 			setDefaultNavigationTab(defaultOpenTab);
 		}
@@ -97,12 +92,8 @@ export function View() {
 				justifyContent="center"
 				alignItems="flex-start"
 			>
-				<Grid
-					container
-					style={{ borderBottom: "2px solid #E5E8EB" }}
-				>
-					{navigationModalOpen &&
-					windowSize.innerWidth < DESKTOP_BREAKPOINT ? (
+				<Grid container style={{ borderBottom: "2px solid #E5E8EB" }}>
+					{navigationModalOpen && windowSize.innerWidth < DESKTOP_BREAKPOINT ? (
 						""
 					) : (
 						<ViewHeader
@@ -120,9 +111,7 @@ export function View() {
 						id="BookChapterMenuContainer"
 					>
 						<Grid id="BookChapterMenu" container>
-							<ClickAwayListener
-								onClickAway={onNavigationModalClose}
-							>
+							<ClickAwayListener onClickAway={onNavigationModalClose}>
 								<div
 									style={{
 										width: "100%",
@@ -138,9 +127,7 @@ export function View() {
 									>
 										{navigationModalOpen &&
 										windowSize.innerWidth < DESKTOP_BREAKPOINT ? (
-											<NavigationHeader
-												onClick={onNavigationModalClose}
-											/>
+											<NavigationHeader onClick={onNavigationModalClose} />
 										) : (
 											""
 										)}
@@ -180,18 +167,10 @@ export function View() {
 									height: "0px",
 								}}
 							>
-								<Grid
-									item
-									xs={12}
-								>
-									<ChapterNavigationBar
-										onClick={onNavBarClick}
-									/>
+								<Grid item xs={12}>
+									<ChapterNavigationBar onClick={onNavBarClick} />
 								</Grid>
-								<Grid
-									item
-									xs={12}
-								>
+								<Grid item xs={12}>
 									<TextView />
 								</Grid>
 							</Grid>
@@ -204,16 +183,10 @@ export function View() {
 								}}
 								alignItems="flex-end"
 							>
-								<Grid
-									item
-									xs={6}
-								>
+								<Grid item xs={6}>
 									<PreviousChapterButton />
 								</Grid>
-								<Grid
-									item
-									xs={6}
-								>
+								<Grid item xs={6}>
 									<NextChapterButton />
 								</Grid>
 							</Grid>
@@ -233,18 +206,22 @@ export function View() {
 							: "white",
 					}}
 				>
-					<InformationPanel
-						open={informationPanelOpen}
-						greekWords={greekWords ? greekWords : []}
-					/>
+						<InformationPanel
+							open={informationPanelOpen}
+							alignedText={greekWords}
+						/> 
 				</Grid>
 			</Grid>
 
-			<InformationWindow
-				open={informationWindowOpen && showGreekWords}
-				onClose={() => onInformationWindowClose()}
-				greekWords={greekWords ? greekWords : []}
-			/>
+			{greekWords ? (
+				<InformationWindow
+					open={informationWindowOpen && showGreekWords}
+					onClose={() => onInformationWindowClose()}
+					alignedText={greekWords}
+				/>
+			) : (
+				<React.Fragment />
+			)}
 		</>
 	);
 }
