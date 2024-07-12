@@ -206,10 +206,10 @@ export function View() {
 							: "white",
 					}}
 				>
-						<InformationPanel
-							open={informationPanelOpen}
-							alignedText={greekWords}
-						/> 
+					<InformationPanel
+						open={informationPanelOpen}
+						alignedText={greekWords}
+					/>
 				</Grid>
 			</Grid>
 
