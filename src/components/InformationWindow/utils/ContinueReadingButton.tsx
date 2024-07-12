@@ -12,7 +12,6 @@ export function ContinueReadingButton() {
 		>
 			<Grid item>
 				<Button
-					onClick={() => console.log("Figure out what Aby wants to do here")}
 					variant="text"
 					style={{
 						border: "1px solid #E5E8EB",
