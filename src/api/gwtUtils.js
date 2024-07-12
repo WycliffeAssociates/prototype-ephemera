@@ -15,8 +15,9 @@ function stringInsert(str, index, value, replace) {
 
 // Adds padding zeros (to the second character's posision) until it's length is 5
 function makeFourDigitStrongs(strongs) {
-	let digits = strongs.slice(1)
-	return `g${digits.padStart(4, 0)}`;
+	const digits = strongs.slice(1)
+	const fourDigitstrongs = `g${digits.padStart(4, 0)}`
+	return fourDigitstrongs;
 }
 
 // Takes the target strongs number and calculates its parent folder in the en_gwt repo
