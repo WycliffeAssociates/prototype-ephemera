@@ -1,4 +1,4 @@
-import type { AlignedVerse } from "src/types";
+import type { AlignedVerse } from "../../types";
 import { Door43UsfmAccessor } from "./Door43UsfmAccessor";
 import { OsisEnUlbAccessor } from "./OsisEnUlbAccessor";
 import { WacsXmlAccessor } from "./WacsXmlAccessor";

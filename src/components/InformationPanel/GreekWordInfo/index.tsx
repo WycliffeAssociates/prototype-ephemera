@@ -1,6 +1,7 @@
 import Grid from "@mui/material/Grid";
 import "../../../App.css";
 import { type MutableRefObject, useEffect, useState } from "react";
+import React from "react";
 import getGreekWord from "../../../api/gwtUtils";
 import mapGWTMarkdown from "../../../applicationLogic/mapping/mapGWTMarkdown";
 import type { FormattedGreekWord, GreekAlignmentData } from "../../../types";
@@ -21,8 +22,6 @@ function GreekWordInfo({
 		[],
 	);
 
-	const [greekWordsContent, setGreekWordsContent] = useState<any[]>([]);
-
 	useEffect(() => {
 		(async () => {
 			const greekWordMarkDown = await getGreekWord(currentGreekWord.strong);
@@ -42,36 +41,33 @@ function GreekWordInfo({
 		})();
 	}, [currentGreekWord]);
 
-	useEffect(() => {
-		const greekWords: any[] = [];
-
-		greekWordsState.forEach((greekWordState, idx: number) => {
-			greekWords.push(
-				<WordContent
-					wordNumber={idx}
-					greekWordState={greekWordState}
-					showMoreOptions={showMoreOptions}
-					containerRef={containerRef}
-				/>,
-			);
-		});
-
-		setGreekWordsContent([...greekWords]);
-	}, [containerRef, greekWordsState, showMoreOptions]);
-
-	if (greekWordsContent.length === 0) {
+	if (greekWordsState.length === 0) {
 		return (
-			<>
+			<React.Fragment>
 				<Grid container spacing={0} direction="row" style={{ padding: "0px" }}>
 					<span style={{ paddingTop: "50%" }}>
 						Requested word with Strong number {currentGreekWord.strong} cannot
 						be found.
 					</span>
 				</Grid>
-			</>
+			</React.Fragment>
 		);
 	}
-	return <>{greekWordsContent}</>;
+	return (
+		<>
+			{greekWordsState.map((greekWordState, idx: number) => {
+				return (
+					<WordContent
+						key={`InformationPanel__GreekWordInfo__WordContent${idx}`}
+						wordNumber={idx}
+						greekWordState={greekWordState}
+						showMoreOptions={showMoreOptions}
+						containerRef={containerRef}
+					/>
+				);
+			})}
+		</>
+	);
 }
 
 export default GreekWordInfo;

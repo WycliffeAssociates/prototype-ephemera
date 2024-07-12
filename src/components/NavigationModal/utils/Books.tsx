@@ -5,6 +5,7 @@ import { books as newTestamentMetadata } from "../../../applicationLogic/data/ne
 import { oldTestamentBooks } from "../../../applicationLogic/data/oldTestamentMetadata";
 import { BOOKCHAPTERMENU_OFFSET } from "../../../constants";
 import BookSearchBar from "../../BookSearchBar";
+import React from "react";
 
 interface BookProps {
 	bookData: any[];
@@ -16,7 +17,7 @@ function Book({ bookData, handleClick, isCurrentBook }: BookProps) {
 	const bookRef = useRef<null | HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (isCurrentBook === true) {
+		if (isCurrentBook) {
 			handleClick(bookRef);
 		}
 	}, [isCurrentBook, handleClick]);

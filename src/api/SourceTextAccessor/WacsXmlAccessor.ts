@@ -259,14 +259,14 @@ export class WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
 
 							if (curVerseWordAttributes?.sub) {
 								const tempW = curVerseWord.phrase[l];
-								const tempWAttributes = tempW[":@"];
+								let tempWAttributes = tempW[":@"];
 
 								tempWAttributes.subPhraseWords = phrase;
 								tempWAttributes.sub = curVerseWordAttributes.sub;
 								wordBuffer.push(tempW);
 							} else {
 								const tempW = curVerseWord.phrase[l];
-								const tempWAttributes = tempW[":@"];
+								let tempWAttributes = tempW[":@"];
 								tempWAttributes.phraseWords = phrase;
 								wordBuffer.push(tempW);
 							}
@@ -278,6 +278,7 @@ export class WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
 					for (let h = 1; h < wordBuffer.length; h++) {
 						curChapterVerse.verse.splice(k + h, 0, wordBuffer[h]);
 					}
+					// Rewinds k, since we have added the flatmapped phrase. 
 					k--;
 				}
 			}
