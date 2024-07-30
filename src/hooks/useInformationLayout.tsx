@@ -4,61 +4,49 @@ import useBookChapterParams from "./useBookChapterParams";
 import useMorphologyParams from "./useMorphologyParams";
 
 export function useInformationLayout() {
-	const { getBookChaptersParams, removeReferenceParams } =
-		useBookChapterParams();
-	const { getMorphologyParams, removeMorphologyParams } = useMorphologyParams();
+	const {
+		removeReferenceParams,
+		refBook,
+		refChapter,
+		refVerse,
+		book,
+		chapter,
+	} = useBookChapterParams();
+	const { morphologyWord, removeMorphologyParams } = useMorphologyParams();
 	const [searchParams] = useSearchParams();
 
 	const [openGreekWordsDialog, setOpenGreekWordsDialog] = useState(false);
 
 	const [openVerseReferenceDialog, setOpenVerseReferenceDialog] =
 		useState(false);
-	const [refBookChapter, setRefBookChapter] = useState<any>({});
 
 	const [openMorphologyDialog, setOpenMorphologyDialog] = useState(false);
 	const [openTipsDialog, setOpenTipsDialog] = useState(false);
 
 	// Opens the verse reference content depending on if query parameters are present
 	useEffect(() => {
-		const params = getBookChaptersParams();
-		const newRefBookChapter = {
-			refBook: params.refBook,
-			refChapter: params.refChapter,
-			refVerse: params.refVerse,
-			refWord: params.refWord,
-		};
-
-		if (
-			newRefBookChapter.refBook !== undefined &&
-			newRefBookChapter.refChapter !== undefined
-		) {
+		if (refBook && refChapter && refVerse) {
 			setOpenVerseReferenceDialog(true);
 		} else {
 			setOpenVerseReferenceDialog(false);
 		}
-
-		setRefBookChapter({ ...newRefBookChapter });
-	}, [
-		getBookChaptersParams().refBook,
-		getBookChaptersParams().refChapter,
-		getBookChaptersParams().refVerse,
-	]);
+	}, [refBook, refChapter, refVerse]);
 
 	// Opens the Tips dialog whenver the user navigates to a new book / chapter
 	useEffect(() => {
-		setOpenTipsDialog(true);
-	}, [getBookChaptersParams().book, getBookChaptersParams().chapter]);
+		if (book && chapter) {
+			setOpenTipsDialog(true);
+		}
+	}, [book, chapter]);
 
 	// Opens the morphology content depending on if query parameters are present
 	useEffect(() => {
-		const params = getMorphologyParams();
-
-		if (params.morphologyWord !== undefined) {
+		if (morphologyWord !== undefined) {
 			setOpenMorphologyDialog(true);
 		} else {
 			setOpenMorphologyDialog(false);
 		}
-	}, [getMorphologyParams().morphologyWord]);
+	}, [morphologyWord]);
 
 	function onMorphologyDialogClose() {
 		setOpenMorphologyDialog(false);

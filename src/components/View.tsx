@@ -44,7 +44,7 @@ export function View() {
 		if (showGreekWords && windowSize.innerWidth < DESKTOP_BREAKPOINT) {
 			setInformationWindowOpen(true);
 		}
-	}, [greekWords, showGreekWords]);
+	}, [showGreekWords, textViewSize, windowSize.innerWidth]);
 
 	useEffect(() => {
 		// default right dialog to open for desktop breakpoint
@@ -52,7 +52,7 @@ export function View() {
 			setTextViewSize(5);
 			setInformationPanelOpen(true);
 		}
-	}, []);
+	}, [windowSize.innerWidth]);
 
 	useEffect(() => {
 		if (windowSize.innerWidth < DESKTOP_BREAKPOINT) {
@@ -77,7 +77,9 @@ export function View() {
 	};
 
 	useEffect(() => {
-		setNavigationModalOpen(false);
+		if (search) {
+			setNavigationModalOpen(false);
+		}
 	}, [search]);
 
 	const onNavigationModalClose = (event: any) => {
@@ -206,10 +208,10 @@ export function View() {
 							: "white",
 					}}
 				>
-						<InformationPanel
-							open={informationPanelOpen}
-							alignedText={greekWords}
-						/> 
+					<InformationPanel
+						open={informationPanelOpen}
+						alignedText={greekWords}
+					/>
 				</Grid>
 			</Grid>
 

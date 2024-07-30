@@ -18,14 +18,12 @@ export function VerseReferences({
 		string[]
 	>([]);
 	const { greekWordverseNumber } = useGreekWordsParams();
-	const { setValidVerseReferenceParams, getBookChaptersParams } =
+	const { setValidVerseReferenceParams, book, chapter } =
 		useBookChapterParams();
 	const { GWTSettings } = useSettings();
 	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
 	useEffect(() => {
-		const currentBook = getBookChaptersParams().book;
-		const currentChapter = getBookChaptersParams().chapter;
 		const tempVerseReferences: string[] = [];
 
 		references.forEach((reference) => {
@@ -35,8 +33,8 @@ export function VerseReferences({
 			const referenceVerse = Number.parseInt(referenceInformation.verse);
 
 			if (
-				currentBook !== referenceBook ||
-				currentChapter !== referenceChapter ||
+				book !== referenceBook ||
+				chapter !== referenceChapter ||
 				referenceVerse !== greekWordverseNumber
 			) {
 				tempVerseReferences.push(reference);
@@ -44,7 +42,7 @@ export function VerseReferences({
 		});
 
 		setFilteredVerseReferences([...tempVerseReferences]);
-	}, [greekWordverseNumber, references, getBookChaptersParams().book]);
+	}, [greekWordverseNumber, references, book, chapter]);
 
 	function parseVerseReferenceInformation(verseReference: string) {
 		const referenceMatch = verseReference.match(

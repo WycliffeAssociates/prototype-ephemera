@@ -385,7 +385,6 @@ function processConsumedSubWords(
 					injectedString,
 				);
 
-				// TODO: see if I can bring this out of the for loop to decrease run time
 				if (typeof currentWord !== "string" && currentWord.phraseWords) {
 					currentWord.phraseWords = currentSubWord.phraseWords;
 				}

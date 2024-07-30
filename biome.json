@@ -15,8 +15,7 @@
 				"noArrayIndexKey": "off"
 			},
 			"correctness": {
-				"noChildrenProp": "off",
-				"useExhaustiveDependencies": "off"
+				"noChildrenProp": "off"
 			},
 			"a11y": {
 				"useKeyWithClickEvents": "off"

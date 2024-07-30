@@ -3,7 +3,7 @@ import useBookChapterParams from "src/hooks/useBookChapterParams";
 import useSourceTextResourceParams from "src/hooks/useSourceTextResourceParams";
 import { useSettings } from "../../../hooks/SettingsContext";
 import useChapterVerseData from "../../../hooks/useChapterVerseData";
-import type { AlignedText, GreekAlignmentData } from "../../../types";
+import type { AlignedText } from "../../../types";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
 
 export function VerseReferenceText() {
@@ -22,23 +22,18 @@ export function VerseReferenceText() {
 	const verseRef = useRef<HTMLSpanElement>(null);
 
 	const { GWTSettings } = useSettings();
-	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
-
-	function checkGreekWordsForReference(greekWords: GreekAlignmentData[]) {
-		return greekWords?.some(
-			(greekWordAlignmentData) => greekWordAlignmentData.strong === refWord,
-		);
-	}
-
-	function checkForReferences(verseWord: AlignedText) {
-		if (verseWord.greekAlignmentData) {
-			return checkGreekWordsForReference(verseWord.greekAlignmentData);
-		}
-	}
 
 	useEffect(() => {
-		const tempVerseOutput: any[] = [];
+		function checkForReferences(verseWord: AlignedText) {
+			if (verseWord.greekAlignmentData) {
+				return verseWord.greekAlignmentData?.some(
+					(greekWordAlignmentData) => greekWordAlignmentData.strong === refWord,
+				);
+			}
+		}
 
+		const tempVerseOutput: any[] = [];
+		const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 		verses.forEach((verse, verseIdx) => {
 			const verseWordOutput: any[] = [];
 
@@ -110,12 +105,11 @@ export function VerseReferenceText() {
 			);
 			tempVerseOutput.push(tempVerse);
 		});
-
 		setVerseOutput([...tempVerseOutput]);
-	}, [verses, GWTSettings]);
+	}, [verses, GWTSettings, refVerse, refWord]);
 
 	useEffect(() => {
-		if (verseRef != null && verseRef.current != null) {
+		if (verseRef != null && verseRef.current != null && verseOutput) {
 			let scrollableParent: HTMLElement | null = null;
 			const potentialScrollableParent = verseRef.current.parentNode;
 			if (

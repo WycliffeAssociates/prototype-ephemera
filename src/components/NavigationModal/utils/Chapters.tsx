@@ -46,25 +46,25 @@ function Chapters({ selectedBook }: ChaptersProps) {
 	const [numChapters, setNumChapters] = useState(0);
 	const { setValidBookChapterParams, getBookChaptersParams } =
 		useBookChapterParams();
-	const currentBookChapter = getBookChaptersParams();
+	const { book, chapter } = getBookChaptersParams();
 
 	useEffect(() => {
 		// If a book has been clicked, then use the selected books chapters
 		// else use the most recently clicked book's chapters
 		if (selectedBook && selectedBook !== "") {
 			setNumChapters(newTestamentMetadata[selectedBook].numChapters);
-		} else if (currentBookChapter.book && currentBookChapter.book !== "") {
-			setNumChapters(newTestamentMetadata[currentBookChapter.book].numChapters);
+		} else if (book && book !== "") {
+			setNumChapters(newTestamentMetadata[book].numChapters);
 		} else {
 			setNumChapters(0);
 		}
-	}, [selectedBook]);
+	}, [selectedBook, book]);
 
 	const chapters: any[] = [];
 
 	function onChapterClick(chapterNum: number) {
 		const params = {
-			book: selectedBook !== "" ? selectedBook : `${currentBookChapter.book}`,
+			book: selectedBook !== "" ? selectedBook : `${book}`,
 			chapter: `${chapterNum}`,
 		};
 
@@ -81,8 +81,7 @@ function Chapters({ selectedBook }: ChaptersProps) {
 					chapterNum={i + 1}
 					onClick={onChapterClick}
 					isActiveChapter={
-						selectedBook === currentBookChapter.book &&
-						i + 1 === Number.parseInt(currentBookChapter.chapter)
+						selectedBook === book && i + 1 === Number.parseInt(chapter)
 					}
 				/>
 			);

@@ -28,7 +28,9 @@ function Text() {
 	const highlightColor = "blue";
 
 	useEffect(() => {
-		resetTextData();
+		if (verses) {
+			resetTextData();
+		}
 	}, [verses]);
 
 	// color back to default.

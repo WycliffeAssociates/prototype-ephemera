@@ -37,10 +37,7 @@ export function useSourceTextResourceParams() {
 				setSourceTextResourceType("ulb");
 			}
 		}
-	}, [
-		searchParams.get("sourceTextResourceType"),
-		searchParams.get("sourceTextResourceLanguage"),
-	]);
+	}, [searchParams, searchParams.get]);
 
 	return {
 		setSourceTextResourceTypeParam,

@@ -306,17 +306,16 @@ export function useBookChapterParams() {
 	}
 
 	useEffect(() => {
-		setStatesToQueryParams();
-	}, [
-		searchParams,
-		searchParams.get("book"),
-		searchParams.get("chapter"),
-		searchParams.get("refBook"),
-	]);
+		if (searchParams) {
+			setStatesToQueryParams();
+		}
+	}, [setStatesToQueryParams, searchParams]);
 
 	useEffect(() => {
-		resetInvalidQueryParameters();
-	}, [invalidParams]);
+		if (invalidParams.length > 0) {
+			resetInvalidQueryParameters();
+		}
+	}, [invalidParams, resetInvalidQueryParameters]);
 
 	useEffect(() => {
 		if (book && chapter) {
@@ -330,6 +329,12 @@ export function useBookChapterParams() {
 		getBookChaptersParams: getBookChaptersParams,
 		removeReferenceParams: removeReferenceParams,
 		navigateToMostRecentBookChapter: navigateToMostRecentBookChapter,
+		book: book,
+		chapter: chapter,
+		refBook: refBook,
+		refVerse: refVerse,
+		refWord: refWord,
+		refChapter: refChapter,
 	};
 }
 

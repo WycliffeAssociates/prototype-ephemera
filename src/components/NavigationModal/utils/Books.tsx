@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useEffect, useRef, useState } from "react";
+import React from "react";
 import { books as newTestamentMetadata } from "../../../applicationLogic/data/newTestamentMetadata";
 import { oldTestamentBooks } from "../../../applicationLogic/data/oldTestamentMetadata";
 import { BOOKCHAPTERMENU_OFFSET } from "../../../constants";
 import BookSearchBar from "../../BookSearchBar";
-import React from "react";
 
 interface BookProps {
 	bookData: any[];
@@ -20,7 +20,7 @@ function Book({ bookData, handleClick, isCurrentBook }: BookProps) {
 		if (isCurrentBook) {
 			handleClick(bookRef);
 		}
-	}, [isCurrentBook]);
+	}, [isCurrentBook, handleClick]);
 
 	function onClick() {
 		handleClick(bookRef);

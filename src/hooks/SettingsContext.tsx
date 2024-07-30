@@ -147,7 +147,7 @@ export function SettingsProvider({ children }: any) {
 			setLeftPanelFontSizeValue(previousSettings.ULB["Font Size"]);
 			setLeftPanelLineHeightValue(previousSettings.ULB["Line Height"]);
 		}
-	}, []);
+	}, [initializeStoredSettings]);
 
 	return (
 		<SettingsContext.Provider

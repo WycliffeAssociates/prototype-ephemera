@@ -39,7 +39,7 @@ export function ContinueReadingButton({
 			}
 			resizeObserver.disconnect();
 		};
-	}, []);
+	}, [containerRef.current]);
 
 	useEffect(() => {
 		if (containerRef?.current) {
@@ -104,7 +104,6 @@ export function ContinueReadingButton({
 	return (
 		<div id="continueReadingBtn">
 			{showContinueReadingButton ? (
-
 				// Figure out what Aby wants to do here
 				<Button
 					variant="text"

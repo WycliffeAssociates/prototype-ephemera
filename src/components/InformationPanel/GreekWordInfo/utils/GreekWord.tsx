@@ -13,6 +13,8 @@ function GreekWord({ greekWord }: greekWordProps) {
 	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
 	useEffect(() => {
+		const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
+
 		if (overwriteStyle?.fontSize !== undefined) {
 			const nonAdjustedFontSize = Number.parseInt(
 				overwriteStyle.fontSize.match(/\d+/g),
