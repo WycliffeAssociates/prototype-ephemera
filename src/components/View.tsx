@@ -147,8 +147,8 @@ export function View() {
 					<>
 						<Grid
 							item
-							md={textViewSize}
-							xs={mobileTextWidthMax}
+							// md={textViewSize}
+							xs={12}
 							style={{
 								height: "100%",
 								position: "relative",
@@ -196,7 +196,7 @@ export function View() {
 					</>
 				)}
 
-				<Grid
+				{/* <Grid
 					item
 					md={textViewSize !== desktopTextWidthMax ? 7 : 0}
 					xs={0}
@@ -212,7 +212,7 @@ export function View() {
 						open={informationPanelOpen}
 						alignedText={greekWords}
 					/>
-				</Grid>
+				</Grid> */}
 			</Grid>
 
 			{greekWords ? (
