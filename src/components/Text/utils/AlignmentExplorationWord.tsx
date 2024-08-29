@@ -3,12 +3,12 @@ import { Box, Typography } from '@mui/material';
 
 interface AlignmentExplorationWordProps {
   english: string;
-  greek?: string;
+  content?: string;
   lemma?: string;
   strong?: string;
 }
 
-const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ english, greek, lemma, strong }) => {
+const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ english, content, lemma, strong }) => {
   return (
     <Box
       sx={{
@@ -22,7 +22,7 @@ const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ eng
       }}
     >
       <Typography variant="h6">{english}</Typography>
-      <Typography variant="body1">{greek}</Typography>
+      <Typography variant="body1">{content}</Typography>
       <Typography variant="body1">{lemma}</Typography>
       <Typography variant="body1">{strong}</Typography>
 

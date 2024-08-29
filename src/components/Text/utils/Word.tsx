@@ -26,7 +26,7 @@ function Word({ verseNumber, versePhrase, handleClick }: WordProps) {
 		return (
 			<AlignmentExplorationWord 
 				english={`${versePhrase.text}`} 
-				greek={"<GREEK_HERE>"} 
+				content={`${versePhrase.greekAlignmentData[0].content}`} 
 				lemma={`<LEMMA_HERE>`} 
 				strong={`${versePhrase.greekAlignmentData[0].strong}`}
 			/>
@@ -34,7 +34,7 @@ function Word({ verseNumber, versePhrase, handleClick }: WordProps) {
 	}
 	return <AlignmentExplorationWord 
 				english={`${versePhrase.text}`} 
-				greek={undefined} 
+				content={undefined} 
 				lemma={undefined} 
 				strong={undefined}
 			/>;

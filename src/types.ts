@@ -110,7 +110,8 @@ type ULBSettingsOption = SettingsOption & {
 type GreekAlignmentData = {
 	strong: string;
 	morph?: string;
-	lemma?: string
+	lemma?: string;
+	content?: string;
 };
 
 type AlignedText = {
