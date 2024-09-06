@@ -125,14 +125,6 @@ export class AlignmentExplorationUsfmAccessor
 				text += startingChar + attribute.payload;
 			} else if (
 				attribute.subType === "start" &&
-				attribute.payload.includes("x-strong")
-			) {
-				const strong = this.getStrongs(attribute.payload);
-				if (strong) {
-					greekAlignmentData.push({ strong: strong });
-				}
-			} else if (
-				attribute.subType === "start" &&
 				attribute.payload.includes("x-content")
 			) {
 				const content = this.getLastSegment(attribute.payload);
@@ -148,6 +140,16 @@ export class AlignmentExplorationUsfmAccessor
 					greekAlignmentData[greekAlignmentData.length - 1]['lemma'] = content;
 				}
 			} else if (
+				attribute.subType === "start" &&
+				attribute.payload.includes("x-strongs")
+			) {
+				const strong = this.getLastSegment(attribute.payload);
+				if (strong) {
+
+					greekAlignmentData[greekAlignmentData.length - 1]['strong'] = strong;
+				}
+			}
+			else if (
 				attribute.subType === "end" &&
 				attribute.payload.includes("verse/")
 			) {
