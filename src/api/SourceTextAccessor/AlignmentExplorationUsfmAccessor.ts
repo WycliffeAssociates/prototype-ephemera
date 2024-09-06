@@ -52,7 +52,7 @@ export class AlignmentExplorationUsfmAccessor
 		try {
 			const bookSlug = books[bookName].abbreviatedBook.slice(-3).toLowerCase()
 			const book = await fetch(
-				`https://content.bibletranslationtools.org/darrellhill/aligned_ulb/raw/branch/main/aligned_${bookSlug}.usfm`,
+				`https://content.bibletranslationtools.org/darrellhill/aligned_ulb/raw/branch/main/lemmatized/aligned_${bookSlug}_lemmatized.usfm`,
 			);
 			if(book.status === 404) {
 				return undefined
@@ -91,6 +91,7 @@ export class AlignmentExplorationUsfmAccessor
 				item.subType === "wordLike" ||
 				(item.payload.includes("x-strong") && item.subType === "start") ||
 				(item.payload.includes("x-content") && item.subType === "start") ||
+				(item.payload.includes("x-lemma") && item.subType === "start") ||
 				item.payload.includes("verse/"),
 		);
 		return cvData;
@@ -137,6 +138,14 @@ export class AlignmentExplorationUsfmAccessor
 				const content = this.getLastSegment(attribute.payload);
 				if (content) {
 					greekAlignmentData.push({ strong: "", content: content });
+				}
+			} else if(
+				attribute.subType === "start" &&
+				attribute.payload.includes("x-lemma")
+			) {
+				const content = this.getLastSegment(attribute.payload);
+				if (content) {
+					greekAlignmentData[greekAlignmentData.length - 1]['lemma'] = content;
 				}
 			} else if (
 				attribute.subType === "end" &&

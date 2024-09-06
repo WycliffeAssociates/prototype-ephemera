@@ -27,7 +27,7 @@ function Word({ verseNumber, versePhrase, handleClick }: WordProps) {
 			<AlignmentExplorationWord 
 				english={`${versePhrase.text}`} 
 				content={`${versePhrase.greekAlignmentData[0].content}`} 
-				lemma={`<LEMMA_HERE>`} 
+				lemma={`${versePhrase.greekAlignmentData[0].lemma}`} 
 				strong={`${versePhrase.greekAlignmentData[0].strong}`}
 			/>
 		);
