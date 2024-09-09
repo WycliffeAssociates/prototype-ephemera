@@ -25,12 +25,14 @@ function Word({ verseNumber, versePhrase, handleClick }: WordProps) {
 			<AlignmentExplorationWord 
 				versePhrase={versePhrase} 
 				onPhraseClick={handlePhraseClick}
+				handleClick={handleClick}
 			/>
 		);
 	}
 	return <AlignmentExplorationWord 
 				versePhrase={versePhrase} 
 				onPhraseClick={() => {}}
+				handleClick={() => {}}
 			/>;
 }
 

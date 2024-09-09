@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box, Typography } from '@mui/material';
 import { AlignedText } from 'src/types';
 
 interface AlignmentExplorationWordProps {
 	versePhrase: AlignedText;
   	onPhraseClick: (words: AlignedText) => void;
+    handleClick: (params: any) => any;
 }
 
-const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ versePhrase, onPhraseClick}) => {
+const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ versePhrase, onPhraseClick, handleClick}) => {
+  const wordRef = useRef(null);
+
   return (
     <Box
-      onClick={() => {onPhraseClick(versePhrase)}}
+      ref={wordRef}
+      onClick={() => {
+        onPhraseClick(versePhrase);
+        handleClick(wordRef);
+        console.log(versePhrase);
+      }}
       sx={{
         display: 'inline-block',
         border: '1px solid #ccc',
