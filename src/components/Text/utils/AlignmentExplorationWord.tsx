@@ -10,6 +10,7 @@ interface AlignmentExplorationWordProps {
 const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ versePhrase, onPhraseClick}) => {
   return (
     <Box
+      onClick={() => {onPhraseClick(versePhrase)}}
       sx={{
         display: 'inline-block',
         border: '1px solid #ccc',
@@ -23,15 +24,11 @@ const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ ver
       <Typography variant="h6">{versePhrase.text}</Typography>
 
       {versePhrase.greekAlignmentData ? 
-        <span
-          onClick={ () => {
-            onPhraseClick(versePhrase)
-          }}
-        >
+        <React.Fragment>
           <Typography variant="body1">{versePhrase.greekAlignmentData[0].content}</Typography>
           <Typography variant="body1">{versePhrase.greekAlignmentData[0].lemma}</Typography>
           <Typography variant="body1">{versePhrase.greekAlignmentData[0].strong}</Typography>
-        </span>
+        </React.Fragment>
       :
         <React.Fragment></React.Fragment>
       }
