@@ -4,9 +4,10 @@ import { AlignedText } from 'src/types';
 
 interface AlignmentExplorationWordProps {
 	versePhrase: AlignedText;
+  	onPhraseClick: (words: AlignedText) => void;
 }
 
-const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ versePhrase }) => {
+const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ versePhrase, onPhraseClick}) => {
   return (
     <Box
       sx={{
@@ -22,11 +23,15 @@ const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ ver
       <Typography variant="h6">{versePhrase.text}</Typography>
 
       {versePhrase.greekAlignmentData ? 
-        <React.Fragment>
+        <span
+          onClick={ () => {
+            onPhraseClick(versePhrase)
+          }}
+        >
           <Typography variant="body1">{versePhrase.greekAlignmentData[0].content}</Typography>
           <Typography variant="body1">{versePhrase.greekAlignmentData[0].lemma}</Typography>
           <Typography variant="body1">{versePhrase.greekAlignmentData[0].strong}</Typography>
-        </React.Fragment>
+        </span>
       :
         <React.Fragment></React.Fragment>
       }
