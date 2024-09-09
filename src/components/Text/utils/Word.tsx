@@ -1,8 +1,6 @@
 import { useGreekWordsParams } from "../../../hooks/useGreekWordsParams";
 import type { AlignedText } from "../../../types";
 import AlignmentExplorationWord from "./AlignmentExplorationWord";
-import { EnglishWord } from "./EnglishWord";
-import { GreekWord } from "./GreekWord";
 
 interface WordProps {
 	handleClick: (params: any) => any;
@@ -25,18 +23,12 @@ function Word({ verseNumber, versePhrase, handleClick }: WordProps) {
 	if (versePhrase.greekAlignmentData) {
 		return (
 			<AlignmentExplorationWord 
-				english={`${versePhrase.text}`} 
-				content={`${versePhrase.greekAlignmentData[0].content}`} 
-				lemma={`${versePhrase.greekAlignmentData[0].lemma}`} 
-				strong={`${versePhrase.greekAlignmentData[0].strong}`}
+				versePhrase={versePhrase} 
 			/>
 		);
 	}
 	return <AlignmentExplorationWord 
-				english={`${versePhrase.text}`} 
-				content={undefined} 
-				lemma={undefined} 
-				strong={undefined}
+				versePhrase={versePhrase} 
 			/>;
 }
 

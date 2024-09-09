@@ -1,14 +1,12 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import { AlignedText } from 'src/types';
 
 interface AlignmentExplorationWordProps {
-  english: string;
-  content?: string;
-  lemma?: string;
-  strong?: string;
+	versePhrase: AlignedText;
 }
 
-const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ english, content, lemma, strong }) => {
+const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ versePhrase }) => {
   return (
     <Box
       sx={{
@@ -21,10 +19,17 @@ const AlignmentExplorationWord: React.FC<AlignmentExplorationWordProps> = ({ eng
         minWidth: 'max-content',
       }}
     >
-      <Typography variant="h6">{english}</Typography>
-      <Typography variant="body1">{content}</Typography>
-      <Typography variant="body1">{lemma}</Typography>
-      <Typography variant="body1">{strong}</Typography>
+      <Typography variant="h6">{versePhrase.text}</Typography>
+
+      {versePhrase.greekAlignmentData ? 
+        <React.Fragment>
+          <Typography variant="body1">{versePhrase.greekAlignmentData[0].content}</Typography>
+          <Typography variant="body1">{versePhrase.greekAlignmentData[0].lemma}</Typography>
+          <Typography variant="body1">{versePhrase.greekAlignmentData[0].strong}</Typography>
+        </React.Fragment>
+      :
+        <React.Fragment></React.Fragment>
+      }
 
     </Box>
   );
