@@ -63,7 +63,7 @@ function Text() {
 			childClicked.current.style.color = defaultTextColor;
 			childClicked.current.style.textDecoration = "none";
 		}
-		setChildClicked(newChildClicked);
+		setChildClicked({...newChildClicked});
 	}
 
 	const overwriteStyle: any = mapValidULBSettings(ULBSettings).verseStyles;
