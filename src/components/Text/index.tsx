@@ -33,7 +33,7 @@ function Text() {
 		}
 	}, [verses]);
 
-	// color back to default.
+	// Update style of clicked phrase based on if the Greek words model/dialog is open. 
 	useEffect(() => {
 		if (childClicked?.current?.style?.color !== undefined) {
 			if (showGreekWords) {
@@ -58,7 +58,7 @@ function Text() {
 	}
 
 	function handleChildClicked(newChildClicked: any) {
-		// If child was clicked, reset it's style to default. 
+		// If child was clicked, reset style to default. 
 		if (childClicked?.current?.style?.color !== undefined) {
 			childClicked.current.style.color = defaultTextColor;
 			childClicked.current.style.textDecoration = "none";
