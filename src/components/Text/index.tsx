@@ -33,10 +33,13 @@ function Text() {
 		}
 	}, [verses]);
 
-	// color back to default.
+	// Update style of clicked phrase based on if the Greek words model/dialog is open. 
 	useEffect(() => {
-		if (!showGreekWords) {
-			if (childClicked?.current?.style?.color !== undefined) {
+		if (childClicked?.current?.style?.color !== undefined) {
+			if (showGreekWords) {
+				childClicked.current.style.color = highlightColor;
+				childClicked.current.style.textDecoration = "underline";
+			} else {
 				childClicked.current.style.color = defaultTextColor;
 				childClicked.current.style.textDecoration = "none";
 			}
@@ -54,20 +57,13 @@ function Text() {
 		setChildClicked({});
 	}
 
-	function highlightSelectedPhrase(newChildClicked: any) {
+	function handleChildClicked(newChildClicked: any) {
+		// If child was clicked, reset style to default. 
 		if (childClicked?.current?.style?.color !== undefined) {
 			childClicked.current.style.color = defaultTextColor;
 			childClicked.current.style.textDecoration = "none";
 		}
-		if (newChildClicked?.current?.style?.color !== undefined) {
-			newChildClicked.current.style.color = highlightColor;
-			newChildClicked.current.style.textDecoration = "underline";
-		}
-	}
-
-	function handleChildClicked(newChildClicked: any) {
-		highlightSelectedPhrase(newChildClicked);
-		setChildClicked(newChildClicked);
+		setChildClicked({...newChildClicked});
 	}
 
 	const overwriteStyle: any = mapValidULBSettings(ULBSettings).verseStyles;
