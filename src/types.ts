@@ -9,7 +9,6 @@ type WordTag = {
 	_text: string;
 };
 
-// NOTE: the attribute w represents the w tag used by OSIS
 type VerseTag = {
 	ATTR: any;
 	note?: [];
@@ -39,19 +38,6 @@ type GreekWordAttributes = {
 	[key in ValidGreekWordAttributeKeys]: string;
 };
 
-type GreekWord = {
-	notes: GreekWordNotes;
-	attributes: GreekWordAttributes;
-	text: string;
-};
-
-type GreekPhraseWord = {
-	greekWords: string;
-	englishWords: string;
-	morphology: string;
-	descriptions: string[];
-};
-
 type FormattedGreekWord = {
 	lemma: string;
 	morph: string;
@@ -72,13 +58,6 @@ type FormattedGreekWord = {
 type Description = {
 	mainDescription: string;
 	subDescriptions?: string[];
-};
-
-type FormattedWord = {
-	englishWords: string;
-	isPhrase?: boolean;
-	containsSubWords?: boolean;
-	greekWords?: FormattedGreekWord[];
 };
 
 type NewFormattedGreekWord = {
@@ -104,23 +83,6 @@ type SubWord = {
 	subPhraseWords?: PhraseWord[];
 };
 
-type NewFormattedWord = {
-	englishWords: string;
-	greekWords?: NewFormattedGreekWord[];
-	subWords?: SubWord[];
-	phraseWords?: PhraseWord[];
-	subPhraseWords?: SubWord & PhraseWord[];
-};
-
-type NewFormattedVerse = {
-	verseWords: NewFormattedWord[];
-	verseNum: number;
-};
-
-type FormattedVerse = {
-	verseWords: FormattedWord[];
-};
-
 type GWTInformation = {
 	gwtGreekWord: string;
 	descriptions: Description[];
@@ -133,9 +95,7 @@ type GWTInformation = {
 type SettingsOption = {
 	name: string;
 	value: string | number | boolean | undefined;
-	modifier: (
-		newValue: string | number | boolean | undefined
-	) => any;
+	modifier: (newValue: string | number | boolean | undefined) => any;
 	inputType: "switch" | "increment" | "button";
 	unit?: string;
 	styleOverrideKey?: string;
@@ -147,26 +107,38 @@ type ULBSettingsOption = SettingsOption & {
 	level: "verse" | "word" | "all";
 };
 
+type GreekAlignmentData = {
+	strong: string;
+	morph?: string;
+};
+
+type AlignedText = {
+	text: string;
+	greekAlignmentData?: GreekAlignmentData[];
+};
+
+type AlignedVerse = {
+	verseNum: number;
+	alignedVerseText: AlignedText[];
+};
+
 export type {
+	GreekAlignmentData,
+	AlignedVerse,
+	AlignedText,
 	GWTInformation,
-	GreekWord,
 	GreekWordNotes,
 	GreekWordAttributes,
-	GreekPhraseWord,
 	ValidGreekWordAttributeKeys,
 	ValidGreekWordNoteKeys,
 	NoteTag,
 	WordTag,
 	VerseTag,
 	FormattedGreekWord,
-	FormattedWord,
-	FormattedVerse,
 	Description,
 	NewFormattedGreekWord,
 	SubWord,
 	PhraseWord,
-	NewFormattedWord,
-	NewFormattedVerse,
 	SettingsOption,
 	ULBSettingsOption,
 };

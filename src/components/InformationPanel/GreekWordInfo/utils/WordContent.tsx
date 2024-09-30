@@ -1,17 +1,13 @@
-import {
-	MutableRefObject,
-	useEffect,
-	useState,
-} from "react";
-import { FormattedGreekWord } from "../../../../types";
-import Grid from "@mui/material/Grid";
-import GreekWord from "./GreekWord";
-import Description from "./Description";
-import Morphology from "./Morphology";
-import { VerseReferences } from "./VerseReferences";
-import UnprocessedMarkdown from "./UnprocessedMarkdown";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import { type MutableRefObject, useEffect, useState } from "react";
 import { useSettings } from "../../../../hooks/SettingsContext";
+import type { FormattedGreekWord } from "../../../../types";
+import Description from "./Description";
+import GreekWord from "./GreekWord";
+import Morphology from "./Morphology";
+import UnprocessedMarkdown from "./UnprocessedMarkdown";
+import { VerseReferences } from "./VerseReferences";
 import { mapValidGWTSettings } from "./mapValidGWTSettings";
 
 interface WordContentProps {
@@ -29,29 +25,18 @@ export function WordContent({
 }: WordContentProps) {
 	const [showMore, setShowMore] = useState(showMoreOptions);
 	const { GWTSettings } = useSettings();
-	let overwriteStyle: any =
-		mapValidGWTSettings(GWTSettings);
+	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
 	useEffect(() => {
 		if (showMoreOptions === true) {
 			setShowMore(false);
 		}
-	}, []);
+	}, [showMoreOptions]);
 
 	return (
-		<div
-			key={`greekWord ${wordNumber}`}
-			className="GreekWordContainer"
-		>
-			<Grid
-				container
-				spacing={0}
-				direction="row"
-				style={{ padding: "0px" }}
-			>
-				<GreekWord
-					greekWord={greekWordState?.gwtGreekWord}
-				/>
+		<div key={`greekWord ${wordNumber}`} className="GreekWordContainer">
+			<Grid container spacing={0} direction="row" style={{ padding: "0px" }}>
+				<GreekWord greekWord={greekWordState?.gwtGreekWord} />
 				<Description
 					descriptions={greekWordState?.descriptions}
 					showMore={showMore}
@@ -74,17 +59,13 @@ export function WordContent({
 				{showMore === true || showMore === undefined ? (
 					<>
 						{greekWordState?.unprocessedData ? (
-							<UnprocessedMarkdown
-								markdown={greekWordState.unprocessedData}
-							/>
+							<UnprocessedMarkdown markdown={greekWordState.unprocessedData} />
 						) : (
 							""
 						)}
 						{greekWordState?.adviceForTranslators ? (
 							<UnprocessedMarkdown
-								markdown={
-									greekWordState.adviceForTranslators
-								}
+								markdown={greekWordState.adviceForTranslators}
 							/>
 						) : (
 							""

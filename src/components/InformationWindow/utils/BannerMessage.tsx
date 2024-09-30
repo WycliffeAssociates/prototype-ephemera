@@ -1,21 +1,21 @@
+import { InfoOutlined as InfoIcon } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import { useSettings } from "../../../hooks/SettingsContext";
-import { FormattedGreekWord } from "../../../types";
+import type { AlignedText } from "../../../types";
 import { mapValidGWTSettings } from "../../InformationPanel/GreekWordInfo/utils/mapValidGWTSettings";
-import {InfoOutlined as InfoIcon } from "@mui/icons-material";
 
 interface GreekWordsBannerProps {
-	greekWords: FormattedGreekWord[];
+	alignedText: AlignedText;
 }
 
-export function BannerMessage({
-	greekWords,
-}: GreekWordsBannerProps) {
+export function BannerMessage({ alignedText }: GreekWordsBannerProps) {
 	const { GWTSettings } = useSettings();
-	let overwriteStyle: any =
-		mapValidGWTSettings(GWTSettings);
+	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
-	if (greekWords && greekWords?.length >= 4) {
+	if (
+		alignedText?.greekAlignmentData &&
+		alignedText.greekAlignmentData.length >= 4
+	) {
 		return (
 			<Grid
 				item
@@ -37,11 +37,7 @@ export function BannerMessage({
 					justifyContent={"flex-start"}
 					alignItems={"center"}
 				>
-					<Grid
-						item
-						style={{ paddingLeft: "3%" }}
-						xs={12}
-					>
+					<Grid item style={{ paddingLeft: "3%" }} xs={12}>
 						<InfoIcon
 							style={{
 								verticalAlign: "middle",
@@ -56,14 +52,13 @@ export function BannerMessage({
 								...overwriteStyle,
 							}}
 						>
-							There are {greekWords.length} Greek word
+							There are {alignedText.greekAlignmentData.length} Greek word
 							translations
 						</span>
 					</Grid>
 				</Grid>
 			</Grid>
 		);
-	} else {
-		return <></>;
 	}
+	return <></>;
 }

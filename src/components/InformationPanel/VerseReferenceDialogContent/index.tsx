@@ -1,32 +1,27 @@
-import Grid from "@mui/material/Grid";
+import { ArrowBack as ArrowBackIcon } from "@mui/icons-material";
+import { Divider } from "@mui/material";
 import Button from "@mui/material/Button";
-import { ArrowBack as ArrowBackIcon} from "@mui/icons-material";
-import { VerseReferenceText } from "./VerseReferenceText";
+import Grid from "@mui/material/Grid";
+import useBookChapterParams from "src/hooks/useBookChapterParams";
 import { useSettings } from "../../../hooks/SettingsContext";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
-import { Divider } from "@mui/material";
+import { VerseReferenceText } from "./VerseReferenceText";
 
 interface VerseReferenceDialogContentProps {
-	open: Boolean;
+	open: boolean;
 	onClose?: () => void;
-	refBookChapterVerse: {
-		refBook: string;
-		refChapter: string;
-		refVerse: string;
-		refWord: string;
-	};
 	fullScreen?: boolean;
 }
 
 export default function VerseReferenceDialogContent({
 	open,
 	onClose,
-	refBookChapterVerse,
 	fullScreen,
 }: VerseReferenceDialogContentProps) {
 	const { GWTSettings } = useSettings();
-	let overwriteStyle: any =
-		mapValidGWTSettings(GWTSettings);
+	const { refBook, refChapter } =
+		useBookChapterParams().getBookChaptersParams();
+	const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 
 	if (open) {
 		return (
@@ -51,8 +46,7 @@ export default function VerseReferenceDialogContent({
 									...overwriteStyle,
 								}}
 							>
-								{refBookChapterVerse.refBook}{" "}
-								{refBookChapterVerse.refChapter}
+								{refBook} {refChapter}
 							</h3>
 						</Grid>
 
@@ -73,19 +67,14 @@ export default function VerseReferenceDialogContent({
 									borderRadius: "16px",
 									color: "#33445C",
 									textTransform: "none",
-									minWidth:
-										fullScreen === false ? "115px" : "65px",
+									minWidth: fullScreen === false ? "115px" : "65px",
 								}}
 							>
-								<ArrowBackIcon />{" "}
-								{fullScreen !== true ? "Go Back" : ""}
+								<ArrowBackIcon /> {fullScreen !== true ? "Go Back" : ""}
 							</Button>
 						</Grid>
 
-						<Grid
-							item
-							xs={12}
-						>
+						<Grid item xs={12}>
 							<Divider />
 						</Grid>
 						<Grid
@@ -100,20 +89,12 @@ export default function VerseReferenceDialogContent({
 								padding: "0px 40px 0px 0px",
 							}}
 						>
-							<VerseReferenceText
-								refBook={refBookChapterVerse.refBook}
-								refChapter={parseInt(
-									refBookChapterVerse.refChapter
-								)}
-								refVerse={refBookChapterVerse.refVerse}
-								refWord={refBookChapterVerse.refWord}
-							/>
+							<VerseReferenceText />
 						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
 		);
-	} else {
-		return <></>;
 	}
+	return <></>;
 }

@@ -1,11 +1,8 @@
 import Grid from "@mui/material/Grid";
-import { books as newTestamentMetadata } from "../../../applicationLogic/data/newTestamentMetadata";
-import {
-	useNavigate,
-	createSearchParams,
-} from "react-router-dom";
-import useBookChapterParams from "../../../hooks/useBookChapterParams";
 import { useEffect, useState } from "react";
+import { createSearchParams, useNavigate } from "react-router-dom";
+import { books as newTestamentMetadata } from "../../../applicationLogic/data/newTestamentMetadata";
+import useBookChapterParams from "../../../hooks/useBookChapterParams";
 
 interface ChapterProps {
 	chapterNum: number;
@@ -13,18 +10,14 @@ interface ChapterProps {
 	isActiveChapter?: boolean;
 }
 
-function Chapter({
-	chapterNum,
-	onClick,
-	isActiveChapter,
-}: ChapterProps) {
-	let baseStyle = {
+function Chapter({ chapterNum, onClick, isActiveChapter }: ChapterProps) {
+	const baseStyle = {
 		height: "56px",
 		width: "93.5px",
 		borderRadius: "3px",
 	};
 
-	let chapterStyle;
+	let chapterStyle: any;
 	if (isActiveChapter) {
 		chapterStyle = {
 			color: "blue",
@@ -39,14 +32,8 @@ function Chapter({
 	}
 
 	return (
-		<Grid
-			item
-			xs={3}
-			style={chapterStyle}
-		>
-			<p onClick={() => onClick(chapterNum)}>
-				{chapterNum}
-			</p>
+		<Grid item xs={3} style={chapterStyle}>
+			<p onClick={() => onClick(chapterNum)}>{chapterNum}</p>
 		</Grid>
 	);
 }
@@ -57,55 +44,44 @@ interface ChaptersProps {
 
 function Chapters({ selectedBook }: ChaptersProps) {
 	const [numChapters, setNumChapters] = useState(0);
-	const {setValidBookChapterParams, getBookChaptersParams} = useBookChapterParams();
-	const currentBookChapter = getBookChaptersParams();
+	const { setValidBookChapterParams, getBookChaptersParams } =
+		useBookChapterParams();
+	const { book, chapter } = getBookChaptersParams();
 
 	useEffect(() => {
 		// If a book has been clicked, then use the selected books chapters
 		// else use the most recently clicked book's chapters
 		if (selectedBook && selectedBook !== "") {
-			setNumChapters(
-				newTestamentMetadata[selectedBook].numChapters
-			);
-		} else if (
-			currentBookChapter.book &&
-			currentBookChapter.book !== ""
-		) {
-			setNumChapters(
-				newTestamentMetadata[currentBookChapter.book]
-					.numChapters
-			);
+			setNumChapters(newTestamentMetadata[selectedBook].numChapters);
+		} else if (book && book !== "") {
+			setNumChapters(newTestamentMetadata[book].numChapters);
 		} else {
 			setNumChapters(0);
 		}
-	}, [selectedBook]);
+	}, [selectedBook, book]);
 
-	let chapters: any[] = [];
+	const chapters: any[] = [];
 
 	function onChapterClick(chapterNum: number) {
 		const params = {
-			book:
-				selectedBook !== ""
-					? selectedBook
-					: currentBookChapter.book + "",
-			chapter: chapterNum + "",
+			book: selectedBook !== "" ? selectedBook : `${book}`,
+			chapter: `${chapterNum}`,
 		};
 
-		if(params.book) {
+		if (params.book) {
 			setValidBookChapterParams(params, false);
 		}
 	}
 
 	if (numChapters !== undefined) {
 		for (let i = 0; i < numChapters; i++) {
-			let chapterElement = (
+			const chapterElement = (
 				<Chapter
 					key={`chapter ${i}`}
 					chapterNum={i + 1}
 					onClick={onChapterClick}
 					isActiveChapter={
-						selectedBook === currentBookChapter.book &&
-						i + 1 === parseInt(currentBookChapter.chapter)
+						selectedBook === book && i + 1 === Number.parseInt(chapter)
 					}
 				/>
 			);
@@ -124,9 +100,7 @@ function Chapters({ selectedBook }: ChaptersProps) {
 				padding: "0px 0px 40px 0px",
 			}}
 		>
-			{numChapters > 0
-				? chapters.map((chapter) => chapter)
-				: ""}
+			{numChapters > 0 ? chapters.map((chapter) => chapter) : ""}
 		</Grid>
 	);
 }

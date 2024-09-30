@@ -1,20 +1,17 @@
-import { useState } from "react";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import { Settings as SettingsIcon } from "@mui/icons-material";
-import { Language as LanguageIcon} from "@mui/icons-material";
-import SettingsModal from "./SettingsModal";
+import { Language as LanguageIcon } from "@mui/icons-material";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import { useState } from "react";
 import { BIEL_LINK } from "../constants";
+import SettingsModal from "./SettingsModal";
 
 interface ViewHeaderProps {
 	showIconText: boolean;
 }
 
-export function ViewHeader({
-	showIconText,
-}: ViewHeaderProps) {
-	const [settingsModalOpen, setSettingsModalOpen] =
-		useState(false);
+export function ViewHeader({ showIconText }: ViewHeaderProps) {
+	const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
 	const toggleSettingsModalOpen = () => {
 		setSettingsModalOpen(!settingsModalOpen);
@@ -30,11 +27,7 @@ export function ViewHeader({
 				<h3 className="BannerHeader">Greek Lexicon</h3>
 			</Grid>
 
-			<Grid
-				item
-				xs={2}
-				style={{ margin: "auto", paddingRight:"15px" }}
-			>
+			<Grid item xs={2} style={{ margin: "auto", paddingRight: "15px" }}>
 				<Button
 					onClick={() => toggleSettingsModalOpen()}
 					variant="outlined"
@@ -51,12 +44,7 @@ export function ViewHeader({
 				</Button>
 			</Grid>
 
-			<Grid
-				item
-				xs={3}
-				sm={2}
-				style={{ margin: "auto" }}
-			>
+			<Grid item xs={3} sm={2} style={{ margin: "auto" }}>
 				<Button
 					onClick={routeChange}
 					variant="outlined"

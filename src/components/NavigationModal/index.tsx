@@ -1,8 +1,8 @@
+import { Close as CloseIcon } from "@mui/icons-material";
+import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import { Close as CloseIcon} from "@mui/icons-material";
 import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
 import BookChapterMenu from "./utils/BookChapterMenu";
 
 interface NavigationModalProps {
@@ -11,14 +11,10 @@ interface NavigationModalProps {
 	fullScreen: boolean;
 }
 
-function NavigationModal({
-	open,
-	onClose,
-	fullScreen,
-}: NavigationModalProps) {
+function NavigationModal({ open, onClose, fullScreen }: NavigationModalProps) {
 	// TODO: add this to its own style file after testing styles
 	const style = {
-		position: "absolute" as "absolute",
+		position: "absolute" as const,
 		top: "50%",
 		left: "50%",
 		transform: "translate(-50%, -50%)",
@@ -53,12 +49,7 @@ function NavigationModal({
 							style={{ margin: "0px", height: "95%" }}
 							spacing={0}
 						>
-							<Grid
-								item
-								xs={12}
-								md={0}
-								style={{ padding: "8px 16px" }}
-							>
+							<Grid item xs={12} md={0} style={{ padding: "8px 16px" }}>
 								<IconButton
 									size="large"
 									edge="start"
@@ -76,13 +67,9 @@ function NavigationModal({
 								>
 									<CloseIcon style={{ margin: "0px" }} />
 								</IconButton>
-								<span className="NavigationModal__navigation">
-									Navigation
-								</span>
+								<span className="NavigationModal__navigation">Navigation</span>
 							</Grid>
-							<BookChapterMenu
-								withClickableOptions={fullScreen}
-							/>
+							<BookChapterMenu withClickableOptions={fullScreen} />
 						</Grid>
 					</Box>
 				</div>

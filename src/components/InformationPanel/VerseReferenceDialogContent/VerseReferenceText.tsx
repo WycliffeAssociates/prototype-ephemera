@@ -1,82 +1,46 @@
-import useChapterVerseData from "../../../hooks/useChapterVerseData";
-import { useSettings } from "../../../hooks/SettingsContext";
 import { useEffect, useRef, useState } from "react";
-import {
-	NewFormattedGreekWord,
-	NewFormattedWord,
-	PhraseWord,
-	SubWord,
-} from "../../../types";
+import useBookChapterParams from "src/hooks/useBookChapterParams";
+import useSourceTextResourceParams from "src/hooks/useSourceTextResourceParams";
+import { useSettings } from "../../../hooks/SettingsContext";
+import useChapterVerseData from "../../../hooks/useChapterVerseData";
+import type { AlignedText } from "../../../types";
 import { mapValidGWTSettings } from "../GreekWordInfo/utils/mapValidGWTSettings";
 
-interface VerseReferenceTextProps {
-	refBook: string;
-	refChapter: number;
-	refVerse: string;
-	refWord: string;
-}
+export function VerseReferenceText() {
+	const { sourceTextResourceLanguage, sourceTextResourceType } =
+		useSourceTextResourceParams();
+	const { refBook, refChapter, refVerse, refWord } =
+		useBookChapterParams().getBookChaptersParams();
 
-export function VerseReferenceText({
-	refBook,
-	refChapter,
-	refVerse,
-	refWord,
-}: VerseReferenceTextProps) {
-	const verses = useChapterVerseData(refBook, refChapter);
+	const verses = useChapterVerseData(
+		refBook,
+		refChapter,
+		sourceTextResourceType,
+		sourceTextResourceLanguage,
+	);
 	const [verseOutput, setVerseOutput] = useState<any[]>([]);
 	const verseRef = useRef<HTMLSpanElement>(null);
 
 	const { GWTSettings } = useSettings();
-	let overwriteStyle: any =
-		mapValidGWTSettings(GWTSettings);
-
-	function checkSubWordsForReference(
-		subWords: SubWord[] | undefined
-	) {
-		return subWords
-			?.map((subWord) => {
-				subWord.word = subWord.word;
-				if(typeof(subWord.word) !== "string") {
-					return subWord.word.strongs;
-				}
-			})
-			.includes(refWord);
-	}
-
-	function checkGreekWordsForReference(
-		greekWords: NewFormattedGreekWord[] | undefined
-	) {
-		return greekWords
-			?.map((foo) => foo.strongs)
-			.includes(refWord);
-	}
-
-	function checkPhraseWordsForReference(
-		phraseWords: PhraseWord[] | undefined
-	) {
-		return phraseWords
-			?.map((foo) => foo.strongs)
-			.includes(refWord);
-	}
-
-	function checkForReferences(verseWord: NewFormattedWord) {
-		return (
-			checkSubWordsForReference(verseWord.subWords) ||
-			checkGreekWordsForReference(verseWord.greekWords) ||
-			checkPhraseWordsForReference(verseWord.phraseWords)
-		);
-	}
 
 	useEffect(() => {
-		let tempVerseOutput: any[] = [];
+		function checkForReferences(verseWord: AlignedText) {
+			if (verseWord.greekAlignmentData) {
+				return verseWord.greekAlignmentData?.some(
+					(greekWordAlignmentData) => greekWordAlignmentData.strong === refWord,
+				);
+			}
+		}
 
+		const tempVerseOutput: any[] = [];
+		const overwriteStyle: any = mapValidGWTSettings(GWTSettings);
 		verses.forEach((verse, verseIdx) => {
-			let verseWordOutput: any[] = [];
+			const verseWordOutput: any[] = [];
 
-			verse.verseWords.forEach((verseWord, wordIdx) => {
+			verse.alignedVerseText.forEach((alignedVerseText, wordIdx) => {
 				if (
-					verseIdx + 1 === parseInt(refVerse) &&
-					checkForReferences(verseWord)
+					verseIdx + 1 === Number.parseInt(refVerse as string) &&
+					checkForReferences(alignedVerseText)
 				) {
 					verseWordOutput.push(
 						<>
@@ -89,12 +53,12 @@ export function VerseReferenceText({
 									...overwriteStyle,
 								}}
 							>
-								<b>{verseWord.englishWords}</b>
+								<b>{alignedVerseText.text}</b>
 							</span>
 							<span> </span>
-						</>
+						</>,
 					);
-				} else if (checkForReferences(verseWord)) {
+				} else if (checkForReferences(alignedVerseText)) {
 					verseWordOutput.push(
 						<>
 							<span
@@ -105,10 +69,10 @@ export function VerseReferenceText({
 									...overwriteStyle,
 								}}
 							>
-								<b>{verseWord.englishWords}</b>
+								<b>{alignedVerseText.text}</b>
 							</span>
 							<span> </span>
-						</>
+						</>,
 					);
 				} else {
 					verseWordOutput.push(
@@ -121,10 +85,10 @@ export function VerseReferenceText({
 									...overwriteStyle,
 								}}
 							>
-								{verseWord.englishWords}
+								{alignedVerseText.text}
 							</span>
 							<span> </span>
-						</>
+						</>,
 					);
 				}
 			});
@@ -141,22 +105,20 @@ export function VerseReferenceText({
 			);
 			tempVerseOutput.push(tempVerse);
 		});
-
 		setVerseOutput([...tempVerseOutput]);
-	}, [verses, GWTSettings]);
+	}, [verses, GWTSettings, refVerse, refWord]);
 
 	useEffect(() => {
-		if (verseRef != null && verseRef.current != null) {
-			
+		if (verseRef != null && verseRef.current != null && verseOutput) {
 			let scrollableParent: HTMLElement | null = null;
-			let potentialScrollableParent = verseRef.current.parentNode;
-			if (verseRef.current && potentialScrollableParent && 
-				potentialScrollableParent.parentNode instanceof HTMLElement) {
+			const potentialScrollableParent = verseRef.current.parentNode;
+			if (
+				verseRef.current &&
+				potentialScrollableParent &&
+				potentialScrollableParent.parentNode instanceof HTMLElement
+			) {
 				scrollableParent = potentialScrollableParent.parentNode;
-				scrollableParent.scrollTo(
-					0,
-					verseRef.current.offsetTop - 40
-				);
+				scrollableParent.scrollTo(0, verseRef.current.offsetTop - 40);
 			}
 		}
 	}, [verseOutput]);
@@ -164,7 +126,10 @@ export function VerseReferenceText({
 	return (
 		<>
 			{verses.length === 0 ? (
-				<h3>ERROR: could not find verse reference for {`${refBook} ${refChapter}:${refVerse}`}</h3>
+				<h3>
+					ERROR: could not find verse reference for{" "}
+					{`${refBook} ${refChapter}:${refVerse}`}
+				</h3>
 			) : (
 				<>{verseOutput}</>
 			)}

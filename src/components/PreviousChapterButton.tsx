@@ -1,10 +1,10 @@
-import Fab from "@mui/material/Fab";
-import Box from "@mui/material/Box";
 import { ChevronLeft as ChevronLeftIcon } from "@mui/icons-material";
-import useBookChapterParams from "../hooks/useBookChapterParams";
-import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Fab from "@mui/material/Fab";
+import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
+import useBookChapterParams from "../hooks/useBookChapterParams";
 
 const BootstrapButton = styled(Button)({
 	height: 48,
@@ -21,37 +21,32 @@ const BootstrapButton = styled(Button)({
 
 function PreviousChapterButton() {
 	const [show, setShow] = useState(true);
-	const {
-		getBookChaptersParams,
-		setValidBookChapterParams,
-	} = useBookChapterParams();
-	let bookChapter = getBookChaptersParams();
+	const { getBookChaptersParams, setValidBookChapterParams } =
+		useBookChapterParams();
+	const { book, chapter } = getBookChaptersParams();
 
 	useEffect(() => {
-		let currentChapter = parseInt(bookChapter.chapter);
-		if(currentChapter === 1) {
+		const currentChapter = Number.parseInt(chapter);
+		if (book && currentChapter === 1) {
 			setShow(false);
-		} else if(!show) {
+		} else if (!show) {
 			setShow(true);
 		}
-	}, [bookChapter.book, bookChapter.chapter])
+	}, [book, chapter, show]);
 
 	const onClick = () => {
-		let newChapter = parseInt(bookChapter.chapter) - 1;
-		if(bookChapter.book) {
-			let newBookChapter = {
-				book: bookChapter.book,
-				chapter: newChapter + ""
-			}
-			setValidBookChapterParams(
-				newBookChapter,
-				false
-			);
+		const newChapter = Number.parseInt(chapter) - 1;
+		if (book) {
+			const newBookChapter = {
+				book: book,
+				chapter: `${newChapter}`,
+			};
+			setValidBookChapterParams(newBookChapter, false);
 		}
 	};
 
-	if(!show) {
-		return <></>
+	if (!show) {
+		return <></>;
 	}
 	return (
 		<>
@@ -90,11 +85,7 @@ function PreviousChapterButton() {
 				}}
 				style={{ float: "left", paddingLeft: "8%" }}
 			>
-				<BootstrapButton
-					variant="contained"
-					disableRipple
-					onClick={onClick}
-				>
+				<BootstrapButton variant="contained" disableRipple onClick={onClick}>
 					<ChevronLeftIcon /> Previous Chapter
 				</BootstrapButton>
 			</Box>

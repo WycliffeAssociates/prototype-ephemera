@@ -1,42 +1,40 @@
-import Grid from "@mui/material/Grid";
-import { FormattedGreekWord } from "../../../types";
-import TipsDialogContent from "../TipsDialogContent";
-import GreekWordInfo from "../GreekWordInfo";
 import Divider from "@mui/material/Divider";
-import { useEffect, useRef, useState } from "react";
+import Grid from "@mui/material/Grid";
+import { useEffect, useRef } from "react";
+import React from "react";
+import type { AlignedText } from "src/types";
+import GreekWordInfo from "../GreekWordInfo";
+import TipsDialogContent from "../TipsDialogContent";
 
 interface GreekWordsDialogProps {
-	open: Boolean;
+	open: boolean;
 	onClose?: () => void;
-	greekWords: FormattedGreekWord[];
+	alignedText: AlignedText;
 }
 
 function GreekWordsDialogContent({
 	open,
 	onClose,
-	greekWords,
+	alignedText,
 }: GreekWordsDialogProps) {
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
 	// scrolls the container to the top when the greek words change
 	useEffect(() => {
-		if (
-			containerRef !== null &&
-			containerRef !== undefined
-		) {
-			let el : HTMLElement | null =
-				containerRef.current;
+		if (containerRef !== null && containerRef !== undefined && alignedText) {
+			const el: HTMLElement | null = containerRef.current;
 			if (el !== null) {
 				el.scrollTo(0, 0);
 			}
 		}
-	}, [greekWords]);
+	}, [alignedText]);
 
 	if (open === false) return <></>;
 
 	return (
 		<>
-			{greekWords !== undefined && greekWords.length > 0 ? (
+			{alignedText?.greekAlignmentData &&
+			alignedText.greekAlignmentData.length > 0 ? (
 				<>
 					<div
 						ref={containerRef}
@@ -46,23 +44,21 @@ function GreekWordsDialogContent({
 							paddingRight: "40px",
 						}}
 					>
-						{greekWords.map((data, idx) => (
-							<>
+						{alignedText.greekAlignmentData.map((greekAlignmentData, idx) => (
+							<React.Fragment
+								key={`GreekWordsDialogContent__EmptyFragment${idx}`}
+							>
 								<GreekWordInfo
 									key={idx}
-									currentGreekWord={data}
+									currentGreekWord={greekAlignmentData}
 									containerRef={containerRef}
 								/>
-								<Grid
-									item
-									xs={12}
-								>
+								<Grid item xs={12}>
 									<Divider />
 								</Grid>
-							</>
+							</React.Fragment>
 						))}
 					</div>
-
 				</>
 			) : (
 				<TipsDialogContent open={true} onClose={onClose} />

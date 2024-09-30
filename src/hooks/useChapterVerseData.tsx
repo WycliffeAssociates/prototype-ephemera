@@ -1,21 +1,26 @@
-import { useState, useEffect } from "react";
-import { NewFormattedVerse } from "../types";
-import getChapterVerses from "../api";
-import mapVerses from "../applicationLogic/mapping/mapTagsToFormattedVerse";
+import { useEffect, useState } from "react";
+import { SourceTextAccessorFactory } from "src/api/SourceTextAccessor/index";
+import type { AlignedVerse } from "../types";
+
+const sourceTextAccessorFactory = new SourceTextAccessorFactory();
 
 function useChapterVerseData(
 	book: string | undefined,
-	chapter: number
+	chapter: number | string | undefined,
+	resourceType: string | undefined,
+	resourceLanguage: string | undefined,
 ) {
-	const [verses, setVerses] = useState<NewFormattedVerse[]>(
-		[]
-	);
+	const [verses, setVerses] = useState<AlignedVerse[]>([]);
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if(book) {
-				const data = await getChapterVerses(book, chapter);
-				setVerses(mapVerses(data));
+			if (book && chapter && resourceType && resourceLanguage) {
+				const accessor = sourceTextAccessorFactory.getSourceTextAccessor(
+					resourceType,
+					resourceLanguage,
+				);
+				const alignedText = await accessor.getSourceText(book, chapter);
+				setVerses(alignedText);
 			}
 
 			// console.log("test case expected results (mapVerses(data))");
@@ -23,7 +28,7 @@ function useChapterVerseData(
 		};
 
 		fetchData();
-	}, [book, chapter]);
+	}, [book, chapter, resourceType, resourceLanguage]);
 
 	return verses;
 }

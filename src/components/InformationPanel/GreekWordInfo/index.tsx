@@ -1,17 +1,14 @@
 import Grid from "@mui/material/Grid";
 import "../../../App.css";
-import { FormattedGreekWord } from "../../../types";
-import {
-	MutableRefObject,
-	useEffect,
-	useState,
-} from "react";
+import { type MutableRefObject, useEffect, useState } from "react";
+import React from "react";
 import getGreekWord from "../../../api/gwtUtils";
 import mapGWTMarkdown from "../../../applicationLogic/mapping/mapGWTMarkdown";
+import type { FormattedGreekWord, GreekAlignmentData } from "../../../types";
 import { WordContent } from "./utils/WordContent";
 
 interface GreekWordInfoProps {
-	currentGreekWord: FormattedGreekWord;
+	currentGreekWord: GreekAlignmentData;
 	showMoreOptions?: boolean;
 	containerRef: MutableRefObject<HTMLDivElement | null>;
 }
@@ -21,26 +18,21 @@ function GreekWordInfo({
 	showMoreOptions,
 	containerRef,
 }: GreekWordInfoProps) {
-	const [greekWordsState, setGreekWordsState] = useState<
-		FormattedGreekWord[]
-	>([]);
-	const [greekWordsContent, setGreekWordsContent] =
-		useState<any[]>([]);
+	const [greekWordsState, setGreekWordsState] = useState<FormattedGreekWord[]>(
+		[],
+	);
 
 	useEffect(() => {
 		(async () => {
-			let greekWordMarkDown = await getGreekWord(
-				currentGreekWord.strongs
-			);
-			let wordsInfo: FormattedGreekWord[] = [];
+			const greekWordMarkDown = await getGreekWord(currentGreekWord.strong);
+			const wordsInfo: any[] = [];
 
 			if (greekWordMarkDown !== undefined) {
-				let gwtWords = await mapGWTMarkdown(
-					greekWordMarkDown.data
-				);
+				const gwtWords = await mapGWTMarkdown(greekWordMarkDown.data);
 				gwtWords.forEach((gwtWord) => {
 					wordsInfo.push({
-						...currentGreekWord,
+						strongs: currentGreekWord.strong,
+						morph: currentGreekWord.morph,
 						...gwtWord,
 					});
 				});
@@ -49,45 +41,33 @@ function GreekWordInfo({
 		})();
 	}, [currentGreekWord]);
 
-	useEffect(() => {
-		const greekWords: any[] = [];
-
-		greekWordsState.forEach(
-			(greekWordState, idx: number) => {
-				greekWords.push(
+	if (greekWordsState.length === 0) {
+		return (
+			<React.Fragment>
+				<Grid container spacing={0} direction="row" style={{ padding: "0px" }}>
+					<span style={{ paddingTop: "50%" }}>
+						Requested word with Strong number {currentGreekWord.strong} cannot
+						be found.
+					</span>
+				</Grid>
+			</React.Fragment>
+		);
+	}
+	return (
+		<>
+			{greekWordsState.map((greekWordState, idx: number) => {
+				return (
 					<WordContent
+						key={`InformationPanel__GreekWordInfo__WordContent${idx}`}
 						wordNumber={idx}
 						greekWordState={greekWordState}
 						showMoreOptions={showMoreOptions}
 						containerRef={containerRef}
 					/>
 				);
-			}
-		);
-
-		setGreekWordsContent([...greekWords]);
-	}, [greekWordsState]);
-
-	if (greekWordsContent.length === 0) {
-		return (
-			<>
-				<Grid
-					container
-					spacing={0}
-					direction="row"
-					style={{ padding: "0px" }}
-				>
-					<span style={{ paddingTop: "50%" }}>
-						Requested word "{currentGreekWord.text}" (with
-						Strong number {currentGreekWord.strongs}) cannot
-						be found.
-					</span>
-				</Grid>
-			</>
-		);
-	} else {
-		return <>{greekWordsContent}</>;
-	}
+			})}
+		</>
+	);
 }
 
 export default GreekWordInfo;

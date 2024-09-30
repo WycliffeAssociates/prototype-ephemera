@@ -1,9 +1,9 @@
-import Grid from "@mui/material/Grid";
-import ButtonGroup from "@mui/material/ButtonGroup";
+import { Search as SearchIcon } from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import { useState } from "react";
-import { Search as SearchIcon} from "@mui/icons-material";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Grid from "@mui/material/Grid";
 import Input from "@mui/material/Input";
+import { useState } from "react";
 
 interface BookSearchBarProps {
 	onSearch: (params: any) => any;
@@ -18,12 +18,9 @@ function BookSearchBar({
 	onFilter,
 	onValidation,
 }: BookSearchBarProps) {
-	const [userInput, setUserInput] =
-		useState("Search books");
+	const [userInput, setUserInput] = useState("Search books");
 
-	const handleChange = (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (onValidation !== undefined) {
 			onValidation(event.target.value);
 		}
@@ -35,7 +32,7 @@ function BookSearchBar({
 		if (handleClick !== undefined) {
 			handleClick();
 		}
-		if (userInput == "Search books") {
+		if (userInput === "Search books") {
 			setUserInput("");
 		}
 	};
