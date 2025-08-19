@@ -1,3 +1,6 @@
+/**
+ * TODO: These fields should be tranlaste into different languages.
+ */
 const data = {
 	"N-NSF": "Noun, Nominative, Singular, Feminine",
 	"N-GSF": "Noun, Genitive, Singular, Feminine",

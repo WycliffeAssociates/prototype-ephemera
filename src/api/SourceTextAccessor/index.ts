@@ -27,7 +27,7 @@ export interface SourceTextFetcher {
 export class SourceTextAccessorFactory {
 	private osisAccessor = new OsisEnUlbAccessor("ulb", "en");
 	private door43Accessor = new Door43UsfmAccessor("", "");
-	private wacsAccessor = new WacsXmlAccessor("ulb", "en");
+	private wacsAccessor = new WacsXmlAccessor("ulb", "vi");
 
 	getSourceTextAccessor(
 		resourceType: string,

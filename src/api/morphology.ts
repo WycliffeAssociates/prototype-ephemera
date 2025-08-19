@@ -49,7 +49,7 @@ export async function fetchMorphologyWord(
 			}
 
 			const response = await axios.get(
-				`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/02_morphology_files/${fileName}.md`,
+				`https://content.bibletranslationtools.org/anonymouswalker/vi_gwt/raw/branch/master/02_morphology_files/${fileName}.md`,
 			);
 
 			returnVal = response.data;

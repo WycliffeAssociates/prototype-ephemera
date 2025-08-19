@@ -14,39 +14,56 @@ export class WacsXmlAccessor implements SourceTextAccessor, SourceTextFetcher {
 	sourceTextResource: SourceTextResource;
 
 	constructor(resourceType: string, resourceLanguage: string) {
-		if (
+		if (resourceLanguage.toLowerCase() === "vi") {
+			this.sourceTextResource = {
+				resourceType: resourceType.toLowerCase(),
+				resourceLanguage: resourceLanguage.toLowerCase(),
+				resourceBaseURL:
+					"https://content.bibletranslationtools.org/anonymouswalker/vi_ulb_tagged/raw/branch/master/Checked/",
+			};
+		} else if (
 			resourceType.toLowerCase() !== "ulb" ||
 			resourceLanguage.toLowerCase() !== "en"
 		) {
 			throw new Error(
 				`Resource type ${resourceType} and language ${resourceLanguage} is not available in OSIS`,
 			);
+		} else {
+			this.sourceTextResource = {
+				resourceType: resourceType.toLowerCase(),
+				resourceLanguage: resourceLanguage.toLowerCase(),
+				resourceBaseURL:
+					"https://content.bibletranslationtools.org/WycliffeAssociates/en_ulb_tagged/raw/branch/master/Checked/",
+			};
+		
 		}
 
-		this.sourceTextResource = {
-			resourceType: resourceType.toLowerCase(),
-			resourceLanguage: resourceLanguage.toLowerCase(),
-			resourceBaseURL:
-				"https://content.bibletranslationtools.org/WycliffeAssociates/en_ulb_tagged/raw/branch/master/Checked/",
-		};
 	}
 
 	setSourceTextResource(resourceType: string, resourceLanguage: string): void {
-		if (
+		if (resourceLanguage.toLowerCase() === "vi") {
+			this.sourceTextResource = {
+				resourceType: resourceType.toLowerCase(),
+				resourceLanguage: resourceLanguage.toLowerCase(),
+				resourceBaseURL:
+					"https://content.bibletranslationtools.org/anonymouswalker/vi_ulb_tagged/raw/branch/master/Checked/",
+			};
+		} else if (
 			resourceType.toLowerCase() !== "ulb" ||
 			resourceLanguage.toLowerCase() !== "en"
 		) {
 			throw new Error(
 				`Resource type ${resourceType} and language ${resourceLanguage} is not available in WACS`,
 			);
+		} else {
+			this.sourceTextResource = {
+				resourceLanguage: resourceType,
+				resourceType: resourceLanguage,
+				resourceBaseURL:
+					"https://content.bibletranslationtools.org/WycliffeAssociates/en_ulb_tagged/raw/branch/master/Checked/",
+			};
 		}
 
-		this.sourceTextResource = {
-			resourceLanguage: resourceType,
-			resourceType: resourceLanguage,
-			resourceBaseURL:
-				"https://content.bibletranslationtools.org/WycliffeAssociates/en_ulb_tagged/raw/branch/master/Checked/",
-		};
 	}
 
 	async getSourceText(

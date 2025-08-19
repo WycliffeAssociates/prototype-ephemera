@@ -68,7 +68,7 @@ async function getGreekWord(strongs) {
 	let greekWordInfo;
 	try {
 		greekWordInfo = await axios.get(
-			`https://content.bibletranslationtools.org/WycliffeAssociates/en_gwt/raw/branch/master/${folder}/${fourDigitstrongs}.md`,
+			`https://content.bibletranslationtools.org/anonymouswalker/vi_gwt/raw/branch/master/${folder}/${fourDigitstrongs}.md`,
 		);
 		return greekWordInfo;
 	} catch (error) {
